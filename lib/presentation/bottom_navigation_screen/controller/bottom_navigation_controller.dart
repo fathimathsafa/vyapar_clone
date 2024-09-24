@@ -21,7 +21,7 @@ class BottomNavigationController extends GetxController {
     "DASHBOARD",
     "ITEMS ",
     "MENU",
-    "GET PREMIum",
+    "GET PREMIUM",
   ];
 
   final List<Widget> sampleWidgets = [
