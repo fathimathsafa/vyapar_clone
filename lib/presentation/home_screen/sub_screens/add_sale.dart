@@ -8,6 +8,11 @@ import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_item.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 
@@ -25,8 +30,12 @@ class AddSaleInvoiceScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colorconst.cSecondaryGrey,
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-        title: Text("Sale"),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back)),
+        title: Text("Sale",style: TextStyle(),),
         actions: [
           ToggleSwitch(
             minHeight: 30,

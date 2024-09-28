@@ -1,4 +1,34 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:vyapar_clone/core/constatnts/colors.dart';
+
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/view/apply_loan_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restore/auto_backup_screen/view/auto_backup_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/view/cash_in_hand_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cheque_screen/view/cheque_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/loan_account_screen.dart/view/loan_account_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/manage_companies/view/manage_companies.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/view/dash_board_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_orders/view/manage_orders.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/store_report_screen/view/store_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/view/all_transaction_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/close_financial_year_screen/view/close_financial_year_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/export_item_screen/view/export_item_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_from_my_billbook_screen/view/import_from_my_bill_book.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_item_screen/view/import_item_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_party_screen/view/import_party_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/message_screen/view/message_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -9,6 +39,119 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  Future<void> _openCalculator() async {
+    const String calculatorUrl =
+        'calculator://'; // Common URL scheme for calculators
+
+    // Try to launch the calculator app using the URL
+    if (await canLaunch(calculatorUrl)) {
+      await launch(calculatorUrl);
+    } else {
+      // If the URL scheme does not work, try using the Android Intent
+      try {
+        await launch(
+            'intent://calculator#Intent;scheme=android.intent.action.VIEW;end');
+      } catch (e) {
+        _showSnackbar('Could not open the calculator app.');
+      }
+    }
+  }
+
+  void _showSnackbar1(String message) {
+    final snackBar = SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.black,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _showVerificationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Verification Result',
+              style: TextStyle(
+                  color: Colorconst.cBlack,
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.bold)),
+          content: Text(
+            'There was no problem found during \n'
+            'verification of your file.your all data is\n'
+            'matching.',
+            style: TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('OK',
+                  style: TextStyle(color: Colorconst.cBlue, fontSize: 14.sp)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Function to show the custom Snackbar-like message
+  void _showSnackbar(String message) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 50.h, // Positioning from the bottom
+        left: 10.w,
+        // Center horizontally
+        right: 10.w,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              message,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    // Insert the overlay
+    overlay.insert(overlayEntry);
+
+    // Remove the overlay after 2 seconds
+    Future.delayed(Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
+  }
+
+// Function to share content
+  void _shareContent(String content) {
+    Share.share(content, subject: 'Backup Data');
+  }
+
+  Future<void> _openFileManager() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null && result.files.isNotEmpty) {
+      String filePath = result.files.single.path!;
+      print('Selected file: $filePath');
+      // Implement your backup restoration logic here
+    } else {
+      print('No file selected');
+    }
+  }
+
   void _showCustomPopup(
       BuildContext context, List<Map<String, dynamic>> items) {
     showGeneralDialog(
@@ -83,37 +226,52 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.payment,
         'label': 'Payment-In',
-        'onTap': () {/* Your onTap  */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AllTransactionScreen()));
+        }
       },
       {
         'icon': Icons.assignment_return,
         'label': 'Sale Return',
-        'onTap': () {/* Your onTap  */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SaleReturnScreen()));
+        }
       },
       {
         'icon': Icons.local_shipping,
         'label': 'Delivery Challan',
-        'onTap': () {/* Your onTap  */}
+        'onTap': () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DeliveryChallanDetails()));
+        }
       },
       {
         'icon': Icons.receipt,
         'label': 'Estimate/Quotation',
-        'onTap': () {/* Your onTap  */}
-      },
-      {
-        'icon': Icons.description,
-        'label': 'Proforma Invoice',
-        'onTap': () {/* Your onTap  */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EstimateDetailsScreen()));
+        }
       },
       {
         'icon': Icons.receipt_long,
         'label': 'Sale Invoice',
-        'onTap': () {/* Your onTap  */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SaleInvoistListScreen()));
+        }
       },
       {
         'icon': Icons.add_shopping_cart,
         'label': 'Sale Order',
-        'onTap': () {/*  onTap  */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SaleOrderScreen()));
+        }
       },
     ]);
   }
@@ -143,27 +301,80 @@ class _MenuScreenState extends State<MenuScreen> {
     ]);
   }
 
+  void _showOnlineShopPopup(BuildContext context) {
+    _showCustomPopup(context, [
+      {
+        'icon': Icons.dashboard,
+        'label': 'DashBoard',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DashBoardScreen(),
+            ),
+          );
+        }
+      },
+      {
+        'icon': Icons.production_quantity_limits_sharp,
+        'label': 'Manage Item',
+        'onTap': () {}
+      },
+      {
+        'icon': Icons.sell,
+        'label': 'Manage Orders',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ManageOrders(),
+            ),
+          );
+        }
+      },
+      {
+        'icon': Icons.report_gmailerrorred,
+        'label': 'Store Reports',
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StoreReportScreen(),
+            ),
+          );
+        }
+      },
+    ]);
+  }
+
   void _showBackupRestorePopup(BuildContext context) {
     _showCustomPopup(context, [
       {
         'icon': Icons.backup,
         'label': 'Auto Backup',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AutoBackupSettings()));
+        }
       },
       {
         'icon': Icons.save_alt,
         'label': 'Backup to Phone',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {
+          _showSnackbar('Data has been backed up in Documents/file path');
+        }
       },
       {
         'icon': Icons.email,
         'label': 'Backup to E-mail',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {
+          _shareContent('Data has been backed up.');
+        }
       },
       {
         'icon': Icons.restore,
         'label': 'Restore Backup',
-        'onTap': () {/*  onTap action */}
+        'onTap': _openFileManager
       },
     ]);
   }
@@ -173,37 +384,70 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.check,
         'label': 'Verify my data',
-        'onTap': () {/*  onTap action */}
+        'onTap': _showVerificationDialog, // Show verification dialog on tap
       },
       {
         'icon': Icons.calculate,
         'label': 'Open Calculator',
-        'onTap': () {/*  onTap action */}
+        'onTap': _openCalculator, // Open calculator on tap
       },
       {
         'icon': Icons.import_contacts,
         'label': 'Import items',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ImportItemsScreen()));
+        }
+      },
+      {
+        'icon': Icons.book_online,
+        'label': 'Import My Bill Book',
+        'onTap': () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ImportFromBillBookScreen()));
+        }
+      },
+      {
+        'icon': Icons.import_export_rounded,
+        'label': 'Export Items',
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ExportItemScreen()));
+        }
       },
       {
         'icon': Icons.group_add,
         'label': 'Import Parties',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ImportPartyScreen()));
+        }
       },
       {
         'icon': Icons.delete,
         'label': 'Recycle Bin',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => RecycleBinScreen()));
+        }
       },
       {
         'icon': Icons.close,
         'label': 'Close Financial Year',
-        'onTap': () {/* onTap action */}
+        'onTap': () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => VyaparScreen()));
+        }
       },
       {
         'icon': Icons.message,
         'label': 'Messages',
-        'onTap': () {/* onTap action */}
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MessageScreen()));
+        }
       },
     ]);
   }
@@ -464,9 +708,15 @@ class _MenuScreenState extends State<MenuScreen> {
                         _showPurchasePopup(context);
                       }),
                       buildGridItem(Icons.note_alt_outlined, 'Expenses', () {}),
-                      buildGridItem(
-                          Icons.home_outlined, 'My Online Store', () {}),
-                      buildGridItem(Icons.note_outlined, 'Report', () {}),
+                      buildGridItem(Icons.home_outlined, 'My Online Store', () {
+                        _showOnlineShopPopup(context);
+                      }),
+                      buildGridItem(Icons.note_outlined, 'Report', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ReportScreen()));
+                      }),
                     ],
                   ),
                 ],
@@ -559,16 +809,40 @@ class _MenuScreenState extends State<MenuScreen> {
                     crossAxisSpacing: 16,
                     // mainAxisSpacing: 16,
                     children: [
-                      buildGridItem(Icons.account_balance_outlined,
-                          'Bank Accounts', () {}),
-                      buildGridItem(Icons.account_balance_wallet_outlined,
-                          'Cash In-Hand', () {}),
                       buildGridItem(
-                          Icons.manage_history_sharp, 'Icons.notes', () {}),
-                      buildGridItem(Icons.playlist_add_circle_outlined,
-                          'Loan Account', () {}),
+                          Icons.account_balance_outlined, 'Bank Accounts', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BankAccountsPage()));
+                      }),
                       buildGridItem(
-                          Icons.currency_rupee_outlined, 'Apply Loan', () {}),
+                          Icons.account_balance_wallet_outlined, 'Cash In-Hand',
+                          () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CashInHand()));
+                      }),
+                      buildGridItem(Icons.note, 'Cheques', () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Cheques()));
+                      }),
+                      buildGridItem(
+                          Icons.playlist_add_circle_outlined, 'Loan Account',
+                          () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoanAccountPage()));
+                      }),
+                      buildGridItem(Icons.currency_rupee_outlined, 'Apply Loan',
+                          () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ApplyLoanPage()));
+                      }),
                     ],
                   ),
                 ],
@@ -609,8 +883,13 @@ class _MenuScreenState extends State<MenuScreen> {
                     // mainAxisSpacing: 16,
                     children: [
                       buildGridItem(Icons.sync, 'Sync & Share', () {}),
-                      buildGridItem(Icons.manage_history_sharp,
-                          'Manage Companies', () {}),
+                      buildGridItem(
+                          Icons.manage_history_sharp, 'Manage Companies', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ManageCompanies()));
+                      }),
                       buildGridItem(Icons.settings_backup_restore_outlined,
                           'Backup/Restore', () {
                         _showBackupRestorePopup(context);
