@@ -127,8 +127,7 @@ class SaleListScreen extends StatelessWidget {
                           height: 10.h,
                         ),
                         TextFormField(
-                          style: interFontBlack(
-                             context),
+                          style: interFontBlack(context),
                           decoration: InputDecoration(
                               fillColor: Colors.white,
                               filled: true,
@@ -155,8 +154,7 @@ class SaleListScreen extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Empty list",
-                              style: interFontBlack(
-                                  context),
+                              style: interFontBlack(context),
                             ),
                           ),
                         )
@@ -196,7 +194,7 @@ class SaleListScreen extends StatelessWidget {
                           Text(
                             "Add New Sale",
                             style: interFontGrey(
-                                context),
+                                color: Colorconst.cwhite, context),
                           )
                         ],
                       ),

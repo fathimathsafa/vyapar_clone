@@ -80,7 +80,8 @@ class SaleOrderScreen extends StatelessWidget {
           Container(
             width: 150,
             height: 150,
-            child: Lottie.asset('assets/Animation - 1727163424135.json'),
+            child:
+                Lottie.asset('assets/animation/Animation - 1727163424135.json'),
           ),
           SizedBox(height: 20),
           Text(

@@ -526,7 +526,8 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                 ),
                                               ),
                                               style: TextStyle(
-                                                  fontSize: screenWidth * 0.04),
+                                                  fontSize: screenWidth * 0.04,
+                                                  color: Colorconst.cBlack),
                                             ),
                                           ],
                                         ),

@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
-import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/core/constatnts/text_style.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_item.dart';
-import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
+
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/widget/receipt_date_widget.dart';
 
 class PaymentInScreen extends StatelessWidget {
@@ -53,22 +46,23 @@ class PaymentInScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         DateReciptWidget(receiptNumber: "1"),
-                        SizedBox(height: screenHeight * 0.01),
+                        SizedBox(height: 10.h),
                         Container(
-                          height: screenHeight * 0.27,
+                          height: 180.h,
                           color: Colors.white,
                           padding: EdgeInsets.symmetric(
                               horizontal: screenWidth * 0.03),
                           child: Column(
                             children: [
-                              SizedBox(height: screenHeight * 0.05),
+                              SizedBox(height: 20.h),
                               CustomTextFormField(
                                 labelText: "Customer *",
                                 hintText: "Enter Customer",
                               ),
-                              SizedBox(height: screenHeight * 0.04),
+                              SizedBox(height: 25.h),
                               CustomTextFormField(
                                 labelText: "Phone Number",
+                                keyboardType: TextInputType.number,
                                 hintText: "Enter Phone Number",
                               ),
                             ],
@@ -77,11 +71,11 @@ class PaymentInScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.005),
+                  SizedBox(height: 5.h),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
-                      vertical: screenHeight * 0.02,
+                      horizontal: 20.w,
+                      vertical: 20.h,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,18 +83,18 @@ class PaymentInScreen extends StatelessWidget {
                         Text(
                           "Recieved",
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                              color: Colorconst.cBlack),
                         ),
                         SizedBox(
-                          width: screenWidth * 0.25,
+                          width: 100.w,
                           child: Stack(
                             children: [
                               Positioned(
                                 left: 0,
                                 right: 0,
-                                bottom: screenHeight * 0.001,
+                                bottom: 10.h,
                                 child: CustomPaint(
                                   painter: DottedLinePainter(),
                                 ),
@@ -111,7 +105,7 @@ class PaymentInScreen extends StatelessWidget {
                                   hintText: "₹",
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.only(
-                                    left: screenWidth * 0.025,
+                                    left: 20.w,
                                   ),
                                 ),
                                 onChanged: (value) {
@@ -122,7 +116,8 @@ class PaymentInScreen extends StatelessWidget {
                                     receivedAmountNotifier.value = parsedValue;
                                   }
                                 },
-                                style: TextStyle(fontSize: screenWidth * 0.04),
+                                style: TextStyle(
+                                    fontSize: 15.sp, color: Colorconst.cBlack),
                               ),
                             ],
                           ),
@@ -132,8 +127,8 @@ class PaymentInScreen extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
-                      vertical: screenHeight * 0.02,
+                      horizontal: 20.w,
+                      vertical: 20.h,
                     ),
                     child: Row(
                       children: [
@@ -142,11 +137,11 @@ class PaymentInScreen extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colorconst.Green,
-                            fontSize: 14,
+                            fontSize: 15.sp,
                           ),
                         ),
                         SizedBox(
-                          width: screenWidth * .53,
+                          width: 140.w,
                         ),
                         Text(
                           "₹",

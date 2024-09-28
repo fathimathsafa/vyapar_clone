@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_sale.dart';
-
-
 
 class SaleInvoistListScreen extends StatelessWidget {
   @override
@@ -59,8 +56,7 @@ class SaleInvoistListScreen extends StatelessWidget {
           children: [
             // Container for Total Sale info
             Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: screenWidth * .01, vertical: screenWidth * .01),
+              margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
               decoration: BoxDecoration(
                 color: Colors.white, // Background color
                 borderRadius: BorderRadius.circular(5.r), // Rounded corners
@@ -80,13 +76,15 @@ class SaleInvoistListScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Total Sale",
-                      style: TextStyle(color: Colorconst.cGrey),
+                      style:
+                          TextStyle(color: Colorconst.cGrey, fontSize: 12.sp),
                     ),
                     Text(
                       "₹5000.00",
                       style: TextStyle(
                           color: Colorconst.cBlack,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11.sp),
                     ),
                   ],
                 ),
@@ -100,16 +98,14 @@ class SaleInvoistListScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Card(
                     color: Colorconst.cwhite,
-                    margin: EdgeInsets.symmetric(
-                        horizontal: screenWidth * .01,
-                        vertical: screenWidth * .01),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 10.h, vertical: 10.w),
                     child: ListTile(
-                      contentPadding: const EdgeInsets.all(16.0),
+                      contentPadding: EdgeInsets.all(14.0.w),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 "Arun",
@@ -117,9 +113,12 @@ class SaleInvoistListScreen extends StatelessWidget {
                                   fontSize: 16.sp,
                                 ),
                               ),
+                              SizedBox(
+                                width: 20.w,
+                              ),
                               Container(
-                                height: screenHeight * .04,
-                                width: screenWidth * .12,
+                                height: 20.h,
+                                width: 40.w,
                                 decoration: ShapeDecoration(
                                   shape: const StadiumBorder(),
                                   color: Colorconst.cCream,
@@ -135,6 +134,9 @@ class SaleInvoistListScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                width: 150.w,
+                              ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -142,13 +144,13 @@ class SaleInvoistListScreen extends StatelessWidget {
                                     '#sale1',
                                     style: TextStyle(
                                         color: Colorconst.cGrey,
-                                        fontSize: 10.sp),
+                                        fontSize: 12.sp),
                                   ),
                                   Text(
                                     '24 sep,24',
                                     style: TextStyle(
                                         color: Colorconst.cGrey,
-                                        fontSize: 10.sp),
+                                        fontSize: 12.sp),
                                   ),
                                 ],
                               ),
@@ -158,10 +160,11 @@ class SaleInvoistListScreen extends StatelessWidget {
                             '₹5000 ',
                             style: TextStyle(
                                 color: Colorconst.cBlack,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp),
                           ),
                           SizedBox(
-                            height: screenHeight * .03,
+                            height: 25.h,
                           )
                         ],
                       ),
@@ -172,10 +175,15 @@ class SaleInvoistListScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SizedBox(width: screenWidth * .01),
+                                SizedBox(width: 6.w),
                                 Column(
                                   children: [
-                                    Text("Balance: ₹5000"),
+                                    Text(
+                                      "Balance: ₹5000",
+                                      style: TextStyle(
+                                          color: Colorconst.cGrey,
+                                          fontSize: 14.sp),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -183,11 +191,23 @@ class SaleInvoistListScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.print, color: Colors.grey),
-                              SizedBox(width: screenWidth * .03),
-                              Icon(Icons.share_rounded, color: Colors.grey),
-                              SizedBox(width: screenWidth * .03),
-                              Icon(Icons.more_vert, color: Colors.grey),
+                              Icon(
+                                Icons.print,
+                                color: Colors.grey,
+                                size: 20.sp,
+                              ),
+                              SizedBox(width: 10.w),
+                              Icon(
+                                Icons.share_rounded,
+                                color: Colors.grey,
+                                size: 20.sp,
+                              ),
+                              SizedBox(width: 10.w),
+                              Icon(
+                                Icons.more_vert,
+                                color: Colors.grey,
+                                size: 20.sp,
+                              ),
                             ],
                           ),
                         ],
