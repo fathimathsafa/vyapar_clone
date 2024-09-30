@@ -22,6 +22,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invo
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/sub_screens/credit_note/view/credit_note.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sync_and_shear_screen/view/syn_and_shear_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/close_financial_year_screen/view/close_financial_year_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_item_screen/view/import_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_party_screen/view/import_party_screen.dart';
@@ -557,7 +558,10 @@ class _MenuScreenState extends State<MenuScreen> {
             ]),
             const SizedBox(height: 10),
             buildSection('Important Utilities', [
-              buildGridItem(Icons.sync, 'Sync & Share', () {}),
+              buildGridItem(Icons.sync, 'Sync & Share', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SyncShareScreen()));
+              }),
               buildGridItem(Icons.manage_history_sharp, 'Manage Companies', () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ManageCompanies()));
