@@ -1,10 +1,9 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/sale_list.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/view/apply_loan_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restore/auto_backup_screen/view/auto_backup_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
@@ -18,18 +17,18 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_stor
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/view/all_transaction_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/sub_screens/credit_note/view/credit_note.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/close_financial_year_screen/view/close_financial_year_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/export_item_screen/view/export_item_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_from_my_billbook_screen/view/import_from_my_bill_book.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_item_screen/view/import_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_party_screen/view/import_party_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/message_screen/view/message_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -55,49 +54,6 @@ class _MenuScreenState extends State<MenuScreen> {
         _showSnackbar('Could not open the calculator app.');
       }
     }
-  }
-
-  void _showSnackbar1(String message) {
-    final snackBar = SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white),
-      ),
-      backgroundColor: Colors.black,
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void _showVerificationDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text('Verification Result',
-              style: TextStyle(
-                  color: Colorconst.cBlack,
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.bold)),
-          content: Text(
-            'There was no problem found during \n'
-            'verification of your file.your all data is\n'
-            'matching.',
-            style: TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('OK',
-                  style: TextStyle(color: Colorconst.cBlue, fontSize: 14.sp)),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   // Function to show the custom Snackbar-like message
@@ -150,6 +106,37 @@ class _MenuScreenState extends State<MenuScreen> {
     } else {
       print('No file selected');
     }
+  }
+
+  void _showVerificationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Verification Result',
+              style: TextStyle(
+                  color: Colorconst.cBlack,
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.bold)),
+          content: Text(
+            'There was no problem found during \n'
+            'verification of your file.your all data is\n'
+            'matching.',
+            style: TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('OK',
+                  style: TextStyle(color: Colorconst.cBlue, fontSize: 14.sp)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showCustomPopup(
@@ -228,7 +215,7 @@ class _MenuScreenState extends State<MenuScreen> {
         'label': 'Payment-In',
         'onTap': () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AllTransactionScreen()));
+              MaterialPageRoute(builder: (context) => PaymentInScreen()));
         }
       },
       {
@@ -384,12 +371,12 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.check,
         'label': 'Verify my data',
-        'onTap': _showVerificationDialog, // Show verification dialog on tap
+        'onTap': _showVerificationDialog,
       },
       {
         'icon': Icons.calculate,
         'label': 'Open Calculator',
-        'onTap': _openCalculator, // Open calculator on tap
+        'onTap': _openCalculator,
       },
       {
         'icon': Icons.import_contacts,
@@ -397,24 +384,6 @@ class _MenuScreenState extends State<MenuScreen> {
         'onTap': () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => ImportItemsScreen()));
-        }
-      },
-      {
-        'icon': Icons.book_online,
-        'label': 'Import My Bill Book',
-        'onTap': () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ImportFromBillBookScreen()));
-        }
-      },
-      {
-        'icon': Icons.import_export_rounded,
-        'label': 'Export Items',
-        'onTap': () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ExportItemScreen()));
         }
       },
       {
@@ -474,8 +443,6 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -501,469 +468,226 @@ class _MenuScreenState extends State<MenuScreen> {
         child: Column(
           children: [
             const CustomPageView(),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'This Year',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(width: 4),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 20,
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        'View Bill',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  IntrinsicHeight(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Sales',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              '₹0.00',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        VerticalDivider(
-                          color: Colors.grey,
-                          thickness: 1,
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Purchases',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              '₹0.00',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Create',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(height: 16),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    // crossAxisSpacing: 16,
-                    // mainAxisSpacing: 16,
-                    children: [
-                      buildGridItem(
-                          Icons.blinds_closed_rounded, 'Invoice', () {}),
-                      buildGridItem(
-                          Icons.inventory_2_outlined, 'Quotation', () {}),
-                      buildGridItem(
-                          Icons.timelapse_outlined, 'Delivery Challan', () {}),
-                      buildGridItem(
-                          Icons.auto_graph_sharp, 'Credit Note', () {}),
-                      buildGridItem(Icons.business_center_outlined,
-                          'Purchase Order', () {}),
-                      buildGridItem(
-                          Icons.card_membership, 'Pro Forma Invoice', () {}),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            buildSummaryCard(),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'My Business',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(height: 16),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    // crossAxisSpacing: 16,
-                    // mainAxisSpacing: 16,
-                    children: [
-                      buildGridItem(Icons.currency_rupee_sharp, 'Sale', () {
-                        _showSalePopup(context);
-                      }),
-                      buildGridItem(Icons.shopping_cart_outlined, 'Purchase',
-                          () {
-                        _showPurchasePopup(context);
-                      }),
-                      buildGridItem(Icons.note_alt_outlined, 'Expenses', () {}),
-                      buildGridItem(Icons.home_outlined, 'My Online Store', () {
-                        _showOnlineShopPopup(context);
-                      }),
-                      buildGridItem(Icons.note_outlined, 'Report', () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ReportScreen()));
-                      }),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            buildSection('Create', [
+              buildGridItem(Icons.blinds_closed_rounded, 'Invoice', () {
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => SaleListScreen()));
+              }),
+              buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {}),
+              buildGridItem(Icons.timelapse_outlined, 'Delivery Challan', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DeliveryChallanDetails()));
+              }),
+              buildGridItem(Icons.auto_graph_sharp, 'Credit Note', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreditNoteScreen()));
+              }),
+              buildGridItem(
+                  Icons.business_center_outlined, 'Purchase Order', () {}),
+              buildGridItem(Icons.card_membership, 'Pro Forma Invoice', () {}),
+            ]),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Quick Access',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(height: 16),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    // crossAxisSpacing: 16,
-                    // mainAxisSpacing: 16,
-                    children: [
-                      buildGridItem(
-                          Icons.blinds_closed_rounded, 'E-Way Bill', () {}),
-                      buildGridItem(
-                          Icons.inventory_2_outlined, 'E-Invoice', () {}),
-                      buildGridItem(
-                          Icons.timelapse_outlined, 'Payment Timeline', () {}),
-                      buildGridItem(Icons.auto_graph_sharp, 'Insights', () {}),
-                      buildGridItem(Icons.business_center_outlined,
-                          'Business Card', () {}),
-                      buildGridItem(Icons.card_membership, 'Greetings', () {}),
-                      buildGridItem(Icons.business_center_outlined,
-                          'Invoice Templates', () {}),
-                      buildGridItem(Icons.document_scanner_outlined,
-                          'Document Settings', () {}),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            buildSection('My Business', [
+              buildGridItem(Icons.currency_rupee_sharp, 'Sale', () {
+                _showSalePopup(context);
+              }),
+              buildGridItem(Icons.shopping_cart_outlined, 'Purchase', () {
+                _showPurchasePopup(context);
+              }),
+              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {}),
+              buildGridItem(Icons.home_outlined, 'My Online Store', () {
+                _showOnlineShopPopup(context);
+              }),
+              buildGridItem(Icons.note_outlined, 'Report', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ReportScreen()));
+              }),
+            ]),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Cash & Bank',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(height: 16),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 16,
-                    // mainAxisSpacing: 16,
-                    children: [
-                      buildGridItem(
-                          Icons.account_balance_outlined, 'Bank Accounts', () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BankAccountsPage()));
-                      }),
-                      buildGridItem(
-                          Icons.account_balance_wallet_outlined, 'Cash In-Hand',
-                          () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CashInHand()));
-                      }),
-                      buildGridItem(Icons.note, 'Cheques', () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Cheques()));
-                      }),
-                      buildGridItem(
-                          Icons.playlist_add_circle_outlined, 'Loan Account',
-                          () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoanAccountPage()));
-                      }),
-                      buildGridItem(Icons.currency_rupee_outlined, 'Apply Loan',
-                          () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ApplyLoanPage()));
-                      }),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            buildSection('Quick Access', [
+              buildGridItem(Icons.blinds_closed_rounded, 'E-Way Bill', () {}),
+              buildGridItem(Icons.inventory_2_outlined, 'E-Invoice', () {}),
+              buildGridItem(
+                  Icons.timelapse_outlined, 'Payment Timeline', () {}),
+              buildGridItem(Icons.auto_graph_sharp, 'Insights', () {}),
+              buildGridItem(
+                  Icons.business_center_outlined, 'Business Card', () {}),
+              buildGridItem(Icons.card_membership, 'Greetings', () {}),
+              buildGridItem(
+                  Icons.business_center_outlined, 'Invoice Templates', () {}),
+              buildGridItem(
+                  Icons.document_scanner_outlined, 'Document Settings', () {}),
+            ]),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Important Utilities',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(height: 16),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    // crossAxisSpacing: 16,
-                    // mainAxisSpacing: 16,
-                    children: [
-                      buildGridItem(Icons.sync, 'Sync & Share', () {}),
-                      buildGridItem(
-                          Icons.manage_history_sharp, 'Manage Companies', () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ManageCompanies()));
-                      }),
-                      buildGridItem(Icons.settings_backup_restore_outlined,
-                          'Backup/Restore', () {
-                        _showBackupRestorePopup(context);
-                      }),
-                      buildGridItem(Icons.shopping_bag_outlined, 'Utilities',
-                          () {
-                        _showUtilitiesPopup(context);
-                      }),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            buildSection('Cash & Bank', [
+              buildGridItem(Icons.account_balance_outlined, 'Bank Accounts',
+                  () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BankAccountsPage()));
+              }),
+              buildGridItem(
+                  Icons.account_balance_wallet_outlined, 'Cash In-Hand', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CashInHand()));
+              }),
+              buildGridItem(Icons.note, 'Cheques', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Cheques()));
+              }),
+              buildGridItem(Icons.playlist_add_circle_outlined, 'Loan Account',
+                  () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoanAccountPage()));
+              }),
+              buildGridItem(Icons.currency_rupee_outlined, 'Apply Loan', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ApplyLoanPage()));
+              }),
+            ]),
             const SizedBox(height: 10),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 2,
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Others',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(height: 15),
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    children: [
-                      buildGridItem(Icons.account_balance_outlined,
-                          'Vyapar Premium', () {}),
-                      buildGridItem(Icons.account_balance_wallet_outlined,
-                          'Get Desktop Billing Software', () {}),
-                      buildGridItem(Icons.view_comfortable_rounded,
-                          'Other Products', () {}),
-                      buildGridItem(
-                          Icons.phone_enabled, 'Greeting & Offers', () {}),
-                      buildGridItem(Icons.settings_outlined, 'Settings', () {}),
-                      buildGridItem(
-                          Icons.wallet_giftcard_rounded, 'Refer & Earn', () {}),
-                      buildGridItem(
-                          Icons.headset_mic_outlined, 'Help & Support', () {
-                        _showHelpSupportPopup(context);
-                      }),
-                      buildGridItem(
-                          Icons.star_border_outlined, 'Rate This App', () {}),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            buildSection('Important Utilities', [
+              buildGridItem(Icons.sync, 'Sync & Share', () {}),
+              buildGridItem(Icons.manage_history_sharp, 'Manage Companies', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ManageCompanies()));
+              }),
+              buildGridItem(
+                  Icons.settings_backup_restore_outlined, 'Backup/Restore', () {
+                _showBackupRestorePopup(context);
+              }),
+              buildGridItem(Icons.shopping_bag_outlined, 'Utilities', () {
+                _showUtilitiesPopup(context);
+              }),
+            ]),
+            const SizedBox(height: 10),
+            buildSection('Others', [
+              buildGridItem(
+                  Icons.account_balance_outlined, 'Vyapar Premium', () {}),
+              buildGridItem(Icons.account_balance_wallet_outlined,
+                  'Get Desktop Billing Software', () {}),
+              buildGridItem(
+                  Icons.view_comfortable_rounded, 'Other Products', () {}),
+              buildGridItem(Icons.phone_enabled, 'Greeting & Offers', () {}),
+              buildGridItem(Icons.settings_outlined, 'Settings', () {}),
+            ]),
           ],
         ),
       ),
     );
   }
+}
+
+Widget buildSummaryCard() {
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 16),
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('This Year',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colorconst.cBlack)),
+            Text('View Bill',
+                style: TextStyle(
+                  color: Colors.blue,
+                )),
+          ],
+        ),
+        SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              children: [
+                Text('Sales',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colorconst.cBlack)),
+                Text('₹0.00',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colorconst.cBlack)),
+              ],
+            ),
+            VerticalDivider(color: Colors.grey, thickness: 1),
+            Column(
+              children: [
+                Text('Purchases',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colorconst.cBlack)),
+                Text('₹0.00',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colorconst.cBlack)),
+              ],
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildSection(String title, List<Widget> gridItems) {
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 16),
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          spreadRadius: 2,
+          blurRadius: 6,
+          offset: const Offset(0, 4),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title,
+            style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colorconst.cBlack)),
+        const SizedBox(height: 16),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 3,
+          children: gridItems,
+        ),
+      ],
+    ),
+  );
 }
 
 Widget buildGridItem(IconData icon, String label, VoidCallback onTap) {
@@ -997,9 +721,7 @@ Widget buildSectionHeader(String title) {
     child: Text(
       title,
       style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 16,
-      ),
+          fontWeight: FontWeight.bold, fontSize: 16, color: Colorconst.cBlack),
     ),
   );
 }

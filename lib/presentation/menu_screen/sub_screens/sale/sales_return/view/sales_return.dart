@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/sub_screens/credit_note/view/credit_note.dart';
 
 class SaleReturnScreen extends StatefulWidget {
@@ -22,7 +23,10 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                title: Text('Today'),
+                title: Text(
+                  'Today',
+                  style: TextStyle(color: Colorconst.cBlack),
+                ),
                 onTap: () {
                   setState(() {
                     selectedRange = 'Today';
@@ -33,7 +37,8 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                 },
               ),
               ListTile(
-                title: Text('This Week'),
+                title: Text('This Week',
+                    style: TextStyle(color: Colorconst.cBlack)),
                 onTap: () {
                   setState(() {
                     selectedRange = 'This Week';
@@ -45,7 +50,8 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                 },
               ),
               ListTile(
-                title: Text('This Month'),
+                title: Text('This Month',
+                    style: TextStyle(color: Colorconst.cBlack)),
                 onTap: () {
                   setState(() {
                     selectedRange = 'This Month';
@@ -57,7 +63,8 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                 },
               ),
               ListTile(
-                title: Text('This Quarter'),
+                title: Text('This Quarter',
+                    style: TextStyle(color: Colorconst.cBlack)),
                 onTap: () {
                   setState(() {
                     selectedRange = 'This Quarter';
@@ -70,7 +77,8 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                 },
               ),
               ListTile(
-                title: Text('This Financial Year'),
+                title: Text('This Financial Year',
+                    style: TextStyle(color: Colorconst.cBlack)),
                 onTap: () {
                   setState(() {
                     selectedRange = 'This Financial Year';
@@ -83,7 +91,8 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                 },
               ),
               ListTile(
-                title: Text('Custom'),
+                title:
+                    Text('Custom', style: TextStyle(color: Colorconst.cBlack)),
                 onTap: () {
                   // You can implement custom date range logic here
                 },
@@ -100,8 +109,8 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          title: Text('Sale Return'),
-          centerTitle: true,
+          title:
+              Text('Sale Return', style: TextStyle(color: Colorconst.cBlack)),
           backgroundColor: Colors.white),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -138,9 +147,11 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                           size: 18,
                         ),
                         SizedBox(width: 3),
-                        Text(DateFormat('dd/MM/yyyy').format(startDate)),
+                        Text(DateFormat('dd/MM/yyyy').format(startDate),
+                            style: TextStyle(color: Colorconst.cBlack)),
                         Text(" TO "),
-                        Text(DateFormat('dd/MM/yyyy').format(endDate)),
+                        Text(DateFormat('dd/MM/yyyy').format(endDate),
+                            style: TextStyle(color: Colorconst.cBlack)),
                       ],
                     )
                   ],
@@ -185,7 +196,9 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                             Text(
                               'Gokul',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colorconst.cBlack),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -211,18 +224,22 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Amount'),
+                                Text('Amount',
+                                    style: TextStyle(color: Colorconst.cBlack)),
                                 SizedBox(height: 4),
                                 Text(
                                   '₹ 10000.00',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colorconst.cBlack),
                                 ),
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Balance'),
+                                Text('Balance',
+                                    style: TextStyle(color: Colorconst.cBlack)),
                                 SizedBox(height: 4),
                                 Text(
                                   '₹ 0.00',
@@ -261,7 +278,8 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                 );
               },
               icon: Icon(Icons.add),
-              label: Text('Add Sale'),
+              label:
+                  Text('Add Sale', style: TextStyle(color: Colorconst.cBlack)),
               backgroundColor: Colors.red,
             ),
           ),
