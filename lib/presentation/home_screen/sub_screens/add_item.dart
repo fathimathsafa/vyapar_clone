@@ -24,12 +24,18 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Unit'),
+          title: const Text(
+            'Unit',
+            style: TextStyle(color: Colorconst.cBlack),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: units.map((unit) {
               return ListTile(
-                title: Text('$unit Unit(s)'),
+                title: Text(
+                  '$unit Unit(s)',
+                  style: TextStyle(color: Colorconst.cBlack),
+                ),
                 onTap: () {
                   setState(() {
                     selectedUnit = '$unit Unit(s)';
@@ -182,8 +188,8 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                     border: OutlineInputBorder(),
                                     hintText: "Rate (Price/Unit)",
                                     labelText: "Price *",
-                                    labelStyle:
-                                        TextStyle(color: Colorconst.cGrey,fontSize: 15)),
+                                    labelStyle: TextStyle(
+                                        color: Colorconst.cGrey, fontSize: 15)),
                                 onChanged: (value) {
                                   setState(() {
                                     isPriceEntered = value.isNotEmpty;

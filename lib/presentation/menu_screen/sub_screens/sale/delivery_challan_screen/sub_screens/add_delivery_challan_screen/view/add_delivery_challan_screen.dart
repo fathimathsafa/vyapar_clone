@@ -109,6 +109,8 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "₹",
+                                  helperStyle:
+                                      TextStyle(color: Colorconst.cBlack),
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.only(
                                     left: screenWidth * 0.025,

@@ -18,6 +18,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/re
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/view/all_transaction_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/sub_screens/credit_note/view/credit_note.dart';
@@ -215,7 +216,7 @@ class _MenuScreenState extends State<MenuScreen> {
         'label': 'Payment-In',
         'onTap': () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PaymentInScreen()));
+              MaterialPageRoute(builder: (context) => AllTransactionScreen()));
         }
       },
       {
