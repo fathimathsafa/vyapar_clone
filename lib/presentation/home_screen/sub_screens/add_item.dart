@@ -104,7 +104,8 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.settings_outlined))
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.settings_outlined))
         ],
       ),
       body: Stack(
@@ -187,7 +188,6 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
-                                  
                                     border: OutlineInputBorder(),
                                     hintText: "Rate (Price/Unit)",
                                     labelText: "Price *",
@@ -322,7 +322,8 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                       width: screenWidth * .02),
                                                   Expanded(
                                                     child: TextFormField(
-                                                      keyboardType: TextInputType.number,
+                                                      keyboardType:
+                                                          TextInputType.number,
                                                       decoration:
                                                           const InputDecoration(
                                                         border:

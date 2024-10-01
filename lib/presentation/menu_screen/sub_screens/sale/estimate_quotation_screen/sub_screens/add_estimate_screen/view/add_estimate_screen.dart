@@ -25,11 +25,13 @@ class EstimateQuotationScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+        leading:
+            IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
         title: const Text("Estimate/Quotation"),
         actions: [
           SizedBox(width: screenWidth * 0.02),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.settings_outlined)),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.settings_outlined)),
           SizedBox(width: screenWidth * 0.02),
         ],
       ),
@@ -111,7 +113,8 @@ class EstimateQuotationScreen extends StatelessWidget {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "₹",
-                                  hintStyle: const TextStyle(color: Colors.black),
+                                  hintStyle:
+                                      const TextStyle(color: Colors.black),
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.only(
                                     left: screenWidth * 0.025,
@@ -230,7 +233,8 @@ class EstimateQuotationScreen extends StatelessWidget {
             right: 0,
             child: Container(
               color: Colorconst.cLightPink,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

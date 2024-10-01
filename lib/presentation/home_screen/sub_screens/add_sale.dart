@@ -11,11 +11,20 @@ import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart'
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AddSaleInvoiceScreen extends StatelessWidget {
-  final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
-  final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
-  final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
+class AddSaleInvoiceScreen extends StatefulWidget {
+  AddSaleInvoiceScreen({super.key});
 
+  @override
+  State<AddSaleInvoiceScreen> createState() => _AddSaleInvoiceScreenState();
+}
+
+class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
+  final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
+
+  final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
+
+  final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -25,12 +34,13 @@ class AddSaleInvoiceScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colorconst.cSecondaryGrey,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back)),
-        title: Text(
+            icon: const Icon(Icons.arrow_back)),
+        title: const Text(
           "Sale",
           style: TextStyle(color: Colorconst.cBlack),
         ),
@@ -46,16 +56,20 @@ class AddSaleInvoiceScreen extends StatelessWidget {
             activeFgColor: Colors.white,
             inactiveBgColor: Colors.grey,
             inactiveFgColor: Colors.white,
-            initialLabelIndex: 0,
+            initialLabelIndex: selectedIndex,
             totalSwitches: 2,
-            labels: ['Credit', 'Cash'],
+            labels: const ['Credit', 'Cash'],
             radiusStyle: true,
             onToggle: (index) {
-              print('switched to: $index');
+              setState(() {
+                selectedIndex = index!; // Update the selected index
+              });
+              // print('switched to: $index');
             },
           ),
           SizedBox(width: 10.w),
-          IconButton(onPressed: () {}, icon: Icon(Icons.settings_outlined)),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.settings_outlined)),
           SizedBox(width: 10.w),
         ],
       ),
@@ -79,8 +93,12 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                             children: [
                               SizedBox(height: 20.h),
                               CustomTextFormField(
-                                labelText: "Customer *",
-                                hintText: "Enter Customer",
+                                labelText: selectedIndex == 0
+                                    ? "Customer *"
+                                    : "Billing Name *", // Change label based on toggle
+                                hintText: selectedIndex == 0
+                                    ? "Enter Customer"
+                                    : "Enter Billing Name", // Change hint accordingly
                               ),
                               SizedBox(height: 25.h),
                               CustomTextFormField(
@@ -202,13 +220,13 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                                     : Colors.transparent,
                                               ),
                                               child: isChecked
-                                                  ? Icon(Icons.check,
+                                                  ? const Icon(Icons.check,
                                                       color: Colors.white,
                                                       size: 18)
                                                   : null,
                                             ),
                                             SizedBox(width: screenWidth * .01),
-                                            Text("Received",
+                                            const Text("Received",
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colorconst.cBlack)),
@@ -288,7 +306,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                       totalAmount - receivedAmount;
                                   return Row(
                                     children: [
-                                      Text("Balance Due",
+                                      const Text("Balance Due",
                                           style: TextStyle(
                                               color: Colors.green,
                                               fontSize: 14)),
@@ -297,7 +315,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                           style: TextStyle(
                                               fontSize: screenWidth * 0.04,
                                               color: Colorconst.cBlack)),
-                                      Text("${balanceDue.toStringAsFixed(2)}",
+                                      Text(balanceDue.toStringAsFixed(2),
                                           style: TextStyle(
                                               color: Colors.green,
                                               fontSize: screenWidth * 0.03))
@@ -316,14 +334,14 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                             ),
                             SizedBox(height: screenHeight * .01),
                             Container(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               height: screenHeight * .25,
                               color: Colorconst.cwhite,
                               child: Column(
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Payment Type",
                                         style:
                                             TextStyle(color: Colorconst.cGrey),
@@ -331,21 +349,21 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                       SizedBox(
                                         width: screenWidth * .45,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.money,
                                         color: Colorconst.Green,
                                       ),
                                       // SizedBox(
                                       //   width: screenWidth * .01,
                                       // ),
-                                      Text("Cash"),
-                                      Icon(Icons.arrow_drop_down)
+                                      const Text("Cash"),
+                                      const Icon(Icons.arrow_drop_down)
                                     ],
                                   ),
                                   SizedBox(
                                     height: screenHeight * .04,
                                   ),
-                                  Row(
+                                  const Row(
                                     children: [
                                       Icon(Icons.add, color: Colorconst.cBlue),
                                       Text(
@@ -355,10 +373,10 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "State of Supply",
                                         style:
                                             TextStyle(color: Colorconst.cGrey),
@@ -366,8 +384,8 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                       SizedBox(
                                         width: screenWidth * .4,
                                       ),
-                                      Text("Select State"),
-                                      Icon(Icons.arrow_drop_down)
+                                      const Text("Select State"),
+                                      const Icon(Icons.arrow_drop_down)
                                     ],
                                   ),
                                 ],
@@ -377,7 +395,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   height: screenHeight * .18,
                                   width: screenWidth * .7,
                                   color: Colorconst.cwhite,
@@ -393,7 +411,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   height: screenHeight * .18,
                                   width: screenWidth * .29,
                                   color: Colorconst.cwhite,
@@ -405,7 +423,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(8.0),
                                       border: Border.all(color: Colors.grey),
                                     ),
-                                    child: Center(
+                                    child: const Center(
                                       child: Icon(
                                         Icons.add_a_photo,
                                         color: Colors.blue,
@@ -433,10 +451,10 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                         // Your onPressed logic
                                       },
                                       style: ButtonStyle(
-                                        side: MaterialStateProperty.all(
-                                            BorderSide(
+                                        side: WidgetStateProperty.all(
+                                            const BorderSide(
                                                 color: Colors.black, width: 2)),
-                                        shape: MaterialStateProperty.all(
+                                        shape: WidgetStateProperty.all(
                                           RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(8),
@@ -446,7 +464,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             left: screenWidth * .1),
-                                        child: Row(
+                                        child: const Row(
                                           children: [
                                             Icon(
                                               Icons.document_scanner_outlined,
@@ -479,7 +497,8 @@ class AddSaleInvoiceScreen extends StatelessWidget {
             right: 0,
             child: Container(
               color: Colorconst.cLightPink,
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -155,7 +155,11 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                                       SizedBox(
                                         width: screenWidth * .4,
                                       ),
-                                      Text("Select State"),
+                                      Text(
+                                        "Select State",
+                                        style:
+                                            TextStyle(color: Colorconst.cBlack),
+                                      ),
                                       Icon(Icons.arrow_drop_down)
                                     ],
                                   ),
