@@ -29,4 +29,8 @@ class Colorconst {
   static const c0a7aa7Blue = Color(0xff0a7aa7);
   static const c2c9f1dGreen = Color(0xff2c9f1d);
   static const cffe3eaRedSecondary = Color(0xffffe3ea);
+
+  //
+ 
+  static const cfafafaLightGrey = Color(0xfffafafa);
 }
