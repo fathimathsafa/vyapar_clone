@@ -15,13 +15,13 @@ class _SyncShareScreenState extends State<SyncShareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Sync & Share',
           style: TextStyle(color: Colorconst.cBlack),
         ),
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -71,7 +71,7 @@ class _SyncShareScreenState extends State<SyncShareScreen> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // Button color
-                      shape: StadiumBorder(),
+                      shape: const StadiumBorder(),
                       padding: EdgeInsets.symmetric(
                           horizontal: 20.w, vertical: 12.h),
                     ),

@@ -9,7 +9,7 @@ class AddUserScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -22,13 +22,13 @@ class AddUserScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.info_outline),
+            icon: const Icon(Icons.info_outline),
             onPressed: () {
               // Handle info icon press
             },
           ),
           IconButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             onPressed: () {
               // Handle more options button
             },
@@ -135,12 +135,12 @@ class AddUserScreen extends StatelessWidget {
                   builder: (context) => UserAddScreen()));
             },
             backgroundColor: Colorconst.cRed,
-            icon: Icon(Icons.add, color: Colors.white),
+            icon: const Icon(Icons.add, color: Colors.white),
             label: Text(
               'Add User',
               style: TextStyle(fontSize: 14.sp, color: Colorconst.cwhite),
             ),
-            shape: StadiumBorder(),
+            shape: const StadiumBorder(),
           ),
         ),
       ),

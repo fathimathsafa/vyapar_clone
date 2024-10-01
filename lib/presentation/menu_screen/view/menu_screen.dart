@@ -9,15 +9,20 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restor
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/view/cash_in_hand_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cheque_screen/view/cheque_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/view/expense_detail_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/loan_account_screen.dart/view/loan_account_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/manage_companies/view/manage_companies.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/view/dash_board_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_item_screen/view/manage_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_orders/view/manage_orders.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/store_report_screen/view/store_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/view/all_transaction_payment_out_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_list_screen/view/purchase_list_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/view/all_transaction_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/sub_screens/credit_note/view/credit_note.dart';
@@ -216,7 +221,7 @@ class _MenuScreenState extends State<MenuScreen> {
         'label': 'Payment-In',
         'onTap': () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PaymentInScreen()));
+              MaterialPageRoute(builder: (context) => AllTransactionScreen()));
         }
       },
       {
@@ -268,13 +273,21 @@ class _MenuScreenState extends State<MenuScreen> {
     _showCustomPopup(context, [
       {
         'icon': Icons.shopping_cart,
-        'label': 'Purchase',
-        'onTap': () {/*  onTap action */}
+        'label': 'Purchase Bills',
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PurchaseListScreen()));
+        }
       },
       {
         'icon': Icons.payment_outlined,
         'label': 'Payment-Out',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PaymentAllTransactionScreen()));
+        }
       },
       {
         'icon': Icons.assignment_return,
@@ -306,7 +319,14 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.production_quantity_limits_sharp,
         'label': 'Manage Item',
-        'onTap': () {}
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ManageItemScreen(),
+            ),
+          );
+        }
       },
       {
         'icon': Icons.sell,
@@ -502,7 +522,12 @@ class _MenuScreenState extends State<MenuScreen> {
               buildGridItem(Icons.shopping_cart_outlined, 'Purchase', () {
                 _showPurchasePopup(context);
               }),
-              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {}),
+              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ExpenseDetailScreen()));
+              }),
               buildGridItem(Icons.home_outlined, 'My Online Store', () {
                 _showOnlineShopPopup(context);
               }),

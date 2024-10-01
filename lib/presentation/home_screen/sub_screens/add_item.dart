@@ -182,8 +182,9 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                     border: OutlineInputBorder(),
                                     hintText: "Rate (Price/Unit)",
                                     labelText: "Price *",
-                                    labelStyle:
-                                        TextStyle(color: Colorconst.cGrey,fontSize: 15)),
+                                    labelStyle: TextStyle(
+                                      color: Colorconst.cGrey,
+                                    )),
                                 onChanged: (value) {
                                   setState(() {
                                     isPriceEntered = value.isNotEmpty;

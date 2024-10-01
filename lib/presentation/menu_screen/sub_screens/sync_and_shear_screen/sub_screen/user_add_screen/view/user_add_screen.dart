@@ -9,12 +9,12 @@ class UserAddScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           'Add User',
           style: TextStyle(color: Colorconst.cBlack),
         ),
@@ -53,7 +53,7 @@ class UserAddScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 suffixText: '*',
-                suffixStyle: TextStyle(color: Colorconst.cRed),
+                suffixStyle: const TextStyle(color: Colorconst.cRed),
               ),
               items: <String>[
                 'Secondary Admin',
@@ -67,7 +67,7 @@ class UserAddScreen extends StatelessWidget {
                   value: value,
                   child: Text(
                     value,
-                    style: TextStyle(color: Colorconst.cBlack),
+                    style: const TextStyle(color: Colorconst.cBlack),
                   ),
                 );
               }).toList(),
@@ -75,7 +75,7 @@ class UserAddScreen extends StatelessWidget {
                 // Handle dropdown change
               },
             ),
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey[200], // Light grey button
