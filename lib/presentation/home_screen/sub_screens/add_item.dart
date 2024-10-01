@@ -6,6 +6,8 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 
 class AddItemSaleScreen extends StatefulWidget {
+  const AddItemSaleScreen({super.key});
+
   @override
   State<AddItemSaleScreen> createState() => _AddItemSaleScreenState();
 }
@@ -24,12 +26,18 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Unit'),
+          title: const Text(
+            'Unit',
+            style: TextStyle(color: Colorconst.cBlack),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: units.map((unit) {
               return ListTile(
-                title: Text('$unit Unit(s)'),
+                title: Text(
+                  '$unit Unit(s)',
+                  style: const TextStyle(color: Colorconst.cBlack),
+                ),
                 onTap: () {
                   setState(() {
                     selectedUnit = '$unit Unit(s)';
@@ -83,20 +91,20 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xfff5f5f5),
+      backgroundColor: const Color(0xfff5f5f5),
       appBar: AppBar(
         backgroundColor: Colorconst.cwhite,
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back)),
-        title: Text(
+            icon: const Icon(Icons.arrow_back)),
+        title: const Text(
           "Add Item To Sale",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.settings_outlined))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.settings_outlined))
         ],
       ),
       body: Stack(
@@ -159,7 +167,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                       SizedBox(
                                         width: screenWidth * .25,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_drop_down,
                                         color: Colorconst.cGrey,
                                       )
@@ -178,13 +186,13 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                             Expanded(
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
+                                  
                                     border: OutlineInputBorder(),
                                     hintText: "Rate (Price/Unit)",
                                     labelText: "Price *",
                                     labelStyle: TextStyle(
-                                      color: Colorconst.cGrey,
-                                    )),
+                                        color: Colorconst.cGrey, fontSize: 15)),
                                 onChanged: (value) {
                                   setState(() {
                                     isPriceEntered = value.isNotEmpty;
@@ -217,7 +225,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                       SizedBox(
                                         width: screenWidth * .1,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_drop_down,
                                         color: Colorconst.cGrey,
                                       )
@@ -248,11 +256,11 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                     "Totals & Taxes",
                                     style: interFontBlack(context),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   const VerticleDivider(),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Row(
@@ -264,7 +272,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                             "Subtotal",
                                             style: interFontBlack(context),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 4,
                                           ),
                                           Text(
@@ -314,8 +322,9 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                       width: screenWidth * .02),
                                                   Expanded(
                                                     child: TextFormField(
+                                                      keyboardType: TextInputType.number,
                                                       decoration:
-                                                          InputDecoration(
+                                                          const InputDecoration(
                                                         border:
                                                             InputBorder.none,
                                                         contentPadding:
@@ -342,7 +351,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                     color: Colorconst
                                                         .cSecondaryYellowLight,
                                                     height: double.infinity,
-                                                    child: Padding(
+                                                    child: const Padding(
                                                       padding:
                                                           EdgeInsets.symmetric(
                                                               horizontal: 12),
@@ -377,11 +386,11 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                     color: Colorconst
                                                         .cSecondaryGrey,
                                                     height: double.infinity,
-                                                    child: Padding(
+                                                    child: const Padding(
                                                       padding:
                                                           EdgeInsets.symmetric(
                                                               horizontal: 12),
-                                                      child: const SizedBox(),
+                                                      child: SizedBox(),
                                                     ),
                                                   ),
                                                   Column(
@@ -436,7 +445,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                     BorderRadius.circular(5),
                                               ),
                                               child: CustomDropdown(
-                                                items: [],
+                                                items: const [],
                                               ),
                                             ),
                                           ),
@@ -459,11 +468,11 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                     color: Colorconst
                                                         .cSecondaryGrey,
                                                     height: double.infinity,
-                                                    child: Padding(
+                                                    child: const Padding(
                                                       padding:
                                                           EdgeInsets.symmetric(
                                                               horizontal: 12),
-                                                      child: const SizedBox(),
+                                                      child: SizedBox(),
                                                     ),
                                                   ),
                                                   Column(
@@ -564,7 +573,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                       child: Container(
                         color: Colors.white,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 13),
+                          padding: const EdgeInsets.symmetric(vertical: 13),
                           child: Center(
                               child: Text(
                             "Save & New",
@@ -579,7 +588,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                       child: Container(
                         color: Colorconst.cRed,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 13),
+                          padding: const EdgeInsets.symmetric(vertical: 13),
                           child: Center(
                               child: Text(
                             "Save",

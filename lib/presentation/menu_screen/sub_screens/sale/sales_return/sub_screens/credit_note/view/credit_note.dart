@@ -108,9 +108,9 @@ class CreditNoteScreen extends StatelessWidget {
                         Text(
                           "Total Amount",
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colorconst.cBlack),
                         ),
                         SizedBox(
                           width: screenWidth * 0.25,
@@ -128,6 +128,8 @@ class CreditNoteScreen extends StatelessWidget {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "₹",
+                                  helperStyle:
+                                      TextStyle(color: Colorconst.cBlack),
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.only(
                                     left: screenWidth * 0.025,
@@ -201,7 +203,9 @@ class CreditNoteScreen extends StatelessWidget {
                                             // ),
                                             SizedBox(width: screenWidth * .01),
                                             Text("Paid",
-                                                style: TextStyle(fontSize: 14)),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colorconst.cBlack)),
                                             SizedBox(width: screenWidth * .5),
                                             SizedBox(
                                               width: screenWidth * 0.35,
