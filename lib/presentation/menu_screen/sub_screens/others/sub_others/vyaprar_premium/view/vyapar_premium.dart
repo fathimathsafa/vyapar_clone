@@ -5,13 +5,16 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
+import '../controller/controller.dart';
 import '../sub_vyapar_premium/vyapar_licence/views/vyapar_licence.dart';
 
 
 
 class VyaparPremiumScreen extends StatelessWidget {
-  const VyaparPremiumScreen({super.key});
-  final int sIndex = 0;
+   VyaparPremiumScreen({super.key});
+
+   final VyaparPremiumController _controller = Get.put(VyaparPremiumController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,7 +171,20 @@ class VyaparPremiumScreen extends StatelessWidget {
             SizedBox(
               height: 15.h,
             ),
-            goldPlanWidget(),
+            Obx(
+              () {
+                return goldPlanWidget( selectedIndex: _controller.goldPlaneBtnIndex.value,onClickFirst: () {
+                  _controller.setgoldPlanBtnIndexValue(0);
+                  
+                },
+                
+                onClickSecond: () {
+                  _controller.setgoldPlanBtnIndexValue(1);
+                  
+                }
+                );
+              }
+            ),
 
             SizedBox(
               height: 20.h,
@@ -229,69 +245,78 @@ class VyaparPremiumScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            Expanded(
-                child: ListView.builder(
-              itemCount: 13,
-              itemBuilder: (context, index) => Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                  colors: [
-                    index == sIndex
-                        ? Colors.amber.shade100
-                        : Colors.transparent,
-                    index == sIndex
-                        ? const Color(0xffeecd7)
-                        : Colors.transparent,
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                )),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check,
-                        color: Colors.green,
-                        size: 14.sp,
-                      ),
-                      SizedBox(
-                        width: 8.w,
-                      ),
-                      Text(
-                        "Everything In Silver Plan",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 9.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(
-                        width: 4.w,
-                      ),
-                    index==sIndex?  CircleAvatar(
-                        radius: 6.r,
-                        backgroundColor: Colors.grey[400],
-                        child: Icon(
-                          FontAwesomeIcons.crown,
-                          size: 7.sp,
-                          color: Colors.black,
+            Obx(
+             () {
+              int length = _controller.planListLength.value;
+               int selectedIndex = _controller.selectedPlanListIndex.value;
+                return Expanded(
+                    child: ListView.builder(
+                  itemCount: length,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () => _controller.setPlanListIndex(index),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                        colors: [
+                          index == selectedIndex
+                              ? Colors.amber.shade100
+                              : Colors.transparent,
+                          index == selectedIndex
+                              ? const Color(0xffeecd7)
+                              : Colors.transparent,
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      )),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.check,
+                              color: Colors.green,
+                              size: 14.sp,
+                            ),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            Text(
+                              "Everything In Silver Plan",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 9.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(
+                              width: 4.w,
+                            ),
+                          index==selectedIndex?  CircleAvatar(
+                              radius: 6.r,
+                              backgroundColor: Colors.grey[400],
+                              child: Icon(
+                                FontAwesomeIcons.crown,
+                                size: 7.sp,
+                                color: Colors.black,
+                              ),
+                            ): CircleAvatar(
+                              radius: 5.r,
+                              backgroundColor: Colors.grey[400],
+                              child: Icon(
+                                FontAwesomeIcons.circleQuestion,
+                                size: 8.sp,
+                                color: Colors.black26,
+                              ),
+                            ),
+                          ],
                         ),
-                      ): CircleAvatar(
-                        radius: 5.r,
-                        backgroundColor: Colors.grey[400],
-                        child: Icon(
-                          FontAwesomeIcons.circleQuestion,
-                          size: 8.sp,
-                          color: Colors.black26,
-                        ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            )),
+                ));
+              }
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 35.w),
               child: Row(
@@ -332,7 +357,7 @@ class VyaparPremiumScreen extends StatelessWidget {
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: 13.w,vertical: 10.h),
               child: InkWell(
-                onTap: () => Get.to(()=>const VyaparLicenceScreen()),
+                onTap: () => Get.to(()=> VyaparLicenceScreen()),
                 child: Row(children: [
                   Expanded(
                     child: Container(
@@ -362,7 +387,7 @@ class VyaparPremiumScreen extends StatelessWidget {
     );
   }
 
-  Widget goldPlanWidget() {
+  Widget goldPlanWidget({int selectedIndex =0, Function()? onClickFirst, Function()? onClickSecond, }) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 13.w,
@@ -370,86 +395,89 @@ class VyaparPremiumScreen extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.amber.shade100,
-                      Colors.amber,
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  color: Colors.amber.shade100,
-                  border: Border.all(width: 1.w, color: Colors.amber.shade800),
-                  borderRadius: BorderRadius.circular(5.r)),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 6.r,
-                          backgroundColor: Colors.amber[300],
-                          child: Icon(
-                            FontAwesomeIcons.crown,
-                            size: 7.sp,
-                            color: Colors.black,
+            child: InkWell(
+              onTap:onClickFirst ,
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                       selectedIndex==0 ?Colors.amber.shade100:Colors.white ,
+                       selectedIndex==0 ?  Colors.amber:Colors.white,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    color: Colors.amber.shade100,
+                    border: Border.all(width: 1.w, color:selectedIndex==0 ? Colors.amber.shade800:Colorconst.cGrey),
+                    borderRadius: BorderRadius.circular(5.r)),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 6.r,
+                            backgroundColor:selectedIndex==0? Colors.amber[300]: Colors.grey.shade400,
+                            child: Icon(
+                              FontAwesomeIcons.crown,
+                              size: 7.sp,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                              color: Colors.black54,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 8.w,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Gold Plan",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                              color: Colors.black87,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "₹ 799",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
-                                  color: Colors.black87,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            SizedBox(
-                              width: 3.w,
-                            ),
-                            Text(
-                              "₹ 799",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
-                                  decoration: TextDecoration.lineThrough,
-                                  color: Colors.black87,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                          Text(
+                            "",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                                color: Colors.black54,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Gold Plan",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                                color: Colors.black87,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "₹ 799",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
+                                    color: Colors.black87,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(
+                                width: 3.w,
+                              ),
+                              Text(
+                                "₹ 799",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Colors.black87,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -458,87 +486,90 @@ class VyaparPremiumScreen extends StatelessWidget {
             width: 20.w,
           ),
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  // gradient: LinearGradient(
-                  //   colors: [
-                  //     Colors.amber.shade100,
-                  //     Colors.amber,
-                  //   ],
-                  //   begin: Alignment.centerLeft,
-                  //   end: Alignment.centerRight,
-                  // ),
-
-                  color: Colors.white,
-                  border: Border.all(width: 1.w, color: Colorconst.cGrey),
-                  borderRadius: BorderRadius.circular(5.r)),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 6.r,
-                          backgroundColor: Colors.grey.shade400,
-                          child: Icon(
-                            FontAwesomeIcons.crown,
-                            size: 7.sp,
-                            color: Colors.black,
+            child: GestureDetector(
+              onTap: onClickSecond,
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [
+                         selectedIndex==1 ?Colors.amber.shade100:Colors.white ,
+                         selectedIndex==1 ?  Colors.amber:Colors.white,
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+              
+                    color: Colors.white,
+                    border: Border.all(width: 1.w, color:selectedIndex==1 ? Colors.amber.shade800:Colorconst.cGrey),
+                    borderRadius: BorderRadius.circular(5.r)),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 6.r,
+                            backgroundColor: selectedIndex==1? Colors.amber[300]: Colors.grey.shade400,
+                            child: Icon(
+                              FontAwesomeIcons.crown,
+                              size: 7.sp,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                              color: Colors.black54,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 8.w,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Gold Plan",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                              color: Colors.black87,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "₹ 799",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
-                                  color: Colors.black87,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            SizedBox(
-                              width: 3.w,
-                            ),
-                            Text(
-                              "₹ 799",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
-                                  decoration: TextDecoration.lineThrough,
-                                  color: Colors.black87,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                          Text(
+                            "",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                                color: Colors.black54,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Gold Plan",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                                color: Colors.black87,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "₹ 799",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
+                                    color: Colors.black87,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(
+                                width: 3.w,
+                              ),
+                              Text(
+                                "₹ 799",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.inter(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Colors.black87,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

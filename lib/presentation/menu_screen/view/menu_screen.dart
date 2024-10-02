@@ -609,7 +609,7 @@ class _MenuScreenState extends State<MenuScreen> {
             const SizedBox(height: 10),
             buildSection('Others', [
               buildGridItem(
-                  Icons.account_balance_outlined, 'Vyapar Premium', () => Get.to(()=>const VyaparPremiumScreen())),
+                  Icons.account_balance_outlined, 'Vyapar Premium', () => Get.to(()=> VyaparPremiumScreen())),
               buildGridItem(Icons.account_balance_wallet_outlined,
                   'Get Desktop Billing Software', () => _getDeskBillingBottomSheet()),
               buildGridItem(

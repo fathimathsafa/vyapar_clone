@@ -6,12 +6,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
 import '../../../../../../../../../core/common/widget/custom_text_field.dart';
+import '../../../controller/controller.dart';
 
 
 
 class VyaparLicenceScreen extends StatelessWidget {
-  const VyaparLicenceScreen({super.key});
-  final int sIndex = 0;
+   VyaparLicenceScreen({super.key});
+ final VyaparPremiumController _controller = Get.find<VyaparPremiumController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,145 +112,153 @@ class VyaparLicenceScreen extends StatelessWidget {
               height: 5.h,
             ),
             Expanded(
-                child: Column(
-              children: [
-                Row(
-                  children: [
-                    Checkbox(value: false, onChanged: null),
-                    Text(
-                      "Use GSTIN for this Purchase",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                          color: Colors.black54,
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.w600),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w),
-                  child: CustomTextFormField(
-                    isFiled: true,
-                    filledColor: Colors.white,
-                    labelText: "Enter GSTN",
-                    hintText: "Enter GSTN",
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 13.w, vertical: 7.h),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "NOTE : This number can't be updated once order is completed",
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.inter(
-                          color: Colors.black54,
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 13.w, vertical: 7.h),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Price Details",
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.inter(
-                          color: Colors.black,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 6.h,),
-                Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 13.w),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                            width: 1.w, color: Colorconst.cSecondaryGrey),
-                        borderRadius: BorderRadius.circular(5.r)),
-                    child: Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 14.w,vertical: 13.h),
-                      child: Column(
+                child: SingleChildScrollView(
+                  child: Obx(
+                     () {
+                      bool checkBoxValue = _controller.gstinCheckB.value;
+                      return Column(
+                                    children: [
+                      Row(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Offer Price",
-                                style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                "₹ 799.00",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                    color: Colors.black87,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.h,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "GST",
-                                style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                "₹ 143.82",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                    color: Colors.black87,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.h,),
-                          Divider(color: Colorconst.cSecondaryGrey,height: 1.w,),
-                          SizedBox(height: 10.h,),
-
-                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Total Amount",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              Text(
-                                "₹ 942.82",
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                    color: Colors.black,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
+                          Checkbox(value: checkBoxValue, onChanged:(value){ _controller.setGstinCheckBvalue(value);}),
+                          Text(
+                            "Use GSTIN for this Purchase",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                                color: Colors.black54,
+                                fontSize: 9.sp,
+                                fontWeight: FontWeight.w600),
+                          )
                         ],
                       ),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 13.w),
+                        child: CustomTextFormField(
+                          controller: _controller.gstnInputController,
+                          isFiled: true,
+                          filledColor: Colors.white,
+                          labelText: "Enter GSTN",
+                          hintText: "Enter GSTN",
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 13.w, vertical: 7.h),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "NOTE : This number can't be updated once order is completed",
+                            textAlign: TextAlign.left,
+                            style: GoogleFonts.inter(
+                                color: Colors.black54,
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 13.w, vertical: 7.h),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Price Details",
+                            textAlign: TextAlign.left,
+                            style: GoogleFonts.inter(
+                                color: Colors.black,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 6.h,),
+                      Padding(
+                        padding:  EdgeInsets.symmetric(horizontal: 13.w),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  width: 1.w, color: Colorconst.cSecondaryGrey),
+                              borderRadius: BorderRadius.circular(5.r)),
+                          child: Padding(
+                            padding:  EdgeInsets.symmetric(horizontal: 14.w,vertical: 13.h),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Offer Price",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "₹ 799.00",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.inter(
+                                          color: Colors.black87,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10.h,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "GST",
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "₹ 143.82",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.inter(
+                                          color: Colors.black87,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10.h,),
+                                Divider(color: Colorconst.cSecondaryGrey,height: 1.w,),
+                                SizedBox(height: 10.h,),
+                      
+                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Total Amount",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    Text(
+                                      "₹ 942.82",
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.inter(
+                                          color: Colors.black,
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                                    ],
+                                  );
+                    }
                   ),
-                )
-              ],
-            )),
+                )),
             Row(
               children: [
                 Expanded(

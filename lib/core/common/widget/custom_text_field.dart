@@ -7,6 +7,7 @@ class CustomTextFormField extends StatelessWidget {
   CustomTextFormField({
     super.key,
     this.isEditable,
+    this.controller,
     this.hintText,
     this.isFiled,
     this.labelText,
@@ -29,6 +30,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? filledColor;
    final TextStyle? hintSytle;
   final TextStyle? labelStyle;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class CustomTextFormField extends StatelessWidget {
       height: height ?? 50.h, // Use ScreenUtil to make height responsive
       width: width ?? double.infinity, // Full width by default
       child: TextFormField(
-        
+        controller: controller,
         keyboardType: keyboardType,
         style: interFontBlack(context,
             color: Colorconst.cBlack,
@@ -54,11 +56,11 @@ class CustomTextFormField extends StatelessWidget {
               fontsize: 17.sp), // Scalable text for label
           border: OutlineInputBorder(
               borderSide: BorderSide(
-                  width: 2.w, color: Colorconst.cGrey), // Scalable border width
+                  width: 1.w, color: Colorconst.cGrey), // Scalable border width
               borderRadius:
                   BorderRadius.circular(5.r)), // Scalable border radius
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.w, color: Colors.blue),
+              borderSide: BorderSide(width: 1.w, color: Colors.blue),
               borderRadius: BorderRadius.circular(5.r)),
           contentPadding: EdgeInsets.symmetric(
             vertical: 20.h, // Scalable vertical padding

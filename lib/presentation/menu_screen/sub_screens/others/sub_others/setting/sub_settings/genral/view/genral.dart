@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
+import '../controller/controller.dart';
+
 class GenralSettingScreen extends StatelessWidget {
-  const GenralSettingScreen({super.key});
-  final int sIndex = 0;
+   GenralSettingScreen({super.key});
+  final _controller = Get.put(GeneralSettingController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,30 +66,35 @@ class GenralSettingScreen extends StatelessWidget {
           end: Alignment.bottomCenter,
         )),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              headerBlue(),
-          
-              applicationSetings(),
-              headerBlue(headerName: "Security"),
+          child: Obx(
+            () {
+              int selectedDecimalValue = _controller.decimalNumber.value;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  headerBlue(),
               
-              securitySetting(),
-              Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
-               headerBlue(headerName: "Multifirm"),
-              multiFirmSetting(),
-              Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
-               headerBlue(headerName: "Stock Transfer Between Godowns"),
-              stockTransferBtSetting(),
-              Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
-               headerBlue(headerName: "Backup"),
-               backupSetting(),
-          
-              Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
-          
-              moreTransaction()
-             
-            ],
+                  applicationSetings(),
+                  headerBlue(headerName: "Security"),
+                  
+                  securitySetting(),
+                  Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+                   headerBlue(headerName: "Multifirm"),
+                  multiFirmSetting(),
+                  Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+                   headerBlue(headerName: "Stock Transfer Between Godowns"),
+                  stockTransferBtSetting(),
+                  Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+                   headerBlue(headerName: "Backup"),
+                   backupSetting(),
+              
+                  Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+              
+                  moreTransaction()
+                 
+                ],
+              );
+            }
           ),
         ),
       ),
@@ -114,10 +121,14 @@ class GenralSettingScreen extends StatelessWidget {
               )
             ], rightRow: [
              
-              Icon(
-                Icons.toggle_on_outlined,
-                size: 30.sp,
-                color: Colors.blue,
+             InkWell(
+                onTap:()=> _controller.toggleButton(3),
+                child: Icon(
+                 _controller.toggles[3]==true? Icons.toggle_on_outlined:Icons.toggle_off_outlined,
+                  size: 30.sp,
+                  color:_controller.toggles[3]==true? Colorconst.cBlue:Colors.grey,
+                  
+                ),
               )
             ]),
 
@@ -197,11 +208,14 @@ class GenralSettingScreen extends StatelessWidget {
                 color: Colors.grey,
               )
             ], rightRow: [
-              Text(
-                "-",
-                style: optionsTextStyle(
-                  fontWeight: FontWeight.w300,
-                  textSize: 14.sp,
+              GestureDetector(
+                onTap: () => _controller.setDecimalNumber(true),
+                child: Text(
+                  "-",
+                  style: optionsTextStyle(
+                    fontWeight: FontWeight.w300,
+                    textSize: 14.sp,
+                  ),
                 ),
               ),
               SizedBox(
@@ -210,7 +224,7 @@ class GenralSettingScreen extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "2",
+                    _controller.decimalNumber.value.toString(),
                     style: optionsTextStyle(),
                   ),
                   SizedBox(
@@ -226,9 +240,12 @@ class GenralSettingScreen extends StatelessWidget {
               SizedBox(
                 width: 6.w,
               ),
-              Text(
-                "+",
-                style: optionsTextStyle(),
+              InkWell(
+                 onTap: () => _controller.setDecimalNumber(false),
+                child: Text(
+                  "+",
+                  style: optionsTextStyle(),
+                ),
               ),
             ]),
             Divider(
@@ -267,11 +284,14 @@ class GenralSettingScreen extends StatelessWidget {
              
             ], rightRow: [
              
-              Icon(
-                Icons.toggle_on_outlined,
-                size: 30.sp,
-                color: Colorconst.cBlue,
-                
+              InkWell(
+                onTap:()=> _controller.toggleButton(0),
+                child: Icon(
+                 _controller.toggles[0]==true? Icons.toggle_on_outlined:Icons.toggle_off_outlined,
+                  size: 30.sp,
+                  color:_controller.toggles[0]==true? Colorconst.cBlue:Colors.grey,
+                  
+                ),
               )
             ]),
             Divider(
@@ -330,10 +350,14 @@ class GenralSettingScreen extends StatelessWidget {
               )
             ], rightRow: [
              
-              Icon(
-                Icons.toggle_off_outlined,
-                size: 30.sp,
-                color: Colors.grey,
+             InkWell(
+                onTap:()=> _controller.toggleButton(1),
+                child: Icon(
+                 _controller.toggles[1]==true? Icons.toggle_on_outlined:Icons.toggle_off_outlined,
+                  size: 30.sp,
+                  color:_controller.toggles[1]==true? Colorconst.cBlue:Colors.grey,
+                  
+                ),
               )
             ]);
   }
@@ -403,10 +427,14 @@ class GenralSettingScreen extends StatelessWidget {
 
             ], rightRow: [
              
-              Icon(
-                Icons.toggle_off_outlined,
-                size: 30.sp,
-                color: Colors.grey,
+           InkWell(
+                onTap:()=> _controller.toggleButton(2),
+                child: Icon(
+                 _controller.toggles[2]==true? Icons.toggle_on_outlined:Icons.toggle_off_outlined,
+                  size: 30.sp,
+                  color:_controller.toggles[2]==true? Colorconst.cBlue:Colors.grey,
+                  
+                ),
               )
             ]);
   }

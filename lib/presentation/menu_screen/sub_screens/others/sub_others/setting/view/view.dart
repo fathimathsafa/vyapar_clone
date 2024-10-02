@@ -82,7 +82,7 @@ class SettingScreen extends StatelessWidget {
           
               
           
-              _settingTileWidget(icon: Icons.settings,title: "General",isNewEn: true,onTap: () => Get.to(()=>const GenralSettingScreen()),),
+              _settingTileWidget(icon: Icons.settings,title: "General",isNewEn: true,onTap: () => Get.to(()=> GenralSettingScreen()),),
               _settingTileWidget(icon: Icons.currency_rupee_outlined,title: "Transaction",isNewEn: true,onTap: () => Get.to(()=>const TransactionSettingScreen()),),
               _settingTileWidget(icon: Icons.print_outlined,title: "Invoice Print",isNewEn: false, onTap: () => Get.to(()=>const InvoicePrintScreen()),),
               _settingTileWidget(icon: FontAwesomeIcons.filePowerpoint,title: "Taxes & GST",isNewEn: true, onTap: () => Get.to(()=>const TaxesGstScreen()),),
