@@ -9,7 +9,7 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 
 class TransactionSmsScreen extends StatelessWidget {
   const TransactionSmsScreen({super.key});
-  final int sIndex = 0;
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

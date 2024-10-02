@@ -31,6 +31,9 @@ class BottomNavigationController extends GetxController {
     //  Center(child:  Text("home",style: TextStyle(color: Colors.red,fontSize: 20.sp),)),
     HomeScreen(),
     DashBoardScreen(),
-    ItemPage(), MenuScreen(),
+    ItemPage(), 
+    MenuScreen(),
+
+     Center(child:  Text("Get Premium",style: TextStyle(color: Colors.red,fontSize: 20.sp),)),
   ];
 }
