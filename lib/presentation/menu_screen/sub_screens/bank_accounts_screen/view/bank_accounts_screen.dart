@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/sub_screens/add_bank_accont_screen/view/add_bank_accont_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BankAccountsPage extends StatelessWidget {
   const BankAccountsPage({super.key});
@@ -10,7 +12,7 @@ class BankAccountsPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text(
             'Bank Accounts',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colorconst.cwhite),
           ),
           leading: IconButton(
             icon: const Icon(
@@ -48,9 +50,9 @@ class BankAccountsPage extends StatelessWidget {
                     ),
                     child: Center(
                       child: Image.asset(
-                        'assets/bank_and_cah.png',
-                        height: 200,
-                        width: 230,
+                        'assets/images/bank_account.png',
+                        height: 200.h,
+                        width: 230.w,
                         scale: 0.8,
                       ),
                     ),
@@ -74,14 +76,14 @@ class BankAccountsPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height / 1.67,
                   padding: const EdgeInsets.only(top: 40, bottom: 30),
                   decoration: const BoxDecoration(
-                      color: Colors.white,
+                      color: Colorconst.cwhite,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(70),
                       )),
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.all(20.w),
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade200),
@@ -94,16 +96,16 @@ class BankAccountsPage extends StatelessWidget {
                             title: Text(
                               'Add Your bank &record all your bank\ntransaction',
                               style: TextStyle(
-                                  color: Colors.grey.shade400, fontSize: 12),
+                                  color: Colorconst.cGrey, fontSize: 13.sp),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 8,
+                      SizedBox(
+                        height: 8.h,
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.all(20.w),
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -118,16 +120,16 @@ class BankAccountsPage extends StatelessWidget {
                             title: Text(
                               'Get payment into your bank account\nvia QR code.',
                               style: TextStyle(
-                                  color: Colors.grey.shade400, fontSize: 12),
+                                  color: Colorconst.cGrey, fontSize: 13.sp),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 8,
+                      SizedBox(
+                        height: 8.h,
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.all(20.w),
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade200),
@@ -140,11 +142,11 @@ class BankAccountsPage extends StatelessWidget {
                             title: Text(
                               'How to add Bank Account',
                               style: TextStyle(
-                                  color: Colors.grey.shade400, fontSize: 12),
+                                  color: Colorconst.cGrey, fontSize: 13.sp),
                             ),
-                            subtitle: Text(
+                            subtitle: const Text(
                               'Watch Video',
-                              style: TextStyle(color: Colors.red),
+                              style: TextStyle(color: Colorconst.cRed),
                             ),
                           ),
                         ),
@@ -164,18 +166,20 @@ class BankAccountsPage extends StatelessWidget {
                                 ),
                               );
                             },
-                            label: const Text(
+                            label: Text(
                               'Add Bank',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 14.sp),
                             ),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.add,
                               color: Colors.white,
+                              size: 18.sp,
                             ),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
+                                    borderRadius: BorderRadius.circular(20.r))),
                           )
                         ],
                       ),

@@ -3,11 +3,11 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/sub_screens/edit_store_info/view/edit_store_info.dart';
 
-class DashBoardScreen extends StatelessWidget {
+class DashBoardOnlineScreen extends StatelessWidget {
   // final bool dontShowAgain;
   //final Function(bool?) onCheckChanged;
 
-  const DashBoardScreen({
+  const DashBoardOnlineScreen({
     super.key,
     // this.dontShowAgain,
     // this.onCheckChanged
@@ -66,7 +66,8 @@ class DashBoardScreen extends StatelessWidget {
                             color: Colors.grey.withOpacity(0.3),
                             spreadRadius: 2,
                             blurRadius: 3,
-                            offset: const Offset(0, 3), // changes position of shadow
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -123,8 +124,10 @@ class DashBoardScreen extends StatelessWidget {
                                                   .min, // Makes the sheet take up minimum space
                                               children: [
                                                 ListTile(
-                                                  leading: const Icon(Icons.photo),
-                                                  title: const Text('Open Gallery'),
+                                                  leading:
+                                                      const Icon(Icons.photo),
+                                                  title: const Text(
+                                                      'Open Gallery'),
                                                   onTap: () {
                                                     // Add your gallery picker logic here
                                                     Navigator.pop(
@@ -132,9 +135,10 @@ class DashBoardScreen extends StatelessWidget {
                                                   },
                                                 ),
                                                 ListTile(
-                                                  leading:
-                                                      const Icon(Icons.camera_alt),
-                                                  title: const Text('Open Camera'),
+                                                  leading: const Icon(
+                                                      Icons.camera_alt),
+                                                  title:
+                                                      const Text('Open Camera'),
                                                   onTap: () {
                                                     // Add your camera picker logic here
                                                     Navigator.pop(
@@ -508,10 +512,11 @@ class DashBoardScreen extends StatelessWidget {
                   children: [
                     Checkbox(
                       tristate: true, // Allow null value for the checkbox
-      value: null, // This will work now since tristate is enabled
-      onChanged: (bool? value) {
-        // Your onChanged logic here
-      },
+                      value:
+                          null, // This will work now since tristate is enabled
+                      onChanged: (bool? value) {
+                        // Your onChanged logic here
+                      },
                     ),
                     Expanded(
                       child: Text(

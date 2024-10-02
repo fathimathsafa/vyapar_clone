@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
@@ -6,70 +8,106 @@ import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_item_screen/view/add_estimate_item.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_item_delivery_screen/view/add_item_delivery_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/widget/challan_date_widget.dart';
 
-class EstimateQuotationScreen extends StatelessWidget {
+class EstimateQuatationScreen extends StatefulWidget {
+  @override
+  State<EstimateQuatationScreen> createState() =>
+      _EstimateQuatationScreenState();
+}
+
+class _EstimateQuatationScreenState extends State<EstimateQuatationScreen> {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
-  final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
-  final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
-  EstimateQuotationScreen({super.key});
+  final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
+
+  final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
+  // List of Indian states
+  List<String> states = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ];
+
+  String? selectedState; // To store the selected state
 
   @override
   Widget build(BuildContext context) {
-    // Get screen size using MediaQuery
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colorconst.cSecondaryGrey,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
-        title: const Text("Estimate/Quotation"),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back)),
+        title: Text(
+          "Delivery Challan",
+          style: TextStyle(color: Colorconst.cBlack),
+        ),
         actions: [
-          SizedBox(width: screenWidth * 0.02),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.settings_outlined)),
-          SizedBox(width: screenWidth * 0.02),
+          IconButton(onPressed: () {}, icon: Icon(Icons.settings_outlined)),
         ],
       ),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(bottom: screenHeight * .5),
+              padding: EdgeInsets.only(bottom: 500.h),
               child: Column(
                 children: [
                   Container(
                     child: Column(
                       children: [
-                        DateInvoiceWidget(invoiceNumber: "10120"),
-                        SizedBox(height: screenHeight * 0.01),
+                        DateChallanWidget(invoiceNumber: "10120"),
+                        SizedBox(height: 10.h),
                         Container(
-                          height: screenHeight * 0.3,
+                          height: 160.h,
                           color: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.03),
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: Column(
                             children: [
-                              SizedBox(height: screenHeight * 0.01),
+                              SizedBox(height: 20.h),
                               CustomTextFormField(
                                 labelText: "Customer *",
                                 hintText: "Enter Customer",
                               ),
-                              // SizedBox(height: screenHeight * 0.03),
-                              // CustomTextFormField(
-                              //   labelText: "Phone Number",
-                              //   hintText: "Enter Phone Number",
-                              // ),
-                              SizedBox(height: screenHeight * 0.03),
+                              SizedBox(height: 20.h),
                               AddItemButton(
                                 onTap: () {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const AddEstimateItemScreen()));
+                                              AddItemDeliery()));
                                 },
                               ),
                             ],
@@ -78,31 +116,30 @@ class EstimateQuotationScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // SizedBox(height: screenHeight * 0.005),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
-                      vertical: screenHeight * 0.02,
+                      horizontal: 20.h,
+                      vertical: 10.h,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           "Total Amount",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colorconst.cBlack,
                             fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                            fontSize: 15.sp,
                           ),
                         ),
                         SizedBox(
-                          width: screenWidth * 0.25,
+                          width: 100.w,
                           child: Stack(
                             children: [
                               Positioned(
                                 left: 0,
                                 right: 0,
-                                bottom: screenHeight * 0.001,
+                                bottom: 10.h,
                                 child: CustomPaint(
                                   painter: DottedLinePainter(),
                                 ),
@@ -111,10 +148,11 @@ class EstimateQuotationScreen extends StatelessWidget {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "₹",
-                                  hintStyle: const TextStyle(color: Colors.black),
+                                  helperStyle:
+                                      TextStyle(color: Colorconst.cBlack),
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.only(
-                                    left: screenWidth * 0.025,
+                                    left: 10.w,
                                   ),
                                 ),
                                 onChanged: (value) {
@@ -125,7 +163,8 @@ class EstimateQuotationScreen extends StatelessWidget {
                                     receivedAmountNotifier.value = parsedValue;
                                   }
                                 },
-                                style: TextStyle(fontSize: screenWidth * 0.04),
+                                style: TextStyle(
+                                    fontSize: 15.sp, color: Colorconst.cBlack),
                               ),
                             ],
                           ),
@@ -139,45 +178,51 @@ class EstimateQuotationScreen extends StatelessWidget {
                       return Column(
                         children: [
                           if (totalAmount > 0) ...[
-                            Padding(
-                              padding:
-                                  EdgeInsets.only(left: screenWidth * .036),
-                              child: const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [],
-                              ),
+                            SizedBox(
+                              height: 10.h,
                             ),
                             Container(
-                              padding: const EdgeInsets.all(10),
-                              height: screenHeight * .25,
+                              padding: EdgeInsets.all(10.w),
+                              height: 50.h,
                               color: Colors.white,
                               child: Column(
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "State of Supply",
-                                        style:
-                                            TextStyle(color: Colorconst.cGrey),
-                                      ),
-                                      SizedBox(
-                                        width: screenWidth * .3,
-                                      ),
-                                      const Text("Select State"),
-                                      const Icon(Icons.arrow_drop_down)
-                                    ],
+                                  InkWell(
+                                    onTap: () {
+                                      _showStateSelectionBottomSheet();
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "State of Supply",
+                                          style: TextStyle(
+                                              color: Colorconst.cGrey),
+                                        ),
+                                        SizedBox(
+                                          width: 90.w,
+                                        ),
+                                        Text(
+                                          selectedState ??
+                                              "Select State", // "Select State" when nothing is selected
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Icon(Icons.arrow_drop_down)
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(height: screenHeight * .01),
+                            SizedBox(height: 10.h),
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(10),
-                                  height: screenHeight * .18,
-                                  width: screenWidth * .7,
+                                  padding: EdgeInsets.all(10.w),
+                                  height: 100.h,
+                                  width: 250.w,
                                   color: Colors.white,
                                   child: Center(
                                     child: TextFormField(
@@ -191,29 +236,30 @@ class EstimateQuotationScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.all(10),
-                                  height: screenHeight * .18,
-                                  width: screenWidth * .29,
+                                  padding: EdgeInsets.all(10.w),
+                                  height: 100.h,
+                                  width: 110.w,
                                   color: Colors.white,
                                   child: Container(
-                                    width: 60,
-                                    height: 10,
+                                    width: 60.w,
+                                    height: 10.h,
                                     decoration: BoxDecoration(
                                       color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderRadius:
+                                          BorderRadius.circular(8.0.r),
                                       border: Border.all(color: Colors.grey),
                                     ),
-                                    child: const Center(
+                                    child: Center(
                                       child: Icon(
                                         Icons.add_a_photo,
-                                        color: Colors.blue,
-                                        size: 30,
+                                        color: Colorconst.cBlue,
+                                        size: 30.sp,
                                       ),
                                     ),
                                   ),
                                 ),
                               ],
-                            ),
+                            )
                           ],
                         ],
                       );
@@ -224,30 +270,7 @@ class EstimateQuotationScreen extends StatelessWidget {
             ),
           ),
           // Positioned text above the bottom button
-          Positioned(
-            bottom: 39,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colorconst.cLightPink,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Your Current Plan May not support some features",
-                    style: interFontGrey(context, fontsize: 12),
-                    // textAlign: TextAlign.center,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    size: screenWidth * 0.020,
-                    color: Colorconst.cGrey,
-                  )
-                ],
-              ),
-            ),
-          ),
+
           // Bottom button fixed at the bottom
           Positioned(
             bottom: 0,
@@ -257,6 +280,57 @@ class EstimateQuotationScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showStateSelectionBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.7, // Adjust size as needed
+          maxChildSize: 0.9,
+          minChildSize: 0.3,
+          builder: (_, controller) {
+            return Column(
+              children: [
+                // Header of Bottom Sheet
+                ListTile(
+                  title: Text("Select State of Supply"),
+                  trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                  ),
+                ),
+                Divider(),
+                Expanded(
+                  child: ListView.builder(
+                    controller: controller,
+                    itemCount: states.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(states[index]),
+                        onTap: () {
+                          setState(() {
+                            selectedState =
+                                states[index]; // Update selected state
+                          });
+                          Navigator.pop(
+                              context); // Close the bottom sheet after selecting
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

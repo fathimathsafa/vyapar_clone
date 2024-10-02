@@ -9,17 +9,53 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_item.dart'
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
-class CreditNoteScreen extends StatelessWidget {
+class CreditNoteScreen extends StatefulWidget {
+  @override
+  State<CreditNoteScreen> createState() => _CreditNoteScreenState();
+}
+
+class _CreditNoteScreenState extends State<CreditNoteScreen> {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
+
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
+
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
+  List<String> states = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ];
+
+  String? selectedState;
+  // To store the selected state
   @override
   Widget build(BuildContext context) {
-    // Get screen size using MediaQuery
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colorconst.cSecondaryGrey,
@@ -229,9 +265,7 @@ class CreditNoteScreen extends StatelessWidget {
                                                             parsedValue;
                                                       },
                                                       style: TextStyle(
-                                                          fontSize:
-                                                              screenWidth *
-                                                                  0.04,
+                                                          fontSize: 14.sp,
                                                           color: Colorconst
                                                               .cBlack),
                                                       initialValue:
@@ -253,9 +287,9 @@ class CreditNoteScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(height: screenHeight * 0.01),
+                            SizedBox(height: 10.h),
                             Padding(
-                              padding: EdgeInsets.only(left: screenWidth * .03),
+                              padding: EdgeInsets.only(left: 30.w),
                               child: ValueListenableBuilder<double>(
                                 valueListenable: receivedAmountNotifier,
                                 builder: (context, receivedAmount, child) {
@@ -337,25 +371,31 @@ class CreditNoteScreen extends StatelessWidget {
                                     ],
                                   ),
                                   Divider(),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "State of Supply",
-                                        style: TextStyle(
-                                            color: Colorconst.cGrey,
-                                            fontSize: 15.sp),
-                                      ),
-                                      SizedBox(
-                                        width: 130.w,
-                                      ),
-                                      Text(
-                                        "Select State",
-                                        style: TextStyle(
-                                            color: Colorconst.cBlack,
-                                            fontSize: 15.sp),
-                                      ),
-                                      Icon(Icons.arrow_drop_down)
-                                    ],
+                                  InkWell(
+                                    onTap: () {
+                                      _showStateSelectionBottomSheet();
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "State of Supply",
+                                          style: TextStyle(
+                                              color: Colorconst.cGrey),
+                                        ),
+                                        SizedBox(
+                                          width: 90.w,
+                                        ),
+                                        Text(
+                                          selectedState ??
+                                              "Select State", // "Select State" when nothing is selected
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Icon(Icons.arrow_drop_down)
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -423,6 +463,57 @@ class CreditNoteScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showStateSelectionBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.7, // Adjust size as needed
+          maxChildSize: 0.9,
+          minChildSize: 0.3,
+          builder: (_, controller) {
+            return Column(
+              children: [
+                // Header of Bottom Sheet
+                ListTile(
+                  title: Text("Select State of Supply"),
+                  trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                  ),
+                ),
+                Divider(),
+                Expanded(
+                  child: ListView.builder(
+                    controller: controller,
+                    itemCount: states.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(states[index]),
+                        onTap: () {
+                          setState(() {
+                            selectedState =
+                                states[index]; // Update selected state
+                          });
+                          Navigator.pop(
+                              context); // Close the bottom sheet after selecting
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 

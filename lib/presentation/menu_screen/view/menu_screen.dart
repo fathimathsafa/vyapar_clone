@@ -230,10 +230,8 @@ class _MenuScreenState extends State<MenuScreen> {
         'icon': Icons.local_shipping,
         'label': 'Delivery Challan',
         'onTap': () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DeliveryChallanScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DeliveryChallanScreen()));
         }
       },
       {
@@ -297,7 +295,7 @@ class _MenuScreenState extends State<MenuScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const DashBoardScreen(),
+              builder: (context) => const DashBoardOnlineScreen(),
             ),
           );
         }

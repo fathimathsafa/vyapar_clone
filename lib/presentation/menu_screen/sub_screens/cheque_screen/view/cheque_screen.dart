@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Cheques extends StatelessWidget {
   const Cheques({super.key});
@@ -11,7 +12,10 @@ class Cheques extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('Cheque'),
+        title: const Text(
+          'Cheque',
+          style: TextStyle(color: Colorconst.cBlack),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -20,16 +24,19 @@ class Cheques extends StatelessWidget {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(
-            child: Lottie.asset('assets/cheques.json'),
+            child: Lottie.asset('assets/animation/checque.json',
+                height: 150.h, width: 150.w),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Hey! You hae not added any cheques\nyet.Any payment involving cheque\nappears here',
-                style: TextStyle(color: Colors.grey, fontSize: 20),
+                'Hey! You hae not added any cheques yet.Any\n payment involving cheque appears here',
+                style: TextStyle(color: Colors.grey, fontSize: 16.sp),
                 textAlign: TextAlign.center,
               )
             ],
