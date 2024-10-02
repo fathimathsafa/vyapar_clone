@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+// import 'package:lottie/lottie.dart';
 
 class ExpenseTransaction extends StatelessWidget {
+  const ExpenseTransaction({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Expense Transaction', style: TextStyle(fontSize: 16)),
+        title:
+            const Text('Expense Transaction', style: TextStyle(fontSize: 16)),
         actions: [
           IconButton(
-            icon: Icon(Icons.picture_as_pdf, size: 20),
+            icon: const Icon(Icons.picture_as_pdf, size: 20),
             onPressed: () {},
             tooltip: 'Download PDF',
           ),
           IconButton(
-            icon: Icon(Icons.grid_on, size: 20),
+            icon: const Icon(Icons.grid_on, size: 20),
             onPressed: () {},
             tooltip: 'View as Grid',
           ),
@@ -30,25 +33,25 @@ class ExpenseTransaction extends StatelessWidget {
               IntrinsicHeight(
                 child: Row(
                   children: [
-                    Text(
+                    const Text(
                       "This Month",
                       style: TextStyle(color: Colors.black),
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_drop_down,
                         color: Colors.black,
                       ),
                     ),
-                    VerticalDivider(
+                    const VerticalDivider(
                       thickness: 2,
                       color: Colors.grey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
-                    Row(
+                    const Row(
                       children: [
                         Icon(Icons.calendar_today, size: 16),
                         SizedBox(width: 4),
@@ -61,28 +64,30 @@ class ExpenseTransaction extends StatelessWidget {
                   ],
                 ),
               ),
-              Divider(),
-              SizedBox(height: 12), // Reduced space
+              const Divider(),
+              const SizedBox(height: 12), // Reduced space
 
               // Filters Applied Text
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Filters Applied:',
+                  const Text('Filters Applied:',
                       style: TextStyle(fontSize: 12, color: Colors.black)),
                   OutlinedButton.icon(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.filter_alt,
                       size: 16,
                     ),
-                    label: Text('Filters',
+                    label: const Text('Filters',
                         style: TextStyle(fontSize: 12, color: Colors.black)),
                     onPressed: () {},
-                    style: OutlinedButton.styleFrom(padding: EdgeInsets.all(8)),
+                    style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.all(8)),
                   ),
                 ],
               ),
-              SizedBox(height: 8), // Adjusted spacing between text and filters
+              const SizedBox(
+                  height: 8), // Adjusted spacing between text and filters
 
               // Filters Chips
               Wrap(
@@ -90,22 +95,23 @@ class ExpenseTransaction extends StatelessWidget {
                 children: [
                   FilterChip(
                     backgroundColor: Colors.white,
-                    label: Text('Expense category - All Categories',
+                    label: const Text('Expense category - All Categories',
                         style: TextStyle(fontSize: 12, color: Colors.black)),
-                    labelPadding: EdgeInsets.symmetric(
+                    labelPadding: const EdgeInsets.symmetric(
                         horizontal: 2.0), // Reduced padding
                     visualDensity: VisualDensity.compact,
                     onSelected: (_) {},
                   ),
                   FilterChip(
                     backgroundColor: Colors.white,
-                    label: Text('Expense Type - All',
+                    label: const Text('Expense Type - All',
                         style: TextStyle(fontSize: 12)),
                     onSelected: (_) {},
                   ),
                 ],
               ),
-              SizedBox(height: 100), // Spacing between filters and next section
+              const SizedBox(
+                  height: 100), // Spacing between filters and next section
 
               // Image and No Data Section
               Center(
@@ -116,8 +122,8 @@ class ExpenseTransaction extends StatelessWidget {
                       'assets/images/download-removebg-preview.png'),
                 ),
               ),
-              SizedBox(height: 50),
-              Center(
+              const SizedBox(height: 50),
+              const Center(
                 child: Column(
                   children: [
                     Text(

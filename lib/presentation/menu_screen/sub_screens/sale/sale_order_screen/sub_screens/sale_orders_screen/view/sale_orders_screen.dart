@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/sub_screens/add_sale_screen/view/add_sale_screen.dart';
+// import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/widget/filtter_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -66,7 +67,12 @@ class _SaleOrdersScreenState extends State<SaleOrdersScreen> {
           padding: EdgeInsets.all(16.0.w),
           child: ElevatedButton.icon(
             onPressed: () {
-              // Handle add sale order
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddSaleOrdercreen(),
+                ),
+              );
             },
             icon: Icon(
               Icons.add,

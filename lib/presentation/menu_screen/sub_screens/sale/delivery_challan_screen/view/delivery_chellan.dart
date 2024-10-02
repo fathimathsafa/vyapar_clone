@@ -4,8 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_delivery_challan_screen/view/add_delivery_challan_screen.dart';
 
-
-
 class DeliveryChallanScreen extends StatefulWidget {
   @override
   _DeliveryChallanScreenState createState() => _DeliveryChallanScreenState();
@@ -104,7 +102,7 @@ class _DeliveryChallanScreenState extends State<DeliveryChallanScreen>
           backgroundColor: Colorconst.cRed,
           icon: Icon(Icons.add, color: Colors.white),
           label: Text(
-            'Add Sale Return',
+            'Add Delivery Challan',
             style: TextStyle(fontSize: 14.sp, color: Colorconst.cwhite),
           ),
           shape: StadiumBorder(),

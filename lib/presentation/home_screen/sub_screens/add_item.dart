@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ScreenUtil
-import 'package:vyapar_clone/core/common/widget/custom_dropdown.dart';
+// import 'package:vyapar_clone/core/common/widget/custom_dropdown.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/common/widget/verticle_divider.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
@@ -281,7 +281,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
 
   InputDecoration _inputDecorationWithLabel(String hintText, String labelText) {
     return InputDecoration(
-      border: OutlineInputBorder(),
+      border: const OutlineInputBorder(),
       hintText: hintText,
       labelText: labelText,
       labelStyle:
@@ -294,7 +294,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
       children: [
         Text(
           text,
-          style: TextStyle(color: Colorconst.cGrey),
+          style: const TextStyle(color: Colorconst.cGrey),
         ),
         SizedBox(width: spacerWidth),
         const Icon(Icons.arrow_drop_down, color: Colorconst.cGrey),

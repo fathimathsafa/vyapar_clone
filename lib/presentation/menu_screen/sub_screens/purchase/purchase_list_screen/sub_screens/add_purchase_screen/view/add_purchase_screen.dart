@@ -8,17 +8,103 @@ import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_item.dart';
-import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
+// import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/widget/date_expense_invoice_widget.dart';
 
+class AddPurchaseScreen extends StatefulWidget {
+  @override
+  State<AddPurchaseScreen> createState() => _AddPurchaseScreenState();
+}
 
-
-class AddPurchaseScreen extends StatelessWidget {
+class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
-  final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
-  final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
+  final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
+
+  final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
+  void _showStateSelectionBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.7, // Adjust size as needed
+          maxChildSize: 0.9,
+          minChildSize: 0.3,
+          builder: (_, controller) {
+            return Column(
+              children: [
+                // Header of Bottom Sheet
+                ListTile(
+                  title: Text("Select State of Supply"),
+                  trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                  ),
+                ),
+                Divider(),
+                Expanded(
+                  child: ListView.builder(
+                    controller: controller,
+                    itemCount: states.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(states[index]),
+                        onTap: () {
+                          setState(() {
+                            selectedState =
+                                states[index]; // Update selected state
+                          });
+                          Navigator.pop(
+                              context); // Close the bottom sheet after selecting
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  List<String> states = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ];
+  String? selectedState;
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -30,9 +116,9 @@ class AddPurchaseScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(onPressed: ()=> Get.back(), icon:const Icon(Icons.arrow_back)),
-        title:const Text("Purchase"),
-       
+        leading: IconButton(
+            onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back)),
+        title: const Text("Purchase"),
       ),
       body: Stack(
         children: [
@@ -44,7 +130,11 @@ class AddPurchaseScreen extends StatelessWidget {
                   SizedBox(
                     child: Column(
                       children: [
-                        DateExpenseInvoiceWidget(invoiceNumber: "10120",titleOne:  "Bill No.",titleTwo: "Date",),
+                        DateExpenseInvoiceWidget(
+                          invoiceNumber: "10120",
+                          titleOne: "Bill No.",
+                          titleTwo: "Date",
+                        ),
                         SizedBox(height: screenHeight * 0.01),
                         Container(
                           height: screenHeight * 0.3,
@@ -110,7 +200,6 @@ class AddPurchaseScreen extends StatelessWidget {
                               ),
                               TextFormField(
                                 keyboardType: TextInputType.number,
-                                
                                 decoration: InputDecoration(
                                   hintText: "₹",
                                   border: InputBorder.none,
@@ -126,7 +215,9 @@ class AddPurchaseScreen extends StatelessWidget {
                                     receivedAmountNotifier.value = parsedValue;
                                   }
                                 },
-                                style: TextStyle(fontSize: screenWidth * 0.04,color: Colors.black),
+                                style: TextStyle(
+                                    fontSize: screenWidth * 0.04,
+                                    color: Colors.black),
                               ),
                             ],
                           ),
@@ -180,17 +271,20 @@ class AddPurchaseScreen extends StatelessWidget {
                                               ),
                                               child: isChecked
                                                   ? Center(
-                                                    child: Icon(Icons.check,
-                                                        color: Colors.white,
-                                                        size: 13.sp),
-                                                  )
+                                                      child: Icon(Icons.check,
+                                                          color: Colors.white,
+                                                          size: 13.sp),
+                                                    )
                                                   : null,
                                             ),
                                             SizedBox(width: screenWidth * .03),
-                                           const Text("Paid",
-                                                style: TextStyle(fontSize: 14,color: Colors.black,fontWeight:FontWeight.w500 )),
+                                            const Text("Paid",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
                                             SizedBox(width: screenWidth * .53),
-                                          
                                             SizedBox(
                                               width: screenWidth * 0.25,
                                               child: Stack(children: [
@@ -209,13 +303,19 @@ class AddPurchaseScreen extends StatelessWidget {
                                                   builder: (context,
                                                       receivedAmount, child) {
                                                     return TextFormField(
-                                                      style: TextStyle(fontSize: screenWidth * 0.04,color: Colors.black),
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.04,
+                                                          color: Colors.black),
                                                       keyboardType:
                                                           TextInputType.number,
                                                       decoration:
                                                           InputDecoration(
                                                         hintText: "₹",
-                                                        hintStyle: TextStyle(color: Colors.black),
+                                                        hintStyle: TextStyle(
+                                                            color:
+                                                                Colors.black),
                                                         border:
                                                             InputBorder.none,
                                                         contentPadding:
@@ -233,7 +333,6 @@ class AddPurchaseScreen extends StatelessWidget {
                                                                 .value =
                                                             parsedValue;
                                                       },
-                                                     
                                                       initialValue:
                                                           isReceivedChecked
                                                                   .value
@@ -255,7 +354,8 @@ class AddPurchaseScreen extends StatelessWidget {
                             ),
                             SizedBox(height: screenHeight * 0.03),
                             Padding(
-                              padding: EdgeInsets.only(left: screenWidth * .03,bottom: 6.h),
+                              padding: EdgeInsets.only(
+                                  left: screenWidth * .03, bottom: 6.h),
                               child: ValueListenableBuilder<double>(
                                 valueListenable: receivedAmountNotifier,
                                 builder: (context, receivedAmount, child) {
@@ -263,26 +363,34 @@ class AddPurchaseScreen extends StatelessWidget {
                                       totalAmount - receivedAmount;
                                   return Row(
                                     children: [
-                                     const Text("Balance Due",
+                                      const Text("Balance Due",
                                           style: TextStyle(
                                               color: Colors.green,
                                               fontSize: 14)),
                                       // SizedBox(width: screenWidth * .53),
-                                       Expanded(child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                      Expanded(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
-
-                                         Text("₹ ",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                              fontSize: screenWidth * 0.04)),
-                                              SizedBox(width: 48.w,),
-                                      Text(balanceDue.toStringAsFixed(2),
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontSize: screenWidth * 0.03)),
-                                              SizedBox(width: 15.w,)
-                                       ],))
+                                          Text("₹ ",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize:
+                                                      screenWidth * 0.04)),
+                                          SizedBox(
+                                            width: 48.w,
+                                          ),
+                                          Text(balanceDue.toStringAsFixed(2),
+                                              style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize:
+                                                      screenWidth * 0.03)),
+                                          SizedBox(
+                                            width: 15.w,
+                                          )
+                                        ],
+                                      ))
                                     ],
                                   );
                                 },
@@ -305,7 +413,7 @@ class AddPurchaseScreen extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                     const Text(
+                                      const Text(
                                         "Payment Type",
                                         style:
                                             TextStyle(color: Colorconst.cGrey),
@@ -313,21 +421,21 @@ class AddPurchaseScreen extends StatelessWidget {
                                       SizedBox(
                                         width: screenWidth * .45,
                                       ),
-                                     const Icon(
+                                      const Icon(
                                         Icons.money,
                                         color: Colorconst.Green,
                                       ),
                                       // SizedBox(
                                       //   width: screenWidth * .01,
                                       // ),
-                                     const Text("Cash"),
-                                   const   Icon(Icons.arrow_drop_down)
+                                      const Text("Cash"),
+                                      const Icon(Icons.arrow_drop_down)
                                     ],
                                   ),
                                   SizedBox(
                                     height: screenHeight * .04,
                                   ),
-                               const   Row(
+                                  const Row(
                                     children: [
                                       Icon(Icons.add, color: Colorconst.cBlue),
                                       Text(
@@ -337,31 +445,36 @@ class AddPurchaseScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                const  Divider(),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "State of Supply",
-                                        style:
-                                            TextStyle(color: Colorconst.cGrey),
-                                      ),
-                                      SizedBox(
-                                        width: screenWidth * .4,
-                                      ),
-                                      Text("Select State"),
-                                      Icon(Icons.arrow_drop_down)
-                                    ],
+                                  const Divider(),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showStateSelectionBottomSheet();
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "State of Supply",
+                                          style: TextStyle(
+                                              color: Colorconst.cGrey),
+                                        ),
+                                        SizedBox(
+                                          width: screenWidth * .4,
+                                        ),
+                                        Text("Select State"),
+                                        Icon(Icons.arrow_drop_down)
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                             SizedBox(height: screenHeight * .01),
                             Container(
-                               color: Colorconst.cwhite,
+                              color: Colorconst.cwhite,
                               child: Row(
                                 children: [
                                   Container(
-                                    padding:const EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     height: screenHeight * .18,
                                     width: screenWidth * .7,
                                     color: Colorconst.cwhite,
@@ -387,10 +500,11 @@ class AddPurchaseScreen extends StatelessWidget {
                                       height: 10,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                         border: Border.all(color: Colors.grey),
                                       ),
-                                      child:const Center(
+                                      child: const Center(
                                         child: Icon(
                                           Icons.add_a_photo,
                                           color: Colors.blue,
@@ -399,11 +513,9 @@ class AddPurchaseScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                 
                                 ],
                               ),
                             ),
-                            
                           ],
                         ],
                       );
@@ -414,7 +526,7 @@ class AddPurchaseScreen extends StatelessWidget {
             ),
           ),
           // Positioned text above the bottom button
-         
+
           // Bottom button fixed at the bottom
           Positioned(
             bottom: 0,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/sub_screens/online_orders_screen/view/online_orders_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/sub_screens/sale_orders_screen/view/sale_orders_screen.dart';
 

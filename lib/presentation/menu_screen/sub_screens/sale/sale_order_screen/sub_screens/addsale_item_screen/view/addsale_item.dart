@@ -4,9 +4,8 @@ import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/common/widget/verticle_divider.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_item.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_sale.dart';
-
+// import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_item.dart';
+// import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_sale.dart';
 
 class AddItemSale extends StatefulWidget {
   const AddItemSale({super.key});
@@ -601,6 +600,7 @@ class _AddItemSaleState extends State<AddItemSale> {
     );
   }
 }
+
 class DottedLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {

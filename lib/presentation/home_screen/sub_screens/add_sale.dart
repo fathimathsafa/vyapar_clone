@@ -25,6 +25,88 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
 
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
   int selectedIndex = 0;
+  void _showStateSelectionBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.7, // Adjust size as needed
+          maxChildSize: 0.9,
+          minChildSize: 0.3,
+          builder: (_, controller) {
+            return Column(
+              children: [
+                // Header of Bottom Sheet
+                ListTile(
+                  title: Text("Select State of Supply"),
+                  trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                    },
+                  ),
+                ),
+                Divider(),
+                Expanded(
+                  child: ListView.builder(
+                    controller: controller,
+                    itemCount: states.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(states[index]),
+                        onTap: () {
+                          setState(() {
+                            selectedState =
+                                states[index]; // Update selected state
+                          });
+                          Navigator.pop(
+                              context); // Close the bottom sheet after selecting
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  String? selectedState;
+  List<String> states = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ];
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -374,19 +456,24 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
                                     ],
                                   ),
                                   const Divider(),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "State of Supply",
-                                        style:
-                                            TextStyle(color: Colorconst.cGrey),
-                                      ),
-                                      SizedBox(
-                                        width: screenWidth * .4,
-                                      ),
-                                      const Text("Select State"),
-                                      const Icon(Icons.arrow_drop_down)
-                                    ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showStateSelectionBottomSheet();
+                                    },
+                                    child: Row(
+                                      children: [
+                                        const Text(
+                                          "State of Supply",
+                                          style: TextStyle(
+                                              color: Colorconst.cGrey),
+                                        ),
+                                        SizedBox(
+                                          width: screenWidth * .4,
+                                        ),
+                                        const Text("Select State"),
+                                        const Icon(Icons.arrow_drop_down)
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

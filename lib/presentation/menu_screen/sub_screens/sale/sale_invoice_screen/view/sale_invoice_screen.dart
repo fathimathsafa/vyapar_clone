@@ -7,8 +7,8 @@ class SaleInvoistListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get screen height and width using MediaQuery
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    // final screenHeight = MediaQuery.of(context).size.height;
+    // final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(

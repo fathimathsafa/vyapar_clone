@@ -4,6 +4,16 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/images.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_sale.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/transaction/view/transaction.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/view/all_transaction_payment_out_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_list_screen/view/purchase_list_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_screen/view/add_estimate_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
 
 import '../widget/header.dart';
 import '../widget/header_buttons.dart';
@@ -117,8 +127,19 @@ class SaleListScreen extends StatelessWidget {
                                       child: _quickLinkItem("quick_link_2.png",
                                           "Sale Report", context),
                                     ),
-                                    _quickLinkItem("quick_link_3.png",
-                                        "Txn Settings", context),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TransactionSettingScreen(),
+                                          ),
+                                        );
+                                      },
+                                      child: _quickLinkItem("quick_link_3.png",
+                                          "Txn Settings", context),
+                                    ),
                                     GestureDetector(
                                       onTap: () {
                                         showShowMorePopup(context);
@@ -242,15 +263,23 @@ class SaleListScreen extends StatelessWidget {
                 ),
                 buildSectionHeader('Sale Transactions'),
                 buildIconGrid([
-                  iconWithLabel(Icons.comment_bank, 'Bank Account'),
-                  iconWithLabel(Icons.book, 'Day Book'),
-                  iconWithLabel(Icons.receipt_rounded, 'All Txns Report'),
+                  iconWithLabel(Icons.comment_bank, 'Bank Account', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BankAccountsPage(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.book, 'Day Book', () {}),
                   iconWithLabel(
-                      Icons.monetization_on_outlined, 'Profit & Loss'),
-                  iconWithLabel(Icons.document_scanner, 'Balance Sheet'),
-                  iconWithLabel(Icons.receipt_long, 'Billwise PnL'),
-                  iconWithLabel(Icons.print_outlined, 'Print Settings'),
-                  iconWithLabel(Icons.sms, 'Txn SMS Settings'),
+                      Icons.receipt_rounded, 'All Txns Report', () {}),
+                  iconWithLabel(
+                      Icons.monetization_on_outlined, 'Profit & Loss', () {}),
+                  iconWithLabel(Icons.document_scanner, 'Balance Sheet', () {}),
+                  iconWithLabel(Icons.receipt_long, 'Billwise PnL', () {}),
+                  iconWithLabel(Icons.print_outlined, 'Print Settings', () {}),
+                  iconWithLabel(Icons.sms, 'Txn SMS Settings', () {}),
                 ]),
               ],
             ),
@@ -286,27 +315,84 @@ class SaleListScreen extends StatelessWidget {
                 ),
                 buildSectionHeader('Sale Transactions'),
                 buildIconGrid([
-                  iconWithLabel(Icons.payment, 'Payment-In'),
-                  iconWithLabel(Icons.assignment_return, 'Sale Return'),
-                  iconWithLabel(Icons.local_shipping, 'Delivery Challan'),
-                  iconWithLabel(Icons.receipt, 'Estimate/Quotation'),
-                  iconWithLabel(Icons.description, 'Proforma Invoice'),
-                  iconWithLabel(Icons.receipt_long, 'Sale Invoice'),
-                  iconWithLabel(Icons.add_shopping_cart, 'Sale Order'),
+                  iconWithLabel(Icons.payment, 'Payment-In', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaymentInScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.assignment_return, 'Sale Return', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SaleReturnScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.local_shipping, 'Delivery Challan', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DeliveryChallanScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.receipt, 'Estimate/Quotation', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EstimateQuatationScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.description, 'Proforma Invoice', () {}),
+                  iconWithLabel(Icons.receipt_long, 'Sale Invoice', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SaleInvoistListScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.add_shopping_cart, 'Sale Order', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SaleOrderScreen(),
+                      ),
+                    );
+                  }),
                 ]),
                 Divider(),
                 buildSectionHeader('Purchase Transactions'),
                 buildIconGrid([
-                  iconWithLabel(Icons.shopping_cart, 'Purchase'),
-                  iconWithLabel(Icons.payment_outlined, 'Payment-Out'),
-                  iconWithLabel(Icons.assignment_return, 'Purchase Return'),
-                  iconWithLabel(Icons.receipt, 'Purchase Order'),
+                  iconWithLabel(Icons.shopping_cart, 'Purchase', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PurchaseListScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.payment_outlined, 'Payment-Out', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaymentAllTransactionScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(
+                      Icons.assignment_return, 'Purchase Return', () {}),
+                  iconWithLabel(Icons.receipt, 'Purchase Order', () {}),
                 ]),
                 Divider(),
                 buildSectionHeader('Other Transactions'),
                 buildIconGrid([
-                  iconWithLabel(Icons.attach_money, 'Expenses'),
-                  iconWithLabel(Icons.sync, 'P2P Transfer'),
+                  iconWithLabel(Icons.attach_money, 'Expenses', () {}),
+                  iconWithLabel(Icons.sync, 'P2P Transfer', () {}),
                 ]),
               ],
             ),
@@ -327,14 +413,17 @@ class SaleListScreen extends StatelessWidget {
     );
   }
 
-  Widget iconWithLabel(IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 30, color: Colors.blue),
-        SizedBox(height: 8),
-        Text(label, style: TextStyle(fontSize: 12)),
-      ],
+  Widget iconWithLabel(IconData icon, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 30, color: Colors.blue),
+          SizedBox(height: 8),
+          Text(label, style: TextStyle(fontSize: 12)),
+        ],
+      ),
     );
   }
 }

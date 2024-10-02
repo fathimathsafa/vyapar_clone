@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyapar_clone/core/constatnts/colors.dart';
+
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 
 

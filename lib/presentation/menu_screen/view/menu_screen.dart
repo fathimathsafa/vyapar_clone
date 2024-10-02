@@ -1,19 +1,34 @@
+// ignore_for_file: deprecated_member_use
+// import 'dart:ffi';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/sale_list.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/view/apply_loan_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restore/auto_backup_screen/view/auto_backup_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/view/cash_in_hand_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cheque_screen/view/cheque_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/view/expense_detail_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/loan_account_screen.dart/view/loan_account_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/manage_companies/view/manage_companies.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/view/dash_board_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_item_screen/view/manage_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_orders/view/manage_orders.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/store_report_screen/view/store_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/help_support/sub_help_support/tutorial/view/tutorial.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/other_products/view/other_product.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/refer_earn/view/refer_earn.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/view/view.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/view/all_transaction_payment_out_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_list_screen/view/purchase_list_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
@@ -28,7 +43,6 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/impor
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/message_screen/view/message_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -265,13 +279,21 @@ class _MenuScreenState extends State<MenuScreen> {
     _showCustomPopup(context, [
       {
         'icon': Icons.shopping_cart,
-        'label': 'Purchase',
-        'onTap': () {/*  onTap action */}
+        'label': 'Purchase Bill',
+        'onTap': () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PurchaseListScreen()));
+        }
       },
       {
         'icon': Icons.payment_outlined,
         'label': 'Payment-Out',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PaymentAllTransactionScreen()));
+        }
       },
       {
         'icon': Icons.assignment_return,
@@ -303,7 +325,14 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.production_quantity_limits_sharp,
         'label': 'Manage Item',
-        'onTap': () {}
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ManageItemScreen(),
+            ),
+          );
+        }
       },
       {
         'icon': Icons.sell,
@@ -424,19 +453,99 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.phone,
         'label': 'Customer Care',
-        'onTap': () {/*  onTap action */}
+        'onTap': () => _customerCareDialog()
       },
       {
         'icon': Icons.video_library,
         'label': 'Tutorials',
-        'onTap': () {/*  onTap action */}
+        'onTap': () => Get.to(() => const TutorialScreen())
       },
-      {
-        'icon': Icons.support_agent,
-        'label': 'Remote Support',
-        'onTap': () {/*  onTap action */}
-      },
+      {'icon': Icons.support_agent, 'label': 'Remote Support', 'onTap': () {}},
     ]);
+  }
+
+  void _customerCareDialog() {
+    Get.dialog(
+        barrierDismissible: true,
+        Material(
+          color: Colors.transparent,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Container(
+                    width: double.infinity,
+                    // height: 200.h,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4.r)),
+
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0.r),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                                onTap: () => Get.back(),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20.sp,
+                                  color: Colors.black,
+                                )),
+                          ),
+                          Text(
+                            "Whatsapp",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 14.h,
+                          ),
+                          Text(
+                            "Email",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 14.h,
+                          ),
+                          Text(
+                            "Message",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 14.h,
+                          ),
+                          Text(
+                            "Call",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            height: 14.h,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 
   @override
@@ -499,7 +608,12 @@ class _MenuScreenState extends State<MenuScreen> {
               buildGridItem(Icons.shopping_cart_outlined, 'Purchase', () {
                 _showPurchasePopup(context);
               }),
-              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {}),
+              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ExpenseDetailScreen()));
+              }),
               buildGridItem(Icons.home_outlined, 'My Online Store', () {
                 _showOnlineShopPopup(context);
               }),
@@ -519,7 +633,14 @@ class _MenuScreenState extends State<MenuScreen> {
               buildGridItem(Icons.auto_graph_sharp, 'Insights', () {}),
               buildGridItem(
                   Icons.business_center_outlined, 'Business Card', () {}),
-              buildGridItem(Icons.card_membership, 'Greetings', () {}),
+              buildGridItem(Icons.card_membership, 'Greetings', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GreetingOfferScreen(),
+                  ),
+                );
+              }),
               buildGridItem(
                   Icons.business_center_outlined, 'Invoice Templates', () {}),
               buildGridItem(
@@ -570,19 +691,294 @@ class _MenuScreenState extends State<MenuScreen> {
             ]),
             const SizedBox(height: 10),
             buildSection('Others', [
+              buildGridItem(Icons.account_balance_outlined, 'Vyapar Premium',
+                  () => Get.to(() => VyaparPremiumScreen())),
               buildGridItem(
-                  Icons.account_balance_outlined, 'Vyapar Premium', () {}),
-              buildGridItem(Icons.account_balance_wallet_outlined,
-                  'Get Desktop Billing Software', () {}),
-              buildGridItem(
-                  Icons.view_comfortable_rounded, 'Other Products', () {}),
-              buildGridItem(Icons.phone_enabled, 'Greeting & Offers', () {}),
-              buildGridItem(Icons.settings_outlined, 'Settings', () {}),
+                  Icons.account_balance_wallet_outlined,
+                  'Get Desktop Billing Software',
+                  () => _getDeskBillingBottomSheet()),
+              buildGridItem(Icons.view_comfortable_rounded, 'Other Products',
+                  () => Get.to(() => const OtherProductScreen())),
+              buildGridItem(Icons.phone_enabled, 'Greeting & Offers',
+                  () => Get.to(() => const GreetingOfferScreen())),
+              buildGridItem(Icons.settings_outlined, 'Settings',
+                  () => Get.to(() => const SettingScreen())),
+              buildGridItem(Icons.wallet_giftcard_rounded, 'Refer & Earn',
+                  () => Get.to(() => ReferEarnScreen())),
+              buildGridItem(Icons.headset_mic_outlined, 'Help & Support', () {
+                _showHelpSupportPopup(context);
+              }),
+              buildGridItem(Icons.star_border_outlined, 'Rate This App',
+                  () => _rateThisAppDialog())
             ]),
           ],
         ),
       ),
     );
+  }
+
+  void _rateThisAppDialog() {
+    Get.dialog(
+        barrierDismissible: true,
+        Material(
+          color: Colors.transparent,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Container(
+                    width: double.infinity,
+                    // height: 200.h,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4.r)),
+
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0.r),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                                onTap: () => Get.back(),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20.sp,
+                                  color: Colors.grey,
+                                )),
+                          ),
+                          SizedBox(
+                            height: 80.h,
+                          ),
+                          Text(
+                            "Do you like Vyapar app?",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(
+                            height: 14.h,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 12.w, right: 12.w, bottom: 12.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  size: 25.sp,
+                                  color: Colors.grey.shade400,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  size: 25.sp,
+                                  color: Colors.grey.shade400,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  size: 25.sp,
+                                  color: Colors.grey.shade400,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  size: 25.sp,
+                                  color: Colors.grey.shade400,
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  size: 25.sp,
+                                  color: Colors.grey.shade400,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+
+  void _getDeskBillingBottomSheet() {
+    Get.bottomSheet(Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(13.r),
+                  topRight: Radius.circular(13.r)),
+              color: Colors.white),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Try Desktoop App for Free",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    InkWell(
+                      onTap: () => Get.back(),
+                      child: Icon(
+                        Icons.close,
+                        size: 20.sp,
+                        color: Colors.black54,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                height: 1.w,
+                color: Colorconst.cSecondaryGrey,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Get the download link on your Email ID",
+                      style: pdfOptionStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          fontsize: 10.sp),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
+                child: CustomTextFormField(
+                  hintText: "Enter email id",
+                  labelText: "Email ID",
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.r),
+                            color: Colorconst.cGrey),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          child: Text("Get link on Email",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: Colors.black12,
+                      height: 1.w,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Text("OR",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: Colors.black12,
+                      height: 1.w,
+                    ),
+                  ),
+                ],
+              ),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Visit",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 3.w,
+                    ),
+                    Text(
+                      "vyaparapp.in",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 3.w,
+                    ),
+                    Text(
+                      "and download the app",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              )
+
+              // Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+            ],
+          ),
+        ),
+      ],
+    ));
+  }
+
+  TextStyle pdfOptionStyle(
+      {Color? color, double? fontsize, FontWeight? fontWeight}) {
+    return TextStyle(
+        color: color ?? Colors.black54,
+        fontSize: fontsize ?? 15.sp,
+        fontWeight: fontWeight ?? FontWeight.w600);
   }
 }
 
