@@ -1,9 +1,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/sale_list.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/view/apply_loan_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restore/auto_backup_screen/view/auto_backup_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
@@ -21,7 +22,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purch
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/view/all_transaction_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
@@ -35,6 +36,12 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/messa
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/common/widget/custom_text_field.dart';
+import '../sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
+import '../sub_screens/others/sub_others/other_products/view/other_product.dart';
+import '../sub_screens/others/sub_others/setting/view/view.dart';
+import '../sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -602,19 +609,191 @@ class _MenuScreenState extends State<MenuScreen> {
             const SizedBox(height: 10),
             buildSection('Others', [
               buildGridItem(
-                  Icons.account_balance_outlined, 'Vyapar Premium', () {}),
+                  Icons.account_balance_outlined, 'Vyapar Premium', () => Get.to(()=>const VyaparPremiumScreen())),
               buildGridItem(Icons.account_balance_wallet_outlined,
-                  'Get Desktop Billing Software', () {}),
+                  'Get Desktop Billing Software', () => _getDeskBillingBottomSheet()),
               buildGridItem(
-                  Icons.view_comfortable_rounded, 'Other Products', () {}),
-              buildGridItem(Icons.phone_enabled, 'Greeting & Offers', () {}),
-              buildGridItem(Icons.settings_outlined, 'Settings', () {}),
+                  Icons.view_comfortable_rounded, 'Other Products', () => Get.to(()=>const OtherProductScreen())),
+              buildGridItem(Icons.phone_enabled, 'Greeting & Offers', () => Get.to(()=>const GreetingOfferScreen())),
+              buildGridItem(Icons.settings_outlined, 'Settings', () => Get.to(()=>const SettingScreen())),
             ]),
           ],
         ),
       ),
     );
   }
+void _getDeskBillingBottomSheet() {
+    Get.bottomSheet(Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+         
+          width: double.infinity,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(13.r), topRight: Radius.circular(13.r)),
+              color: Colors.white),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Try Desktoop App for Free",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    InkWell(
+                      onTap: () => Get.back(),
+                      child: Icon(
+                        Icons.close,
+                        size: 20.sp,
+                        color: Colors.black54,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                height: 1.w,
+                color: Colorconst.cSecondaryGrey,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Get the download link on your Email ID",
+                      style: pdfOptionStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          fontsize: 10.sp),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
+                child: CustomTextFormField(
+                  hintText: "Enter email id",
+                  labelText: "Email ID",
+                ),
+              ),
+        
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.r),
+                            color: Colorconst.cGrey),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          child: Text("Get link on Email",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+        
+              Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: Colors.black12,
+                      height: 1.w,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Text("OR",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: Colors.black12,
+                      height: 1.w,
+                    ),
+                  ),
+                ],
+              ),
+        
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Visit",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 3.w,
+                    ),
+                    Text(
+                      "vyaparapp.in",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 3.w,
+                    ),
+                    Text(
+                      "and download the app",
+                      style: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              )
+        
+              // Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+            ],
+          ),
+        ),
+      ],
+    ));
+  }
+
+  TextStyle pdfOptionStyle(
+    {Color? color, double? fontsize, FontWeight? fontWeight}) {
+  return TextStyle(
+      color: color ?? Colors.black54,
+      fontSize: fontsize ?? 15.sp,
+      fontWeight: fontWeight ?? FontWeight.w600);
+}
+
 }
 
 Widget buildSummaryCard() {

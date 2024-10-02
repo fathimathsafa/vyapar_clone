@@ -4,12 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
 import '../../../../../../../core/constatnts/images.dart';
-
-
 
 class SaleSummaryScreen extends StatelessWidget {
   SaleSummaryScreen({super.key});
@@ -20,16 +17,12 @@ class SaleSummaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      
     return Scaffold(
       backgroundColor: Colorconst.cSecondaryBlue,
       appBar: AppBar(
-        title:  Text(
+        title: Text(
           "Sale Summary by HSN",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16.sp
-          ),
+          style: TextStyle(color: Colors.black, fontSize: 16.sp),
         ),
         backgroundColor: Colors.white,
         actions: [
@@ -75,62 +68,70 @@ class SaleSummaryScreen extends StatelessWidget {
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w400),
                       ),
-                      SizedBox(width: 40.w,),
+                      SizedBox(
+                        width: 40.w,
+                      ),
                       Transform.rotate(
-                            angle: -1.55,
-                            child: Icon(
-                              Icons.arrow_back_ios_new_outlined,
-                              size: 10.sp,
-                              color: Colorconst.cBlue,
-                            )),
-                            SizedBox(width: 6.w,),
-                            Container(height: 20.h,width: 1.w,color: Colorconst.cSecondaryGrey,),
-                            SizedBox(width: 6.w,),
+                          angle: -1.55,
+                          child: Icon(
+                            Icons.arrow_back_ios_new_outlined,
+                            size: 10.sp,
+                            color: Colorconst.cBlue,
+                          )),
+                      SizedBox(
+                        width: 6.w,
+                      ),
+                      Container(
+                        height: 20.h,
+                        width: 1.w,
+                        color: Colorconst.cSecondaryGrey,
+                      ),
+                      SizedBox(
+                        width: 6.w,
+                      ),
                       Icon(
                         Icons.calendar_month_outlined,
                         size: 16.sp,
                         color: Colorconst.cBlue,
                       ),
-                     
-                     
                       SizedBox(
                         width: 5.w,
                       ),
-                      Expanded(child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                             Text(
-                        "01/09/2024",
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w400),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "01/09/2024",
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            Text(
+                              "To",
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "01/09/2024",
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
+                            )
+                          ],
+                        ),
                       ),
-                             Text(
-                        "To",
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600),
-                      ),
-                             Text(
-                        "01/09/2024",
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w400),
-                      )
-
-                        
-                      ],))
-                      
                     ],
                   ),
                 ),
                 SizedBox(
                   height: 10.h,
                 ),
-                 Divider(
+                Divider(
                   height: 1.w,
                   color: Colorconst.cSecondaryGrey,
                 ),
@@ -142,8 +143,6 @@ class SaleSummaryScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                     
-                   
                       Text(
                         "Filters Applied: ",
                         style: TextStyle(
@@ -151,32 +150,38 @@ class SaleSummaryScreen extends StatelessWidget {
                             fontSize: 11.sp,
                             fontWeight: FontWeight.w400),
                       ),
-                      Container(decoration: BoxDecoration(
-                        border: Border.all(width: 1.w,color: Colorconst.cGrey),
-                        borderRadius: BorderRadius.circular(20.r)),
+                      Container(
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(width: 1.w, color: Colorconst.cGrey),
+                            borderRadius: BorderRadius.circular(20.r)),
                         child: Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 2.h),
-                          child: Row(children: [
-                            Icon(FontAwesomeIcons.filter,size: 8.sp,color: Colors.blue,),
-                            SizedBox(width: 6.w,),
-                            Text(
-                          "Filters ",
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.w500),
-                                                ),
-                          ],),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.w, vertical: 2.h),
+                          child: Row(
+                            children: [
+                              Icon(
+                                FontAwesomeIcons.filter,
+                                size: 8.sp,
+                                color: Colors.blue,
+                              ),
+                              SizedBox(
+                                width: 6.w,
+                              ),
+                              Text(
+                                "Filters ",
+                                style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
                         ),
-                        ),
-
-                        
-                     
-                      
+                      ),
                     ],
                   ),
                 ),
-
 
                 SizedBox(
                   height: 10.h,
@@ -193,12 +198,14 @@ class SaleSummaryScreen extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                    decoration:   BoxDecoration(
-                      color: Colorconst.cSecondaryGrey,
-                      border: Border.all(width: 1.w,color: Colorconst.cSecondaryGrey),
-                      borderRadius: BorderRadius.circular(20.r)),
+                      decoration: BoxDecoration(
+                          color: Colorconst.cSecondaryGrey,
+                          border: Border.all(
+                              width: 1.w, color: Colorconst.cSecondaryGrey),
+                          borderRadius: BorderRadius.circular(20.r)),
                       child: Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 3.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 3.h),
                         child: Text(
                           "Firm - All firms",
                           style: TextStyle(
@@ -218,10 +225,6 @@ class SaleSummaryScreen extends StatelessWidget {
                   height: 1.w,
                   color: Colorconst.cSecondaryGrey,
                 ),
-               
-          
-                 
-               
 
                 // saleWidget()
               ],
@@ -259,17 +262,14 @@ class SaleSummaryScreen extends StatelessWidget {
                   SizedBox(
                     height: 20.h,
                   ),
-                 
                 ],
               ),
             ),
           )
-
         ],
       ),
     );
   }
-
 
   void _pdfBottomSheet() {
     Get.bottomSheet(Container(
