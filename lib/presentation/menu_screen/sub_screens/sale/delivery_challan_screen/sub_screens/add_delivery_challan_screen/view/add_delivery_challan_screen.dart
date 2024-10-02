@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
@@ -7,11 +9,56 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_item_delivery_screen/view/add_item_delivery_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/widget/challan_date_widget.dart';
 
-class AddDeliveryChallanScreen extends StatelessWidget {
+class AddDeliveryChallanScreen extends StatefulWidget {
+  @override
+  State<AddDeliveryChallanScreen> createState() =>
+      _AddDeliveryChallanScreenState();
+}
+
+class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
+
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
+
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
+  // Initialize TextEditingController
+  late TextEditingController _dateController;
+  DateTime selectedDate = DateTime.now(); // Initialize with the current date
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the date controller with the current date formatted
+    _dateController = TextEditingController(
+      text: DateFormat('dd/MM/yyyy').format(selectedDate), // Set initial date
+    );
+  }
+
+  @override
+  void dispose() {
+    _dateController.dispose(); // Dispose of the controller to free resources
+    super.dispose();
+  }
+
+  // Function to show the date picker
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000), // Date range starting from year 2000
+      lastDate: DateTime(2101), // Date range up to year 2101
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        // Update the TextField with the new selected date
+        _dateController.text = DateFormat('dd/MM/yyyy')
+            .format(selectedDate); // Format the selected date
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,47 +67,84 @@ class AddDeliveryChallanScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colorconst.cSecondaryGrey,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-        title: Text("Delivery Challan"),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back)),
+        title: Text(
+          "Delivery Challan",
+          style: TextStyle(color: Colorconst.cBlack),
+        ),
         actions: [
-          SizedBox(width: screenWidth * 0.02),
           IconButton(onPressed: () {}, icon: Icon(Icons.settings_outlined)),
-          SizedBox(width: screenWidth * 0.02),
         ],
       ),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(bottom: screenHeight * .5),
+              padding: EdgeInsets.only(bottom: 500.h),
               child: Column(
                 children: [
                   Container(
                     child: Column(
                       children: [
-                        DateInvoiceWidget(invoiceNumber: "10120"),
-                        SizedBox(height: screenHeight * 0.01),
+                        DateChallanWidget(invoiceNumber: "10120"),
+                        SizedBox(height: 10.h),
                         Container(
-                          height: screenHeight * 0.3,
+                          height: 230.h,
                           color: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.03),
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: Column(
                             children: [
-                              SizedBox(height: screenHeight * 0.01),
+                              SizedBox(height: 20.h),
                               CustomTextFormField(
                                 labelText: "Customer *",
                                 hintText: "Enter Customer",
                               ),
-                              SizedBox(height: screenHeight * 0.03),
-                              CustomTextFormField(
-                                labelText: "Due Date",
-                                hintText: "24/09/2024",
+                              SizedBox(height: 25.h),
+                              TextField(
+                                controller: _dateController,
+                                decoration: InputDecoration(
+                                  helperStyle:
+                                      TextStyle(color: Colorconst.cBlack),
+                                  labelStyle:
+                                      TextStyle(color: Colorconst.cBlack),
+                                  labelText: 'Due Date',
+                                  suffixIcon: Icon(Icons.calendar_today),
+                                  border: OutlineInputBorder(
+                                    // Add a border
+                                    borderRadius: BorderRadius.circular(
+                                        5.0.r), // Optional: round the corners
+                                    borderSide: BorderSide(
+                                        color: Colors
+                                            .grey), // Set the border color
+                                  ),
+                                  // You can also set the focused and enabled borders if you want
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0.r),
+                                    borderSide: BorderSide(
+                                        color: Colors
+                                            .blue), // Change color when focused
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0.r),
+                                    borderSide: BorderSide(
+                                        color: Colors
+                                            .grey), // Change color when enabled
+                                  ),
+                                ),
+
+                                readOnly: true, // Make the TextField read-only
+                                onTap: () => _selectDate(
+                                    context), // Show the date picker when clicked
                               ),
-                              SizedBox(height: screenHeight * 0.03),
+                              SizedBox(height: 20.h),
                               AddItemButton(
                                 onTap: () {
                                   Navigator.push(
@@ -76,11 +160,10 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.005),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.04,
-                      vertical: screenHeight * 0.02,
+                      horizontal: 20.h,
+                      vertical: 10.h,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,19 +171,19 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                         Text(
                           "Total Amount",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colorconst.cBlack,
                             fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                            fontSize: 15.sp,
                           ),
                         ),
                         SizedBox(
-                          width: screenWidth * 0.25,
+                          width: 100.w,
                           child: Stack(
                             children: [
                               Positioned(
                                 left: 0,
                                 right: 0,
-                                bottom: screenHeight * 0.001,
+                                bottom: 10.h,
                                 child: CustomPaint(
                                   painter: DottedLinePainter(),
                                 ),
@@ -113,7 +196,7 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                                       TextStyle(color: Colorconst.cBlack),
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.only(
-                                    left: screenWidth * 0.025,
+                                    left: 10.w,
                                   ),
                                 ),
                                 onChanged: (value) {
@@ -124,7 +207,8 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                                     receivedAmountNotifier.value = parsedValue;
                                   }
                                 },
-                                style: TextStyle(fontSize: screenWidth * 0.04),
+                                style: TextStyle(
+                                    fontSize: 15.sp, color: Colorconst.cBlack),
                               ),
                             ],
                           ),
@@ -138,10 +222,12 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                       return Column(
                         children: [
                           if (totalAmount > 0) ...[
-                            SizedBox(height: screenHeight * .01),
+                            SizedBox(
+                              height: 10.h,
+                            ),
                             Container(
-                              padding: EdgeInsets.all(10),
-                              height: screenHeight * .25,
+                              padding: EdgeInsets.all(10.w),
+                              height: 50.h,
                               color: Colors.white,
                               child: Column(
                                 children: [
@@ -153,22 +239,27 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                                             TextStyle(color: Colorconst.cGrey),
                                       ),
                                       SizedBox(
-                                        width: screenWidth * .4,
+                                        width: 130.w,
                                       ),
-                                      Text("Select State"),
+                                      Text(
+                                        "Select State",
+                                        style: TextStyle(
+                                            color: Colorconst.cBlack,
+                                            fontSize: 15.sp),
+                                      ),
                                       Icon(Icons.arrow_drop_down)
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            // SizedBox(height: screenHeight * .01),
+                            SizedBox(height: 10.h),
                             Row(
                               children: [
                                 Container(
-                                  padding: EdgeInsets.all(10),
-                                  height: screenHeight * .18,
-                                  width: screenWidth * .7,
+                                  padding: EdgeInsets.all(10.w),
+                                  height: 100.h,
+                                  width: 250.w,
                                   color: Colors.white,
                                   child: Center(
                                     child: TextFormField(
@@ -182,29 +273,30 @@ class AddDeliveryChallanScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.all(10),
-                                  height: screenHeight * .18,
-                                  width: screenWidth * .29,
+                                  padding: EdgeInsets.all(10.w),
+                                  height: 100.h,
+                                  width: 110.w,
                                   color: Colors.white,
                                   child: Container(
-                                    width: 60,
-                                    height: 10,
+                                    width: 60.w,
+                                    height: 10.h,
                                     decoration: BoxDecoration(
                                       color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderRadius:
+                                          BorderRadius.circular(8.0.r),
                                       border: Border.all(color: Colors.grey),
                                     ),
                                     child: Center(
                                       child: Icon(
                                         Icons.add_a_photo,
-                                        color: Colors.blue,
-                                        size: 30,
+                                        color: Colorconst.cBlue,
+                                        size: 30.sp,
                                       ),
                                     ),
                                   ),
                                 ),
                               ],
-                            ),
+                            )
                           ],
                         ],
                       );
@@ -215,30 +307,7 @@ class AddDeliveryChallanScreen extends StatelessWidget {
             ),
           ),
           // Positioned text above the bottom button
-          Positioned(
-            bottom: 39,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colorconst.cLightPink,
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Your Current Plan May not support some features",
-                    style: interFontGrey(context, fontsize: 12),
-                    // textAlign: TextAlign.center,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    size: screenWidth * 0.020,
-                    color: Colorconst.cGrey,
-                  )
-                ],
-              ),
-            ),
-          ),
+
           // Bottom button fixed at the bottom
           Positioned(
             bottom: 0,

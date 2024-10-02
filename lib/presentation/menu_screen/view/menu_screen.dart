@@ -9,25 +9,19 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restor
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/view/cash_in_hand_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cheque_screen/view/cheque_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/view/expense_detail_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/loan_account_screen.dart/view/loan_account_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/manage_companies/view/manage_companies.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/view/dash_board_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_item_screen/view/manage_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_orders/view/manage_orders.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/store_report_screen/view/store_report_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/view/all_transaction_payment_out_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_list_screen/view/purchase_list_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/view/all_transaction_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/sub_screens/credit_note/view/credit_note.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sync_and_shear_screen/view/syn_and_shear_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/close_financial_year_screen/view/close_financial_year_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_item_screen/view/import_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_party_screen/view/import_party_screen.dart';
@@ -221,7 +215,7 @@ class _MenuScreenState extends State<MenuScreen> {
         'label': 'Payment-In',
         'onTap': () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AllTransactionScreen()));
+              MaterialPageRoute(builder: (context) => PaymentInScreen()));
         }
       },
       {
@@ -239,7 +233,7 @@ class _MenuScreenState extends State<MenuScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => DeliveryChallanDetails()));
+                  builder: (context) => DeliveryChallanScreen()));
         }
       },
       {
@@ -273,21 +267,13 @@ class _MenuScreenState extends State<MenuScreen> {
     _showCustomPopup(context, [
       {
         'icon': Icons.shopping_cart,
-        'label': 'Purchase Bills',
-        'onTap': () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PurchaseListScreen()));
-        }
+        'label': 'Purchase',
+        'onTap': () {/*  onTap action */}
       },
       {
         'icon': Icons.payment_outlined,
         'label': 'Payment-Out',
-        'onTap': () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PaymentAllTransactionScreen()));
-        }
+        'onTap': () {/*  onTap action */}
       },
       {
         'icon': Icons.assignment_return,
@@ -319,14 +305,7 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.production_quantity_limits_sharp,
         'label': 'Manage Item',
-        'onTap': () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ManageItemScreen(),
-            ),
-          );
-        }
+        'onTap': () {}
       },
       {
         'icon': Icons.sell,
@@ -502,7 +481,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DeliveryChallanDetails()));
+                        builder: (context) => DeliveryChallanScreen()));
               }),
               buildGridItem(Icons.auto_graph_sharp, 'Credit Note', () {
                 Navigator.push(
@@ -522,12 +501,7 @@ class _MenuScreenState extends State<MenuScreen> {
               buildGridItem(Icons.shopping_cart_outlined, 'Purchase', () {
                 _showPurchasePopup(context);
               }),
-              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ExpenseDetailScreen()));
-              }),
+              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {}),
               buildGridItem(Icons.home_outlined, 'My Online Store', () {
                 _showOnlineShopPopup(context);
               }),
@@ -583,10 +557,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ]),
             const SizedBox(height: 10),
             buildSection('Important Utilities', [
-              buildGridItem(Icons.sync, 'Sync & Share', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SyncShareScreen()));
-              }),
+              buildGridItem(Icons.sync, 'Sync & Share', () {}),
               buildGridItem(Icons.manage_history_sharp, 'Manage Companies', () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ManageCompanies()));

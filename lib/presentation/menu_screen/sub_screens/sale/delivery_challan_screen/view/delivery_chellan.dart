@@ -1,112 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_delivery_challan_screen/view/add_delivery_challan_screen.dart';
 
-class DeliveryChallanDetails extends StatelessWidget {
+
+
+class DeliveryChallanScreen extends StatefulWidget {
+  @override
+  _DeliveryChallanScreenState createState() => _DeliveryChallanScreenState();
+}
+
+class _DeliveryChallanScreenState extends State<DeliveryChallanScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        backgroundColor: Colors.lightBlue[50],
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text(
+            "Delivery Challan Details",
+            style: TextStyle(color: Colorconst.cBlack),
+          ),
+          bottom: TabBar(
+            controller: _tabController,
+            labelColor: Colorconst.cRed,
+            unselectedLabelColor: Colors.grey,
+            tabs: [
+              Tab(text: 'All'),
+              Tab(text: 'Open Challan'),
+              Tab(text: 'Closed Challan'),
+            ],
+          ),
         ),
-        title: Text('Delivery Challan Details Details'),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
-        iconTheme: IconThemeData(color: Colors.black),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Tabs for 'All', 'Open Estimate', 'Closed Estimate' at the top
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ChoiceChip(
-                  label: Text(
-                    'All',
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  selected: true,
-                  backgroundColor: Colors.white,
-                  selectedColor: Colors.red.shade100,
-                  onSelected: (_) {},
-                  shape: StadiumBorder(
-                    side: BorderSide(color: Colors.red),
-                  ),
-                ),
-                ChoiceChip(
-                  label: Text(
-                    'Open Challan',
-                    style: TextStyle(color: Colors.black, fontSize: 12),
-                  ),
-                  selected: false,
-                  backgroundColor: Colors.grey.shade200,
-                  onSelected: (_) {},
-                  shape: StadiumBorder(
-                    side: BorderSide(color: Colors.grey.shade400),
-                  ),
-                ),
-                ChoiceChip(
-                  label: Text(
-                    'Closed Challan',
-                    style: TextStyle(color: Colors.black, fontSize: 12),
-                  ),
-                  selected: false,
-                  backgroundColor: Colors.grey.shade200,
-                  onSelected: (_) {},
-                  shape: StadiumBorder(
-                    side: BorderSide(color: Colors.grey.shade400),
-                  ),
-                ),
-              ],
-            ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            _buildEmptyChallanView(),
+            _buildEmptyChallanView(),
+            _buildEmptyChallanView(),
+          ],
+        ),
+        floatingActionButton:
+            _buildFloatingActionButton(context), // Added FloatingActionButton
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
+  }
+
+  Widget _buildEmptyChallanView() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset("assets/animation/document.json",
+            height: 150.h, width: 150.w),
+        SizedBox(height: 20.h), // Use .h for height
+        Text(
+          "Hey! You have no delivery challans yet.",
+          style: TextStyle(
+              fontSize: 16.sp,
+              color: Colorconst.cGrey), // Use .sp for font size
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 5.h),
+        Text(
+          "Please add your delivery challans here",
+          style: TextStyle(fontSize: 16.sp, color: Colorconst.cGrey),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 40.h),
+      ],
+    );
+  }
+
+  Widget _buildFloatingActionButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 20.h),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AddDeliveryChallanScreen()));
+          },
+          backgroundColor: Colorconst.cRed,
+          icon: Icon(Icons.add, color: Colors.white),
+          label: Text(
+            'Add Sale Return',
+            style: TextStyle(fontSize: 14.sp, color: Colorconst.cwhite),
           ),
-          Spacer(),
-          // Lottie animation
-          Container(
-            width: 150,
-            height: 150,
-            child: Lottie.asset(
-                'assets/animation/Animation - 1727163424135.json'), // Replace with your asset
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Hey! You have no delivert challan yet.Please add\n your delivery challans here',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black54, fontSize: 15),
-          ),
-          Spacer(),
-        ],
+          shape: StadiumBorder(),
+        ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddDeliveryChallanScreen(),
-            ),
-          );
-        },
-        label: Text('Add Delivery Challan'),
-        icon: Icon(Icons.add),
-        backgroundColor: Colors.red,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      backgroundColor: Colors.white, // Changed background color to white
     );
   }
 }

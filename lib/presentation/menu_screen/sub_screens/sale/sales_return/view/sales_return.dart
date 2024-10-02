@@ -12,36 +12,8 @@ class SaleReturnScreen extends StatefulWidget {
 class _SaleReturnScreenState extends State<SaleReturnScreen> {
   String dropdownValue = 'This Month';
   DateTimeRange? selectedDateRange;
+  bool _isDataAvailable = false; // Simulate data availability
 
-  // void _showDateRangePicker() {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return Container(
-  //         padding: EdgeInsets.all(16.w), // Adjust using ScreenUtil
-  //         child: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: <Widget>[
-  //             ListTile(
-  //               title: Text('Today',
-  //                   style:
-  //                       TextStyle(color: Colorconst.cBlack, fontSize: 16.sp)),
-  //               onTap: () {
-  //                 setState(() {
-  //                   selectedRange = 'Today';
-  //                   startDate = DateTime.now();
-  //                   endDate = DateTime.now();
-  //                 });
-  //                 Navigator.pop(context);
-  //               },
-  //             ),
-  //             // Other date range options...
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
   Future<void> _selectDateRange(BuildContext context) async {
     final DateTime now = DateTime.now();
     final DateTimeRange? picked = await showDateRangePicker(
@@ -68,8 +40,9 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
     String endDate = selectedDateRange != null
         ? DateFormat('dd/MM/yyyy').format(selectedDateRange!.end)
         : '30/09/2024';
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
         title: Text('Sale Return',
             style: TextStyle(
@@ -77,49 +50,58 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
             )),
         backgroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(8.0.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IntrinsicHeight(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.all(6.w),
+            color: Colorconst.cwhite,
+            child: IntrinsicHeight(
               child: Row(
                 children: [
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(Icons.arrow_drop_down,
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: Icon(
+                        Icons.arrow_drop_down,
                         size: 19.sp,
-                        color: Colors.black), // Dropdown icon color
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: <String>[
-                      "Today",
-                      'This Month',
-                      "This Quarter",
-                      'Custom',
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value,
+                        color: Colors.black,
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items: <String>[
+                        "Today",
+                        'This Month',
+                        "This Quarter",
+                        'Custom'
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
                             style: TextStyle(
-                                fontSize: 14.sp,
-                                color: Colorconst
-                                    .cBlack)), // Dropdown items text color
-                      );
-                    }).toList(),
+                              fontSize: 14.sp,
+                              color: Colorconst.cBlack,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: Colorconst.cBlack,
+                      ),
+                      dropdownColor: Colors.white,
+                      isDense: true,
+                    ),
                   ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  const VerticalDivider(
-                    color: Colorconst.cGrey,
-                  ),
+                  SizedBox(width: 10.w),
+                  const VerticalDivider(color: Colorconst.cGrey),
                   IconButton(
                     icon: const Icon(Icons.calendar_today,
-                        color: Colorconst.cBlue), // Calendar icon color
+                        color: Colorconst.cBlue),
                     onPressed: () {
                       _selectDateRange(context);
                     },
@@ -131,181 +113,231 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
                 ],
               ),
             ),
-            const Divider(),
-            // Divider(
-            //   color: Colors.black,
-            //   indent: 15.w,
-            //   endIndent: 15.w,
-            // ),
-            // Padding(
-            //   padding: EdgeInsets.all(16.w),
-            //   child: GestureDetector(
-            //     onTap: _showDateRangePicker,
-            //     child: IntrinsicHeight(
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [
-            //           Text(
-            //             selectedRange,
-            //             style: TextStyle(
-            //                 fontSize: 16.sp, fontWeight: FontWeight.bold),
-            //           ),
-            //           Icon(Icons.keyboard_arrow_down_outlined,
-            //               color: Colors.blue, size: 24.sp),
-            //           VerticalDivider(color: Colors.black),
-            //           Row(
-            //             children: [
-            //               Icon(Icons.calendar_today,
-            //                   color: Colors.blue, size: 18.sp),
-            //               SizedBox(width: 3.w),
-            //               Text(DateFormat('dd/MM/yyyy').format(startDate),
-            //                   style: TextStyle(
-            //                       color: Colorconst.cBlack, fontSize: 14.sp)),
-            //               Text(" TO ", style: TextStyle(fontSize: 14.sp)),
-            //               Text(DateFormat('dd/MM/yyyy').format(endDate),
-            //                   style: TextStyle(
-            //                       color: Colorconst.cBlack, fontSize: 14.sp)),
-            //             ],
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            //Divider(color: Colors.black, indent: 15.w, endIndent: 15.w),
-            SizedBox(height: 10.h),
-            // Placeholder for No Data Available
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildSummaryCard('No of Txns', '1'),
-                _buildSummaryCard('Total Sale Return', '₹ 10000.00'),
-                _buildSummaryCard('Balance Due', '₹ 0.00'),
-              ],
-            ),
-            SizedBox(height: 16.h),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return Card(
-                    color: Colors.white,
-                    margin: EdgeInsets.symmetric(vertical: 8.h),
-                    child: Padding(
-                      padding: EdgeInsets.all(16.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Gokul',
-                                  style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colorconst.cBlack)),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text('SALE 1',
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 14.sp)),
-                                  Text('12 SEP, 24',
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 14.sp)),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 20.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Amount',
-                                      style: TextStyle(
-                                          color: Colorconst.cBlack,
-                                          fontSize: 14.sp)),
-                                  SizedBox(height: 4.h),
-                                  Text('₹ 10000.00',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.sp,
-                                          color: Colorconst.cBlack)),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Balance',
-                                      style: TextStyle(
-                                          color: Colorconst.cBlack,
-                                          fontSize: 14.sp)),
-                                  SizedBox(height: 4.h),
-                                  Text('₹ 0.00',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.sp,
-                                          color: Colors.green)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: Stack(
-        children: [
-          Positioned(
-            bottom: 16.h,
-            left: MediaQuery.of(context).size.width / 2 - 50.w,
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CreditNoteScreen()));
-              },
-              icon: Icon(Icons.add, size: 24.sp),
-              label: Text('Add Sale',
-                  style: TextStyle(color: Colorconst.cBlack, fontSize: 16.sp)),
-              backgroundColor: Colors.red,
-            ),
           ),
+          SizedBox(height: 10.h),
+
+          // Main content
+          _isDataAvailable
+              ? Expanded(
+                  child: Column(
+                    children: [
+                      // Sales Summary Section
+                      Padding(
+                        padding: EdgeInsets.only(left: 6.w, right: 6.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildSummaryCard('No of Txns', '1'),
+                            _buildSummaryCard('Total Sale Return', '- ₹ 50.00'),
+                            _buildSummaryCard('Balance Due', '₹ 50.00',
+                                isRed: true),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 5.h),
+
+                      // Transactions List Section
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 6.w, right: 6.w),
+                          child: ListView.builder(
+                            itemCount: 1,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                color: Colorconst.cwhite,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10.r), // Responsive corner radius
+                                ),
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 8.h), // Responsive margin
+                                child: Padding(
+                                  padding: EdgeInsets.all(
+                                      16.w), // Responsive padding
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Name',
+                                            style: TextStyle(
+                                                fontSize: 16
+                                                    .sp, // Responsive text size
+                                                fontWeight: FontWeight.bold,
+                                                color: Colorconst.cBlack),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                'CN 1',
+                                                style: TextStyle(
+                                                    color: Colorconst.cGrey,
+                                                    fontSize: 12.sp),
+                                              ),
+                                              Text(
+                                                '01 OCT, 24',
+                                                style: TextStyle(
+                                                    color: Colorconst.cGrey,
+                                                    fontSize: 12.sp),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                          height: 16.h), // Responsive spacing
+                                      Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Amount',
+                                                style: TextStyle(
+                                                  color: Colorconst.cGrey,
+                                                  fontSize: 14.sp,
+                                                ),
+                                              ),
+                                              Text(
+                                                '₹ 50.00',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colorconst.cGrey,
+                                                  fontSize: 14.sp,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 80.w,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Balance',
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 14.sp,
+                                                ),
+                                              ),
+                                              Text(
+                                                '₹ 50.00',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14.sp,
+                                                  color: Colorconst.cGrey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/download-removebg-preview.png',
+                        width: 100.w,
+                        height: 100.h,
+                      ),
+                      SizedBox(height: 20.h),
+                      Text(
+                        'No Data Available',
+                        style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colorconst.cBlack),
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        'No data is available for this report. Please try again after making relevant changes.',
+                        style:
+                            TextStyle(fontSize: 15.sp, color: Colorconst.cGrey),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
         ],
       ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 20.h),
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => CreditNoteScreen()));
+            },
+            backgroundColor: Colorconst.cRed,
+            icon: Icon(Icons.add, color: Colors.white),
+            label: Text(
+              'Add Sale Return',
+              style: TextStyle(fontSize: 14.sp, color: Colorconst.cwhite),
+            ),
+            shape: StadiumBorder(),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  Widget _buildSummaryCard(String title, String value, {Color? color}) {
-    return Expanded(
+  // Widget to build each summary card
+  Widget _buildSummaryCard(String title, String value, {bool isRed = false}) {
+    return Card(
+      color: Colorconst.cwhite,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.r), // Responsive border radius
+      ),
       child: Container(
-        padding: EdgeInsets.all(12.w),
-        margin: EdgeInsets.symmetric(horizontal: 4.w),
-        decoration: BoxDecoration(
-          color: color ?? Colors.blue[50],
-          borderRadius: BorderRadius.circular(8.r),
-        ),
+        width: 105.w, // Responsive width
+        height: 65.h, // Set a responsive height for the card
+        padding: EdgeInsets.symmetric(
+            vertical: 10.h, horizontal: 8.w), // Reduce padding
         child: Column(
+          mainAxisAlignment:
+              MainAxisAlignment.start, // Center the content vertically
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title,
-                style: TextStyle(fontSize: 11.sp, color: Colors.grey[600])),
-            SizedBox(height: 8.h),
-            Text(value,
-                style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: value == '₹ 0.00' ? Colors.green : Colors.black)),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 11.sp, // Adjusted responsive text size
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 4.h), // Adjust spacing
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 14.sp, // Adjusted responsive text size
+                fontWeight: FontWeight.bold,
+                color: isRed ? Colorconst.cRed : Colorconst.cBlack,
+              ),
+            ),
           ],
         ),
       ),
