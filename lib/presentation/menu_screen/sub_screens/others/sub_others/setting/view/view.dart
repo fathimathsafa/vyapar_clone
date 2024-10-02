@@ -9,8 +9,12 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 
 import '../sub_settings/genral/view/genral.dart';
 import '../sub_settings/invoice_print/view/invoice_print.dart';
+import '../sub_settings/item/view/item.dart';
+import '../sub_settings/party/view/party.dart';
+import '../sub_settings/reminder/view/reminders.dart';
 import '../sub_settings/taxes_gst/view/taxes_gst.dart';
 import '../sub_settings/transaction/view/transaction.dart';
+import '../sub_settings/transaction_sms/view/transaction_sms.dart';
 import '../sub_settings/user_management/view/user_management.dart';
 
 
@@ -78,15 +82,15 @@ class SettingScreen extends StatelessWidget {
           
               
           
-              _goldPlanWidget(icon: Icons.settings,title: "General",isNewEn: true,onTap: () => Get.to(()=>const GenralSettingScreen()),),
-              _goldPlanWidget(icon: Icons.currency_rupee_outlined,title: "Transaction",isNewEn: true,onTap: () => Get.to(()=>const TransactionSettingScreen()),),
-              _goldPlanWidget(icon: Icons.print_outlined,title: "Invoice Print",isNewEn: false, onTap: () => Get.to(()=>const InvoicePrintScreen()),),
-              _goldPlanWidget(icon: FontAwesomeIcons.filePowerpoint,title: "Taxes & GST",isNewEn: true, onTap: () => Get.to(()=>const TaxesGstScreen()),),
-              _goldPlanWidget(icon: FontAwesomeIcons.users,title: "User Management",isNewEn: false, onTap: () => Get.to(()=>const UserManagementScreen()),),
-              // _goldPlanWidget(icon: Icons.message_sharp,title: "Transaction SMS",isNewEn: false, onTap: () => Get.to(()=>const TransactionSmsScreen()),),
-              // _goldPlanWidget(icon: Icons.notifications_outlined,title: "Reminders",isNewEn: false,onTap: () => Get.to(()=>const RemidersScreen()),),
-              // _goldPlanWidget(icon: FontAwesomeIcons.users,title: "Party",isNewEn: false,onTap: () => Get.to(()=>const PartyScreen()),),
-              // _goldPlanWidget(icon: FontAwesomeIcons.listOl,title: "Item",isNewEn: false,onTap: () => Get.to(()=>const ItemScreen()),),
+              _settingTileWidget(icon: Icons.settings,title: "General",isNewEn: true,onTap: () => Get.to(()=>const GenralSettingScreen()),),
+              _settingTileWidget(icon: Icons.currency_rupee_outlined,title: "Transaction",isNewEn: true,onTap: () => Get.to(()=>const TransactionSettingScreen()),),
+              _settingTileWidget(icon: Icons.print_outlined,title: "Invoice Print",isNewEn: false, onTap: () => Get.to(()=>const InvoicePrintScreen()),),
+              _settingTileWidget(icon: FontAwesomeIcons.filePowerpoint,title: "Taxes & GST",isNewEn: true, onTap: () => Get.to(()=>const TaxesGstScreen()),),
+              _settingTileWidget(icon: FontAwesomeIcons.users,title: "User Management",isNewEn: false, onTap: () => Get.to(()=>const UserManagementScreen()),),
+              _settingTileWidget(icon: Icons.message_sharp,title: "Transaction SMS",isNewEn: false, onTap: () => Get.to(()=>const TransactionSmsScreen()),),
+              _settingTileWidget(icon: Icons.notifications_outlined,title: "Reminders",isNewEn: false,onTap: () => Get.to(()=>const RemidersScreen()),),
+              _settingTileWidget(icon: FontAwesomeIcons.users,title: "Party",isNewEn: false,onTap: () => Get.to(()=>const PartyScreen()),),
+              _settingTileWidget(icon: FontAwesomeIcons.listOl,title: "Item",isNewEn: false,onTap: () => Get.to(()=>const ItemScreen()),),
               
               
             ],
@@ -98,7 +102,7 @@ class SettingScreen extends StatelessWidget {
 
  
 
-  Widget _goldPlanWidget({IconData? icon,String? title,bool? isNewEn=false,Function()? onTap}) {
+  Widget _settingTileWidget({IconData? icon,String? title,bool? isNewEn=false,Function()? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
