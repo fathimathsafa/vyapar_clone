@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
-
+import 'package:lottie/lottie.dart';
+import 'package:lottie/lottie.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/sub_screens/loading_screen/view/loading_screen.dart';
 
 class CashInHand extends StatelessWidget {
@@ -8,6 +8,9 @@ class CashInHand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Example: Check if there are any transactions (you can replace this with actual data)
+    bool hasTransactions = false; // Change this to true if transactions exist
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cash In-Hand'),
@@ -50,39 +53,51 @@ class CashInHand extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text('Transaction Details',
-                    style: TextStyle(color: Colors.black)),
-                Text('Amount', style: TextStyle(color: Colors.black)),
-              ],
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text('Payment-in-Gokul', style: TextStyle(color: Colors.black)),
-                Text('1.00', style: TextStyle(color: Colors.green))
-              ],
-            ),
-            const Row(
-              children: [Text('24 Sept 2024')],
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text('Sale-Gokul', style: TextStyle(color: Colors.black)),
-                Text('10.00', style: TextStyle(color: Colors.green))
-              ],
-            ),
-            const Row(
-              children: [
-                Text('12 Sept 2024', style: TextStyle(color: Colors.grey))
-              ],
-            ),
-            const Divider(),
+            if (hasTransactions) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text('Transaction Details',
+                      style: TextStyle(color: Colors.black)),
+                  Text('Amount', style: TextStyle(color: Colors.black)),
+                ],
+              ),
+              const Divider(),
+              // Example transactions, replace with your actual data
+              TransactionItem(
+                  description: 'Payment-in-Gokul',
+                  amount: '1.00',
+                  date: '24 Sept 2024'),
+              const Divider(),
+              TransactionItem(
+                  description: 'Sale-Gokul',
+                  amount: '10.00',
+                  date: '12 Sept 2024'),
+              const Divider(),
+            ] else ...[
+              // No transactions UI
+              Expanded(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset(
+                        'assets/animation/cashinhand.json', // Replace with your image path
+                        width: 100,
+                        height: 100,
+                        // Adjust size as needed
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Hey! You have not added any cash transaction yet.\nAny transaction involving cash appears here.',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
             const Spacer(),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -132,6 +147,27 @@ class CashInHand extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  // Transaction Item Widget
+  Widget TransactionItem(
+      {required String description,
+      required String amount,
+      required String date}) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(description, style: const TextStyle(color: Colors.black)),
+            Text(amount, style: const TextStyle(color: Colors.green)),
+          ],
+        ),
+        Row(
+          children: [Text(date, style: const TextStyle(color: Colors.grey))],
+        ),
+      ],
     );
   }
 

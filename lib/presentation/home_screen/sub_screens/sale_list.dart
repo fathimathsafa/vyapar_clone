@@ -97,26 +97,35 @@ class SaleListScreen extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Imageconst().setImage(
-                                        imageName: "quick_link_1.png",
-                                        hieght: 45.h,
-                                        width: 60.w,
-                                        fit: BoxFit.cover),
-                                    Imageconst().setImage(
-                                        imageName: "quick_link_2.png",
-                                        hieght: 45.h,
-                                        width: 60.w,
-                                        fit: BoxFit.cover),
-                                    Imageconst().setImage(
-                                        imageName: "quick_link_3.png",
-                                        hieght: 45.h,
-                                        width: 60.w,
-                                        fit: BoxFit.cover),
-                                    Imageconst().setImage(
-                                        imageName: "quick_link_4.png",
-                                        hieght: 45.h,
-                                        width: 60.w,
-                                        fit: BoxFit.cover),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _showTransactionPopup(context);
+                                      },
+                                      child: _quickLinkItem("quick_link_1.png",
+                                          "Add Txn", context),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SaleListScreen(),
+                                          ),
+                                        );
+                                      },
+                                      child: _quickLinkItem("quick_link_2.png",
+                                          "Sale Report", context),
+                                    ),
+                                    _quickLinkItem("quick_link_3.png",
+                                        "Txn Settings", context),
+                                    GestureDetector(
+                                      onTap: () {
+                                        showShowMorePopup(context);
+                                      },
+                                      child: _quickLinkItem("quick_link_4.png",
+                                          "Show All", context),
+                                    ),
                                   ],
                                 )
                               ],
@@ -206,4 +215,157 @@ class SaleListScreen extends StatelessWidget {
           ],
         ));
   }
+
+  void showShowMorePopup(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                buildSectionHeader('Sale Transactions'),
+                buildIconGrid([
+                  iconWithLabel(Icons.comment_bank, 'Bank Account'),
+                  iconWithLabel(Icons.book, 'Day Book'),
+                  iconWithLabel(Icons.receipt_rounded, 'All Txns Report'),
+                  iconWithLabel(
+                      Icons.monetization_on_outlined, 'Profit & Loss'),
+                  iconWithLabel(Icons.document_scanner, 'Balance Sheet'),
+                  iconWithLabel(Icons.receipt_long, 'Billwise PnL'),
+                  iconWithLabel(Icons.print_outlined, 'Print Settings'),
+                  iconWithLabel(Icons.sms, 'Txn SMS Settings'),
+                ]),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showTransactionPopup(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                buildSectionHeader('Sale Transactions'),
+                buildIconGrid([
+                  iconWithLabel(Icons.payment, 'Payment-In'),
+                  iconWithLabel(Icons.assignment_return, 'Sale Return'),
+                  iconWithLabel(Icons.local_shipping, 'Delivery Challan'),
+                  iconWithLabel(Icons.receipt, 'Estimate/Quotation'),
+                  iconWithLabel(Icons.description, 'Proforma Invoice'),
+                  iconWithLabel(Icons.receipt_long, 'Sale Invoice'),
+                  iconWithLabel(Icons.add_shopping_cart, 'Sale Order'),
+                ]),
+                Divider(),
+                buildSectionHeader('Purchase Transactions'),
+                buildIconGrid([
+                  iconWithLabel(Icons.shopping_cart, 'Purchase'),
+                  iconWithLabel(Icons.payment_outlined, 'Payment-Out'),
+                  iconWithLabel(Icons.assignment_return, 'Purchase Return'),
+                  iconWithLabel(Icons.receipt, 'Purchase Order'),
+                ]),
+                Divider(),
+                buildSectionHeader('Other Transactions'),
+                buildIconGrid([
+                  iconWithLabel(Icons.attach_money, 'Expenses'),
+                  iconWithLabel(Icons.sync, 'P2P Transfer'),
+                ]),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildIconGrid(List<Widget> children) {
+    return GridView.count(
+      crossAxisCount: 3,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      crossAxisSpacing: 20,
+      mainAxisSpacing: 16,
+      children: children,
+    );
+  }
+
+  Widget iconWithLabel(IconData icon, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 30, color: Colors.blue),
+        SizedBox(height: 8),
+        Text(label, style: TextStyle(fontSize: 12)),
+      ],
+    );
+  }
+}
+
+Widget buildSectionHeader(String title) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Text(
+      title,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+      ),
+    ),
+  );
+}
+
+Widget _quickLinkItem(String imageName, String label, BuildContext context) {
+  return Column(
+    children: [
+      Imageconst().setImage(
+        imageName: imageName,
+        hieght: 45.h,
+        width: 60.w,
+        fit: BoxFit.cover,
+      ),
+      SizedBox(height: 5.h), // Add some space between the image and text
+      Text(
+        label,
+        style: interFontBlack(context), // Use your defined text style
+      ),
+    ],
+  );
 }
