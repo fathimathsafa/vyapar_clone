@@ -39,7 +39,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/common/widget/custom_text_field.dart';
 import '../sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
+import '../sub_screens/others/sub_others/help_support/sub_help_support/tutorial/view/tutorial.dart';
 import '../sub_screens/others/sub_others/other_products/view/other_product.dart';
+import '../sub_screens/others/sub_others/refer_earn/view/refer_earn.dart';
 import '../sub_screens/others/sub_others/setting/view/view.dart';
 import '../sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
 
@@ -454,19 +456,72 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.phone,
         'label': 'Customer Care',
-        'onTap': () {/*  onTap action */}
+        'onTap': () => _customerCareDialog()
       },
       {
         'icon': Icons.video_library,
         'label': 'Tutorials',
-        'onTap': () {/*  onTap action */}
+        'onTap': () => Get.to(() =>const TutorialScreen())
       },
       {
         'icon': Icons.support_agent,
         'label': 'Remote Support',
-        'onTap': () {/*  onTap action */}
+        'onTap': () {}
       },
     ]);
+  }
+
+  void _customerCareDialog() {
+    Get.dialog(
+      barrierDismissible: true,
+      Material(
+        
+      color: Colors.transparent,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 15.w),
+              child: Container(
+                width: double.infinity,
+                // height: 200.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4.r)),
+                    
+                child: Padding(
+                  padding:  EdgeInsets.all(8.0.r),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Icon(Icons.close,size: 20.sp,color: Colors.black,)),
+                    ),
+                      
+                    Text("Whatsapp",style: TextStyle(color: Colors.black,fontSize: 14.sp,fontWeight: FontWeight.w500),),
+                   
+                     SizedBox(height: 14.h,),
+                    Text("Email",style: TextStyle(color: Colors.black,fontSize: 14.sp,fontWeight: FontWeight.w500),),
+                   
+                     SizedBox(height: 14.h,),
+                    Text("Message",style: TextStyle(color: Colors.black,fontSize: 14.sp,fontWeight: FontWeight.w500),),
+                   
+                     SizedBox(height: 14.h,),
+                    Text("Call",style: TextStyle(color: Colors.black,fontSize: 14.sp,fontWeight: FontWeight.w500),),
+                   
+                     SizedBox(height: 14.h,),
+                  ],),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 
   @override
@@ -616,11 +671,85 @@ class _MenuScreenState extends State<MenuScreen> {
                   Icons.view_comfortable_rounded, 'Other Products', () => Get.to(()=>const OtherProductScreen())),
               buildGridItem(Icons.phone_enabled, 'Greeting & Offers', () => Get.to(()=>const GreetingOfferScreen())),
               buildGridItem(Icons.settings_outlined, 'Settings', () => Get.to(()=>const SettingScreen())),
+
+               buildGridItem(
+                          Icons.wallet_giftcard_rounded,
+                          'Refer & Earn',
+                          () => Get.to(() => ReferEarnScreen())),
+                      buildGridItem(
+                          Icons.headset_mic_outlined, 'Help & Support', () {
+                        _showHelpSupportPopup(context);
+                      }),
+                      buildGridItem(
+                          Icons.star_border_outlined, 'Rate This App', () => _rateThisAppDialog())
             ]),
           ],
         ),
       ),
     );
+  }
+
+
+  void _rateThisAppDialog() {
+    Get.dialog(
+      barrierDismissible: true,
+      Material(
+        
+      color: Colors.transparent,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 15.w),
+              child: Container(
+                width: double.infinity,
+                // height: 200.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4.r)),
+                    
+                child: Padding(
+                  padding:  EdgeInsets.all(8.0.r),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Icon(Icons.close,size: 20.sp,color: Colors.grey,)),
+                    ),
+
+                    SizedBox(height: 80.h,),
+                      
+                    Text("Do you like Vyapar app?",textAlign: TextAlign.center, style: TextStyle(color: Colors.black,fontSize: 14.sp,fontWeight: FontWeight.w400),),
+                   
+                   
+                   
+                     SizedBox(height: 14.h,),
+
+                     Padding(
+                       padding:  EdgeInsets.only(left: 12.w,right: 12.w,bottom: 12.h),
+                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          
+                        Icon(Icons.star,size: 25.sp,color: Colors.grey.shade400,),
+                        Icon(Icons.star,size: 25.sp,color: Colors.grey.shade400,),
+                        Icon(Icons.star,size: 25.sp,color: Colors.grey.shade400,),
+                        Icon(Icons.star,size: 25.sp,color: Colors.grey.shade400,),
+                        Icon(Icons.star,size: 25.sp,color: Colors.grey.shade400,),
+                       ],),
+                     )
+                  ],),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 void _getDeskBillingBottomSheet() {
     Get.bottomSheet(Column(
