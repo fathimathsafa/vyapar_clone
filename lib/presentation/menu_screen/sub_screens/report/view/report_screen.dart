@@ -13,13 +13,15 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_scr
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_reports_screen/view/gst_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_transaction/view/gst-trasaction-report.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/loan_report_screen/view/loan_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/low_stock_summery_screen/view/low_stock_summery_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/view/party_report_by_items.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_reports/party_statement_screen/view/party_statement.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sac_report/view/sac_report.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sale_purchase_by_party_screen/view/sale_purchase_by_party_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sale_purchase_order_screen/sale_purchase_transaction_screen/view/sale_purchase_transaction_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sale_purchase_order_screen/view/sale_purchase_order_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sale_summary/view/sale_summary.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/stock_summery_report_screen/view/stock_summery_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/stock_detail_report_screen/view/stock_detail_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tcs-recievable_screen/view/tcs_recivebla_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tds_payable_report_screen/view/tds_payable_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tds_recivable_screen/view/tds_recievable_screen.dart';
@@ -159,20 +161,63 @@ class ReportScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          buildSubItem('Stock Summary Report', context, () {}),
-          buildSubItem('Item Report by Party ', context, () {}),
-          buildSubItem('Item Wise Profit & Loss', context, () {}),
-          buildSubItem('Low Stock Summary Report', context, () {}),
+          buildSubItem('Stock Summary Report', context, () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => StockSummaryScreen()));
+          }),
+          buildSubItem('Item Report by Party ', context, () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ItemReportBypartyScreen()));
+          }),
+          buildSubItem('Item Wise Profit & Loss', context, () {
+             Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ItemWiseProfitLoseScreen()));
+          }),
+          buildSubItem('Low Stock Summary Report', context, () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LowStockSummaryScreen()));
+          }),
 
-          buildSubItem('Item Detail Report', context, () {}),
-          buildSubItem('Stock Detail Report', context, () {}),
-          buildSubItem('Sale/Purchase By Item Category', context, () {}),
-          buildSubItem('Stock summary By Item Category', context, () {}),
+          buildSubItem('Item Detail Report', context, () {
+             Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ItemDetailReportScreen()));
+          }),
+          buildSubItem('Stock Detail Report', context, () {
+             Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => StockDetailReport()));
+          }),
+          buildSubItem('Sale/Purchase By Item Category', context, () {
+             Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SalePurchaseByItemCategoryScreen()));
+          }),
+          buildSubItem('Stock summary By Item Category', context, () {
+             Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => StockSummeryByItemCategoryScreen()));
+          }),
           buildSubItemWithIcon(
               'Item Batch Report', context, Icons.info_outline, () {}),
           buildSubItemWithIcon(
               'Item Serial Report', context, Icons.info_outline, () {}),
-          buildSubItem('Item Wise Discount', context, () {}),
+          buildSubItem('Item Wise Discount', context, () {
+             Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ItemWiseDiscountScreen()));
+          }),
           const SizedBox(height: 30),
 
           //Fifth  Category -  Business status

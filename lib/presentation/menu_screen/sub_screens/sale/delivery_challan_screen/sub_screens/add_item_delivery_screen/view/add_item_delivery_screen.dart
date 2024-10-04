@@ -440,7 +440,7 @@ class _AddItemDelieryState extends State<AddItemDeliery> {
                                                     BorderRadius.circular(5),
                                               ),
                                               child: CustomDropdown(
-                                                items: [],
+                                                items: [], selectedValue: '', onChanged: (newValue) {  },
                                               ),
                                             ),
                                           ),

@@ -7,7 +7,7 @@ class CustomDropdown extends StatelessWidget {
     super.key,
     required this.items,
     this.hintText,
-    this.itemStyle,
+    this.itemStyle, required String selectedValue, required Null Function(dynamic newValue) onChanged,
   });
 
   final List<String> items;
