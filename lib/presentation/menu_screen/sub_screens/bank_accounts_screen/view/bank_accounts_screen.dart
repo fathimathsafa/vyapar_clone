@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/sub_screens/add_bank_accont_screen/view/add_bank_accont_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/sub_screens/controller/bank_controller.dart';
 
 class BankAccountsPage extends StatelessWidget {
   const BankAccountsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Instantiate the GetX controller
+    final BankAccountsController controller = Get.put(BankAccountsController());
+
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -20,7 +24,7 @@ class BankAccountsPage extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              // Handle back button
+              Get.back(); // Use GetX navigation
             },
           ),
           backgroundColor: const Color.fromARGB(255, 142, 33, 243),
@@ -94,7 +98,7 @@ class BankAccountsPage extends StatelessWidget {
                               color: Colors.yellow,
                             ),
                             title: Text(
-                              'Add Your bank &record all your bank\ntransaction',
+                              'Add Your bank & record all your bank\ntransaction',
                               style: TextStyle(
                                   color: Colorconst.cGrey, fontSize: 13.sp),
                             ),
@@ -159,12 +163,7 @@ class BankAccountsPage extends StatelessWidget {
                         children: [
                           ElevatedButton.icon(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AddBankAccount(),
-                                ),
-                              );
+                              controller.navigateToAddBankAccount();
                             },
                             label: Text(
                               'Add Bank',

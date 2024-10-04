@@ -57,8 +57,10 @@ class ItemPage extends StatelessWidget {
                   children: [
                     Text(
                       'Quick Links',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
                     SizedBox(height: 16),
                     Row(

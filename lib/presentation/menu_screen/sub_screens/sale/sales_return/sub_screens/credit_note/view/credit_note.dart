@@ -5,7 +5,7 @@ import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 // import 'package:vyapar_clone/core/constatnts/text_style.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_item.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_item.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 

@@ -17,7 +17,8 @@ class CustomTextFormField extends StatelessWidget {
     this.hintSytle,
     this.labelStyle,
     this.height, // Height for customization
-    this.width, // Width for customization
+    this.width,
+    Function? onChanged, // Width for customization
   });
   final String? hintText;
   final String? labelText;
@@ -28,7 +29,7 @@ class CustomTextFormField extends StatelessWidget {
   final double? width;
   final Widget? suffixIconWidget;
   final Color? filledColor;
-   final TextStyle? hintSytle;
+  final TextStyle? hintSytle;
   final TextStyle? labelStyle;
   final TextEditingController? controller;
 
@@ -44,16 +45,16 @@ class CustomTextFormField extends StatelessWidget {
             color: Colorconst.cBlack,
             fontsize: 17.sp), // Use .sp for scalable text
         decoration: InputDecoration(
-
           suffixIcon: suffixIconWidget,
-          enabled: isEditable??true,
+          enabled: isEditable ?? true,
           fillColor: filledColor,
           filled: isFiled,
           hintText: hintText ?? "Customer Name *",
           labelText: labelText ?? "Customer Name *",
           hintStyle: hintSytle,
-          labelStyle: labelStyle?? interFontGrey(context,
-              fontsize: 17.sp), // Scalable text for label
+          labelStyle: labelStyle ??
+              interFontGrey(context,
+                  fontsize: 17.sp), // Scalable text for label
           border: OutlineInputBorder(
               borderSide: BorderSide(
                   width: 1.w, color: Colorconst.cGrey), // Scalable border width

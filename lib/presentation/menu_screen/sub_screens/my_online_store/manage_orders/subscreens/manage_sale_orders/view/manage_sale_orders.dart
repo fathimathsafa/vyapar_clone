@@ -1,62 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart'; // For Lottie animation
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart'; // Import GetX
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_sale.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_orders/controller/manage_sale_order.dart';
 
-class ManageSaleOrders extends StatefulWidget {
+class ManageSaleOrders extends StatelessWidget {
   const ManageSaleOrders({super.key});
 
   @override
-  _ManageSaleOrdersState createState() => _ManageSaleOrdersState();
-}
-
-class _ManageSaleOrdersState extends State<ManageSaleOrders> {
-  int _selectedButtonIndex = 0; // To track selected button
-
-  // Function to build the buttons
-  Widget _buildOrderButton(
-      String text, int index, double buttonHeight, double fontSize) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _selectedButtonIndex = index;
-          });
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: buttonHeight * 0.3),
-          decoration: ShapeDecoration(
-            color: _selectedButtonIndex == index
-                ? Colors.pink.shade100 // Light pink for selected
-                : Colors.white,
-            shape: StadiumBorder(
-              side: BorderSide(
-                color: _selectedButtonIndex == index ? Colors.red : Colors.grey,
-                width: 2, // Adjust the width of the border
-              ),
-            ),
-          ),
-          child: Center(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: fontSize,
-                color:
-                    _selectedButtonIndex == index ? Colors.red : Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // Initialize the controller
+    final SaleOrderController controller = Get.put(SaleOrderController());
 
     return Scaffold(
       body: Column(
@@ -64,39 +20,35 @@ class _ManageSaleOrdersState extends State<ManageSaleOrders> {
           // Row of buttons
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.05, vertical: screenHeight * 0.02),
+                horizontal: 20.w, vertical: 20.h), // Use ScreenUtil for padding
             child: Row(
               children: [
-                _buildOrderButton(
-                    "All", 0, screenHeight * 0.04, screenWidth * 0.03),
-                _buildOrderButton(
-                    "Open Orders", 1, screenHeight * 0.04, screenWidth * 0.03),
-                _buildOrderButton("Closed Orders", 2, screenHeight * 0.04,
-                    screenWidth * 0.03),
+                _buildOrderButton("All", 0, controller),
+                _buildOrderButton("Open Orders", 1, controller),
+                _buildOrderButton("Closed Orders", 2, controller),
               ],
             ),
           ),
-          SizedBox(height: screenHeight * 0.03),
+          SizedBox(height: 20.h), // Use ScreenUtil for spacing
 
           // Lottie animation in the center
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Add your Lottie animation here (Make sure to add a valid lottie JSON file URL)
                 Lottie.asset(
                   'assets/animation/document.json',
-                  width: screenWidth * 0.5,
-                  height: screenHeight * 0.3,
+                  width: 0.5.sw, // Use ScreenUtil for width
+                  height: 0.3.sh, // Use ScreenUtil for height
                   fit: BoxFit.fill,
                 ),
-                SizedBox(height: screenHeight * 0.02),
+                SizedBox(height: 20.h), // Use ScreenUtil for spacing
 
                 // Centered text
                 Text(
                   'Hey you have no orders yet. Please add your sale',
                   style: TextStyle(
-                    fontSize: 15.sp,
+                    fontSize: 15.sp, // Use ScreenUtil for font size
                     color: Colors.grey,
                   ),
                   textAlign: TextAlign.center,
@@ -104,7 +56,7 @@ class _ManageSaleOrdersState extends State<ManageSaleOrders> {
                 Text(
                   'order here.',
                   style: TextStyle(
-                    fontSize: 15.sp,
+                    fontSize: 15.sp, // Use ScreenUtil for font size
                     color: Colors.grey,
                   ),
                   textAlign: TextAlign.center,
@@ -134,6 +86,48 @@ class _ManageSaleOrdersState extends State<ManageSaleOrders> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  // Function to build the buttons
+  Widget _buildOrderButton(
+      String text, int index, SaleOrderController controller) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          controller.updateSelectedButton(
+              index); // Update the selected index in the controller
+        },
+        child: Obx(() => Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: 20.h * 0.3), // Use ScreenUtil for padding
+              decoration: ShapeDecoration(
+                color: controller.selectedButtonIndex.value == index
+                    ? Colors.pink.shade100 // Light pink for selected
+                    : Colors.white,
+                shape: StadiumBorder(
+                  side: BorderSide(
+                    color: controller.selectedButtonIndex.value == index
+                        ? Colors.red
+                        : Colors.grey,
+                    width: 2, // Adjust the width of the border
+                  ),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 14.sp, // Use ScreenUtil for font size
+                    color: controller.selectedButtonIndex.value == index
+                        ? Colors.red
+                        : Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            )),
+      ),
     );
   }
 }

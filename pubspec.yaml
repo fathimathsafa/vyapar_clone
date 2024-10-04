@@ -51,6 +51,9 @@ dependencies:
   carousel_slider: ^5.0.0
   font_awesome_flutter: ^10.7.0
   pdf_render: ^1.4.12
+  contacts_service: ^0.6.3
+  permission_handler: ^11.3.1
+  animate_do: ^3.3.4
 
 dev_dependencies:
   flutter_test:

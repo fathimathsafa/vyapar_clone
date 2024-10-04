@@ -1,44 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart'; // Import GetX
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/manage_companies/controller/my_companies_controller.dart';
 
 class MyCompanies extends StatelessWidget {
   MyCompanies({super.key});
 
-  // List of data for the companies
-  final List<Map<String, dynamic>> companyData = [
-    {
-      'name': 'Abhi',
-      'id': '1234567890',
-      'statusColor': Colorconst.Green,
-      'syncStatus': 'Sync Off',
-    },
-    {
-      'name': 'Arun',
-      'id': '1234567890',
-      'statusColor': Colors.green,
-      'syncStatus': 'Sync On',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final CompanyController companyController =
+        Get.put(CompanyController()); // Initialize the controller
+
     return Scaffold(
       backgroundColor: Colorconst.cBluelight,
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: List.generate(
-                  companyData.length,
-                  (index) => buildCompanyCard(context, companyData[index]),
-                ), // Dynamically generate cards based on the company data list
+      body: Obx(() => Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: List.generate(
+                      companyController.companyData.length,
+                      (index) => buildCompanyCard(
+                          context, companyController.companyData[index]),
+                    ), // Dynamically generate cards based on the company data list
+                  ),
+                ),
               ),
-            ),
-          ),
-        ],
-      ),
+            ],
+          )),
     );
   }
 
@@ -55,8 +45,6 @@ class MyCompanies extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Left side Icon (More Vert)
-
             // Right side Columns
             Expanded(
               child: Column(
@@ -192,7 +180,7 @@ class MyCompanies extends StatelessWidget {
               const Divider(), // Divider between options
               SizedBox(height: 10.h),
               Text(
-                'Delet Company',
+                'Delete Company',
                 style: TextStyle(
                   fontSize: 16.sp,
                   color: Colors.black,

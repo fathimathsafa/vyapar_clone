@@ -1,33 +1,15 @@
-
 import 'package:flutter/material.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/sub_screens/add_bank_accont_screen_inhnad/view/add_bank_account_inhand_screen.dart';
+import 'package:get/get.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/controller/loading_controller.dart';
 
-class LoadingScreen extends StatefulWidget {
+class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key});
 
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
-}
-
-class _LoadingScreenState extends State<LoadingScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    // Simulate a loading delay
-    Future.delayed(const Duration(seconds: 3), () {
-      // After the delay, navigate to the BankTransfer page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const BankTransfer(),
-        ),
-      );
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Initialize the controller
+    Get.put(LoadingController());
+
     return Scaffold(
       backgroundColor: Colors.grey[200], // Background color
       body: Center(
