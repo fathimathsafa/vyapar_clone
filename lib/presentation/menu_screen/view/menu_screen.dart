@@ -38,12 +38,18 @@ import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.da
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/common/widget/custom_text_field.dart';
+import '../sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
 import '../sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
 import '../sub_screens/others/sub_others/help_support/sub_help_support/tutorial/view/tutorial.dart';
 import '../sub_screens/others/sub_others/other_products/view/other_product.dart';
 import '../sub_screens/others/sub_others/refer_earn/view/refer_earn.dart';
 import '../sub_screens/others/sub_others/setting/view/view.dart';
 import '../sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/business_card/view/business_card.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/document_setting/view/document_setting.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/insights/view/insights.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/invoice_templates/view/invoice_template.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/payment_timeline/view/payment_timeline.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -574,7 +580,7 @@ class _MenuScreenState extends State<MenuScreen> {
               }),
               buildGridItem(
                   Icons.business_center_outlined, 'Purchase Order', () {}),
-              buildGridItem(Icons.card_membership, 'Pro Forma Invoice', () {}),
+              buildGridItem(Icons.card_membership, 'Pro Forma Invoice', () => Get.to(()=>const ProFormaInvoice())),
             ]),
             const SizedBox(height: 10),
             buildSection('My Business', [
@@ -602,18 +608,18 @@ class _MenuScreenState extends State<MenuScreen> {
             ]),
             const SizedBox(height: 10),
             buildSection('Quick Access', [
-              buildGridItem(Icons.blinds_closed_rounded, 'E-Way Bill', () {}),
-              buildGridItem(Icons.inventory_2_outlined, 'E-Invoice', () {}),
+              buildGridItem(Icons.blinds_closed_rounded, 'E-Way Bill', () => _eWayBillBottomSheet()),
+              buildGridItem(Icons.inventory_2_outlined, 'E-Invoice', () =>_eEnvoiceBottomSheet()),
               buildGridItem(
-                  Icons.timelapse_outlined, 'Payment Timeline', () {}),
-              buildGridItem(Icons.auto_graph_sharp, 'Insights', () {}),
+                  Icons.timelapse_outlined, 'Payment Timeline', () => Get.to(()=>const PaymentTimelineScreen())),
+              buildGridItem(Icons.auto_graph_sharp, 'Insights', () => Get.to(()=>const InsightsScreen())),
               buildGridItem(
-                  Icons.business_center_outlined, 'Business Card', () {}),
+                  Icons.business_center_outlined, 'Business Card', () => Get.to(()=> BusinessCardScreen())),
               buildGridItem(Icons.card_membership, 'Greetings', () {}),
               buildGridItem(
-                  Icons.business_center_outlined, 'Invoice Templates', () {}),
+                  Icons.business_center_outlined, 'Invoice Templates', () => Get.to(()=> InvoiceTemplateScreen())),
               buildGridItem(
-                  Icons.document_scanner_outlined, 'Document Settings', () {}),
+                  Icons.document_scanner_outlined, 'Document Settings', () => Get.to(()=> DocumentSettingScreen())),
             ]),
             const SizedBox(height: 10),
             buildSection('Cash & Bank', [
@@ -750,6 +756,280 @@ class _MenuScreenState extends State<MenuScreen> {
         ],
       ),
     ));
+  }
+void _eEnvoiceBottomSheet() {
+    Get.bottomSheet(SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+           
+            width: double.infinity,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(13.r), topRight: Radius.circular(13.r)),
+                color: Colors.white),
+            child: Column(
+              children: [
+                SizedBox(height: 10.h,),
+                SizedBox(
+                  // height: 160.h,
+                  child: Icon(Icons.inventory_sharp,size: 90.sp,),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "One-click E-Invoicing.",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          // InkWell(
+                          //   onTap: () => Get.back(),
+                          //   child: Icon(
+                          //     Icons.close,
+                          //     size: 20.sp,
+                          //     color: Colors.black54,
+                          //   ),
+                          // )
+                        ],
+                      ),
+                      SizedBox(height: 12.h,),
+
+                       Align(
+                        alignment: Alignment.topLeft,
+                         child: Text(
+                          textAlign: TextAlign.left,
+                              "Boost your experience with our quick & easy E-Invoicing",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                       ),
+
+                      
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12.h,),
+                _quickAccessEwayCheckTextWidget(text: "Generate E-invoices in a click."),
+                SizedBox(height: 10.h,),
+                _quickAccessEwayCheckTextWidget(text: "Uninterrupted E-invoicing with a backup provider."),
+                SizedBox(height: 10.h,),
+                _quickAccessEwayCheckTextWidget(text: "Monitor the status of your E-Invoices."),
+                SizedBox(height: 10.h,),
+               
+                
+                
+          
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.r),
+                              color: Colorconst.cRed),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 14.h),
+                            child: Text("Subscribe to E-Invoicing now",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500)),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+          
+                
+          
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.headset_mic_outlined,size: 16.sp,),
+                      SizedBox(width: 7.w,),
+                      Text(
+                        "Talk to a specialist",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                     
+                    ],
+                  ),
+                ),
+                SizedBox(height: 7.h,)
+          
+                // Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+void _eWayBillBottomSheet() {
+    Get.bottomSheet(SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+           
+            width: double.infinity,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(13.r), topRight: Radius.circular(13.r)),
+                color: Colors.white),
+            child: Column(
+              children: [
+                SizedBox(height: 10.h,),
+                SizedBox(
+                  // height: 160.h,
+                  child: Icon(Icons.mobile_friendly_outlined,size: 90.sp,),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Hassle free E-way bills.",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          // InkWell(
+                          //   onTap: () => Get.back(),
+                          //   child: Icon(
+                          //     Icons.close,
+                          //     size: 20.sp,
+                          //     color: Colors.black54,
+                          //   ),
+                          // )
+                        ],
+                      ),
+                      SizedBox(height: 12.h,),
+
+                       Align(
+                        alignment: Alignment.topLeft,
+                         child: Text(
+                          textAlign: TextAlign.left,
+                              "Simplify logistics with our effortless E-way bill creation.",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                       ),
+
+                      
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12.h,),
+                _quickAccessEwayCheckTextWidget(),
+                SizedBox(height: 10.h,),
+                _quickAccessEwayCheckTextWidget(text: "Sync your E-way bills to govt portal."),
+                SizedBox(height: 10.h,),
+                _quickAccessEwayCheckTextWidget(text: "Avoid hassles and delays on your transport"),
+                SizedBox(height: 10.h,),
+               
+                
+                
+          
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.r),
+                              color: Colorconst.cRed),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 14.h),
+                            child: Text("Subscribe to JET Plan now",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500)),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+          
+                
+          
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.headset_mic_outlined,size: 16.sp,),
+                      SizedBox(width: 7.w,),
+                      Text(
+                        "Talk to a specialist",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                     
+                    ],
+                  ),
+                ),
+                SizedBox(height: 7.h,)
+          
+                // Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+  Widget _quickAccessEwayCheckTextWidget({String? text}){
+
+    return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.check_circle,size: 17.sp,),
+                      SizedBox(width: 7.w,),
+                      Text(
+                        text?? "Easily create E-way bills with a click.",
+                        style: pdfOptionStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            fontsize: 14.sp),
+                      ),
+                    ],
+                  ),
+                );
   }
 void _getDeskBillingBottomSheet() {
     Get.bottomSheet(Column(

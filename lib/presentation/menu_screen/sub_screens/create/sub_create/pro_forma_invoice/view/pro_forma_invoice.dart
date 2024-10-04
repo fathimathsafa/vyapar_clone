@@ -7,6 +7,7 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 
 import '../../../../../../../core/common/widget/appbar_common.dart';
 import '../../../../../../../core/common/widget/custom_text_field.dart';
+import '../sub_pro_forma_invoice/add_product/view/add_Product.dart';
 import '../sub_pro_forma_invoice/add_signature/view/add_signature.dart';
 import '../sub_pro_forma_invoice/adde_bank/view/add_bank.dart';
 
@@ -42,7 +43,7 @@ class ProFormaInvoice extends StatelessWidget {
                   SizedBox(
                     height: 9.h,
                   ),
-                  _addWidget(text: "Add Products"),
+                  _addWidget(text: "Add Products",onTap: () => Get.to(()=>AddProductScreenS()),),
                   SizedBox(
                     height: 10.h,
                   ),
@@ -1407,34 +1408,37 @@ class ProFormaInvoice extends StatelessWidget {
     );
   }
 
-  Widget _addWidget({String? text}) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(7.r)),
-      child: Padding(
-        padding: EdgeInsets.all(10.0.r),
-        child: Row(
-          children: [
-            CircleAvatar(
-                radius: 8.r,
-                backgroundColor: Colors.blue,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 12.sp,
-                )),
-            SizedBox(
-              width: 6.w,
-            ),
-            Text(
-              text ?? "Edit",
-              textAlign: TextAlign.left,
-              style: GoogleFonts.inter(
-                  fontSize: 14.sp,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.w700),
-            )
-          ],
+  Widget _addWidget({String? text,Function()? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(7.r)),
+        child: Padding(
+          padding: EdgeInsets.all(10.0.r),
+          child: Row(
+            children: [
+              CircleAvatar(
+                  radius: 8.r,
+                  backgroundColor: Colors.blue,
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 12.sp,
+                  )),
+              SizedBox(
+                width: 6.w,
+              ),
+              Text(
+                text ?? "Edit",
+                textAlign: TextAlign.left,
+                style: GoogleFonts.inter(
+                    fontSize: 14.sp,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.w700),
+              )
+            ],
+          ),
         ),
       ),
     );
