@@ -12,6 +12,8 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_scr
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_rate_report_screen/view/gst_rate_report-screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_reports_screen/view/gst_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_transaction/view/gst-trasaction-report.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/item_wise_profit_lose_screen/view/item_wise_profit_lose_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/sale_purchase_by_item_category_screen/view/sale_purchase_by_item_category_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/loan_report_screen/view/loan_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/low_stock_summery_screen/view/low_stock_summery_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/view/party_report_by_items.dart';
@@ -29,6 +31,11 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_scr
 
 import '../sub_screen/gst_1/view/gst-1.dart';
 import '../sub_screen/gst_r_9_reports/view/gst_r_9_report.dart';
+import '../sub_screen/item_stock_report/item_detail_report_screen/view/item_detail_report_screen.dart';
+import '../sub_screen/item_stock_report/item_report_by_party_screen/view/item_report_by_party_screen.dart';
+import '../sub_screen/item_stock_report/item_wise_discount_screen/view/item_wise_discount_screen.dart';
+import '../sub_screen/item_stock_report/stock_summery_by_item_category_screen/view/stock_summery_by_item_category_screen.dart';
+import '../sub_screen/sale_summary/view/sale_summary.dart';
 
 class ReportScreen extends StatelessWidget {
   const ReportScreen({super.key});
