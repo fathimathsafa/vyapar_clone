@@ -440,7 +440,7 @@ class _AddEstimateItemScreenState extends State<AddEstimateItemScreen> {
                                                     BorderRadius.circular(5),
                                               ),
                                               child: CustomDropdown(
-                                                items: [],
+                                                items: [], selectedValue: '', onChanged: (newValue) {  },
                                               ),
                                             ),
                                           ),

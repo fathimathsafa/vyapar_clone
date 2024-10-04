@@ -440,7 +440,7 @@ class _AddItemSaleState extends State<AddItemSale> {
                                                     BorderRadius.circular(5),
                                               ),
                                               child: CustomDropdown(
-                                                items: [],
+                                                items: [], selectedValue: '', onChanged: (newValue) {  },
                                               ),
                                             ),
                                           ),

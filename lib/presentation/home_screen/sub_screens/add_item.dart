@@ -446,7 +446,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                     BorderRadius.circular(5),
                                               ),
                                               child: CustomDropdown(
-                                                items: const [],
+                                                items: const [], selectedValue: '', onChanged: (newValue) {  },
                                               ),
                                             ),
                                           ),
