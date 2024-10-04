@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_sale.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
 
 class SaleInvoistListScreen extends StatelessWidget {
   @override

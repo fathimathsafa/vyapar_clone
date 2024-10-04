@@ -23,14 +23,24 @@ class Colorconst {
   static const cPink = Color.fromRGBO(244, 191, 201, 1);
   static const lightGreen = Color.fromARGB(255, 174, 243, 176);
   static const Brown = Color.fromRGBO(84, 59, 21, 1);
-    static const LightBrown = Color.fromARGB(255, 254, 211, 147);
-
+  static const LightBrown = Color.fromARGB(255, 254, 211, 147);
 
   static const c0a7aa7Blue = Color(0xff0a7aa7);
   static const c2c9f1dGreen = Color(0xff2c9f1d);
   static const cffe3eaRedSecondary = Color(0xffffe3ea);
 
   //
- 
+
   static const cfafafaLightGrey = Color(0xfffafafa);
+
+  //
+
+  static const background1 = Color(0xffE9EAF7);
+  static const background2 = Color(0xffF4EEF2);
+  static const background3 = Color(0xffEBEBF2);
+  static const background4 = Color(0xffE3EDF5);
+  static const primaryC = Color(0xffD897FD);
+  static const text1 = Color(0xff353047);
+  static const text2 = Color(0xff6F6B7A);
+  static const buttonC = Color(0xffFD6B68);
 }

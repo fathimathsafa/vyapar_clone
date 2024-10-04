@@ -1,35 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restore/controller/back_up_controller.dart';
 
-class AutoBackupSettings extends StatefulWidget {
-  @override
-  _AutoBackupSettingsState createState() => _AutoBackupSettingsState();
-}
-
-class _AutoBackupSettingsState extends State<AutoBackupSettings> {
-  bool _isAutoBackupEnabled = false; // State for auto backup toggle
-  int _backupDays = 3; // Default backup reminder days
-
-  void _toggleAutoBackup(bool? value) {
-    setState(() {
-      _isAutoBackupEnabled = value ?? false; // Toggle the state
-    });
-  }
-
-  void _incrementDays() {
-    setState(() {
-      _backupDays++; // Increment the backup days
-    });
-  }
-
-  void _decrementDays() {
-    if (_backupDays > 1) {
-      setState(() {
-        _backupDays--; // Decrement the backup days
-      });
-    }
-  }
+class AutoBackupSettings extends StatelessWidget {
+  final AutoBackupController controller =
+      Get.put(AutoBackupController()); // Inject the controller
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +19,11 @@ class _AutoBackupSettingsState extends State<AutoBackupSettings> {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back, color: Colors.black),
-        ), // Leading icon
-        backgroundColor: Colorconst.cBluelight, // Set app bar background color
-        // Set icon color in app bar
+        ),
+        backgroundColor: Colorconst.cBluelight,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.w), // Padding for the body
+        padding: EdgeInsets.all(16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -67,16 +43,16 @@ class _AutoBackupSettingsState extends State<AutoBackupSettings> {
                     Icon(Icons.info, color: Colorconst.cGrey), // Info icon
                   ],
                 ),
-                Switch(
-                  value: _isAutoBackupEnabled,
-                  onChanged: _toggleAutoBackup,
-                  activeColor: Colors.blue, // Change color when enabled
-                ),
+                Obx(() => Switch(
+                      value: controller.isAutoBackupEnabled.value,
+                      onChanged: controller.toggleAutoBackup,
+                      activeColor: Colors.blue,
+                    )),
               ],
             ),
             SizedBox(height: 8.h), // Space after row
             Text(
-              'Takes backup of your data automatically on youe\npersonal google drive so that your data is safe',
+              'Takes backup of your data automatically on your\npersonal Google Drive so that your data is safe',
               style: TextStyle(
                   color: Colorconst.cGrey, fontSize: 12.sp), // Two line text
             ),
@@ -104,16 +80,16 @@ class _AutoBackupSettingsState extends State<AutoBackupSettings> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.remove),
-                      onPressed: _decrementDays,
+                      onPressed: controller.decrementDays,
                     ),
-                    Text(
-                      '$_backupDays', // Display number of days
-                      style:
-                          TextStyle(color: Colorconst.cBlack, fontSize: 15.sp),
-                    ),
+                    Obx(() => Text(
+                          '${controller.backupDays.value}', // Display number of days
+                          style: TextStyle(
+                              color: Colorconst.cBlack, fontSize: 15.sp),
+                        )),
                     IconButton(
                       icon: Icon(Icons.add),
-                      onPressed: _incrementDays,
+                      onPressed: controller.incrementDays,
                     ),
                     Text(
                       'Days',

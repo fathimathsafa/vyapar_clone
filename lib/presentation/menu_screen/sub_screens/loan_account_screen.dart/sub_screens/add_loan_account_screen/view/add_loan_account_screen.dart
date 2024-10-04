@@ -1,35 +1,10 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/loan_account_screen.dart/controller/add_loan_statement_controller.dart';
 
-class AddLoanAccountPage extends StatefulWidget {
-  @override
-  _AddLoanAccountPageState createState() => _AddLoanAccountPageState();
-}
-
-class _AddLoanAccountPageState extends State<AddLoanAccountPage> {
-  TextEditingController _dateController = TextEditingController();
-  String _selectedLoanType = 'Cash';
-
-  @override
-  void initState() {
-    super.initState();
-    _dateController.text = '27/09/2024'; // Default date
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (pickedDate != null) {
-      setState(() {
-        _dateController.text =
-            "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-      });
-    }
-  }
+class AddLoanAccountPage extends StatelessWidget {
+  final AddLoanAccountController controller =
+      Get.put(AddLoanAccountController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +12,9 @@ class _AddLoanAccountPageState extends State<AddLoanAccountPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Add Loan Account'),
+        title: const Text('Add Loan Account'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Handle back button action
           },
@@ -50,112 +25,110 @@ class _AddLoanAccountPageState extends State<AddLoanAccountPage> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Account Name
                   TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Account Name *',
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Account Number
                   TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Account Number',
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Lender Bank
                   TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Lender Bank',
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Description
                   TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Description',
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Opening Balance and Date
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Opening Balance',
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
-                        child: TextField(
-                          controller: _dateController,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            labelText: 'Balance as of',
-                            suffixIcon: Icon(Icons.calendar_today),
-                            border: OutlineInputBorder(),
-                          ),
-                          onTap: () {
-                            _selectDate(context);
-                          },
-                        ),
+                        child: Obx(() => TextField(
+                              controller: controller.dateController.value,
+                              readOnly: true,
+                              decoration: const InputDecoration(
+                                labelText: 'Balance as of',
+                                suffixIcon: Icon(Icons.calendar_today),
+                                border: OutlineInputBorder(),
+                              ),
+                              onTap: () {
+                                controller.selectDate(context);
+                              },
+                            )),
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Loan Received In (Dropdown)
-                  DropdownButtonFormField<String>(
-                    value: _selectedLoanType,
-                    decoration: InputDecoration(
-                      labelText: 'Loan Received in',
-                      border: OutlineInputBorder(),
-                    ),
-                    items: ['Cash', 'Add Bank A/c']
-                        .map((type) => DropdownMenuItem<String>(
-                              value: type,
-                              child: Text(type),
-                            ))
-                        .toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        _selectedLoanType = newValue!;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 16),
+                  Obx(() => DropdownButtonFormField<String>(
+                        value: controller.selectedLoanType.value,
+                        decoration: const InputDecoration(
+                          labelText: 'Loan Received in',
+                          border: OutlineInputBorder(),
+                        ),
+                        items: ['Cash', 'Add Bank A/c']
+                            .map((type) => DropdownMenuItem<String>(
+                                  value: type,
+                                  child: Text(type),
+                                ))
+                            .toList(),
+                        onChanged: (newValue) {
+                          controller.selectedLoanType.value = newValue!;
+                        },
+                      )),
+                  const SizedBox(height: 16),
 
                   // Interest Rate and Duration
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Interest Rate %',
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Duration (Months)',
                             border: OutlineInputBorder(),
                           ),
@@ -163,16 +136,16 @@ class _AddLoanAccountPageState extends State<AddLoanAccountPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
 
                   // Processing Fee
                   TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Processing Fee',
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
@@ -187,11 +160,11 @@ class _AddLoanAccountPageState extends State<AddLoanAccountPage> {
                 onPressed: () {
                   // Handle Save action
                 },
-                child: Text('Save'),
+                child: const Text('Save'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent, // Button color
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  textStyle: TextStyle(fontSize: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  textStyle: const TextStyle(fontSize: 16),
                 ),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-// import 'package:lottie/lottie.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/controller/cash_in%20hand_controller.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/cash_in_hand_screen/sub_screens/loading_screen/view/loading_screen.dart';
 
 class CashInHand extends StatelessWidget {
@@ -8,8 +9,7 @@ class CashInHand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Example: Check if there are any transactions (you can replace this with actual data)
-    // bool hasTransactions = false; // Change this to true if transactions exist
+    final CashInHandController controller = Get.put(CashInHandController());
 
     return Scaffold(
       appBar: AppBar(
@@ -17,7 +17,7 @@ class CashInHand extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pop();
+            Get.back(); // GetX handles navigation
           },
         ),
       ),
@@ -33,71 +33,78 @@ class CashInHand extends StatelessWidget {
                 width: 400,
                 padding: const EdgeInsets.only(top: 25),
                 decoration: BoxDecoration(color: Colors.green[50]),
-                child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Current Cash Balance',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        '₹ 11.00',
-                        style: TextStyle(color: Colors.green),
-                      ),
-                    ],
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Obx(() => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Current Cash Balance',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            '₹ ${controller.currentCashBalance.value.toString()}',
+                            style: const TextStyle(color: Colors.green),
+                          ),
+                        ],
+                      )),
                 ),
               ),
             ),
             const SizedBox(height: 10),
-            // if (hasTransactions) ...[
-            //   Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: const [
-            //       Text('Transaction Details',
-            //           style: TextStyle(color: Colors.black)),
-            //       Text('Amount', style: TextStyle(color: Colors.black)),
-            //     ],
-            //   ),
-            //   const Divider(),
-            //   // Example transactions, replace with your actual data
-            //   TransactionItem(
-            //       description: 'Payment-in-Gokul',
-            //       amount: '1.00',
-            //       date: '24 Sept 2024'),
-            //   const Divider(),
-            //   TransactionItem(
-            //       description: 'Sale-Gokul',
-            //       amount: '10.00',
-            //       date: '12 Sept 2024'),
-            //   const Divider(),
-            // ] else ...[
-            // No transactions UI
-            Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+
+            // Transaction details (if any)
+            Obx(() {
+              if (controller.hasTransactions.value) {
+                return Column(
                   children: [
-                    Lottie.asset(
-                      'assets/animation/cashinhand.json', // Replace with your image path
-                      width: 100,
-                      height: 100,
-                      // Adjust size as needed
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text('Transaction Details',
+                            style: TextStyle(color: Colors.black)),
+                        Text('Amount', style: TextStyle(color: Colors.black)),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Hey! You have not added any cash transaction yet.\nAny transaction involving cash appears here.',
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
-                      textAlign: TextAlign.center,
-                    ),
+                    const Divider(),
+                    // Example transactions, replace with your actual data
+                    TransactionItem(
+                        description: 'Payment-in-Gokul',
+                        amount: '1.00',
+                        date: '24 Sept 2024'),
+                    const Divider(),
+                    TransactionItem(
+                        description: 'Sale-Gokul',
+                        amount: '10.00',
+                        date: '12 Sept 2024'),
+                    const Divider(),
                   ],
-                ),
-              ),
-            ),
-            // ],
+                );
+              } else {
+                return Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset(
+                          'assets/animation/cashinhand.json', // Replace with your image path
+                          width: 100,
+                          height: 100,
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Hey! You have not added any cash transaction yet.\nAny transaction involving cash appears here.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+            }),
+
             const Spacer(),
             Padding(
               padding: const EdgeInsets.all(10),
@@ -106,13 +113,7 @@ class CashInHand extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const LoadingScreen(), // Navigate to the loading screen
-                        ),
-                      );
+                      Get.to(() => const LoadingScreen()); // GetX navigation
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -128,7 +129,7 @@ class CashInHand extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _showAdjustCashBottomSheet(context); // Show bottom sheet
+                      _showAdjustCashBottomSheet(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -150,7 +151,6 @@ class CashInHand extends StatelessWidget {
     );
   }
 
-  // Transaction Item Widget
   Widget TransactionItem(
       {required String description,
       required String amount,
@@ -171,127 +171,117 @@ class CashInHand extends StatelessWidget {
     );
   }
 
-  // Function to show bottom sheet
+  // Bottom sheet with radio buttons (converted to GetX)
   void _showAdjustCashBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    Get.bottomSheet(
+      GetBuilder<CashInHandController>(
+        builder: (controller) {
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Adjust Cash',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Obx(() => RadioListTile<int>(
+                            title: const Text(
+                              'Add Cash',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: 1,
+                            groupValue: controller.selectedRadioValue.value,
+                            onChanged: (value) {
+                              controller.setSelectedRadio(value!);
+                            },
+                          )),
+                    ),
+                    Expanded(
+                      child: Obx(() => RadioListTile<int>(
+                            title: const Text(
+                              'Reduce Cash',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: 2,
+                            groupValue: controller.selectedRadioValue.value,
+                            onChanged: (value) {
+                              controller.setSelectedRadio(value!);
+                            },
+                          )),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Enter Adjustment Date',
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.datetime,
+                ),
+                const SizedBox(height: 10),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Enter Amount',
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 10),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Enter Description(Optional)',
+                    labelStyle: TextStyle(color: Colors.black),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.back(); // Close bottom sheet
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 40),
+                      child: Obx(() => Text(
+                          controller.selectedRadioValue.value == 1
+                              ? 'Add Cash'
+                              : 'Reduce Cash',
+                          style: const TextStyle(color: Colors.white))),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
-      builder: (context) {
-        int? selectedValue = 1; // Initial radio value
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Adjust Cash',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: RadioListTile<int>(
-                          title: const Text(
-                            'Add Cash',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: 1,
-                          groupValue: selectedValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value;
-                            });
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: RadioListTile<int>(
-                          title: const Text(
-                            'Reduce Cash',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: 2,
-                          groupValue: selectedValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Adjustment Date',
-                      labelStyle: TextStyle(color: Colors.black),
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.datetime,
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Amount',
-                      labelStyle: TextStyle(color: Colors.black),
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Description(Optional)',
-                      labelStyle: TextStyle(color: Colors.black),
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context); // Close bottom sheet on press
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 40),
-                        child: Text(
-                          selectedValue == 1 ? 'Add Cash' : 'Reduce Cash',
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
     );
   }
 }

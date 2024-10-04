@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/images.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_sale.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/transaction/view/transaction.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/view/all_transaction_payment_out_screen.dart';
@@ -15,8 +15,8 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invo
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
 
-import '../widget/header.dart';
-import '../widget/header_buttons.dart';
+import '../../widget/header.dart';
+import '../../widget/header_buttons.dart';
 
 class SaleListScreen extends StatelessWidget {
   SaleListScreen({super.key});
@@ -421,7 +421,7 @@ class SaleListScreen extends StatelessWidget {
         children: [
           Icon(icon, size: 30, color: Colors.blue),
           SizedBox(height: 8),
-          Text(label, style: TextStyle(fontSize: 12)),
+          Text(label, style: TextStyle(fontSize: 12, color: Colors.black)),
         ],
       ),
     );
@@ -436,6 +436,7 @@ Widget buildSectionHeader(String title) {
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 16,
+        color: Colors.black,
       ),
     ),
   );
