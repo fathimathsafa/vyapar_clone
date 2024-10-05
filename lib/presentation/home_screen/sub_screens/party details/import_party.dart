@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:contacts_service/contacts_service.dart'; // Import contacts_service
+// import 'package:contacts_service/contacts_service.dart'; // Import contacts_service
 import 'package:permission_handler/permission_handler.dart'; // Import permission_handler
 
 class ImportPartyPage extends StatefulWidget {
@@ -8,7 +8,7 @@ class ImportPartyPage extends StatefulWidget {
 }
 
 class _ImportPartyPageState extends State<ImportPartyPage> {
-  List<Contact> _contacts = []; // List to hold contacts
+  // List<Contact> _contacts = []; // List to hold contacts
   TextEditingController _searchController =
       TextEditingController(); // Search controller
 
@@ -112,7 +112,7 @@ class _ImportPartyPageState extends State<ImportPartyPage> {
         await Permission.contacts.request(); // Request contact permission
     if (status.isGranted) {
       // If permission is granted, fetch the contacts
-      _fetchContacts();
+      // _fetchContacts();
     } else {
       // Handle the case when permission is denied
       ScaffoldMessenger.of(context).showSnackBar(
@@ -125,13 +125,13 @@ class _ImportPartyPageState extends State<ImportPartyPage> {
     }
   }
 
-  Future<void> _fetchContacts() async {
-    Iterable<Contact> contacts =
-        await ContactsService.getContacts(); // Fetch contacts
-    setState(() {
-      _contacts = contacts.toList(); // Update the state with fetched contacts
-    });
-  }
+  // Future<void> _fetchContacts() async {
+  //   Iterable<Contact> contacts =
+  //       await ContactsService.getContacts(); // Fetch contacts
+  //   setState(() {
+  //     _contacts = contacts.toList(); // Update the state with fetched contacts
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -172,17 +172,19 @@ class _ImportPartyPageState extends State<ImportPartyPage> {
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: _contacts.length,
+              // itemCount: _contacts.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(
-                    _contacts[index].displayName ?? 'No Name',
+                    // _contacts[index].displayName ?? 'No Name',
+                    "",
                     style: TextStyle(color: Colors.black),
                   ),
                   subtitle: Text(
-                    _contacts[index].phones?.isNotEmpty == true
-                        ? _contacts[index].phones!.first.value ?? ''
-                        : 'No Phone Number',
+                    // _contacts[index].phones?.isNotEmpty == true
+                    //     ? _contacts[index].phones!.first.value ?? ''
+                    //     : 'No Phone Number',
+                    "",
                     style: TextStyle(color: Colors.black),
                   ),
                 );
