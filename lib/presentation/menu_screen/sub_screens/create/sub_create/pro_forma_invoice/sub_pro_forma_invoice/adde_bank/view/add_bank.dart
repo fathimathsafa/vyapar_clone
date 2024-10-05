@@ -40,7 +40,9 @@ class AddBankScreen extends StatelessWidget {
                       Expanded(
                         child:  SizedBox(
                     height: 48.h,
-                    child: customTextFormFieldNew(labelText:"Opening Balance" )),
+                    child: customTextFormFieldNew(
+                      keyboardType: TextInputType.number,
+                      labelText:"Opening Balance" )),
                       ),
                       SizedBox(width: 12.h),
                       Expanded(child: SizedBox(
@@ -85,7 +87,7 @@ class AddBankScreen extends StatelessWidget {
                     SizedBox(height: 12.h),
                     SizedBox(
                     height: 48.h,
-                    child: customTextFormFieldNew(labelText:"Account Number" ))
+                    child: customTextFormFieldNew(labelText:"Account Number" , keyboardType: TextInputType.number,))
                    ,
                    
                     SizedBox(height: 12.h),

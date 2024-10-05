@@ -123,21 +123,11 @@ class AddProductScreenS extends StatelessWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: TextFormField(
+                              child:  CustomTextFormField(
                                 keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  
-                                    border: OutlineInputBorder(),
-                                    hintText: "Rate (Price/Unit)",
+                               hintText: "Rate (Price/Unit)",
                                     labelText: "Price *",
-                                    labelStyle: TextStyle(
-                                        color: Colorconst.cGrey, fontSize: 15)),
-                                onChanged: (value) {
-                               
-                                    // isPriceEntered = value.isNotEmpty;
-                                 
-                                },
-                              ),
+                            ),
                             ),
                             SizedBox(
                               width: screenWidth * .02,

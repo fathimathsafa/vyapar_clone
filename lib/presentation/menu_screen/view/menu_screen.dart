@@ -43,21 +43,15 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/impor
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/message_screen/view/message_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/common/widget/custom_text_field.dart';
 import '../sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
-import '../sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
-import '../sub_screens/others/sub_others/help_support/sub_help_support/tutorial/view/tutorial.dart';
-import '../sub_screens/others/sub_others/other_products/view/other_product.dart';
-import '../sub_screens/others/sub_others/refer_earn/view/refer_earn.dart';
-import '../sub_screens/others/sub_others/setting/view/view.dart';
-import '../sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
+
 import '../sub_screens/quick_access/quick_access_sub_screens/business_card/view/business_card.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/document_setting/view/document_setting.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/insights/view/insights.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/invoice_templates/view/invoice_template.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/payment_timeline/view/payment_timeline.dart';
+import '../sub_screens/sync_and_shear_screen/view/syn_and_shear_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -102,10 +96,10 @@ class MenuScreen extends StatelessWidget {
               }),
               buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {}),
               buildGridItem(Icons.timelapse_outlined, 'Delivery Challan', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DeliveryChallanDetails()));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => DeliveryChallanDetails()));
               }),
               buildGridItem(Icons.auto_graph_sharp, 'Credit Note', () {
                 Navigator.push(

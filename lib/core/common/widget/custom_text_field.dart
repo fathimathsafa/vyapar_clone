@@ -123,10 +123,10 @@ Widget customTextFormFieldNew({ String? hintText,
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.w, color: Colors.blue),
               borderRadius: BorderRadius.circular(5.r)),
-          contentPadding: EdgeInsets.symmetric(
-            vertical: 20.h, 
-            horizontal: 15.w, 
-          ),
+          // contentPadding: EdgeInsets.symmetric(
+          //   vertical: 20.h, 
+          //   horizontal: 15.w, 
+          // ),
         ),
       );
 }
