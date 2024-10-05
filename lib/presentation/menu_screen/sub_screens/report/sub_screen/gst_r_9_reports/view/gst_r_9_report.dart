@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:get/get.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
 
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
-import '../../../../../controller/menu_controller.dart';
+
+import '../controller/controller.dart';
 
 
 
@@ -16,7 +17,7 @@ import '../../../../../controller/menu_controller.dart';
 class GstR9ReportScreen extends StatelessWidget {
   GstR9ReportScreen({super.key});
 
-  final MenuGetController _controller = Get.put(MenuGetController());
+  final GstR9ReportController _controller = Get.put(GstR9ReportController());
 
   final controller = PdfViewerController();
 

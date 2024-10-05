@@ -4,14 +4,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
-import '../../../../../controller/menu_controller.dart';
+
+import '../controller/controller.dart';
 
 
 
 class Gst1Screen extends StatelessWidget {
   Gst1Screen({super.key});
 
-  final MenuGetController _controller = Get.put(MenuGetController());
+  final Gst1Controller _controller = Get.put(Gst1Controller());
 
   final List<String> gst1tabList = ["Sale", "Sale Return"];
 
