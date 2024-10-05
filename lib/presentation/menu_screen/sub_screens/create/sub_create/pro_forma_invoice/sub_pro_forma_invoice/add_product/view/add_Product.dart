@@ -9,7 +9,8 @@ import '../../../../../../../../../core/common/widget/custom_dropdown.dart';
 import '../../../../../../../../../core/common/widget/verticle_divider.dart';
 import '../../../../../../../../../core/constatnts/colors.dart';
 import '../../../../../../../../../core/constatnts/text_style.dart';
-import '../../../../../../../../home_screen/sub_screens/add_item.dart';
+import '../../../../../../sale/delivery_challan_screen/sub_screens/add_delivery_challan_screen/view/add_delivery_challan_screen.dart';
+
 
 
 
@@ -384,6 +385,10 @@ class AddProductScreenS extends StatelessWidget {
                                               ),
                                               child: CustomDropdown(
                                                 items: const [],
+                                                selectedValue: "Selcted dropdown",
+                                                onChanged: (value){
+
+                                                },
                                               ),
                                             ),
                                           ),
