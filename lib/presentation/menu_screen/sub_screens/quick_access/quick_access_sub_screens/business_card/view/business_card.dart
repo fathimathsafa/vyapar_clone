@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../../core/constatnts/colors.dart';
 import '../controller/controller.dart';
 import '../sub_business_card/tab_1_business_card/view/business_card_1.dart';
+import '../sub_business_card/tab_2_business_card/view/business_card_2.dart';
+import '../sub_business_card/tab_3_business_card/view/business_card_3.dart';
 
 class BusinessCardScreen extends StatelessWidget {
   BusinessCardScreen({super.key});
@@ -57,18 +59,9 @@ class BusinessCardScreen extends StatelessWidget {
                   controller: _controller.tabController,
                   children: [
                     BusinessCard1Screen(),
-                    Center(
-                        child: Text(
-                      "tab two",
-                      style: GoogleFonts.aBeeZee(
-                          fontSize: 44.sp, color: Colors.red),
-                    )),
-                    Center(
-                        child: Text(
-                      "tab three",
-                      style: GoogleFonts.aBeeZee(
-                          fontSize: 44.sp, color: Colors.red),
-                    )),
+                    BusinessCard2Screen(),
+                    BusinessCard3Screen(),
+                  
                   ],
                 ))
               ],

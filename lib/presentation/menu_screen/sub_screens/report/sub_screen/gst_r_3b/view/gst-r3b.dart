@@ -7,14 +7,15 @@ import 'package:get/get.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
-import '../../../../../controller/menu_controller.dart';
+
+import '../controller/controller.dart';
 
 
 
 class GstR3bScreen extends StatelessWidget {
   GstR3bScreen({super.key});
 
-  final MenuGetController _controller = Get.put(MenuGetController());
+  final GstR3bController _controller = Get.put(GstR3bController());
 
   final controller = PdfViewerController();
 

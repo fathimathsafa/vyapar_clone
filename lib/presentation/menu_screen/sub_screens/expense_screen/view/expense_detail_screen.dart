@@ -3,14 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/core/common/widget/add_button_green.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/presentation/menu_screen/controller/menu_controller.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/sub_screens/add_expense_screen/view/add_expense_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/widget/category_widget.dart';
+
+import '../controller/controller.dart';
 
 class ExpenseDetailScreen extends StatelessWidget {
   ExpenseDetailScreen({super.key});
 
-  final MenuGetController _controller = Get.put(MenuGetController());
+  final  _controller = Get.put(ExpenseController());
 
   final List<String> purchaseOrderTabList = [
     "Categories",
