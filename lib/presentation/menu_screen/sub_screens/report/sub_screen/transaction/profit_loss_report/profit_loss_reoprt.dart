@@ -96,12 +96,16 @@ class ProfitAndLossReoprt extends StatelessWidget {
                             Text(
                               'Particulars',
                               style: TextStyle(
-                                  fontSize: 14.sp, fontWeight: FontWeight.bold),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                             ),
                             Text(
                               'Amount',
                               style: TextStyle(
-                                  fontSize: 14.sp, fontWeight: FontWeight.bold),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                             ),
                           ],
                         ),
@@ -295,7 +299,10 @@ class ProfitAndLossReoprt extends StatelessWidget {
             SizedBox(height: 8.h),
             Text(
               amount,
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
           ],
         ),

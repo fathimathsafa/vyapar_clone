@@ -78,7 +78,7 @@ class DayBook extends StatelessWidget {
                   height: 100.h, // Responsive container height
                   width: 100.w, // Responsive container width
                   child: Image(
-                    image: AssetImage('assets/purchase order.jpg'),
+                    image: AssetImage('assets/images/purchase order.jpg'),
                     fit: BoxFit.contain, // Added to ensure image scales well
                   ),
                 ),
@@ -90,9 +90,10 @@ class DayBook extends StatelessWidget {
                     Text(
                       'No Data Available',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.sp, // Responsive text size
-                      ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.sp,
+                          color: Colors.black // Responsive text size
+                          ),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 15.h), // Responsive vertical spacing
