@@ -52,6 +52,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
   void settabIndexValue (value){
 
     tabIndex.value = value;
+    tabController.index = value;
   }
   
 
