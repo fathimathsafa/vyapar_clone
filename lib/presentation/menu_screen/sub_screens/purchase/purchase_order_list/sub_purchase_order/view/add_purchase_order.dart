@@ -1,106 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/core/constatnts/text_style.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_item.dart';
+
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
-class AddSaleOrdercreen extends StatefulWidget {
-  @override
-  State<AddSaleOrdercreen> createState() => _AddSaleOrdercreenState();
-}
+import '../../../../../../home_screen/sub_screens/transaction_details/add_item.dart';
 
-class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
+class AddPurchaseOrderScreen extends StatelessWidget {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
-
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
-
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
-  String? selectedState;
-  List<String> states = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal"
-  ];
-  void _showStateSelectionBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.7, // Adjust size as needed
-          maxChildSize: 0.9,
-          minChildSize: 0.3,
-          builder: (_, controller) {
-            return Column(
-              children: [
-                // Header of Bottom Sheet
-                ListTile(
-                  title: Text("Select State of Supply"),
-                  trailing: IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.pop(context); // Close the bottom sheet
-                    },
-                  ),
-                ),
-                Divider(),
-                Expanded(
-                  child: ListView.builder(
-                    controller: controller,
-                    itemCount: states.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(states[index]),
-                        onTap: () {
-                          setState(() {
-                            selectedState =
-                                states[index]; // Update selected state
-                          });
-                          Navigator.pop(
-                              context); // Close the bottom sheet after selecting
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,31 +24,42 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colorconst.cSecondaryGrey,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-        title: Text("Sale Order"),
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back)),
+        title: const Text("Purchase Order"),
         actions: [
-          SizedBox(width: screenWidth * 0.02),
-          IconButton(onPressed: () {}, icon: Icon(Icons.settings_outlined)),
-          SizedBox(width: screenWidth * 0.02),
+          Icon(
+            Icons.settings_outlined,
+            color: Colors.black54,
+            size: 24.sp,
+          ),
+          SizedBox(
+            width: 10.w,
+          )
         ],
       ),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(bottom: screenHeight * .3),
+              padding: EdgeInsets.only(bottom: screenHeight * .5),
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     child: Column(
                       children: [
-                        DateInvoiceWidget(invoiceNumber: "10120"),
-                        SizedBox(height: screenHeight * 0.05),
+                        DateInvoiceWidget(
+                          invoiceNumber: "10120",
+                          titleOne: "Return No.",
+                          titleTwo: "Date",
+                        ),
+                        SizedBox(height: screenHeight * 0.01),
                         Container(
-                          height: screenHeight * 0.37,
+                          height: screenHeight * 0.24,
                           color: Colors.white,
                           padding: EdgeInsets.symmetric(
                               horizontal: screenWidth * 0.03),
@@ -141,18 +67,13 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                             children: [
                               SizedBox(height: screenHeight * 0.01),
                               CustomTextFormField(
-                                labelText: "Customer *",
-                                hintText: "Enter Customer",
+                                labelText: "Party Name *",
+                                hintText: "Enter party name",
                               ),
                               SizedBox(height: screenHeight * 0.03),
                               CustomTextFormField(
-                                labelText: "Phone Number",
-                                hintText: "Enter Phone Number",
-                              ),
-                              SizedBox(height: screenHeight * 0.03),
-                              CustomTextFormField(
-                                labelText: "Due Date",
-                                hintText: "24/09/2024",
+                                labelText: "Bill No",
+                                hintText: "Enter bill no.",
                               ),
                               SizedBox(height: screenHeight * 0.03),
                               AddItemButton(
@@ -170,7 +91,7 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.10),
+                  SizedBox(height: screenHeight * 0.005),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: screenWidth * 0.04,
@@ -182,9 +103,9 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                         Text(
                           "Total Amount",
                           style: TextStyle(
-                            color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                            color: Colors.black,
+                            fontSize: 14.sp,
                           ),
                         ),
                         SizedBox(
@@ -200,8 +121,6 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                 ),
                               ),
                               TextFormField(
-                                style: interFontBlack(context,
-                                    color: Colorconst.cBlack, fontsize: 16.sp),
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "₹",
@@ -218,7 +137,9 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                     receivedAmountNotifier.value = parsedValue;
                                   }
                                 },
-                                // style: TextStyle(fontSize: screenWidth * 0.04),
+                                style: TextStyle(
+                                    fontSize: screenWidth * 0.04,
+                                    color: Colors.black),
                               ),
                             ],
                           ),
@@ -255,14 +176,18 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                       builder: (context, isChecked, child) {
                                         return Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            SizedBox(width: screenWidth * .01),
-                                            Text("Advance Amt",
+                                            SizedBox(
+                                              width: 3.w,
+                                            ),
+                                            const Text("Advance amt",
                                                 style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Colors.black)),
-                                            SizedBox(width: screenWidth * .5),
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                            SizedBox(width: screenWidth * .46),
                                             SizedBox(
                                               width: screenWidth * 0.25,
                                               child: Stack(children: [
@@ -281,11 +206,19 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                                   builder: (context,
                                                       receivedAmount, child) {
                                                     return TextFormField(
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.04,
+                                                          color: Colors.black),
                                                       keyboardType:
                                                           TextInputType.number,
                                                       decoration:
                                                           InputDecoration(
                                                         hintText: "₹",
+                                                        hintStyle: TextStyle(
+                                                            color:
+                                                                Colors.black),
                                                         border:
                                                             InputBorder.none,
                                                         contentPadding:
@@ -303,10 +236,6 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                                                 .value =
                                                             parsedValue;
                                                       },
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              screenWidth *
-                                                                  0.04),
                                                       initialValue:
                                                           isReceivedChecked
                                                                   .value
@@ -326,9 +255,10 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: screenHeight * 0.01),
+                            SizedBox(height: screenHeight * 0.03),
                             Padding(
-                              padding: EdgeInsets.only(left: screenWidth * .03),
+                              padding: EdgeInsets.only(
+                                  left: screenWidth * .03, bottom: 6.h),
                               child: ValueListenableBuilder<double>(
                                 valueListenable: receivedAmountNotifier,
                                 builder: (context, receivedAmount, child) {
@@ -336,18 +266,37 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                       totalAmount - receivedAmount;
                                   return Row(
                                     children: [
-                                      Text("Balance Due",
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      const Text("Balance Due",
                                           style: TextStyle(
                                               color: Colors.green,
                                               fontSize: 14)),
-                                      SizedBox(width: screenWidth * .53),
-                                      Text("₹ ",
-                                          style: TextStyle(
-                                              fontSize: screenWidth * 0.04)),
-                                      Text("${balanceDue.toStringAsFixed(2)}",
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontSize: screenWidth * 0.03))
+                                      // SizedBox(width: screenWidth * .53),
+                                      Expanded(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text("₹ ",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize:
+                                                      screenWidth * 0.04)),
+                                          SizedBox(
+                                            width: 48.w,
+                                          ),
+                                          Text(balanceDue.toStringAsFixed(2),
+                                              style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize:
+                                                      screenWidth * 0.03)),
+                                          SizedBox(
+                                            width: 15.w,
+                                          )
+                                        ],
+                                      ))
                                     ],
                                   );
                                 },
@@ -364,13 +313,13 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                             SizedBox(height: screenHeight * .01),
                             Container(
                               padding: EdgeInsets.all(10),
-                              height: screenHeight * .25,
-                              color: Colors.white,
+                              height: screenHeight * .18,
+                              color: Colorconst.cwhite,
                               child: Column(
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Payment Type",
                                         style:
                                             TextStyle(color: Colorconst.cGrey),
@@ -378,21 +327,30 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                       SizedBox(
                                         width: screenWidth * .45,
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.money,
-                                        color: Colors.green,
+                                        color: Colorconst.Green,
                                       ),
                                       // SizedBox(
                                       //   width: screenWidth * .01,
                                       // ),
-                                      Text("Cash"),
-                                      Icon(Icons.arrow_drop_down)
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      const Text(
+                                        "Cash",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      const Icon(Icons.arrow_drop_down),
+                                      SizedBox(
+                                        width: 6.w,
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
                                     height: screenHeight * .04,
                                   ),
-                                  Row(
+                                  const Row(
                                     children: [
                                       Icon(Icons.add, color: Colorconst.cBlue),
                                       Text(
@@ -402,71 +360,77 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                       ),
                                     ],
                                   ),
-                                  Divider(),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _showStateSelectionBottomSheet();
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "State of Supply",
-                                          style: TextStyle(
-                                              color: Colorconst.cGrey),
-                                        ),
-                                        SizedBox(
-                                          width: screenWidth * .4,
-                                        ),
-                                        Text("Select State"),
-                                        Icon(Icons.arrow_drop_down)
-                                      ],
-                                    ),
+                                  const Divider(),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "State of Supply",
+                                        style:
+                                            TextStyle(color: Colorconst.cGrey),
+                                      ),
+                                      SizedBox(
+                                        width: screenWidth * .4,
+                                      ),
+                                      Text(
+                                        "Select State",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14.sp),
+                                      ),
+                                      Icon(Icons.arrow_drop_down)
+                                    ],
                                   ),
                                 ],
                               ),
                             ),
                             SizedBox(height: screenHeight * .01),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  height: screenHeight * .18,
-                                  width: screenWidth * .7,
-                                  color: Colors.white,
-                                  child: Center(
-                                    child: TextFormField(
-                                      decoration: const InputDecoration(
-                                        labelText: 'Description',
-                                        hintText: 'Add Note',
-                                        border: OutlineInputBorder(),
-                                      ),
-                                      maxLines: 3,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  height: screenHeight * .18,
-                                  width: screenWidth * .29,
-                                  color: Colors.white,
-                                  child: Container(
-                                    width: 60,
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      border: Border.all(color: Colors.grey),
-                                    ),
+                            Container(
+                              color: Colorconst.cwhite,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    height: screenHeight * .18,
+                                    width: screenWidth * .7,
+                                    color: Colorconst.cwhite,
                                     child: Center(
-                                      child: Icon(
-                                        Icons.add_a_photo,
-                                        color: Colors.blue,
-                                        size: 30,
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                          labelText: 'Description',
+                                          hintText: 'Add Note',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        maxLines: 3,
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Container(
+                                    // padding: EdgeInsets.all(10),
+                                    // height: screenHeight * .18,
+                                    height: screenHeight * .11,
+                                    width: screenWidth * .27,
+                                    color: Colorconst.cwhite,
+                                    child: Container(
+                                      width: 60,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(color: Colors.grey),
+                                      ),
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.add_a_photo,
+                                          color: Colors.blue,
+                                          size: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // SizedBox(width: 5.w,)
+                                ],
+                              ),
                             ),
                           ],
                         ],
@@ -478,30 +442,7 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
             ),
           ),
           // Positioned text above the bottom button
-          Positioned(
-            bottom: 39,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colorconst.cLightPink,
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Your Current Plan May not support some features",
-                    style: interFontGrey(context, fontsize: 12),
-                    // textAlign: TextAlign.center,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios_outlined,
-                    size: screenWidth * 0.020,
-                    color: Colorconst.cGrey,
-                  )
-                ],
-              ),
-            ),
-          ),
+
           // Bottom button fixed at the bottom
           Positioned(
             bottom: 0,

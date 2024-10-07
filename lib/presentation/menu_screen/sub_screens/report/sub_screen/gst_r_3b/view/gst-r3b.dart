@@ -54,179 +54,181 @@ class GstR3bScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            color: Colorconst.cfafafaLightGrey,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 10.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_month_outlined,
-                        size: 16.sp,
-                        color: Colorconst.cBlue,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "September 2024 ",
-                            style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Row(
-                            children: List.generate(
-                              25,
-                              (index) => Padding(
-                                padding: EdgeInsets.only(right: 1.h),
-                                child: Container(
-                                  height: 1.w,
-                                  width: 2.w,
-                                  color: Colorconst.cGrey,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              color: Colorconst.cfafafaLightGrey,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_month_outlined,
+                          size: 16.sp,
+                          color: Colorconst.cBlue,
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "September 2024 ",
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Row(
+                              children: List.generate(
+                                25,
+                                (index) => Padding(
+                                  padding: EdgeInsets.only(right: 1.h),
+                                  child: Container(
+                                    height: 1.w,
+                                    width: 2.w,
+                                    color: Colorconst.cGrey,
+                                  ),
                                 ),
                               ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Text(
+                          "To ",
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "September 2024 ",
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w400),
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        "To ",
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "September 2024 ",
-                            style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Row(
-                            children: List.generate(
-                              25,
-                              (index) => Padding(
-                                padding: EdgeInsets.only(right: 1.h),
-                                child: Container(
-                                  height: 1.w,
-                                  width: 2.w,
-                                  color: Colorconst.cGrey,
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Row(
+                              children: List.generate(
+                                25,
+                                (index) => Padding(
+                                  padding: EdgeInsets.only(right: 1.h),
+                                  child: Container(
+                                    height: 1.w,
+                                    width: 2.w,
+                                    color: Colorconst.cGrey,
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-
-                SizedBox(
-                  height: 10.h,
-                ),
-                Divider(
-                  height: 1.w,
-                  color: Colorconst.cSecondaryGrey,
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                          height: 12.h,
-                          width: 12.h,
-                          child: const Checkbox(value: false, onChanged: null)),
-                      SizedBox(
-                        width: 7.w,
-                      ),
-                      Text(
-                        "Consider non tax transactions as exempted ",
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w400),
-                      )
-                    ],
+        
+                  SizedBox(
+                    height: 10.h,
                   ),
-                ),
-
-                SizedBox(
-                  height: 10.h,
-                ),
-                Divider(
-                  height: 1.w,
-                  color: Colorconst.cSecondaryGrey,
-                ),
-               
-          
-                   Obx(
-                    () {
-                       return SizedBox(
-                        height: 400.h,
-                        width: double.infinity,
-                                 //           child: PdfViewer.openAsset('assets/pdfs/pdf_sample.pdf',
-                        
-                                 //           viewerController: controller,
-                                 //            params: PdfViewerParams(
-                       
-                                 //             pageNumber: 1,
-                                
-                                 //   onViewerControllerInitialized: (PdfViewerController c) {
-                                 //     // controller = c;
-                                 //     // controller.goToPage(pageNumber: 3); 
-                                 //   }
-                                 // )
-                                 //           )
-                       
-                                 child:_controller.pdfPath.value !=""
-                                 ? PdfViewer.openFile(
-                                     _controller.pdfPath.value,
-                                     viewerController: controller,
-                                     params:const PdfViewerParams(
-                                      //  minScale: 1.0,
-                                      //  maxScale: 3.0,
-                                     ),
-                                   )
-                                 :const Center(child: CircularProgressIndicator()),
-                                         );
-                     }
-                   )
-               
-
-                // saleWidget()
-              ],
+                  Divider(
+                    height: 1.w,
+                    color: Colorconst.cSecondaryGrey,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 14.w),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            height: 12.h,
+                            width: 12.h,
+                            child: const Checkbox(value: false, onChanged: null)),
+                        SizedBox(
+                          width: 7.w,
+                        ),
+                        Text(
+                          "Consider non tax transactions as exempted ",
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w400),
+                        )
+                      ],
+                    ),
+                  ),
+        
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Divider(
+                    height: 1.w,
+                    color: Colorconst.cSecondaryGrey,
+                  ),
+                 
+            
+                     Obx(
+                      () {
+                         return SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          width: double.infinity,
+                                   //           child: PdfViewer.openAsset('assets/pdfs/pdf_sample.pdf',
+                          
+                                   //           viewerController: controller,
+                                   //            params: PdfViewerParams(
+                         
+                                   //             pageNumber: 1,
+                                  
+                                   //   onViewerControllerInitialized: (PdfViewerController c) {
+                                   //     // controller = c;
+                                   //     // controller.goToPage(pageNumber: 3); 
+                                   //   }
+                                   // )
+                                   //           )
+                         
+                                   child:_controller.pdfPath.value !=""
+                                   ? PdfViewer.openFile(
+                                       _controller.pdfPath.value,
+                                       viewerController: controller,
+                                       params:const PdfViewerParams(
+                                        //  minScale: 1.0,
+                                        //  maxScale: 3.0,
+                                       ),
+                                     )
+                                   :const Center(child: CircularProgressIndicator()),
+                                           );
+                       }
+                     )
+                 
+        
+                  // saleWidget()
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

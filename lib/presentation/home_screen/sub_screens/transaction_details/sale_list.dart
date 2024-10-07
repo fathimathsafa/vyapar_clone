@@ -6,18 +6,24 @@ import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/p2p_transfer_screen/view/p2p_transfer_screen.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/invoice_print/view/invoice_print.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/transaction/view/transaction.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/view/all_transaction_payment_out_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_list_screen/view/purchase_list_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_order_list/view/purchase_order_list.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_return/view/purchase_return_list.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/all_transaction/all_transaction.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/day_book/day_book.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/profit_loss_report/profit_loss_reoprt.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/sale_report_screen/view/sale_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_screen/view/add_estimate_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
-
-import '../../widget/header.dart';
-import '../../widget/header_buttons.dart';
 
 class SaleListScreen extends StatelessWidget {
   SaleListScreen({super.key});
@@ -30,45 +36,6 @@ class SaleListScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                SizedBox(
-                  height: 25.h,
-                ),
-                Container(
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      const HeaderWidget(),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: Row(
-                          children: [
-                            HeaderButtons(
-                              index: 0,
-                              selectedIndex: 0,
-                              onSingleTap: () {},
-                            ),
-                            SizedBox(
-                              width: 16.w,
-                            ),
-                            HeaderButtons(
-                              butnTxt: "Party Details",
-                              index: 1,
-                              selectedIndex: 0,
-                              onSingleTap: () {},
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      )
-                    ],
-                  ),
-                ),
                 Expanded(
                     child: Container(
                   color: Colorconst.cSecondaryBlue,
@@ -120,8 +87,7 @@ class SaleListScreen extends StatelessWidget {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                SaleListScreen(),
+                                            builder: (context) => SaleReport(),
                                           ),
                                         );
                                       },
@@ -272,15 +238,63 @@ class SaleListScreen extends StatelessWidget {
                       ),
                     );
                   }),
-                  iconWithLabel(Icons.book, 'Day Book', () {}),
-                  iconWithLabel(
-                      Icons.receipt_rounded, 'All Txns Report', () {}),
-                  iconWithLabel(
-                      Icons.monetization_on_outlined, 'Profit & Loss', () {}),
-                  iconWithLabel(Icons.document_scanner, 'Balance Sheet', () {}),
-                  iconWithLabel(Icons.receipt_long, 'Billwise PnL', () {}),
-                  iconWithLabel(Icons.print_outlined, 'Print Settings', () {}),
-                  iconWithLabel(Icons.sms, 'Txn SMS Settings', () {}),
+                  iconWithLabel(Icons.book, 'Day Book', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DayBook(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.receipt_rounded, 'All Txns Report', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AllTransaction(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.monetization_on_outlined, 'Profit & Loss',
+                      () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfitAndLossReoprt(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.document_scanner, 'Balance Sheet', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VyaparPremiumScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.receipt_long, 'Billwise PnL', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VyaparPremiumScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.print_outlined, 'Print Settings', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => InvoicePrintScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.sms, 'Txn SMS Settings', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TransactionSettingScreen(),
+                      ),
+                    );
+                  }),
                 ]),
               ],
             ),
@@ -348,7 +362,14 @@ class SaleListScreen extends StatelessWidget {
                       ),
                     );
                   }),
-                  iconWithLabel(Icons.description, 'Proforma Invoice', () {}),
+                  iconWithLabel(Icons.description, 'Proforma Invoice', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProFormaInvoice(),
+                      ),
+                    );
+                  }),
                   iconWithLabel(Icons.receipt_long, 'Sale Invoice', () {
                     Navigator.push(
                       context,
@@ -385,10 +406,29 @@ class SaleListScreen extends StatelessWidget {
                       ),
                     );
                   }),
-                  iconWithLabel(
-                      Icons.assignment_return, 'Purchase Return', () {}),
-                  iconWithLabel(Icons.receipt, 'Purchase Order', () {}),
+                  iconWithLabel(Icons.assignment_return, 'Purchase Return', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PurchaseReturnListScreen(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.receipt, 'Purchase Order', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PurchaseOrderListScreen(),
+                      ),
+                    );
+                  }),
                 ]),
+                // Divider(),
+                // buildSectionHeader('Other Transactions'),
+                // buildIconGrid([
+                //   iconWithLabel(Icons.attach_money, 'Expenses', () {}),
+                //   iconWithLabel(Icons.sync, 'P2P Transfer', () {}),
+                // ]),
                 Divider(),
                 buildSectionHeader('Other Transactions'),
                 buildIconGrid([

@@ -1,7 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/controller/apply%20_loan_controller.dart';
 
 class ApplyLoanPage extends StatelessWidget {
@@ -33,26 +33,25 @@ class ApplyLoanPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Carousel Slider
-                  Obx(
-                    () => CarouselSlider.builder(
-                      itemCount: controller.imageUrls.length,
-                      options: CarouselOptions(
-                        height: 200,
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        onPageChanged: (index, reason) {
-                          controller.onPageChanged(index);
-                        },
-                      ),
-                      itemBuilder: (context, index, realIdx) {
-                        return Image.asset(
-                          controller.imageUrls[index],
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        );
+                  CarouselSlider.builder(
+                    itemCount: controller.imageUrls.length,
+                    options: CarouselOptions(
+                      height: 200,
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      autoPlayInterval: Duration(seconds: 3),
+                      onPageChanged: (index, reason) {
+                        controller
+                            .onPageChanged(index); // observable update here
                       },
                     ),
+                    itemBuilder: (context, index, realIdx) {
+                      return Image.asset(
+                        controller.imageUrls[index],
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      );
+                    },
                   ),
                   SizedBox(height: 20),
 

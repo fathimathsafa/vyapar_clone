@@ -33,7 +33,7 @@ class BusinessCardScreen extends StatelessWidget {
                     // labelColor: Colors.black,
                     dividerColor: Colors.transparent,
                     padding: EdgeInsets.symmetric(horizontal: 0.w),
-                    labelPadding: EdgeInsets.symmetric(horizontal: 0.w),
+                    labelPadding: EdgeInsets.symmetric(horizontal: 5.w),
                     unselectedLabelColor: Colors.black87,
                     indicatorColor: Colorconst.cRed,
                     labelStyle: TextStyle(

@@ -9,6 +9,8 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_de
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
+import '../../../../../../../../core/constatnts/text_style.dart';
+
 class CreditNoteScreen extends StatefulWidget {
   @override
   State<CreditNoteScreen> createState() => _CreditNoteScreenState();
@@ -96,6 +98,7 @@ class _CreditNoteScreenState extends State<CreditNoteScreen> {
                               ),
                               SizedBox(height: 25.h),
                               CustomTextFormField(
+                                keyboardType: TextInputType.number,
                                 labelText: "Phone Number",
                                 hintText: "Enter Phone Number",
                               ),
@@ -123,7 +126,7 @@ class _CreditNoteScreenState extends State<CreditNoteScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AddItemSaleScreen()));
+                                              AddItemToSale()));
                                 },
                               ),
                             ],
@@ -526,6 +529,7 @@ class _CreditNoteScreenState extends State<CreditNoteScreen> {
     return TextFormField(
       initialValue: initialValue,
       enabled: isEnabled,
+      style: interFontBlack(context, color: Colorconst.cBlack, fontsize: 17.sp),
       decoration: InputDecoration(
         labelText: label,
         suffixIcon: suffixIcon,

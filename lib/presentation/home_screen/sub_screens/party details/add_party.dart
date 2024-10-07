@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/constatnts/colors.dart';
+import '../../../../core/constatnts/text_style.dart';
 
 class AddNewPartyPage extends StatefulWidget {
   @override
@@ -210,6 +214,9 @@ class _AddNewPartyPageState extends State<AddNewPartyPage> {
             Text("Party Name*", style: TextStyle(fontSize: 16)),
             SizedBox(height: 8),
             TextFormField(
+             style: interFontBlack(context,
+            color: Colorconst.cBlack,
+            fontsize: 17.sp),
               decoration: InputDecoration(
                 hintText: "e.g. Ram Prasad",
                 helperStyle: TextStyle(color: Colors.black),
@@ -232,6 +239,9 @@ class _AddNewPartyPageState extends State<AddNewPartyPage> {
             Text("GSTIN", style: TextStyle(fontSize: 16, color: Colors.black)),
             SizedBox(height: 8),
             TextFormField(
+              style: interFontBlack(context,
+            color: Colorconst.cBlack,
+            fontsize: 17.sp),
               initialValue: "1",
               decoration: InputDecoration(
                 border: OutlineInputBorder(

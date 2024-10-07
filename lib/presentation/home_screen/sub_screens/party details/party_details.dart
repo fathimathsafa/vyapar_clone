@@ -6,8 +6,10 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20detail
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20details/import_party.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/party/view/party.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/reminder/sub_reminder/view/payment_reminder.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/all_party_reports/view/all_party_reports.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/view/party_report_by_items.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_reports/party_statement_screen/view/party_statement.dart';
 
 class PartyDetails extends StatelessWidget {
   const PartyDetails({super.key});
@@ -41,11 +43,33 @@ class PartyDetails extends StatelessWidget {
                   buildSectionHeader('More Options'),
                   buildIconGrid([
                     iconWithLabel(Icons.comment_bank, 'Invite Party', () {}),
-                    iconWithLabel(Icons.book, 'Partywise PnL', () {}),
+                    iconWithLabel(Icons.book, 'Partywise PnL', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VyaparPremiumScreen(),
+                        ),
+                      );
+                    }),
+                    iconWithLabel(Icons.receipt_rounded, 'All Parties Report',
+                        () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AllPartyReportsScreen(),
+                        ),
+                      );
+                    }),
                     iconWithLabel(
-                        Icons.receipt_rounded, 'All Parties Report', () {}),
-                    iconWithLabel(Icons.monetization_on_outlined,
-                        'Reminder Settings', () {}),
+                        Icons.monetization_on_outlined, 'Reminder Settings',
+                        () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaymentReminderScreen(),
+                        ),
+                      );
+                    }),
                     iconWithLabel(Icons.document_scanner, 'Greetings & Offer',
                         () {
                       Navigator.push(
@@ -66,131 +90,142 @@ class PartyDetails extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 235, 245, 252),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Quick Links Section inside the container with icons
-            Container(
-              padding: EdgeInsets.all(16.0), // Add padding for better spacing
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Heading "Quick Links"
-                  Text(
-                    "Quick Links",
-                    style: interFontBlack(context),
-                  ),
-                  SizedBox(height: 10.h),
-                  // Icons in a row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ImportPartyPage()),
-                          );
-                        },
-                        child: _buildQuickLinkButton(
-                            'Import Party', 'assets/images/import party.jpeg'),
-                      ), // Replace with your image asset path
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    PartyReportByItemsScreen()),
-                          );
-                        },
-                        child: _buildQuickLinkButton('Party Statement',
-                            'assets/images/party state.jpeg'),
-                      ), // Replace with your image asset path
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PartyScreen()),
-                          );
-                        },
-                        child: _buildQuickLinkButton('Party Settings',
-                            'assets/images/party settings.jpeg'),
-                      ), // Replace with your image asset path
-                      GestureDetector(
-                        onTap: () {
-                          showShowMorePopup(context);
-                        },
-                        child: _buildQuickLinkButton(
-                            'Show All', 'assets/images/quick_link_4.png'),
-                      ), // Replace with your image asset path
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            // Party Information Section
-            Column(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
               children: [
-                _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
-                SizedBox(height: 12),
-                _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
-                SizedBox(height: 12),
-                _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
-                SizedBox(height: 12),
-                _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
-              ],
-            ),
-            SizedBox(height: 20),
-            // Add New Party Button
-            Positioned(
-              bottom: 16.0,
-              left: MediaQuery.of(context).size.width / 3.2,
-              right: MediaQuery.of(context).size.width / 3.2,
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 350),
-                opacity: 1.0,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AddNewPartyPage()));
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colorconst.cRed,
-                        borderRadius: BorderRadius.circular(24.r)),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                SizedBox(
+                  height: 15.h,
+                ),
+                // Quick Links Section inside the container with icons
+                Container(
+                  padding:
+                      EdgeInsets.all(16.0), // Add padding for better spacing
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Heading "Quick Links"
+                      Text(
+                        "Quick Links",
+                        style: interFontBlack(context),
+                      ),
+                      SizedBox(height: 10.h),
+                      // Icons in a row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Icon(
-                            Icons.person_2_outlined,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            "Add New Party",
-                            style: interFontGrey(
-                                color: Colorconst.cwhite, context),
-                          )
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => ImportPartyPage()),
+                          //     );
+                          //   },
+                          //   child: _buildQuickLinkButton('Import Party',
+                          //       'assets/images/import party.jpeg'),
+                          // ), // Replace with your image asset path
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PartyReportByItemsScreen()),
+                              );
+                            },
+                            child: _buildQuickLinkButton('Party Statement',
+                                'assets/images/party state.jpeg'),
+                          ), // Replace with your image asset path
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PartyScreen()),
+                              );
+                            },
+                            child: _buildQuickLinkButton('Party Settings',
+                                'assets/images/party settings.jpeg'),
+                          ), // Replace with your image asset path
+                          GestureDetector(
+                            onTap: () {
+                              showShowMorePopup(context);
+                            },
+                            child: _buildQuickLinkButton(
+                                'Show All', 'assets/images/quick_link_4.png'),
+                          ), // Replace with your image asset path
                         ],
                       ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                // Party Information Section
+                SizedBox(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: List.generate(
+                        3,
+                        (index) => Column(
+                          children: [
+                            _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
+                            SizedBox(height: 12),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                // Add New Party Button
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: MediaQuery.of(context).size.width / 3.2,
+            right: MediaQuery.of(context).size.width / 3.2,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 350),
+              opacity: 1.0,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AddNewPartyPage()));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colorconst.cRed,
+                      borderRadius: BorderRadius.circular(24.r)),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.person_2_outlined,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          "Add New Party",
+                          style:
+                              interFontGrey(color: Colorconst.cwhite, context),
+                        )
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

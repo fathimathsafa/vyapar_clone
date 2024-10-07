@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/sale_list.dart';
 
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/view/apply_loan_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restore/auto_backup_screen/view/auto_backup_screen.dart';
@@ -31,6 +32,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payme
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_list_screen/view/purchase_list_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_screen/view/add_estimate_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
@@ -44,8 +46,11 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/messa
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
 
+import '../models/show_dialog.dart';
 import '../sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
 
+import '../sub_screens/purchase/purchase_order_list/view/purchase_order_list.dart';
+import '../sub_screens/purchase/purchase_return/view/purchase_return_list.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/business_card/view/business_card.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/document_setting/view/document_setting.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/insights/view/insights.dart';
@@ -55,9 +60,6 @@ import '../sub_screens/sync_and_shear_screen/view/syn_and_shear_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -91,15 +93,22 @@ class MenuScreen extends StatelessWidget {
             const SizedBox(height: 10),
             buildSection('Create', [
               buildGridItem(Icons.blinds_closed_rounded, 'Invoice', () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => SaleListScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SaleListScreen()));
               }),
-              buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {}),
+              buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EstimateQuatationScreen(),
+                  ),
+                );
+              }),
               buildGridItem(Icons.timelapse_outlined, 'Delivery Challan', () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => DeliveryChallanDetails()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DeliveryChallanScreen()));
               }),
               buildGridItem(Icons.auto_graph_sharp, 'Credit Note', () {
                 Navigator.push(
@@ -107,9 +116,10 @@ class MenuScreen extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => CreditNoteScreen()));
               }),
-              buildGridItem(
-                  Icons.business_center_outlined, 'Purchase Order', () {}),
-              buildGridItem(Icons.card_membership, 'Pro Forma Invoice', () => Get.to(()=>const ProFormaInvoice())),
+              buildGridItem(Icons.business_center_outlined, 'Purchase Order',
+                  () => Get.to(() => PurchaseOrderListScreen())),
+              buildGridItem(Icons.card_membership, 'Pro Forma Invoice',
+                  () => Get.to(() => const ProFormaInvoice())),
             ]),
             const SizedBox(height: 10),
             buildSection('My Business', [
@@ -137,18 +147,24 @@ class MenuScreen extends StatelessWidget {
             ]),
             const SizedBox(height: 10),
             buildSection('Quick Access', [
-              buildGridItem(Icons.blinds_closed_rounded, 'E-Way Bill', () => _eWayBillBottomSheet()),
-              buildGridItem(Icons.inventory_2_outlined, 'E-Invoice', () =>_eEnvoiceBottomSheet()),
+              buildGridItem(Icons.blinds_closed_rounded, 'E-Way Bill',
+                  () => _eWayBillBottomSheet()),
+              buildGridItem(Icons.inventory_2_outlined, 'E-Invoice',
+                  () => _eEnvoiceBottomSheet()),
+              buildGridItem(Icons.timelapse_outlined, 'Payment Timeline',
+                  () => Get.to(() => const PaymentTimelineScreen())),
+              buildGridItem(Icons.auto_graph_sharp, 'Insights',
+                  () => Get.to(() => const InsightsScreen())),
+              buildGridItem(Icons.business_center_outlined, 'Business Card',
+                  () => Get.to(() => BusinessCardScreen())),
+              buildGridItem(Icons.card_membership, 'Greetings',
+                  () => Get.to(() => GreetingOfferScreen())),
+              buildGridItem(Icons.business_center_outlined, 'Invoice Templates',
+                  () => Get.to(() => InvoiceTemplateScreen())),
               buildGridItem(
-                  Icons.timelapse_outlined, 'Payment Timeline', () => Get.to(()=>const PaymentTimelineScreen())),
-              buildGridItem(Icons.auto_graph_sharp, 'Insights', () => Get.to(()=>const InsightsScreen())),
-              buildGridItem(
-                  Icons.business_center_outlined, 'Business Card', () => Get.to(()=> BusinessCardScreen())),
-              buildGridItem(Icons.card_membership, 'Greetings', () {}),
-              buildGridItem(
-                  Icons.business_center_outlined, 'Invoice Templates', () => Get.to(()=> InvoiceTemplateScreen())),
-              buildGridItem(
-                  Icons.document_scanner_outlined, 'Document Settings', () => Get.to(()=> DocumentSettingScreen())),
+                  Icons.document_scanner_outlined,
+                  'Document Settings',
+                  () => Get.to(() => DocumentSettingScreen())),
             ]),
             const SizedBox(height: 10),
             buildSection('Cash & Bank', [
@@ -192,31 +208,37 @@ class MenuScreen extends StatelessWidget {
                   Icons.settings_backup_restore_outlined, 'Backup/Restore', () {
                 _showBackupRestorePopup(context);
               }),
-              buildGridItem(Icons.shopping_bag_outlined, 'Utilities', () {
-                _showUtilitiesPopup(context);
-              }),
+              buildGridItem(
+                Icons.shopping_bag_outlined, 'Utilities',
+                () => _showUtilitiesPopup(context),
+
+                // {
+                // _showUtilitiesPopup(context);
+                // print("object");
+                // }
+              ),
             ]),
             const SizedBox(height: 10),
             buildSection('Others', [
+              buildGridItem(Icons.account_balance_outlined, 'Vyapar Premium',
+                  () => Get.to(() => VyaparPremiumScreen())),
               buildGridItem(
-                  Icons.account_balance_outlined, 'Vyapar Premium', () => Get.to(()=> VyaparPremiumScreen())),
-              buildGridItem(Icons.account_balance_wallet_outlined,
-                  'Get Desktop Billing Software', () => _getDeskBillingBottomSheet()),
-              buildGridItem(
-                  Icons.view_comfortable_rounded, 'Other Products', () => Get.to(()=>const OtherProductScreen())),
-              buildGridItem(Icons.phone_enabled, 'Greeting & Offers', () => Get.to(()=>const GreetingOfferScreen())),
-              buildGridItem(Icons.settings_outlined, 'Settings', () => Get.to(()=>const SettingScreen())),
-
-               buildGridItem(
-                          Icons.wallet_giftcard_rounded,
-                          'Refer & Earn',
-                          () => Get.to(() => ReferEarnScreen())),
-                      buildGridItem(
-                          Icons.headset_mic_outlined, 'Help & Support', () {
-                        _showHelpSupportPopup(context);
-                      }),
-                      buildGridItem(
-                          Icons.star_border_outlined, 'Rate This App', () => _rateThisAppDialog())
+                  Icons.account_balance_wallet_outlined,
+                  'Get Desktop Billing Software',
+                  () => _getDeskBillingBottomSheet()),
+              buildGridItem(Icons.view_comfortable_rounded, 'Other Products',
+                  () => Get.to(() => const OtherProductScreen())),
+              buildGridItem(Icons.phone_enabled, 'Greeting & Offers',
+                  () => Get.to(() => const GreetingOfferScreen())),
+              buildGridItem(Icons.settings_outlined, 'Settings',
+                  () => Get.to(() => const SettingScreen())),
+              buildGridItem(Icons.wallet_giftcard_rounded, 'Refer & Earn',
+                  () => Get.to(() => ReferEarnScreen())),
+              buildGridItem(Icons.headset_mic_outlined, 'Help & Support', () {
+                _showHelpSupportPopup(context);
+              }),
+              buildGridItem(Icons.star_border_outlined, 'Rate This App',
+                  () => _rateThisAppDialog())
             ]),
           ],
         ),
@@ -224,9 +246,7 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-
-
-   Future<void> _openCalculator(BuildContext context) async {
+  Future<void> _openCalculator(BuildContext context) async {
     const String calculatorUrl =
         'calculator://'; // Common URL scheme for calculators
 
@@ -239,13 +259,13 @@ class MenuScreen extends StatelessWidget {
         await launch(
             'intent://calculator#Intent;scheme=android.intent.action.VIEW;end');
       } catch (e) {
-        _showSnackbar('Could not open the calculator app.',context);
+        _showSnackbar('Could not open the calculator app.', context);
       }
     }
   }
 
   // Function to show the custom Snackbar-like message
-   _showSnackbar(String message,context) {
+  _showSnackbar(String message, context) {
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -296,7 +316,7 @@ class MenuScreen extends StatelessWidget {
     }
   }
 
-   _showVerificationDialog(context) {
+  _showVerificationDialog(context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -327,6 +347,70 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
+  void _showCustomGetDialog({List<ShowDialogModel>? items}) {
+    Get.bottomSheet(Material(
+      color: Colors.transparent,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Navigator.of(context).pop();
+                            Get.back();
+                          },
+                          child: const Icon(Icons.close),
+                        ),
+                        const SizedBox(width: 8),
+                        // Text(title,
+                        //     style: TextStyle(
+                        //         fontWeight: FontWeight.bold, fontSize: 18)),
+                      ],
+                    ),
+                    buildIconGrid(items!.map((item) {
+                      // return iconWithLabel(
+                      //     item['icon'], item['label'], item['onTap']??(){});
+
+                      return GestureDetector(
+                        onTap: item.onTap,
+                        child: Column(
+                          children: [
+                            Icon(item.iconData, size: 30, color: Colors.blue),
+                            const SizedBox(height: 8),
+                            Text(
+                              item.lable.toString(),
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 10, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList()),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+
   void _showCustomPopup(
       BuildContext context, List<Map<String, dynamic>> items) {
     showGeneralDialog(
@@ -336,38 +420,41 @@ class MenuScreen extends StatelessWidget {
       barrierColor: Colors.black54,
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, anim1, anim2) {
-        return Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            margin: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Icon(Icons.close),
-                      ),
-                      const SizedBox(width: 8),
-                      // Text(title,
-                      //     style: TextStyle(
-                      //         fontWeight: FontWeight.bold, fontSize: 18)),
-                    ],
-                  ),
-                  buildIconGrid(items.map((item) {
-                    return iconWithLabel(
-                        item['icon'], item['label'], item['onTap']);
-                  }).toList()),
-                ],
+        return Material(
+          color: Colors.transparent,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Icon(Icons.close),
+                        ),
+                        const SizedBox(width: 8),
+                        // Text(title,
+                        //     style: TextStyle(
+                        //         fontWeight: FontWeight.bold, fontSize: 18)),
+                      ],
+                    ),
+                    buildIconGrid(items.map((item) {
+                      return iconWithLabel(
+                          item['icon'], item['label'], item['onTap']);
+                    }).toList()),
+                  ],
+                ),
               ),
             ),
           ),
@@ -472,12 +559,12 @@ class MenuScreen extends StatelessWidget {
       {
         'icon': Icons.assignment_return,
         'label': 'Purchase Return',
-        'onTap': () {/*  onTap action */}
+        'onTap': () => Get.to(() => PurchaseReturnListScreen())
       },
       {
         'icon': Icons.receipt,
         'label': 'Purchase Order',
-        'onTap': () {/*  onTap action */}
+        'onTap': () => Get.to(() => PurchaseOrderListScreen())
       },
     ]);
   }
@@ -549,7 +636,8 @@ class MenuScreen extends StatelessWidget {
         'icon': Icons.save_alt,
         'label': 'Backup to Phone',
         'onTap': () {
-          _showSnackbar('Data has been backed up in Documents/file path',context);
+          _showSnackbar(
+              'Data has been backed up in Documents/file path', context);
         }
       },
       {
@@ -567,61 +655,55 @@ class MenuScreen extends StatelessWidget {
     ]);
   }
 
-   _showUtilitiesPopup(context) {
-    _showCustomPopup(context, [
-      {
-        'icon': Icons.check,
-        'label': 'Verify my data',
-        'onTap': _showVerificationDialog(context),
-      },
-      {
-        'icon': Icons.calculate,
-        'label': 'Open Calculator',
-        'onTap': _openCalculator,
-      },
-      {
-        'icon': Icons.import_contacts,
-        'label': 'Import items',
-        'onTap': () 
-        
-        {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ImportItemsScreen()));
-        }
-      },
-      {
-        'icon': Icons.group_add,
-        'label': 'Import Parties',
-        'onTap': () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ImportPartyScreen()));
-        }
-      },
-      {
-        'icon': Icons.delete,
-        'label': 'Recycle Bin',
-        'onTap': () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RecycleBinScreen()));
-        }
-      },
-      {
-        'icon': Icons.close,
-        'label': 'Close Financial Year',
-        'onTap': () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => VyaparScreen()));
-        }
-      },
-      {
-        'icon': Icons.message,
-        'label': 'Messages',
-        'onTap': () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MessageScreen()));
-        }
-      },
-    ]);
+  _showUtilitiesPopup(context) {
+    final List<ShowDialogModel> list = [
+      ShowDialogModel(
+        iconData: Icons.check,
+        lable: 'Verify my data',
+        onTap: () => _showVerificationDialog(context),
+      ),
+      ShowDialogModel(
+        iconData: Icons.calculate,
+        lable: 'Open Calculator',
+        onTap: () => _openCalculator(context),
+      ),
+      ShowDialogModel(
+          iconData: Icons.import_contacts,
+          lable: 'Import items',
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ImportItemsScreen()));
+          }),
+      ShowDialogModel(
+          iconData: Icons.group_add,
+          lable: 'Import Parties',
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ImportPartyScreen()));
+          }),
+      ShowDialogModel(
+          iconData: Icons.delete,
+          lable: 'Recycle Bin',
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => RecycleBinScreen()));
+          }),
+      ShowDialogModel(
+          iconData: Icons.close,
+          lable: 'Close Financial Year',
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => VyaparScreen()));
+          }),
+      ShowDialogModel(
+          iconData: Icons.message,
+          lable: 'Messages',
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MessageScreen()));
+          }),
+    ];
+    _showCustomGetDialog(items: list);
   }
 
   void _showHelpSupportPopup(BuildContext context) {
@@ -636,7 +718,11 @@ class MenuScreen extends StatelessWidget {
         'label': 'Tutorials',
         'onTap': () => Get.to(() => const TutorialScreen())
       },
-      {'icon': Icons.support_agent, 'label': 'Remote Support', 'onTap': () {}},
+      {
+        'icon': Icons.support_agent,
+        'label': 'Remote Support',
+        'onTap': () => ()
+      },
     ]);
   }
 
@@ -723,8 +809,6 @@ class MenuScreen extends StatelessWidget {
           ),
         ));
   }
-
-
 
   void _rateThisAppDialog() {
     Get.dialog(
@@ -817,28 +901,35 @@ class MenuScreen extends StatelessWidget {
           ),
         ));
   }
-void _eEnvoiceBottomSheet() {
+
+  void _eEnvoiceBottomSheet() {
     Get.bottomSheet(SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-           
             width: double.infinity,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(13.r), topRight: Radius.circular(13.r)),
+                    topLeft: Radius.circular(13.r),
+                    topRight: Radius.circular(13.r)),
                 color: Colors.white),
             child: Column(
               children: [
-                SizedBox(height: 10.h,),
+                SizedBox(
+                  height: 10.h,
+                ),
                 SizedBox(
                   // height: 160.h,
-                  child: Icon(Icons.inventory_sharp,size: 90.sp,),
+                  child: Icon(
+                    Icons.inventory_sharp,
+                    size: 90.sp,
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
                   child: Column(
                     children: [
                       Row(
@@ -861,37 +952,45 @@ void _eEnvoiceBottomSheet() {
                           // )
                         ],
                       ),
-                      SizedBox(height: 12.h,),
-
-                       Align(
+                      SizedBox(
+                        height: 12.h,
+                      ),
+                      Align(
                         alignment: Alignment.topLeft,
-                         child: Text(
+                        child: Text(
                           textAlign: TextAlign.left,
-                              "Boost your experience with our quick & easy E-Invoicing",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                       ),
-
-                      
+                          "Boost your experience with our quick & easy E-Invoicing",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                SizedBox(height: 12.h,),
-                _quickAccessEwayCheckTextWidget(text: "Generate E-invoices in a click."),
-                SizedBox(height: 10.h,),
-                _quickAccessEwayCheckTextWidget(text: "Uninterrupted E-invoicing with a backup provider."),
-                SizedBox(height: 10.h,),
-                _quickAccessEwayCheckTextWidget(text: "Monitor the status of your E-Invoices."),
-                SizedBox(height: 10.h,),
-               
-                
-                
-          
+                SizedBox(
+                  height: 12.h,
+                ),
+                _quickAccessEwayCheckTextWidget(
+                    text: "Generate E-invoices in a click."),
+                SizedBox(
+                  height: 10.h,
+                ),
+                _quickAccessEwayCheckTextWidget(
+                    text: "Uninterrupted E-invoicing with a backup provider."),
+                SizedBox(
+                  height: 10.h,
+                ),
+                _quickAccessEwayCheckTextWidget(
+                    text: "Monitor the status of your E-Invoices."),
+                SizedBox(
+                  height: 10.h,
+                ),
+
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
                   child: Row(
                     children: [
                       Expanded(
@@ -913,16 +1012,20 @@ void _eEnvoiceBottomSheet() {
                     ],
                   ),
                 ),
-          
-                
-          
+
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.headset_mic_outlined,size: 16.sp,),
-                      SizedBox(width: 7.w,),
+                      Icon(
+                        Icons.headset_mic_outlined,
+                        size: 16.sp,
+                      ),
+                      SizedBox(
+                        width: 7.w,
+                      ),
                       Text(
                         "Talk to a specialist",
                         style: TextStyle(
@@ -930,12 +1033,13 @@ void _eEnvoiceBottomSheet() {
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w500),
                       ),
-                     
                     ],
                   ),
                 ),
-                SizedBox(height: 7.h,)
-          
+                SizedBox(
+                  height: 7.h,
+                )
+
                 // Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
               ],
             ),
@@ -944,28 +1048,35 @@ void _eEnvoiceBottomSheet() {
       ),
     ));
   }
-void _eWayBillBottomSheet() {
+
+  void _eWayBillBottomSheet() {
     Get.bottomSheet(SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-           
             width: double.infinity,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(13.r), topRight: Radius.circular(13.r)),
+                    topLeft: Radius.circular(13.r),
+                    topRight: Radius.circular(13.r)),
                 color: Colors.white),
             child: Column(
               children: [
-                SizedBox(height: 10.h,),
+                SizedBox(
+                  height: 10.h,
+                ),
                 SizedBox(
                   // height: 160.h,
-                  child: Icon(Icons.mobile_friendly_outlined,size: 90.sp,),
+                  child: Icon(
+                    Icons.mobile_friendly_outlined,
+                    size: 90.sp,
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
                   child: Column(
                     children: [
                       Row(
@@ -988,37 +1099,44 @@ void _eWayBillBottomSheet() {
                           // )
                         ],
                       ),
-                      SizedBox(height: 12.h,),
-
-                       Align(
+                      SizedBox(
+                        height: 12.h,
+                      ),
+                      Align(
                         alignment: Alignment.topLeft,
-                         child: Text(
+                        child: Text(
                           textAlign: TextAlign.left,
-                              "Simplify logistics with our effortless E-way bill creation.",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                       ),
-
-                      
+                          "Simplify logistics with our effortless E-way bill creation.",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                SizedBox(height: 12.h,),
+                SizedBox(
+                  height: 12.h,
+                ),
                 _quickAccessEwayCheckTextWidget(),
-                SizedBox(height: 10.h,),
-                _quickAccessEwayCheckTextWidget(text: "Sync your E-way bills to govt portal."),
-                SizedBox(height: 10.h,),
-                _quickAccessEwayCheckTextWidget(text: "Avoid hassles and delays on your transport"),
-                SizedBox(height: 10.h,),
-               
-                
-                
-          
+                SizedBox(
+                  height: 10.h,
+                ),
+                _quickAccessEwayCheckTextWidget(
+                    text: "Sync your E-way bills to govt portal."),
+                SizedBox(
+                  height: 10.h,
+                ),
+                _quickAccessEwayCheckTextWidget(
+                    text: "Avoid hassles and delays on your transport"),
+                SizedBox(
+                  height: 10.h,
+                ),
+
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
                   child: Row(
                     children: [
                       Expanded(
@@ -1040,16 +1158,20 @@ void _eWayBillBottomSheet() {
                     ],
                   ),
                 ),
-          
-                
-          
+
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.headset_mic_outlined,size: 16.sp,),
-                      SizedBox(width: 7.w,),
+                      Icon(
+                        Icons.headset_mic_outlined,
+                        size: 16.sp,
+                      ),
+                      SizedBox(
+                        width: 7.w,
+                      ),
                       Text(
                         "Talk to a specialist",
                         style: TextStyle(
@@ -1057,12 +1179,13 @@ void _eWayBillBottomSheet() {
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w500),
                       ),
-                     
                     ],
                   ),
                 ),
-                SizedBox(height: 7.h,)
-          
+                SizedBox(
+                  height: 7.h,
+                )
+
                 // Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
               ],
             ),
@@ -1071,27 +1194,33 @@ void _eWayBillBottomSheet() {
       ),
     ));
   }
-  Widget _quickAccessEwayCheckTextWidget({String? text}){
 
+  Widget _quickAccessEwayCheckTextWidget({String? text}) {
     return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(Icons.check_circle,size: 17.sp,),
-                      SizedBox(width: 7.w,),
-                      Text(
-                        text?? "Easily create E-way bills with a click.",
-                        style: pdfOptionStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            fontsize: 14.sp),
-                      ),
-                    ],
-                  ),
-                );
+      padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.check_circle,
+            size: 17.sp,
+          ),
+          SizedBox(
+            width: 7.w,
+          ),
+          Text(
+            text ?? "Easily create E-way bills with a click.",
+            style: pdfOptionStyle(
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+                fontsize: 14.sp),
+          ),
+        ],
+      ),
+    );
   }
-void _getDeskBillingBottomSheet() {
+
+  void _getDeskBillingBottomSheet() {
     Get.bottomSheet(Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1256,182 +1385,182 @@ void _getDeskBillingBottomSheet() {
   }
 
   TextStyle pdfOptionStyle(
-    {Color? color, double? fontsize, FontWeight? fontWeight}) {
-  return TextStyle(
-      color: color ?? Colors.black54,
-      fontSize: fontsize ?? 15.sp,
-      fontWeight: fontWeight ?? FontWeight.w600);
-}
+      {Color? color, double? fontsize, FontWeight? fontWeight}) {
+    return TextStyle(
+        color: color ?? Colors.black54,
+        fontSize: fontsize ?? 15.sp,
+        fontWeight: fontWeight ?? FontWeight.w600);
+  }
 
-
-
-
-
-Widget buildSummaryCard() {
-  return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 16),
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 2,
-          blurRadius: 5,
-          offset: const Offset(0, 3),
-        ),
-      ],
-    ),
-    child: const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('This Year',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colorconst.cBlack)),
-            Text('View Bill',
-                style: TextStyle(
-                  color: Colors.blue,
-                )),
-          ],
-        ),
-        SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              children: [
-                Text('Sales',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colorconst.cBlack)),
-                Text('₹0.00',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colorconst.cBlack)),
-              ],
-            ),
-            VerticalDivider(color: Colors.grey, thickness: 1),
-            Column(
-              children: [
-                Text('Purchases',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colorconst.cBlack)),
-                Text('₹0.00',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colorconst.cBlack)),
-              ],
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-Widget buildSection(String title, List<Widget> gridItems) {
-  return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 16),
-    padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          spreadRadius: 2,
-          blurRadius: 6,
-          offset: const Offset(0, 4),
-        ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title,
-            style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colorconst.cBlack)),
-        const SizedBox(height: 16),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 3,
-          children: gridItems,
-        ),
-      ],
-    ),
-  );
-}
-
-Widget buildGridItem(IconData icon, String label, VoidCallback onTap) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Column(
-      children: [
-        Icon(
-          icon,
-          size: 25,
-          color: Colors.blue,
-        ),
-        const SizedBox(height: 5),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
+  Widget buildSummaryCard() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
           ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('This Year',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colorconst.cBlack)),
+              Text('View Bill',
+                  style: TextStyle(
+                    color: Colors.blue,
+                  )),
+            ],
+          ),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text('Sales',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colorconst.cBlack)),
+                  Text('₹0.00',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colorconst.cBlack)),
+                ],
+              ),
+              VerticalDivider(color: Colors.grey, thickness: 1),
+              Column(
+                children: [
+                  Text('Purchases',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colorconst.cBlack)),
+                  Text('₹0.00',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colorconst.cBlack)),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
-Widget buildSectionHeader(String title) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Text(
-      title,
-      style: const TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 16, color: Colorconst.cBlack),
-    ),
-  );
-}
+  Widget buildSection(String title, List<Widget> gridItems) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 6,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title,
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colorconst.cBlack)),
+          const SizedBox(height: 16),
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 3,
+            children: gridItems,
+          ),
+        ],
+      ),
+    );
+  }
 
-Widget buildIconGrid(List<Widget> children) {
-  return GridView.count(
-    crossAxisCount: 3,
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    crossAxisSpacing: 15,
-    // mainAxisSpacing: 5,
-    children: children,
-  );
-}
+  Widget buildGridItem(IconData icon, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 25,
+            color: Colors.blue,
+          ),
+          const SizedBox(height: 5),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
 
-Widget iconWithLabel(IconData icon, String label, VoidCallback onTap) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Column(
-      children: [
-        Icon(icon, size: 30, color: Colors.blue),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 10, color: Colors.black),
-        ),
-      ],
-    ),
-  );
-}
+  Widget buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Text(
+        title,
+        style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+            color: Colorconst.cBlack),
+      ),
+    );
+  }
 
+  Widget buildIconGrid(List<Widget> children) {
+    return GridView.count(
+      crossAxisCount: 3,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisSpacing: 15,
+      // mainAxisSpacing: 5,
+      children: children,
+    );
+  }
 
+  Widget iconWithLabel(IconData icon, String label, VoidCallback? onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Icon(icon, size: 30, color: Colors.blue),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 10, color: Colors.black),
+          ),
+        ],
+      ),
+    );
+  }
 }
