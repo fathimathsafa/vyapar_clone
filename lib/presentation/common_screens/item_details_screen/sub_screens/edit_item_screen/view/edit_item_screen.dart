@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/presentation/common_screens/item_details_screen/sub_screens/adjust_stock_screen/controller/stock_option_controller.dart';
-import 'package:vyapar_clone/presentation/common_screens/item_details_screen/sub_screens/edit_item_screen/controller/custom_tabview_controller.dart';
 import 'package:vyapar_clone/presentation/common_screens/item_details_screen/sub_screens/edit_item_screen/controller/edit_item_screen_controller.dart';
+import 'package:vyapar_clone/presentation/common_screens/item_details_screen/sub_screens/edit_item_screen/widget/custom_tabview_widget.dart';
+import 'package:vyapar_clone/presentation/common_screens/item_details_screen/sub_screens/edit_unit_screen/view/edit_unit_screen.dart';
 
 class EditItemScreen extends StatelessWidget {
   final EditItemController controller = Get.put(EditItemController());
@@ -17,7 +18,6 @@ class EditItemScreen extends StatelessWidget {
   final StockOptionController stockOptionController =
       Get.put(StockOptionController());
 
-  // Add a method to show the date picker and update the text field
   Future<void> _selectDate(
       BuildContext context, TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
@@ -76,18 +76,14 @@ class EditItemScreen extends StatelessWidget {
                               style: TextStyle(
                                   color: Colorconst.cGrey, fontSize: 14.sp),
                             ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
+                            SizedBox(width: 10.w),
                             Obx(() => Switch(
                                   value: controller.isProduct.value,
                                   onChanged: (value) {
                                     controller.toggleProductService(value);
                                   },
                                 )),
-                            SizedBox(
-                              width: 10.w,
-                            ),
+                            SizedBox(width: 10.w),
                             Text(
                               "Services",
                               style: TextStyle(
@@ -112,7 +108,11 @@ class EditItemScreen extends StatelessWidget {
                                   color: Colors.lightBlue[50],
                                   shape: StadiumBorder(),
                                   onPressed: () {
-                                    // Handle Edit Unit action
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditUnitScreen()));
                                   },
                                   child: Text(
                                     'Edit Unit',
@@ -123,19 +123,13 @@ class EditItemScreen extends StatelessWidget {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors
-                                        .grey, // Customize the border color
-                                    width: 1.5, // Customize the border width
-                                  ),
+                                      color: Colors.grey, width: 1.5),
                                   borderRadius: BorderRadius.circular(8.0.r),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.blue,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.blue),
                                   borderRadius: BorderRadius.circular(8.0.r),
                                 ),
-                                // Increase vertical padding for taller TextFormField
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 20.h, horizontal: 16.w),
                               ),
@@ -160,7 +154,7 @@ class EditItemScreen extends StatelessWidget {
                                     // Handle Edit Unit action
                                   },
                                   child: Text(
-                                    'Assaign Code',
+                                    'Assign Code',
                                     style: TextStyle(
                                         color: Colorconst.cBlue,
                                         fontSize: 11.sp),
@@ -168,19 +162,13 @@ class EditItemScreen extends StatelessWidget {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors
-                                        .grey, // Customize the border color
-                                    width: 1.5, // Customize the border width
-                                  ),
+                                      color: Colors.grey, width: 1.5),
                                   borderRadius: BorderRadius.circular(8.0.r),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.blue,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.blue),
                                   borderRadius: BorderRadius.circular(8.0.r),
                                 ),
-                                // Increase vertical padding for taller TextFormField
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 20.h, horizontal: 16.w),
                               ),
@@ -190,13 +178,11 @@ class EditItemScreen extends StatelessWidget {
                               style: TextStyle(color: Colorconst.cBlack),
                               items: [
                                 DropdownMenuItem(
-                                  child: Text('Category 1'),
-                                  value: 'Category 1',
-                                ),
+                                    child: Text('Category 1'),
+                                    value: 'Category 1'),
                                 DropdownMenuItem(
-                                  child: Text('Category 2'),
-                                  value: 'Category 2',
-                                ),
+                                    child: Text('Category 2'),
+                                    value: 'Category 2'),
                               ],
                               onChanged: (value) {
                                 // Handle category selection
@@ -205,25 +191,16 @@ class EditItemScreen extends StatelessWidget {
                                 labelText: 'Item Category',
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors
-                                        .grey, // Customize the border color
-                                    width: 1.5, // Customize the border width
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                      8.0.r), // Optional: round the borders
+                                      color: Colors.grey, width: 1.5),
+                                  borderRadius: BorderRadius.circular(8.0.r),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors
-                                        .blue, // Customize the border color when focused
-                                    width:
-                                        2.0, // Customize the border width when focused
-                                  ),
+                                      color: Colors.blue, width: 2.0),
                                   borderRadius: BorderRadius.circular(8.0.r),
                                 ),
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 20.h,
-                                    horizontal: 16.w), // Inner padding
+                                    vertical: 20.h, horizontal: 16.w),
                               ),
                             ),
                             SizedBox(height: 20.h),
@@ -236,29 +213,16 @@ class EditItemScreen extends StatelessWidget {
                                     // Handle HSN/SAC search
                                   },
                                 ),
-                                // Regular border when the field is not focused
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors
-                                        .grey, // Customize the border color
-                                    width: 1.5, // Customize the border width
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                      8.0.r), // Round the corners
+                                      color: Colors.grey, width: 1.5),
+                                  borderRadius: BorderRadius.circular(8.0.r),
                                 ),
-                                // Border when the field is focused
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors
-                                        .blue, // Customize the border color when focused
-                                    width: 2.0, // Thicker border when focused
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                      8.0.r), // Keep rounded corners
+                                      color: Colors.blue, width: 2.0),
+                                  borderRadius: BorderRadius.circular(8.0.r),
                                 ),
-                                // Optional: disabled border
-
-                                // Padding inside the TextFormField
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 20.h, horizontal: 16.w),
                               ),
@@ -288,6 +252,8 @@ class EditItemScreen extends StatelessWidget {
                                   CustomTabViewWidget(
                                     dateController: _dateController,
                                     selectDate: _selectDate,
+                                    textController:
+                                        TextEditingController(), // Add your text controller here
                                   ),
                                 ],
                               ),
@@ -310,45 +276,59 @@ class EditItemScreen extends StatelessWidget {
               duration: const Duration(milliseconds: 350),
               opacity: 1.0,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  // Handle the tap on the Edit/Save button
+                  controller.toggleEditSave(); // Toggle edit/save state
+                },
                 child: Row(
                   children: [
                     Expanded(
-                        child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 13),
-                          child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          // Handle Delete action
+                        },
+                        child: Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 13),
+                            child: Center(
                               child: Text(
-                            "Delete",
-                            style: interFontGrey(context),
-                          )),
+                                "Delete",
+                                style: interFontGrey(context),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    )),
+                    ),
                     Expanded(
-                        child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        color: Colorconst.cRed,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 13),
-                          child: Center(
-                              child: Text(
-                            "Edit",
-                            style: interFontGrey(context,
-                                color: Colorconst.cwhite),
+                      child: Obx(() => GestureDetector(
+                            onTap: () {
+                              // Handle Edit action
+                            },
+                            child: Container(
+                              color: Colorconst.cRed,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 13),
+                                child: Center(
+                                  child: Text(
+                                    controller.isEditing.value
+                                        ? "Save"
+                                        : "Edit", // Change text based on state
+                                    style: interFontGrey(context,
+                                        color: Colorconst.cwhite),
+                                  ),
+                                ),
+                              ),
+                            ),
                           )),
-                        ),
-                      ),
-                    )),
+                    ),
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
