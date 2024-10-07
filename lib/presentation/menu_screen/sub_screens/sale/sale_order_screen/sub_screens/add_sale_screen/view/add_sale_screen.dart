@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
@@ -181,6 +182,7 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                         Text(
                           "Total Amount",
                           style: TextStyle(
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                           ),
@@ -198,6 +200,9 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                 ),
                               ),
                               TextFormField(
+                                style:   interFontBlack(context,
+            color: Colorconst.cBlack,
+            fontsize: 16.sp),
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "₹",
@@ -214,7 +219,7 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                     receivedAmountNotifier.value = parsedValue;
                                   }
                                 },
-                                style: TextStyle(fontSize: screenWidth * 0.04),
+                                // style: TextStyle(fontSize: screenWidth * 0.04),
                               ),
                             ],
                           ),
@@ -255,7 +260,7 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                           children: [
                                             SizedBox(width: screenWidth * .01),
                                             Text("Advance Amt",
-                                                style: TextStyle(fontSize: 14)),
+                                                style: TextStyle(fontSize: 14,color: Colors.black)),
                                             SizedBox(width: screenWidth * .5),
                                             SizedBox(
                                               width: screenWidth * 0.25,

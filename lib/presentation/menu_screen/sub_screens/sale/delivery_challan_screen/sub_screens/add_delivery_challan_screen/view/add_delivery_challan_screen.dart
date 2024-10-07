@@ -11,6 +11,8 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_item_delivery_screen/view/add_item_delivery_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/widget/challan_date_widget.dart';
 
+import '../../../../../../../../core/constatnts/text_style.dart';
+
 class AddDeliveryChallanScreen extends StatefulWidget {
   @override
   State<AddDeliveryChallanScreen> createState() =>
@@ -139,6 +141,9 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
                               SizedBox(height: 25.h),
                               TextField(
                                 controller: _dateController,
+                                style: interFontBlack(context,
+            color: Colorconst.cBlack,
+            fontsize: 17.sp),
                                 decoration: InputDecoration(
                                   helperStyle:
                                       TextStyle(color: Colorconst.cBlack),
@@ -299,6 +304,9 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
                                   color: Colors.white,
                                   child: Center(
                                     child: TextFormField(
+                                      style: interFontBlack(context,
+            color: Colorconst.cBlack,
+            fontsize: 17.sp),
                                       decoration: const InputDecoration(
                                         labelText: 'Description',
                                         hintText: 'Add Note',
