@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/item_screen/sub_screens/add_item_screen/view/add_item_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_item_screen/widget/online_store_view.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/item/view/item.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/item_detail_report_screen/view/item_detail_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/low_stock_summery_screen/view/low_stock_summery_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/stock_summery_report_screen/view/stock_summery_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/export_item_screen/view/export_item_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_item_screen/view/import_item_screen.dart';
 
 class ItemPage extends StatelessWidget {
   @override
@@ -66,13 +74,43 @@ class ItemPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildQuickLinkItem(
-                            'assets/images/onlinestore (1).jpeg',
-                            'Online\nStore'),
-                        _buildQuickLinkItem(
-                            'assets/images/stock.jpeg', 'Stock\nSummary'),
-                        _buildQuickLinkItem(
-                            'assets/images/item.jpeg', 'Item\nSettings'),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OnlineStoreView(),
+                              ),
+                            );
+                          },
+                          child: _buildQuickLinkItem(
+                              'assets/images/onlinestore (1).jpeg',
+                              'Online\nStore'),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StockSummaryScreen(),
+                              ),
+                            );
+                          },
+                          child: _buildQuickLinkItem(
+                              'assets/images/stock.jpeg', 'Stock\nSummary'),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ItemScreen(),
+                              ),
+                            );
+                          },
+                          child: _buildQuickLinkItem(
+                              'assets/images/item.jpeg', 'Item\nSettings'),
+                        ),
                         GestureDetector(
                           onTap: () {
                             _showAllOptions(context);
@@ -197,18 +235,79 @@ class ItemPage extends StatelessWidget {
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
                   children: [
-                    _buildQuickLinkItem(
-                        'assets/images/import items.jpeg', 'Import Items'),
-                    _buildQuickLinkItem(
-                        'assets/images/export items.jpeg', 'Export Items'),
-                    _buildQuickLinkItem(
-                        'assets/images/item wise pnl.jpeg', 'Item wise PnL'),
-                    _buildQuickLinkItem('assets/images/additional field.jpeg',
-                        'Additional Fields'),
-                    _buildQuickLinkItem(
-                        'assets/images/item details.jpeg', 'Item Details'),
-                    _buildQuickLinkItem(
-                        'assets/images/low stock.jpeg', 'Low Stock Sum...'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ImportItemsScreen(),
+                          ),
+                        );
+                      },
+                      child: _buildQuickLinkItem(
+                          'assets/images/import items.jpeg', 'Import Items'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExportItemScreen(),
+                          ),
+                        );
+                      },
+                      child: _buildQuickLinkItem(
+                          'assets/images/export items.jpeg', 'Export Items'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VyaparPremiumScreen(),
+                          ),
+                        );
+                      },
+                      child: _buildQuickLinkItem(
+                          'assets/images/item wise pnl.jpeg', 'Item wise PnL'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VyaparPremiumScreen(),
+                          ),
+                        );
+                      },
+                      child: _buildQuickLinkItem(
+                          'assets/images/additional field.jpeg',
+                          'Additional Fields'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ItemDetailReportScreen(),
+                          ),
+                        );
+                      },
+                      child: _buildQuickLinkItem(
+                          'assets/images/item details.jpeg', 'Item Details'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LowStockSummaryScreen(),
+                          ),
+                        );
+                      },
+                      child: _buildQuickLinkItem(
+                          'assets/images/low stock.jpeg', 'Low Stock Sum...'),
+                    ),
                   ],
                 ),
               ),

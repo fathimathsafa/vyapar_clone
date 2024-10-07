@@ -8,7 +8,6 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_oth
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/party/view/party.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/view/party_report_by_items.dart';
 
-
 class PartyDetails extends StatelessWidget {
   const PartyDetails({super.key});
 
@@ -64,19 +63,20 @@ class PartyDetails extends StatelessWidget {
       );
     }
 
-    return 
-      
-     Scaffold(
-      
+    return Scaffold(
       backgroundColor: const Color.fromARGB(255, 235, 245, 252),
-       body: Stack(
-         children: [
-           Column(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
               children: [
-                SizedBox(height: 15.h,),
+                SizedBox(
+                  height: 15.h,
+                ),
                 // Quick Links Section inside the container with icons
                 Container(
-                  padding: EdgeInsets.all(16.0), // Add padding for better spacing
+                  padding:
+                      EdgeInsets.all(16.0), // Add padding for better spacing
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -102,8 +102,8 @@ class PartyDetails extends StatelessWidget {
                                     builder: (context) => ImportPartyPage()),
                               );
                             },
-                            child: _buildQuickLinkButton(
-                                'Import Party', 'assets/images/import party.jpeg'),
+                            child: _buildQuickLinkButton('Import Party',
+                                'assets/images/import party.jpeg'),
                           ), // Replace with your image asset path
                           GestureDetector(
                             onTap: () {
@@ -145,61 +145,64 @@ class PartyDetails extends StatelessWidget {
                 SizedBox(
                   child: SingleChildScrollView(
                     child: Column(
-                      children: List.generate(3, (index) => Column(children: [
-                        _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
-                        SizedBox(height: 12),
-                      ],),),
+                      children: List.generate(
+                        3,
+                        (index) => Column(
+                          children: [
+                            _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
+                            SizedBox(height: 12),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
                 // Add New Party Button
-               
               ],
             ),
-
-             Positioned(
-                  bottom: 16.0,
-                  left: MediaQuery.of(context).size.width / 3.2,
-                  right: MediaQuery.of(context).size.width / 3.2,
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 350),
-                    opacity: 1.0,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AddNewPartyPage()));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colorconst.cRed,
-                            borderRadius: BorderRadius.circular(24.r)),
-                        child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.person_2_outlined,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                "Add New Party",
-                                style: interFontGrey(
-                                    color: Colorconst.cwhite, context),
-                              )
-                            ],
-                          ),
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: MediaQuery.of(context).size.width / 3.2,
+            right: MediaQuery.of(context).size.width / 3.2,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 350),
+              opacity: 1.0,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AddNewPartyPage()));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colorconst.cRed,
+                      borderRadius: BorderRadius.circular(24.r)),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.person_2_outlined,
+                          color: Colors.white,
                         ),
-                      ),
+                        Text(
+                          "Add New Party",
+                          style:
+                              interFontGrey(color: Colorconst.cwhite, context),
+                        )
+                      ],
                     ),
                   ),
-                )
-         ],
-       ),
-     );
-   
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildPartyInfo(String name, String date, String amount) {

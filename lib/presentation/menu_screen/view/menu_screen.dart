@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/sale_list.dart';
 
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/view/apply_loan_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/back_up_restore/auto_backup_screen/view/auto_backup_screen.dart';
@@ -31,6 +32,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payme
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_list_screen/view/purchase_list_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/view/report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_screen/view/add_estimate_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/view/estimate_details_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
@@ -91,15 +93,22 @@ class MenuScreen extends StatelessWidget {
             const SizedBox(height: 10),
             buildSection('Create', [
               buildGridItem(Icons.blinds_closed_rounded, 'Invoice', () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => SaleListScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SaleListScreen()));
               }),
-              buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {}),
+              buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EstimateQuatationScreen(),
+                  ),
+                );
+              }),
               buildGridItem(Icons.timelapse_outlined, 'Delivery Challan', () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => DeliveryChallanDetails()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DeliveryChallanScreen()));
               }),
               buildGridItem(Icons.auto_graph_sharp, 'Credit Note', () {
                 Navigator.push(
@@ -107,8 +116,8 @@ class MenuScreen extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => CreditNoteScreen()));
               }),
-              buildGridItem(
-                  Icons.business_center_outlined, 'Purchase Order', () => Get.to(()=> PurchaseOrderListScreen())),
+              buildGridItem(Icons.business_center_outlined, 'Purchase Order',
+                  () => Get.to(() => PurchaseOrderListScreen())),
               buildGridItem(Icons.card_membership, 'Pro Forma Invoice',
                   () => Get.to(() => const ProFormaInvoice())),
             ]),
@@ -148,7 +157,8 @@ class MenuScreen extends StatelessWidget {
                   () => Get.to(() => const InsightsScreen())),
               buildGridItem(Icons.business_center_outlined, 'Business Card',
                   () => Get.to(() => BusinessCardScreen())),
-              buildGridItem(Icons.card_membership, 'Greetings', () {}),
+              buildGridItem(Icons.card_membership, 'Greetings',
+                  () => Get.to(() => GreetingOfferScreen())),
               buildGridItem(Icons.business_center_outlined, 'Invoice Templates',
                   () => Get.to(() => InvoiceTemplateScreen())),
               buildGridItem(
@@ -549,12 +559,12 @@ class MenuScreen extends StatelessWidget {
       {
         'icon': Icons.assignment_return,
         'label': 'Purchase Return',
-        'onTap': () => Get.to(()=> PurchaseReturnListScreen())
+        'onTap': () => Get.to(() => PurchaseReturnListScreen())
       },
       {
         'icon': Icons.receipt,
         'label': 'Purchase Order',
-        'onTap': () => Get.to(()=> PurchaseOrderListScreen())
+        'onTap': () => Get.to(() => PurchaseOrderListScreen())
       },
     ]);
   }
@@ -650,7 +660,7 @@ class MenuScreen extends StatelessWidget {
       ShowDialogModel(
         iconData: Icons.check,
         lable: 'Verify my data',
-        onTap: ()=>_showVerificationDialog(context),
+        onTap: () => _showVerificationDialog(context),
       ),
       ShowDialogModel(
         iconData: Icons.calculate,
