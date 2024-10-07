@@ -422,12 +422,12 @@ class SaleListScreen extends StatelessWidget {
                     );
                   }),
                 ]),
-                Divider(),
-                buildSectionHeader('Other Transactions'),
-                buildIconGrid([
-                  iconWithLabel(Icons.attach_money, 'Expenses', () {}),
-                  iconWithLabel(Icons.sync, 'P2P Transfer', () {}),
-                ]),
+                // Divider(),
+                // buildSectionHeader('Other Transactions'),
+                // buildIconGrid([
+                //   iconWithLabel(Icons.attach_money, 'Expenses', () {}),
+                //   iconWithLabel(Icons.sync, 'P2P Transfer', () {}),
+                // ]),
               ],
             ),
           ),
