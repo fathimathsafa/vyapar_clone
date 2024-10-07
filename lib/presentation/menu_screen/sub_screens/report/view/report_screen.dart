@@ -23,6 +23,11 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_scr
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tcs-recievable_screen/view/tcs_recivebla_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tds_payable_report_screen/view/tds_payable_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tds_recivable_screen/view/tds_recievable_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/all_transaction/all_transaction.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/cash_flow_report/cash_flow.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/day_book/day_book.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/profit_loss_report/profit_loss_reoprt.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/purchase_report/purchase_report.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/sale_report_screen/view/sale_report_screen.dart';
 
 import '../sub_screen/gst_1/view/gst-1.dart';
@@ -77,13 +82,48 @@ class ReportScreen extends StatelessWidget {
               ),
             );
           }),
-          buildSubItem('Purchase Report', context, () {}),
-          buildSubItem('Day Book', context, () {}),
-          buildSubItem('All Transactions', context, () {}),
+          buildSubItem('Purchase Report', context, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PurchaseReport(),
+              ),
+            );
+          }),
+          buildSubItem('Day Book', context, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DayBook(),
+              ),
+            );
+          }),
+          buildSubItem('All Transactions', context, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AllTransaction(),
+              ),
+            );
+          }),
           buildSubItemWithIcon(
               'Bill Wise Profit', context, Icons.info_outline, () {}),
-          buildSubItem('Profit & Loss', context, () {}),
-          buildSubItem('Cashflow', context, () {}),
+          buildSubItem('Profit & Loss', context, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfitAndLossReoprt(),
+              ),
+            );
+          }),
+          buildSubItem('Cashflow', context, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CashFlowReportReport(),
+              ),
+            );
+          }),
           buildSubItemWithIcon(
               'Balance Sheet', context, Icons.info_outline, () {}),
 
@@ -140,13 +180,17 @@ class ReportScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          buildSubItem('GST-1', context, () => Get.to(()=>Gst1Screen())),
-          buildSubItem('GST-2', context, () => Get.to(()=>Gst2Screen())),
-          buildSubItem('GSTR-3B', context, () => Get.to(()=>GstR3bScreen())),
-          buildSubItem('GST Transction report', context, ()=> Get.to(()=>GstTrasactionReportScreen())),
-          buildSubItem('GSTR-9', context, () => Get.to(()=> GstR9ReportScreen())),
-          buildSubItem('Sale Summary by HSN', context, () => Get.to(()=>SaleSummaryScreen())),
-          buildSubItem('SAC Report', context, ()=> Get.to(()=>SacReportScreen())),
+          buildSubItem('GST-1', context, () => Get.to(() => Gst1Screen())),
+          buildSubItem('GST-2', context, () => Get.to(() => Gst2Screen())),
+          buildSubItem('GSTR-3B', context, () => Get.to(() => GstR3bScreen())),
+          buildSubItem('GST Transction report', context,
+              () => Get.to(() => GstTrasactionReportScreen())),
+          buildSubItem(
+              'GSTR-9', context, () => Get.to(() => GstR9ReportScreen())),
+          buildSubItem('Sale Summary by HSN', context,
+              () => Get.to(() => SaleSummaryScreen())),
+          buildSubItem(
+              'SAC Report', context, () => Get.to(() => SacReportScreen())),
 
           //Forth  Category - Item/Stock Reports
 

@@ -2,14 +2,12 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:get/get.dart';
+// import 'package:vyapar_clone/core/common/widget/add_button_green.dart';
 // import 'package:vyapar_clone/core/constatnts/colors.dart';
 // import 'package:vyapar_clone/core/constatnts/images.dart';
+// import 'package:vyapar_clone/presentation/menu_screen/controller/menu_controller.dart';
 
-// import '../../controller/controller.dart';
-// import '../../widget/add_button_green.dart';
-// import '../../widget/app_bar_widget.dart';
 
-// import 'add_purchase_order.dart';
 
 
 // class PurchaseOrderListScreen extends StatelessWidget {
@@ -35,7 +33,7 @@
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       backgroundColor: Colorconst.cSecondaryBlue,
-//       appBar: appBar(
+//       appBar: AppBar(
 //           title: "Purchase Order",
 //           backgroundColor: Colors.white,
 //           iconTextColor: Colors.black),

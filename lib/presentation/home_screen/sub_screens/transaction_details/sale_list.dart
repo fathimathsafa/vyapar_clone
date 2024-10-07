@@ -8,6 +8,10 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/transaction/view/transaction.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/view/all_transaction_payment_out_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/purchase_list_screen/view/purchase_list_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/all_transaction/all_transaction.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/day_book/day_book.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/profit_loss_report/profit_loss_reoprt.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/sale_report_screen/view/sale_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_screen/view/add_estimate_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
@@ -119,8 +123,7 @@ class SaleListScreen extends StatelessWidget {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                SaleListScreen(),
+                                            builder: (context) => SaleReport(),
                                           ),
                                         );
                                       },
@@ -271,15 +274,42 @@ class SaleListScreen extends StatelessWidget {
                       ),
                     );
                   }),
-                  iconWithLabel(Icons.book, 'Day Book', () {}),
-                  iconWithLabel(
-                      Icons.receipt_rounded, 'All Txns Report', () {}),
-                  iconWithLabel(
-                      Icons.monetization_on_outlined, 'Profit & Loss', () {}),
+                  iconWithLabel(Icons.book, 'Day Book', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DayBook(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.receipt_rounded, 'All Txns Report', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AllTransaction(),
+                      ),
+                    );
+                  }),
+                  iconWithLabel(Icons.monetization_on_outlined, 'Profit & Loss',
+                      () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfitAndLossReoprt(),
+                      ),
+                    );
+                  }),
                   iconWithLabel(Icons.document_scanner, 'Balance Sheet', () {}),
                   iconWithLabel(Icons.receipt_long, 'Billwise PnL', () {}),
                   iconWithLabel(Icons.print_outlined, 'Print Settings', () {}),
-                  iconWithLabel(Icons.sms, 'Txn SMS Settings', () {}),
+                  iconWithLabel(Icons.sms, 'Txn SMS Settings', () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TransactionSettingScreen(),
+                      ),
+                    );
+                  }),
                 ]),
               ],
             ),

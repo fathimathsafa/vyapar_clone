@@ -48,7 +48,7 @@ class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
 
   @override
-  _MenuScreenState createState() => _MenuScreenState();
+  State<MenuScreen> createState() => _MenuScreenState();
 }
 
 class _MenuScreenState extends State<MenuScreen> {
@@ -71,7 +71,9 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   // Function to show the custom Snackbar-like message
-  void _showSnackbar(String message) {
+  void _showSnackbar(
+    String message,
+  ) {
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
