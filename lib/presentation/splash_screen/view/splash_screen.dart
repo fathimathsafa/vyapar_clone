@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         bottomRight: Radius.circular(40)),
                     color: Colorconst.primaryC,
                     image: DecorationImage(
-                        image: AssetImage('assets/images/splash.jpg'),
+                        image: AssetImage('assets/images/splash_screen_img.jpeg'),
                         fit: BoxFit.cover)),
               ),
             ),
