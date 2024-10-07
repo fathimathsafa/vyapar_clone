@@ -6,10 +6,11 @@ import 'package:get/get.dart';
 import 'package:vyapar_clone/core/common/context_provider.dart';
 import 'package:vyapar_clone/core/models/add_item.dart';
 import 'package:vyapar_clone/core/models/sale_model.dart';
+
 import 'package:vyapar_clone/repository/app_data/database/db.dart';
 
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with GetTickerProviderStateMixin {
   final ContextProvider contextProvider = ContextProvider();
   final ScrollController scrollController = ScrollController();
 
@@ -44,15 +45,37 @@ class HomeController extends GetxController {
     selectedHeaderBtnIndex.value = value;
   }
 
+  
+
+  late TabController tabController;
+  RxInt tabIndex = 0.obs;
+  void settabIndexValue (value){
+
+    tabIndex.value = value;
+  }
+  
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+
+    tabController = TabController(length: 2, vsync: this);
+    _tabListener();
     scrollListener();
       fetchSale();
     _inititalizeInvoiceNum();
     _initializedDate();
     initializeSale();
+  }
+
+  _tabListener(){
+
+     tabController.addListener(() {
+    
+        tabIndex.value = tabController.index; 
+   
+    });
   }
 
   void initializeSale() {

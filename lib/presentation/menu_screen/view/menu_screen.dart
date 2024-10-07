@@ -47,6 +47,7 @@ import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.da
 import '../models/show_dialog.dart';
 import '../sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
 
+import '../sub_screens/purchase/purchase_order_list/view/purchase_order_list.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/business_card/view/business_card.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/document_setting/view/document_setting.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/insights/view/insights.dart';
@@ -106,7 +107,7 @@ class MenuScreen extends StatelessWidget {
                         builder: (context) => CreditNoteScreen()));
               }),
               buildGridItem(
-                  Icons.business_center_outlined, 'Purchase Order', () {}),
+                  Icons.business_center_outlined, 'Purchase Order', () => Get.to(()=> PurchaseOrderListScreen())),
               buildGridItem(Icons.card_membership, 'Pro Forma Invoice',
                   () => Get.to(() => const ProFormaInvoice())),
             ]),
@@ -552,7 +553,7 @@ class MenuScreen extends StatelessWidget {
       {
         'icon': Icons.receipt,
         'label': 'Purchase Order',
-        'onTap': () {/*  onTap action */}
+        'onTap': () => Get.to(()=> PurchaseOrderListScreen())
       },
     ]);
   }

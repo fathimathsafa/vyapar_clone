@@ -15,8 +15,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invo
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
 
-import '../../widget/header.dart';
-import '../../widget/header_buttons.dart';
+
 
 class SaleListScreen extends StatelessWidget {
   SaleListScreen({super.key});
@@ -29,45 +28,8 @@ class SaleListScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                SizedBox(
-                  height: 25.h,
-                ),
-                Container(
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      const HeaderWidget(),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: Row(
-                          children: [
-                            HeaderButtons(
-                              index: 0,
-                              selectedIndex: 0,
-                              onSingleTap: () {},
-                            ),
-                            SizedBox(
-                              width: 16.w,
-                            ),
-                            HeaderButtons(
-                              butnTxt: "Party Details",
-                              index: 1,
-                              selectedIndex: 0,
-                              onSingleTap: () {},
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15.h,
-                      )
-                    ],
-                  ),
-                ),
+              
+                
                 Expanded(
                     child: Container(
                   color: Colorconst.cSecondaryBlue,
