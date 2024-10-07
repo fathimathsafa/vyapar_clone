@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/all_party_reports/view/all_party_reports.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/bank_statement_screen/view/bank_statement_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/discount_report_screen/view/discount_report_screen.dart';
@@ -6,8 +7,11 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_scr
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/expense_item_report_screen/view/expense_item_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/expense_transaction_report_screen/view/expense_transaction_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/form_no27_screen/view/form_no27_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_2/view/gst-2.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_r_3b/view/gst-r3b.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_rate_report_screen/view/gst_rate_report-screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_reports_screen/view/gst_report_screen.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/item_detail_report_screen/view/item_detail_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/item_report_by_party_screen/view/item_report_by_party_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/item_wise_discount_screen/view/item_wise_discount_screen.dart';
@@ -15,19 +19,27 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_scr
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/sale_purchase_by_item_category_screen/view/sale_purchase_by_item_category_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/stock_detail_report_screen/view/stock_detail_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/stock_summery_by_item_category_screen/view/stock_summery_by_item_category_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/gst_transaction/view/gst-trasaction-report.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/loan_report_screen/view/loan_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/low_stock_summery_screen/view/low_stock_summery_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/view/party_report_by_items.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_reports/party_statement_screen/view/party_statement.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sac_report/view/sac_report.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sale_purchase_by_party_screen/view/sale_purchase_by_party_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sale_purchase_order_screen/sale_purchase_transaction_screen/view/sale_purchase_transaction_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sale_purchase_order_screen/view/sale_purchase_order_screen.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/stock_summery_report_screen/view/stock_summery_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/stock_detail_report_screen/view/stock_detail_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/sale_summary/view/sale_summary.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tcs-recievable_screen/view/tcs_recivebla_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tds_payable_report_screen/view/tds_payable_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/tds_recivable_screen/view/tds_recievable_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/sale_report_screen/view/sale_report_screen.dart';
+
+import '../sub_screen/gst_1/view/gst-1.dart';
+import '../sub_screen/gst_r_9_reports/view/gst_r_9_report.dart';
 
 class ReportScreen extends StatelessWidget {
   const ReportScreen({super.key});
@@ -141,13 +153,13 @@ class ReportScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          buildSubItem('GST-1', context, () {}),
-          buildSubItem('GST-2', context, () {}),
-          buildSubItem('GSTR-3B', context, () {}),
-          buildSubItem('GST Transction report', context, () {}),
-          buildSubItem('GSTR-9', context, () {}),
-          buildSubItem('Sale Summary by HSN', context, () {}),
-          buildSubItem('SAC Report', context, () {}),
+          buildSubItem('GST-1', context, () => Get.to(()=>Gst1Screen())),
+          buildSubItem('GST-2', context, () => Get.to(()=>Gst2Screen())),
+          buildSubItem('GSTR-3B', context, () => Get.to(()=>GstR3bScreen())),
+          buildSubItem('GST Transction report', context, ()=> Get.to(()=>GstTrasactionReportScreen())),
+          buildSubItem('GSTR-9', context, () => Get.to(()=> GstR9ReportScreen())),
+          buildSubItem('Sale Summary by HSN', context, () => Get.to(()=>SaleSummaryScreen())),
+          buildSubItem('SAC Report', context, ()=> Get.to(()=>SacReportScreen())),
 
           //Forth  Category - Item/Stock Reports
 

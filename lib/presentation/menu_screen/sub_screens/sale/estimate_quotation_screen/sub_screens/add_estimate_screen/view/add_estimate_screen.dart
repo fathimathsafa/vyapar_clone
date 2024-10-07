@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/core/constatnts/text_style.dart';
-import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
+// import 'package:vyapar_clone/core/constatnts/text_style.dart';
+// import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_item_delivery_screen/view/add_item_delivery_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/widget/challan_date_widget.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_item_screen/view/add_estimate_item.dart';
 
 class EstimateQuatationScreen extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _EstimateQuatationScreenState extends State<EstimateQuatationScreen> {
             },
             icon: Icon(Icons.arrow_back)),
         title: Text(
-          "Delivery Challan",
+          "Add Estimate/Quotation",
           style: TextStyle(color: Colorconst.cBlack),
         ),
         actions: [
@@ -107,7 +108,7 @@ class _EstimateQuatationScreenState extends State<EstimateQuatationScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AddItemDeliery()));
+                                              AddEstimateItemScreen()));
                                 },
                               ),
                             ],

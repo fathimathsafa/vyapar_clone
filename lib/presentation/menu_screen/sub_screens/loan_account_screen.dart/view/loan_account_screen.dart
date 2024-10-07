@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/loan_account_screen.dart/sub_screens/add_loan_account_screen/view/add_laon_account_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/loan_account_screen.dart/sub_screens/add_loan_account_screen/view/add_loan_account_screen.dart';
 
 class LoanAccountPage extends StatelessWidget {
   @override

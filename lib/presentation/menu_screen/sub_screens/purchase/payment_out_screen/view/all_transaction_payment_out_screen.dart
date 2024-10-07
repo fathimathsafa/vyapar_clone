@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:get/get.dart'; // Import GetX
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/controller/all_transaction_payment_out.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/sub_screens/add_payment_out_screen/view/add_payment_out_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
 
-class PaymentAllTransactionScreen extends StatefulWidget {
+class PaymentAllTransactionScreen extends StatelessWidget {
   const PaymentAllTransactionScreen({super.key});
 
   @override
-  _PaymentAllTransactionScreenState createState() =>
-      _PaymentAllTransactionScreenState();
-}
-
-class _PaymentAllTransactionScreenState
-    extends State<PaymentAllTransactionScreen> {
-  // Simulating backend data fetching
-  bool hasData = false; // Change this to true when data is fetched
-
-  @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final PaymentTransactionController controller =
+        Get.put(PaymentTransactionController()); // Initialize controller
 
     return Scaffold(
       appBar: AppBar(
@@ -39,14 +29,14 @@ class _PaymentAllTransactionScreenState
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: hasData
-            ? buildTransactionList(screenWidth, screenHeight)
-            : buildNoDataView(screenWidth, screenHeight),
+        child: Obx(() => controller.hasData.value
+            ? buildTransactionList()
+            : buildNoDataView()),
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding: EdgeInsets.only(bottom: screenHeight * 0.02),
+          padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(20)),
           child: FloatingActionButton.extended(
             onPressed: () {
               Navigator.push(
@@ -69,14 +59,14 @@ class _PaymentAllTransactionScreenState
   }
 
   // Widget to build the no data view
-  Widget buildNoDataView(double screenWidth, double screenHeight) {
+  Widget buildNoDataView() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: screenWidth * 0.7,
-            height: screenHeight * 0.4,
+            width: ScreenUtil().setWidth(300),
+            height: ScreenUtil().setHeight(200),
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/images-removebg-preview.png"),
@@ -88,7 +78,7 @@ class _PaymentAllTransactionScreenState
             "Add Your first Payment In",
             style: TextStyle(fontSize: 19.sp),
           ),
-          SizedBox(height: screenHeight * 0.02),
+          SizedBox(height: ScreenUtil().setHeight(20)),
           Text(
             "Record payment received from parties and easily",
             style: TextStyle(color: Colorconst.cBlack, fontSize: 15.sp),
@@ -103,7 +93,7 @@ class _PaymentAllTransactionScreenState
   }
 
   // Widget to build the transaction list
-  Widget buildTransactionList(double screenWidth, double screenHeight) {
+  Widget buildTransactionList() {
     return Column(
       children: [
         Row(
@@ -116,27 +106,22 @@ class _PaymentAllTransactionScreenState
               onPressed: () {},
               icon: Icon(Icons.arrow_drop_down),
             ),
-            // Divider between the two icon buttons
             Container(
               width: 2,
               height: 25,
               color: Colorconst.cGrey,
             ),
-            SizedBox(
-              width: screenWidth * .02,
-            ),
+            SizedBox(width: ScreenUtil().setWidth(10)),
             IconButton(
               onPressed: () {
-                _showDatePicker(context); // Show date picker
+                _showDatePicker(); // Show date picker
               },
               icon: Icon(
                 Icons.calendar_today_outlined,
                 color: Colorconst.cBlue,
               ),
             ),
-            SizedBox(
-              width: screenWidth * 0.05,
-            ),
+            SizedBox(width: ScreenUtil().setWidth(10)),
             Text(
               "01/09/2024 To 30/09/2024",
               style: TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
@@ -167,9 +152,7 @@ class _PaymentAllTransactionScreenState
               "  All Parties",
               style: TextStyle(fontSize: 14.sp, color: Colorconst.cBlack),
             ),
-            SizedBox(
-              width: screenWidth * .45,
-            ),
+            SizedBox(width: ScreenUtil().setWidth(100)),
             IconButton(
               onPressed: () {},
               icon: Icon(Icons.arrow_drop_down),
@@ -177,7 +160,6 @@ class _PaymentAllTransactionScreenState
           ],
         ),
         Divider(),
-        // Expanded widget to wrap ListView.builder to handle scrolling
         Expanded(
           child: ListView.builder(
             itemCount: 2, // Number of items in the list
@@ -199,24 +181,23 @@ class _PaymentAllTransactionScreenState
                               fontSize: 12.sp, color: Colorconst.cGrey),
                         ),
                       ],
-                    ), // Example leading icon
+                    ),
                     title: Center(
                       child: Text(
                         'PayIn: 1', // Title text
                         style: TextStyle(fontSize: 12.sp),
                       ),
                     ),
-
                     trailing: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          'Total:₹10.00', // Example text
+                          'Total: ₹10.00', // Example text
                           style: TextStyle(
                               fontSize: 9.sp, color: Colorconst.cBlack),
                         ),
                         Text(
-                          'Balance:₹10.00', // Example text
+                          'Balance: ₹10.00', // Example text
                           style: TextStyle(
                               fontSize: 10.sp, color: Colorconst.cGrey),
                         ),
@@ -233,36 +214,34 @@ class _PaymentAllTransactionScreenState
     );
   }
 
-// Function to show the date picker
-  void _showDatePicker(BuildContext context) async {
+  // Function to show the date picker
+  void _showDatePicker() async {
     final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(), // Set initial date to today
-      firstDate: DateTime(2000), // Minimum selectable date
-      lastDate: DateTime(2100), // Maximum selectable date
+      context: Get.context!,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData(
             colorScheme: ColorScheme.light(
-              primary: Colors.blue, // Header background color (Calendar header)
-              onPrimary: Colors.white, // Header text color (Calendar title)
-              onSurface: Colors.black, // Default text color inside the calendar
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              onSurface: Colors.black,
             ),
-            dialogBackgroundColor:
-                Colors.blue[100], // Calendar background color
+            dialogBackgroundColor: Colors.blue[100],
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                foregroundColor: Colors.blue, // Button text color
+                foregroundColor: Colors.blue,
               ),
             ),
           ),
-          child: child!, // Only return the calendar picker directly
+          child: child!,
         );
       },
     );
 
     if (picked != null) {
-      // Do something with the picked date if it's not null
       print("Selected Date: ${picked.toString()}");
     }
   }

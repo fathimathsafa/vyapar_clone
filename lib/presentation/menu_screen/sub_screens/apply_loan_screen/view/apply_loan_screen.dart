@@ -1,31 +1,11 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/controller/apply%20_loan_controller.dart';
 
-class ApplyLoanPage extends StatefulWidget {
-  @override
-  _ApplyLoanPageState createState() => _ApplyLoanPageState();
-}
-
-class _ApplyLoanPageState extends State<ApplyLoanPage> {
-  bool _agreedToTOS = false;
-  int _currentPage = 0;
-
-  final List<String> _loanDescriptions = [
-    'Get Collateral-Free Unsecured Loans',
-    'Get Up To Rs. 10Lac Business Loan',
-    '100% Digital Process',
-    'Disbursal Within 48 Hours',
-  ];
-
-  // List of image URLs for the slides
-  final List<String> _imageUrls = [
-    'assets/slides1.jpeg', // Replace with your actual image paths
-    'assets/slides2.jpeg',
-    'assets/slides3.jpeg',
-    'assets/slides4.jpeg',
-  ];
+class ApplyLoanPage extends StatelessWidget {
+  final ApplyLoanController controller = Get.put(ApplyLoanController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +17,7 @@ class _ApplyLoanPageState extends State<ApplyLoanPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            // Handle back button press
+            Get.back(); // Use Get.back() to navigate back
           },
         ),
         elevation: 1,
@@ -50,41 +30,43 @@ class _ApplyLoanPageState extends State<ApplyLoanPage> {
             // Carousel Slider in the center of the screen
             Expanded(
               child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Center inside the Expanded
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Carousel Slider
-                  CarouselSlider.builder(
-                    itemCount: _imageUrls.length, // Number of images
-                    options: CarouselOptions(
-                      height: 200,
-                      autoPlay: true,
-                      enlargeCenterPage: true,
-                      autoPlayInterval: Duration(seconds: 3),
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _currentPage = index;
-                        });
+                  Obx(
+                    () => CarouselSlider.builder(
+                      itemCount: controller.imageUrls.length,
+                      options: CarouselOptions(
+                        height: 200,
+                        autoPlay: true,
+                        enlargeCenterPage: true,
+                        autoPlayInterval: Duration(seconds: 3),
+                        onPageChanged: (index, reason) {
+                          controller.onPageChanged(index);
+                        },
+                      ),
+                      itemBuilder: (context, index, realIdx) {
+                        return Image.asset(
+                          controller.imageUrls[index],
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        );
                       },
                     ),
-                    itemBuilder: (context, index, realIdx) {
-                      return Image.asset(
-                        _imageUrls[index], // Use the actual image path
-                        fit: BoxFit.cover, // Cover the entire area
-                        width: double.infinity, // Ensure it covers full width
-                      );
-                    },
                   ),
                   SizedBox(height: 20),
 
                   // Loan description text based on current slide
-                  Text(
-                    _loanDescriptions[_currentPage],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
+                  Obx(
+                    () => Text(
+                      controller.loanDescriptions[controller.currentPage.value],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -93,92 +75,92 @@ class _ApplyLoanPageState extends State<ApplyLoanPage> {
             // Terms and Conditions agreement with checkbox
             Column(
               children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _agreedToTOS,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _agreedToTOS = value ?? false;
-                        });
-                      },
-                    ),
-                    Expanded(
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'I have read and agree to the ',
-                              style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 12,
+                Obx(
+                  () => Row(
+                    children: [
+                      Checkbox(
+                        value: controller.agreedToTOS.value,
+                        onChanged: (value) {
+                          controller.toggleTOS(value ?? false);
+                        },
+                      ),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'I have read and agree to the ',
+                                style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'T&C',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 12,
-                                decoration: TextDecoration.underline,
+                              TextSpan(
+                                text: 'T&C',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    // Handle T&C tap
+                                  },
                               ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  // Handle T&C tap
-                                },
-                            ),
-                            TextSpan(
-                              text: ' and ',
-                              style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 12,
+                              TextSpan(
+                                text: ' and ',
+                                style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'Privacy Policy',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 12,
-                                decoration: TextDecoration.underline,
+                              TextSpan(
+                                text: 'Privacy Policy',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    // Handle Privacy Policy tap
+                                  },
                               ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  // Handle Privacy Policy tap
-                                },
-                            ),
-                            TextSpan(
-                              text:
-                                  ' of Vyapar\nand hereby give my consent to Vyapar and its associated\lending partners to receive my credit bureau and information\nand transaction history for the purpose of loan underwriting',
-                              style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 12,
+                              TextSpan(
+                                text:
+                                    ' of Vyapar\nand hereby give my consent to Vyapar and its associated\lending partners to receive my credit bureau and information\nand transaction history for the purpose of loan underwriting',
+                                style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20),
 
                 // Apply Now button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _agreedToTOS
-                        ? () {
-                            // Handle apply now action
-                          }
-                        : null, // Disable button if TOS not agreed
-                    child: Text(
-                      'Apply Now',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                Obx(
+                  () => SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: controller.agreedToTOS.value
+                          ? controller.applyForLoan
+                          : null, // Disable button if TOS not agreed
+                      child: Text(
+                        'Apply Now',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                       ),
                     ),
                   ),
