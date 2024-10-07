@@ -126,7 +126,7 @@ class _CreditNoteScreenState extends State<CreditNoteScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AddItemSaleScreen()));
+                                              AddItemToSale()));
                                 },
                               ),
                             ],
@@ -529,9 +529,7 @@ class _CreditNoteScreenState extends State<CreditNoteScreen> {
     return TextFormField(
       initialValue: initialValue,
       enabled: isEnabled,
-       style: interFontBlack(context,
-            color: Colorconst.cBlack,
-            fontsize: 17.sp),
+      style: interFontBlack(context, color: Colorconst.cBlack, fontsize: 17.sp),
       decoration: InputDecoration(
         labelText: label,
         suffixIcon: suffixIcon,

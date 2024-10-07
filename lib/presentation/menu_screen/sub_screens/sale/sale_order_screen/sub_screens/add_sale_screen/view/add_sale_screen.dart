@@ -161,7 +161,7 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AddItemSaleScreen()));
+                                              AddItemToSale()));
                                 },
                               ),
                             ],
@@ -200,9 +200,8 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                 ),
                               ),
                               TextFormField(
-                                style:   interFontBlack(context,
-            color: Colorconst.cBlack,
-            fontsize: 16.sp),
+                                style: interFontBlack(context,
+                                    color: Colorconst.cBlack, fontsize: 16.sp),
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "₹",
@@ -260,7 +259,9 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                                           children: [
                                             SizedBox(width: screenWidth * .01),
                                             Text("Advance Amt",
-                                                style: TextStyle(fontSize: 14,color: Colors.black)),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black)),
                                             SizedBox(width: screenWidth * .5),
                                             SizedBox(
                                               width: screenWidth * 0.25,

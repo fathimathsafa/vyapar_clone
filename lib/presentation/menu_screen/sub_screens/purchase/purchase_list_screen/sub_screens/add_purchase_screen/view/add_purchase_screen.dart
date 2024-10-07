@@ -160,7 +160,7 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AddItemSaleScreen()));
+                                              AddItemToSale()));
                                 },
                               ),
                             ],

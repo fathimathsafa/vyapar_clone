@@ -7,13 +7,10 @@ import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
-
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
 import '../../../../../../home_screen/sub_screens/transaction_details/add_item.dart';
-
-
 
 class AddReturnScreen extends StatelessWidget {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
@@ -31,10 +28,19 @@ class AddReturnScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(onPressed: ()=> Get.back(), icon:const Icon(Icons.arrow_back)),
-        title:const Text("Debit Note"),
-        actions: [Icon(Icons.settings_outlined,color: Colors.black54,size: 24.sp,),SizedBox(width: 10.w,)],
-       
+        leading: IconButton(
+            onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back)),
+        title: const Text("Debit Note"),
+        actions: [
+          Icon(
+            Icons.settings_outlined,
+            color: Colors.black54,
+            size: 24.sp,
+          ),
+          SizedBox(
+            width: 10.w,
+          )
+        ],
       ),
       body: Stack(
         children: [
@@ -46,7 +52,11 @@ class AddReturnScreen extends StatelessWidget {
                   SizedBox(
                     child: Column(
                       children: [
-                        DateInvoiceWidget(invoiceNumber: "10120",titleOne:  "Return No.",titleTwo: "Date",),
+                        DateInvoiceWidget(
+                          invoiceNumber: "10120",
+                          titleOne: "Return No.",
+                          titleTwo: "Date",
+                        ),
                         SizedBox(height: screenHeight * 0.01),
                         Container(
                           height: screenHeight * 0.33,
@@ -66,21 +76,29 @@ class AddReturnScreen extends StatelessWidget {
                                 hintText: "Enter bill no.",
                               ),
                               SizedBox(height: screenHeight * 0.03),
-                              Row(children: [
-
-                                Expanded(child: CustomTextFormField(
-                                  isEditable: false,
-                                labelText: "Bill Date",
-                                hintText: "Bill Date",
-                                suffixIconWidget: Icon(Icons.calendar_month_outlined,color: Colorconst.cGrey,size: 15.sp,),
-                                
-                              )),
-                              SizedBox(width: 10.w,),
-                                Expanded(child: CustomTextFormField(
-                                labelText: "Phone Number",
-                                hintText: "Enter Phone Number",
-                              )),
-                              ],),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: CustomTextFormField(
+                                    isEditable: false,
+                                    labelText: "Bill Date",
+                                    hintText: "Bill Date",
+                                    suffixIconWidget: Icon(
+                                      Icons.calendar_month_outlined,
+                                      color: Colorconst.cGrey,
+                                      size: 15.sp,
+                                    ),
+                                  )),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  Expanded(
+                                      child: CustomTextFormField(
+                                    labelText: "Phone Number",
+                                    hintText: "Enter Phone Number",
+                                  )),
+                                ],
+                              ),
                               SizedBox(height: screenHeight * 0.03),
                               AddItemButton(
                                 onTap: () {
@@ -88,7 +106,7 @@ class AddReturnScreen extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              AddItemSaleScreen()));
+                                              AddItemToSale()));
                                 },
                               ),
                             ],
@@ -128,7 +146,6 @@ class AddReturnScreen extends StatelessWidget {
                               ),
                               TextFormField(
                                 keyboardType: TextInputType.number,
-                                
                                 decoration: InputDecoration(
                                   hintText: "₹",
                                   border: InputBorder.none,
@@ -144,7 +161,9 @@ class AddReturnScreen extends StatelessWidget {
                                     receivedAmountNotifier.value = parsedValue;
                                   }
                                 },
-                                style: TextStyle(fontSize: screenWidth * 0.04,color: Colors.black),
+                                style: TextStyle(
+                                    fontSize: screenWidth * 0.04,
+                                    color: Colors.black),
                               ),
                             ],
                           ),
@@ -183,11 +202,13 @@ class AddReturnScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            
-                                           const Text("Received",
-                                                style: TextStyle(fontSize: 14,color: Colors.black,fontWeight:FontWeight.w500 )),
+                                            const Text("Received",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
                                             SizedBox(width: screenWidth * .53),
-                                          
                                             SizedBox(
                                               width: screenWidth * 0.25,
                                               child: Stack(children: [
@@ -206,13 +227,19 @@ class AddReturnScreen extends StatelessWidget {
                                                   builder: (context,
                                                       receivedAmount, child) {
                                                     return TextFormField(
-                                                      style: TextStyle(fontSize: screenWidth * 0.04,color: Colors.black),
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.04,
+                                                          color: Colors.black),
                                                       keyboardType:
                                                           TextInputType.number,
                                                       decoration:
                                                           InputDecoration(
                                                         hintText: "₹",
-                                                        hintStyle: TextStyle(color: Colors.black),
+                                                        hintStyle: TextStyle(
+                                                            color:
+                                                                Colors.black),
                                                         border:
                                                             InputBorder.none,
                                                         contentPadding:
@@ -230,7 +257,6 @@ class AddReturnScreen extends StatelessWidget {
                                                                 .value =
                                                             parsedValue;
                                                       },
-                                                     
                                                       initialValue:
                                                           isReceivedChecked
                                                                   .value
@@ -252,7 +278,8 @@ class AddReturnScreen extends StatelessWidget {
                             ),
                             SizedBox(height: screenHeight * 0.03),
                             Padding(
-                              padding: EdgeInsets.only(left: screenWidth * .03,bottom: 6.h),
+                              padding: EdgeInsets.only(
+                                  left: screenWidth * .03, bottom: 6.h),
                               child: ValueListenableBuilder<double>(
                                 valueListenable: receivedAmountNotifier,
                                 builder: (context, receivedAmount, child) {
@@ -260,26 +287,34 @@ class AddReturnScreen extends StatelessWidget {
                                       totalAmount - receivedAmount;
                                   return Row(
                                     children: [
-                                     const Text("Balance Due",
+                                      const Text("Balance Due",
                                           style: TextStyle(
                                               color: Colors.green,
                                               fontSize: 14)),
                                       // SizedBox(width: screenWidth * .53),
-                                       Expanded(child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                      Expanded(
+                                          child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
-
-                                         Text("₹ ",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                              fontSize: screenWidth * 0.04)),
-                                              SizedBox(width: 48.w,),
-                                      Text(balanceDue.toStringAsFixed(2),
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontSize: screenWidth * 0.03)),
-                                              SizedBox(width: 15.w,)
-                                       ],))
+                                          Text("₹ ",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize:
+                                                      screenWidth * 0.04)),
+                                          SizedBox(
+                                            width: 48.w,
+                                          ),
+                                          Text(balanceDue.toStringAsFixed(2),
+                                              style: TextStyle(
+                                                  color: Colors.green,
+                                                  fontSize:
+                                                      screenWidth * 0.03)),
+                                          SizedBox(
+                                            width: 15.w,
+                                          )
+                                        ],
+                                      ))
                                     ],
                                   );
                                 },
@@ -302,7 +337,7 @@ class AddReturnScreen extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                     const Text(
+                                      const Text(
                                         "Payment Type",
                                         style:
                                             TextStyle(color: Colorconst.cGrey),
@@ -310,23 +345,30 @@ class AddReturnScreen extends StatelessWidget {
                                       SizedBox(
                                         width: screenWidth * .45,
                                       ),
-                                     const Icon(
+                                      const Icon(
                                         Icons.money,
                                         color: Colorconst.Green,
                                       ),
                                       // SizedBox(
                                       //   width: screenWidth * .01,
                                       // ),
-                                      SizedBox(width: 5.w,),
-                                     const Text("Cash",style: TextStyle(color: Colors.black),),
-                                   const   Icon(Icons.arrow_drop_down),
-                                   SizedBox(width: 6.w,),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      const Text(
+                                        "Cash",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      const Icon(Icons.arrow_drop_down),
+                                      SizedBox(
+                                        width: 6.w,
+                                      ),
                                     ],
                                   ),
                                   SizedBox(
                                     height: screenHeight * .04,
                                   ),
-                               const   Row(
+                                  const Row(
                                     children: [
                                       Icon(Icons.add, color: Colorconst.cBlue),
                                       Text(
@@ -336,7 +378,7 @@ class AddReturnScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                const  Divider(),
+                                  const Divider(),
                                   Row(
                                     children: [
                                       Text(
@@ -347,7 +389,12 @@ class AddReturnScreen extends StatelessWidget {
                                       SizedBox(
                                         width: screenWidth * .4,
                                       ),
-                                      Text("Select State",style:  TextStyle(color: Colors.black,fontSize: 14.sp),),
+                                      Text(
+                                        "Select State",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14.sp),
+                                      ),
                                       Icon(Icons.arrow_drop_down)
                                     ],
                                   ),
@@ -356,11 +403,11 @@ class AddReturnScreen extends StatelessWidget {
                             ),
                             SizedBox(height: screenHeight * .01),
                             Container(
-                               color: Colorconst.cwhite,
+                              color: Colorconst.cwhite,
                               child: Row(
                                 children: [
                                   Container(
-                                    padding:const EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     height: screenHeight * .18,
                                     width: screenWidth * .7,
                                     color: Colorconst.cwhite,
@@ -386,10 +433,11 @@ class AddReturnScreen extends StatelessWidget {
                                       height: 10,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                         border: Border.all(color: Colors.grey),
                                       ),
-                                      child:const Center(
+                                      child: const Center(
                                         child: Icon(
                                           Icons.add_a_photo,
                                           color: Colors.blue,
@@ -399,7 +447,6 @@ class AddReturnScreen extends StatelessWidget {
                                     ),
                                   ),
                                   // SizedBox(width: 5.w,)
-                                 
                                 ],
                               ),
                             ),
@@ -460,7 +507,7 @@ class AddReturnScreen extends StatelessWidget {
             ),
           ),
           // Positioned text above the bottom button
-          
+
           // Bottom button fixed at the bottom
           Positioned(
             bottom: 0,

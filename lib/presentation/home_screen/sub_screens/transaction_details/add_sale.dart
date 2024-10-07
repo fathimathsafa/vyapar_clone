@@ -552,7 +552,7 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
           AddItemButton(onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddItemSaleScreen()),
+              MaterialPageRoute(builder: (context) => AddItemToSale()),
             );
           }),
         ],
