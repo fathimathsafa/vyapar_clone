@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
 class SaleReport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Initialize ScreenUtil
+    ScreenUtil.init(context, designSize: Size(360, 690), minTextAdapt: true);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Sale Report', style: TextStyle(fontSize: 16)),
+        title: Text('Sale Report', style: TextStyle(fontSize: 16.sp)),
         actions: [
           IconButton(
-            icon: Icon(Icons.picture_as_pdf, size: 20),
+            icon: Icon(Icons.picture_as_pdf, size: 20.sp),
             onPressed: () {},
           ),
           IconButton(
-            icon: Icon(Icons.grid_on, size: 20),
+            icon: Icon(Icons.grid_on, size: 20.sp),
             onPressed: () {},
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0), // Reduced padding
+          padding: EdgeInsets.all(8.w), // Use Screen Util for padding
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -43,17 +47,15 @@ class SaleReport extends StatelessWidget {
                       thickness: 2,
                       color: Colorconst.cGrey,
                     ),
-                    SizedBox(
-                      width: 15,
-                    ),
+                    SizedBox(width: 15.w),
                     Row(
                       children: [
-                        Icon(Icons.calendar_today, size: 16),
-                        SizedBox(width: 4),
+                        Icon(Icons.calendar_today, size: 16.sp),
+                        SizedBox(width: 4.w),
                         Text(
                           '01/09/2024 TO 30/09/2024',
-                          style:
-                              TextStyle(fontSize: 12, color: Colorconst.cBlack),
+                          style: TextStyle(
+                              fontSize: 12.sp, color: Colorconst.cBlack),
                         ),
                       ],
                     ),
@@ -61,46 +63,43 @@ class SaleReport extends StatelessWidget {
                 ),
               ),
               Divider(),
-              SizedBox(height: 12), // Reduced space
+              SizedBox(height: 12.h),
 
               // Filters Applied Text
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Filters Applied:',
-                      style: TextStyle(fontSize: 12, color: Colors.black)),
+                      style: TextStyle(fontSize: 12.sp, color: Colors.black)),
                   OutlinedButton.icon(
-                    icon: Icon(
-                      Icons.filter_alt,
-                      size: 16,
-                    ),
+                    icon: Icon(Icons.filter_alt, size: 16.sp),
                     label: Text('Filters',
-                        style: TextStyle(fontSize: 12, color: Colors.black)),
+                        style: TextStyle(fontSize: 12.sp, color: Colors.black)),
                     onPressed: () {},
-                    style: OutlinedButton.styleFrom(padding: EdgeInsets.all(8)),
+                    style:
+                        OutlinedButton.styleFrom(padding: EdgeInsets.all(8.w)),
                   ),
                 ],
               ),
-              SizedBox(height: 4), // Adjusted spacing between text and filters
+              SizedBox(height: 4.h),
 
               // Filters Chips (now directly below "Filters Applied")
               Wrap(
-                spacing: 8.0, // Added spacing between filter chips
+                spacing: 8.0,
                 children: [
                   FilterChip(
                     label: Text('Txns Type - Sale & Cr. Note',
-                        style: TextStyle(fontSize: 12, color: Colors.black)),
+                        style: TextStyle(fontSize: 12.sp, color: Colors.black)),
                     onSelected: (_) {},
                   ),
                   FilterChip(
                     label: Text('Party - All Party',
-                        style: TextStyle(fontSize: 12)),
+                        style: TextStyle(fontSize: 12.sp)),
                     onSelected: (_) {},
                   ),
                 ],
               ),
-              SizedBox(
-                  height: 12), // Spacing between filters and the next section
+              SizedBox(height: 12.h),
 
               // Statistics Row
               Row(
@@ -111,7 +110,7 @@ class SaleReport extends StatelessWidget {
                   _buildStatCard('Balance Due', '₹ 0.00', isPositive: true),
                 ],
               ),
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               // Transaction List
               _buildTransactionCard('Gokul', 'Amount', '₹ 10.00', 'Balance',
@@ -133,31 +132,30 @@ class SaleReport extends StatelessWidget {
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius:
-            BorderRadius.circular(8), // Rounded corners for a softer look
+            BorderRadius.circular(8.r), // Use Screen Util for border radius
       ),
       child: Container(
-        width: 100, // Set fixed width
-        height: 60, // Set fixed height to make it a square
-        padding: const EdgeInsets.all(8.0), // Adjust padding to fit the square
+        width: 100.w, // Use Screen Util for width
+        height: 100.h, // Use Screen Util for height
+        padding: EdgeInsets.all(8.w), // Use Screen Util for padding
         child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.center, // Center content vertically
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               title,
               style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
-              textAlign: TextAlign.center, // Center text horizontally
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 4),
+            SizedBox(height: 4.h),
             Text(
               value,
               style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   color: isPositive ? Colors.green : Colors.black),
-              textAlign: TextAlign.center, // Center value text horizontally
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -171,10 +169,9 @@ class SaleReport extends StatelessWidget {
       elevation: 3,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(10.0), // Reduced padding
+        padding: EdgeInsets.all(10.w), // Use Screen Util for padding
         child: Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.center, // Align items centrally
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,10 +179,9 @@ class SaleReport extends StatelessWidget {
                 Text(name,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: Colors.black)),
-
-                SizedBox(height: 15), // Reduced height
+                SizedBox(height: 15.h),
                 Row(
                   children: [
                     Column(
@@ -193,22 +189,22 @@ class SaleReport extends StatelessWidget {
                       children: [
                         Text(label1 + ': ',
                             style: TextStyle(
-                                fontSize: 12, color: Colorconst.cBlack)),
+                                fontSize: 12.sp, color: Colorconst.cBlack)),
                         Text(value1,
                             style: TextStyle(
-                                fontSize: 12, color: Colorconst.cBlack)),
+                                fontSize: 12.sp, color: Colorconst.cBlack)),
                       ],
                     ),
-                    SizedBox(width: 20), // Reduced width
+                    SizedBox(width: 20.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(label2 + ': ',
                             style: TextStyle(
-                                fontSize: 12, color: Colorconst.cBlack)),
+                                fontSize: 12.sp, color: Colorconst.cBlack)),
                         Text(value2,
                             style: TextStyle(
-                                fontSize: 12, color: Colorconst.cBlack)),
+                                fontSize: 12.sp, color: Colorconst.cBlack)),
                       ],
                     ),
                   ],
@@ -220,10 +216,12 @@ class SaleReport extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(txnType,
-                    style: TextStyle(fontSize: 12, color: Colorconst.cBlack)),
+                    style:
+                        TextStyle(fontSize: 12.sp, color: Colorconst.cBlack)),
                 Text(date,
-                    style: TextStyle(fontSize: 12, color: Colorconst.cBlack)),
-                SizedBox(height: 10), // Reduced height
+                    style:
+                        TextStyle(fontSize: 12.sp, color: Colorconst.cBlack)),
+                SizedBox(height: 10.h),
               ],
             ),
           ],

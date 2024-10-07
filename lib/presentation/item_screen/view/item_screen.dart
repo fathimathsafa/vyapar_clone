@@ -68,17 +68,17 @@ class ItemPage extends StatelessWidget {
                       children: [
                         _buildQuickLinkItem(
                             'assets/images/onlinestore (1).jpeg',
-                            'Online Store'),
+                            'Online\nStore'),
                         _buildQuickLinkItem(
-                            'assets/images/stock.jpeg', 'Stock Summary'),
+                            'assets/images/stock.jpeg', 'Stock\nSummary'),
                         _buildQuickLinkItem(
-                            'assets/images/item.jpeg', 'Item Settings'),
+                            'assets/images/item.jpeg', 'Item\nSettings'),
                         GestureDetector(
                           onTap: () {
                             _showAllOptions(context);
                           },
                           child: _buildQuickLinkItem(
-                              'assets/images/show all.jpeg', 'Show All'),
+                              'assets/images/show all.jpeg', 'Show\nAll'),
                         ),
                       ],
                     ),
@@ -234,7 +234,11 @@ class ItemPage extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8),
-        Text(label, style: TextStyle(fontSize: 12, color: Colorconst.cBlack)),
+        Text(
+          label,
+          style: TextStyle(fontSize: 12, color: Colorconst.cBlack),
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }

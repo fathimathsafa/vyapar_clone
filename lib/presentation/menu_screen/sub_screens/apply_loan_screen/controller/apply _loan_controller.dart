@@ -13,10 +13,10 @@ class ApplyLoanController extends GetxController {
 
   // List of image URLs for the slides
   final List<String> imageUrls = [
-    'assets/slides1.jpeg',
-    'assets/slides2.jpeg',
-    'assets/slides3.jpeg',
-    'assets/slides4.jpeg',
+    'assets/images/slides1.jpeg',
+    'assets/images/slides2.jpeg',
+    'assets/images/slides3.jpeg',
+    'assets/images/slides4.jpeg',
   ];
 
   void toggleTOS(bool value) {
