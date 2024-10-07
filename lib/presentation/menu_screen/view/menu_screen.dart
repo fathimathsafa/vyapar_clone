@@ -48,6 +48,7 @@ import '../models/show_dialog.dart';
 import '../sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
 
 import '../sub_screens/purchase/purchase_order_list/view/purchase_order_list.dart';
+import '../sub_screens/purchase/purchase_return/view/purchase_return_list.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/business_card/view/business_card.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/document_setting/view/document_setting.dart';
 import '../sub_screens/quick_access/quick_access_sub_screens/insights/view/insights.dart';
@@ -548,7 +549,7 @@ class MenuScreen extends StatelessWidget {
       {
         'icon': Icons.assignment_return,
         'label': 'Purchase Return',
-        'onTap': () {/*  onTap action */}
+        'onTap': () => Get.to(()=> PurchaseReturnListScreen())
       },
       {
         'icon': Icons.receipt,
