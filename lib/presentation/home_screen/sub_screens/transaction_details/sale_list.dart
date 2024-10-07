@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/images.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/p2p_transfer_screen/view/p2p_transfer_screen.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/transaction/view/transaction.dart';
@@ -392,7 +393,13 @@ class SaleListScreen extends StatelessWidget {
                 buildSectionHeader('Other Transactions'),
                 buildIconGrid([
                   iconWithLabel(Icons.attach_money, 'Expenses', () {}),
-                  iconWithLabel(Icons.sync, 'P2P Transfer', () {}),
+                  iconWithLabel(Icons.sync, 'P2P Transfer', () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PartyToPartyTransferScreen()));
+                  }),
                 ]),
               ],
             ),
