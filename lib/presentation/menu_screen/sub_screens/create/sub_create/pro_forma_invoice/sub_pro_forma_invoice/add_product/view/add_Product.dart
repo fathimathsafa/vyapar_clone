@@ -39,7 +39,7 @@ class AddProductScreenS extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back)),
         title: const Text(
-          "Add Item To Sale",
+          "Add Item To Sale ",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [

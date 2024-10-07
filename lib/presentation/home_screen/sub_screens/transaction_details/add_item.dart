@@ -100,7 +100,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
             },
             icon: const Icon(Icons.arrow_back)),
         title: const Text(
-          "Add Item To Sale",
+          "Add Item To Sale ",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -149,6 +149,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                             SizedBox(height: 10.h), // Use ScreenUtil
                             _buildRow(
                               TextFormField(
+                                style: TextStyle(fontSize: 14.sp,color: Colors.black),
                                 keyboardType: TextInputType.number,
                                 decoration: _inputDecorationWithLabel(
                                     "Rate (Price/Unit)", "Price *"),

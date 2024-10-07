@@ -7,7 +7,7 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20detail
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/party/view/party.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/view/party_report_by_items.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_reports/party_statement_screen/view/party_statement.dart';
+
 
 class PartyDetails extends StatelessWidget {
   const PartyDetails({super.key});
