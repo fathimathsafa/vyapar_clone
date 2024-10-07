@@ -78,7 +78,7 @@ class DayBook extends StatelessWidget {
                   height: 100.h, // Responsive container height
                   width: 100.w, // Responsive container width
                   child: Image(
-                    image: AssetImage('assets/images/purchase order.jpg'),
+                    image: AssetImage('assets/images/purchase_order.jpg'),
                     fit: BoxFit.contain, // Added to ensure image scales well
                   ),
                 ),

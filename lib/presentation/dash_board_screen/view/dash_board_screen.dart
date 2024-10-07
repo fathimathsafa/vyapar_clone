@@ -34,25 +34,25 @@ class DashBoardScreen extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            bottom: 16,
-            left: MediaQuery.of(context).size.width * 0.25, // Center the button
-            child: ElevatedButton(
-              onPressed: () {
-                // Add sale action
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.yellow.shade50,
-                side: BorderSide(color: Colors.red, width: 2),
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                textStyle: TextStyle(fontSize: 18),
-              ),
-              child: Text(
-                "Add Sale Now",
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 16,
+          //   left: MediaQuery.of(context).size.width * 0.25, // Center the button
+          //   child: ElevatedButton(
+          //     onPressed: () {
+          //       // Add sale action
+          //     },
+          //     style: ElevatedButton.styleFrom(
+          //       backgroundColor: Colors.yellow.shade50,
+          //       side: BorderSide(color: Colors.red, width: 2),
+          //       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+          //       textStyle: TextStyle(fontSize: 18),
+          //     ),
+          //     child: Text(
+          //       "Add Sale Now",
+          //       style: TextStyle(color: Colors.red),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

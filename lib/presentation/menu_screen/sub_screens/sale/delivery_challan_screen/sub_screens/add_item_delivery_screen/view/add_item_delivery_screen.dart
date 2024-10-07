@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:vyapar_clone/core/common/widget/custom_dropdown.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
@@ -183,6 +184,9 @@ class _AddItemDelieryState extends State<AddItemDeliery> {
                             Expanded(
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
+                                style: interFontBlack(context,
+            color: Colorconst.cBlack,
+            fontsize: 16.sp),
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     hintText: "Rate (Price/Unit)",
@@ -318,6 +322,7 @@ class _AddItemDelieryState extends State<AddItemDeliery> {
                                                       width: screenWidth * .02),
                                                   Expanded(
                                                     child: TextFormField(
+                                                      
                                                       decoration:
                                                           InputDecoration(
                                                         border:
@@ -521,6 +526,9 @@ class _AddItemDelieryState extends State<AddItemDeliery> {
                                               ),
                                             ),
                                             TextFormField(
+                                            style:   interFontBlack(context,
+            color: Colorconst.cBlack,
+            fontsize: 16.sp),
                                               keyboardType:
                                                   TextInputType.number,
                                               decoration: InputDecoration(
@@ -530,8 +538,7 @@ class _AddItemDelieryState extends State<AddItemDeliery> {
                                                   left: screenWidth * 0.025,
                                                 ),
                                               ),
-                                              style: TextStyle(
-                                                  fontSize: screenWidth * 0.04),
+                                              
                                             ),
                                           ],
                                         ),

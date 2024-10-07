@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/sub_screens/add_bank_accont_screen/view/add_bank_accont_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/sub_screens/controller/bank_controller.dart';
 
 class BankAccountsPage extends StatelessWidget {
@@ -163,7 +164,12 @@ class BankAccountsPage extends StatelessWidget {
                         children: [
                           ElevatedButton.icon(
                             onPressed: () {
-                              controller.navigateToAddBankAccount();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddBankAccount(),
+                                ),
+                              );
                             },
                             label: Text(
                               'Add Bank',

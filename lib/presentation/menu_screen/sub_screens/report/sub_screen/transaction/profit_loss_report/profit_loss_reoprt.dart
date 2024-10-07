@@ -320,7 +320,7 @@ class ProfitAndLossReoprt extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 12.sp),
+            style: TextStyle(fontSize: 12.sp, color: Colors.black),
           ),
           Text(
             amount,

@@ -6,6 +6,9 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20detail
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20details/import_party.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/party/view/party.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/reminder/sub_reminder/view/payment_reminder.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/all_party_reports/view/all_party_reports.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/view/party_report_by_items.dart';
 
 class PartyDetails extends StatelessWidget {
@@ -40,11 +43,33 @@ class PartyDetails extends StatelessWidget {
                   buildSectionHeader('More Options'),
                   buildIconGrid([
                     iconWithLabel(Icons.comment_bank, 'Invite Party', () {}),
-                    iconWithLabel(Icons.book, 'Partywise PnL', () {}),
+                    iconWithLabel(Icons.book, 'Partywise PnL', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VyaparPremiumScreen(),
+                        ),
+                      );
+                    }),
+                    iconWithLabel(Icons.receipt_rounded, 'All Parties Report',
+                        () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AllPartyReportsScreen(),
+                        ),
+                      );
+                    }),
                     iconWithLabel(
-                        Icons.receipt_rounded, 'All Parties Report', () {}),
-                    iconWithLabel(Icons.monetization_on_outlined,
-                        'Reminder Settings', () {}),
+                        Icons.monetization_on_outlined, 'Reminder Settings',
+                        () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaymentReminderScreen(),
+                        ),
+                      );
+                    }),
                     iconWithLabel(Icons.document_scanner, 'Greetings & Offer',
                         () {
                       Navigator.push(
@@ -94,17 +119,17 @@ class PartyDetails extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ImportPartyPage()),
-                              );
-                            },
-                            child: _buildQuickLinkButton('Import Party',
-                                'assets/images/import party.jpeg'),
-                          ), // Replace with your image asset path
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => ImportPartyPage()),
+                          //     );
+                          //   },
+                          //   child: _buildQuickLinkButton('Import Party',
+                          //       'assets/images/import party.jpeg'),
+                          // ), // Replace with your image asset path
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
