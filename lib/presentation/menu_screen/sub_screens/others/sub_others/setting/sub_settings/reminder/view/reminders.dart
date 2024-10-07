@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
+import '../sub_reminder/view/payment_reminder.dart';
+
 class RemidersScreen extends StatelessWidget {
   const RemidersScreen({super.key});
 
@@ -68,23 +70,26 @@ class RemidersScreen extends StatelessWidget {
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 14.w, vertical: 13.h),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            "Payment Reminders",
-                            style: GoogleFonts.inter(
-                                fontSize: 13.sp,
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w400),
+                    child: InkWell(
+                      onTap: () => Get.to(()=>const PaymentReminderScreen()),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Payment Reminders",
+                              style: GoogleFonts.inter(
+                                  fontSize: 13.sp,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w400),
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          size: 14.sp,
-                          color: Colorconst.cBlue,
-                        )
-                      ],
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            size: 14.sp,
+                            color: Colorconst.cBlue,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

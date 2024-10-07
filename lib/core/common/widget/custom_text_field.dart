@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 
@@ -32,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextStyle? hintSytle;
   final TextStyle? labelStyle;
   final TextEditingController? controller;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -72,3 +74,61 @@ class CustomTextFormField extends StatelessWidget {
     );
   }
 }
+
+
+Widget customTextFormFieldNew({ String? hintText,
+   String? labelText,
+   int? maxLines,
+   bool? isFiled,
+   bool? isEditable,
+   TextInputType? keyboardType,
+   double? height,
+   double? width,
+   Widget? suffixIconWidget,
+   Color? filledColor,
+    TextStyle? hintSytle,
+   TextStyle? labelStyle,
+   
+   TextEditingController? controller,}){
+
+
+  return  TextFormField(
+          maxLines: maxLines,
+        controller: controller,
+        keyboardType: keyboardType,
+        style: GoogleFonts.inter(
+            color: Colorconst.cBlack,
+            fontSize: 17.sp),
+        decoration: InputDecoration(
+
+          suffixIcon: suffixIconWidget,
+          enabled: isEditable??true,
+          fillColor: filledColor,
+          filled: isFiled,
+          hintText: hintText ?? "",
+          labelText: labelText ?? "",
+          hintStyle: hintSytle,
+          labelStyle: labelStyle?? GoogleFonts.inter(color: Colors.black,
+              fontSize: 14.sp), 
+              disabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  width: 1.w, color: Colorconst.cGrey), 
+              borderRadius:
+                  BorderRadius.circular(5.r)),
+          border: OutlineInputBorder(
+              borderSide: BorderSide(
+                  width: 1.w, color: Colorconst.cGrey), 
+              borderRadius:
+                  BorderRadius.circular(5.r)), 
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.w, color: Colors.blue),
+              borderRadius: BorderRadius.circular(5.r)),
+          // contentPadding: EdgeInsets.symmetric(
+          //   vertical: 20.h, 
+          //   horizontal: 15.w, 
+          // ),
+        ),
+      );
+}
+
+

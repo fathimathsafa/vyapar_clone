@@ -1,93 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:vyapar_clone/core/common/widget/custom_dropdown.dart';
+
+import 'package:get/get.dart';
+
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
-import 'package:vyapar_clone/core/common/widget/verticle_divider.dart';
-import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/core/constatnts/text_style.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/create/sub_create/pro_forma_invoice/sub_pro_forma_invoice/add_product/controller/controller.dart';
 
-class AddItemSaleScreen extends StatefulWidget {
-  const AddItemSaleScreen({super.key});
+import '../../../../../../../../../core/common/widget/custom_dropdown.dart';
+import '../../../../../../../../../core/common/widget/verticle_divider.dart';
+import '../../../../../../../../../core/constatnts/colors.dart';
+import '../../../../../../../../../core/constatnts/text_style.dart';
+import '../../../../../../sale/delivery_challan_screen/sub_screens/add_delivery_challan_screen/view/add_delivery_challan_screen.dart';
 
-  @override
-  State<AddItemSaleScreen> createState() => _AddItemSaleScreenState();
-}
 
-class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
-  final GlobalKey<FormState> addItemKey = GlobalKey<FormState>();
-  List<int> units = List.generate(5, (index) => index + 1);
 
-  String selectedUnit = 'Unit';
+
+
+// ignore: must_be_immutable, use_key_in_widget_constructors
+class AddProductScreenS extends StatelessWidget {
+  //  AddProductScreenS({super.key});
+
+   final _controller = Get.put(AddProductController());
+   String selectedUnit = 'Unit';
 
   String selectedTax = 'Without Tax';
   bool isPriceEntered = false;
-
-  void showUnitsDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text(
-            'Unit',
-            style: TextStyle(color: Colorconst.cBlack),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: units.map((unit) {
-              return ListTile(
-                title: Text(
-                  '$unit Unit(s)',
-                  style: const TextStyle(color: Colorconst.cBlack),
-                ),
-                onTap: () {
-                  setState(() {
-                    selectedUnit = '$unit Unit(s)';
-                  });
-                  Navigator.pop(context);
-                },
-              );
-            }).toList(),
-          ),
-        );
-      },
-    );
-  }
-
-  void showTaxDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: const Text('With Tax'),
-                onTap: () {
-                  setState(() {
-                    selectedTax = 'With Tax';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Without Tax'),
-                onTap: () {
-                  setState(() {
-                    selectedTax = 'Without Tax';
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+   final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -96,7 +35,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
         backgroundColor: Colorconst.cwhite,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+             Get.back();
             },
             icon: const Icon(Icons.arrow_back)),
         title: const Text(
@@ -104,8 +43,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(
-              onPressed: () {}, icon: const Icon(Icons.settings_outlined))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.settings_outlined))
         ],
       ),
       body: Stack(
@@ -148,7 +86,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                             ),
                             Expanded(
                               child: GestureDetector(
-                                onTap: showUnitsDialog,
+                                onTap:()=> showUnitsDialog(context),
                                 child: InputDecorator(
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -185,27 +123,18 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                         Row(
                           children: [
                             Expanded(
-                              child: TextFormField(
+                              child:  CustomTextFormField(
                                 keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: "Rate (Price/Unit)",
+                               hintText: "Rate (Price/Unit)",
                                     labelText: "Price *",
-                                    labelStyle: TextStyle(
-                                        color: Colorconst.cGrey, fontSize: 15)),
-                                onChanged: (value) {
-                                  setState(() {
-                                    isPriceEntered = value.isNotEmpty;
-                                  });
-                                },
-                              ),
+                            ),
                             ),
                             SizedBox(
                               width: screenWidth * .02,
                             ),
                             Expanded(
                               child: GestureDetector(
-                                onTap: showTaxDialog,
+                                onTap:()=> showTaxDialog(context),
                                 child: InputDecorator(
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -322,8 +251,7 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                       width: screenWidth * .02),
                                                   Expanded(
                                                     child: TextFormField(
-                                                      keyboardType:
-                                                          TextInputType.number,
+                                                      keyboardType: TextInputType.number,
                                                       decoration:
                                                           const InputDecoration(
                                                         border:
@@ -446,7 +374,11 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
                                                     BorderRadius.circular(5),
                                               ),
                                               child: CustomDropdown(
-                                                items: const [], selectedValue: '', onChanged: (newValue) {  },
+                                                items: const [],
+                                                selectedValue: "Selcted dropdown",
+                                                onChanged: (value){
+
+                                                },
                                               ),
                                             ),
                                           ),
@@ -607,25 +539,71 @@ class _AddItemSaleScreenState extends State<AddItemSaleScreen> {
       ),
     );
   }
-}
 
-class DottedLinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 1
-      ..style = PaintingStyle.stroke;
+   void showUnitsDialog(context) {
 
-    double dashWidth = 5, dashSpace = 3, startX = 0;
-    while (startX < size.width) {
-      canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
-      startX += dashWidth + dashSpace;
-    }
+     List<int> units = List.generate(5, (index) => index + 1);
+
+  
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            'Unit',
+            style: TextStyle(color: Colorconst.cBlack),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: units.map((unit) {
+              return ListTile(
+                title: Text(
+                  '$unit Unit(s)',
+                  style: const TextStyle(color: Colorconst.cBlack),
+                ),
+                onTap: () {
+                  // setState(() {
+                  //   selectedUnit = '$unit Unit(s)';
+                  // });
+                  // Navigator.pop(context);
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
   }
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+   void showTaxDialog(context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('With Tax'),
+                onTap: () {
+               
+                    // selectedTax = 'With Tax';
+                 
+                },
+              ),
+              ListTile(
+                title: const Text('Without Tax'),
+                onTap: () {
+                 
+                    // selectedTax = 'Without Tax';
+               
+                  Get.back();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

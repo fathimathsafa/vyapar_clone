@@ -44,15 +44,189 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/messa
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
 
-class MenuScreen extends StatefulWidget {
+import '../sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
+
+import '../sub_screens/quick_access/quick_access_sub_screens/business_card/view/business_card.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/document_setting/view/document_setting.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/insights/view/insights.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/invoice_templates/view/invoice_template.dart';
+import '../sub_screens/quick_access/quick_access_sub_screens/payment_timeline/view/payment_timeline.dart';
+import '../sub_screens/sync_and_shear_screen/view/syn_and_shear_screen.dart';
+
+class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
 
-  @override
-  _MenuScreenState createState() => _MenuScreenState();
-}
 
-class _MenuScreenState extends State<MenuScreen> {
-  Future<void> _openCalculator() async {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: const Icon(
+          Icons.home_outlined,
+          color: Colors.blue,
+        ),
+        title: const Text(
+          'XianInfoTech',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications_none_outlined)),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.settings_outlined)),
+        ],
+        elevation: 4.0,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const CustomPageView(),
+            const SizedBox(height: 10),
+            buildSummaryCard(),
+            const SizedBox(height: 10),
+            buildSection('Create', [
+              buildGridItem(Icons.blinds_closed_rounded, 'Invoice', () {
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => SaleListScreen()));
+              }),
+              buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {}),
+              buildGridItem(Icons.timelapse_outlined, 'Delivery Challan', () {
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => DeliveryChallanDetails()));
+              }),
+              buildGridItem(Icons.auto_graph_sharp, 'Credit Note', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreditNoteScreen()));
+              }),
+              buildGridItem(
+                  Icons.business_center_outlined, 'Purchase Order', () {}),
+              buildGridItem(Icons.card_membership, 'Pro Forma Invoice', () => Get.to(()=>const ProFormaInvoice())),
+            ]),
+            const SizedBox(height: 10),
+            buildSection('My Business', [
+              buildGridItem(Icons.currency_rupee_sharp, 'Sale', () {
+                _showSalePopup(context);
+              }),
+              buildGridItem(Icons.shopping_cart_outlined, 'Purchase', () {
+                _showPurchasePopup(context);
+              }),
+              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ExpenseDetailScreen()));
+              }),
+              buildGridItem(Icons.home_outlined, 'My Online Store', () {
+                _showOnlineShopPopup(context);
+              }),
+              buildGridItem(Icons.note_outlined, 'Report', () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ReportScreen()));
+              }),
+            ]),
+            const SizedBox(height: 10),
+            buildSection('Quick Access', [
+              buildGridItem(Icons.blinds_closed_rounded, 'E-Way Bill', () => _eWayBillBottomSheet()),
+              buildGridItem(Icons.inventory_2_outlined, 'E-Invoice', () =>_eEnvoiceBottomSheet()),
+              buildGridItem(
+                  Icons.timelapse_outlined, 'Payment Timeline', () => Get.to(()=>const PaymentTimelineScreen())),
+              buildGridItem(Icons.auto_graph_sharp, 'Insights', () => Get.to(()=>const InsightsScreen())),
+              buildGridItem(
+                  Icons.business_center_outlined, 'Business Card', () => Get.to(()=> BusinessCardScreen())),
+              buildGridItem(Icons.card_membership, 'Greetings', () {}),
+              buildGridItem(
+                  Icons.business_center_outlined, 'Invoice Templates', () => Get.to(()=> InvoiceTemplateScreen())),
+              buildGridItem(
+                  Icons.document_scanner_outlined, 'Document Settings', () => Get.to(()=> DocumentSettingScreen())),
+            ]),
+            const SizedBox(height: 10),
+            buildSection('Cash & Bank', [
+              buildGridItem(Icons.account_balance_outlined, 'Bank Accounts',
+                  () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BankAccountsPage()));
+              }),
+              buildGridItem(
+                  Icons.account_balance_wallet_outlined, 'Cash In-Hand', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CashInHand()));
+              }),
+              buildGridItem(Icons.note, 'Cheques', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Cheques()));
+              }),
+              buildGridItem(Icons.playlist_add_circle_outlined, 'Loan Account',
+                  () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoanAccountPage()));
+              }),
+              buildGridItem(Icons.currency_rupee_outlined, 'Apply Loan', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ApplyLoanPage()));
+              }),
+            ]),
+            const SizedBox(height: 10),
+            buildSection('Important Utilities', [
+              buildGridItem(Icons.sync, 'Sync & Share', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SyncShareScreen()));
+              }),
+              buildGridItem(Icons.manage_history_sharp, 'Manage Companies', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ManageCompanies()));
+              }),
+              buildGridItem(
+                  Icons.settings_backup_restore_outlined, 'Backup/Restore', () {
+                _showBackupRestorePopup(context);
+              }),
+              buildGridItem(Icons.shopping_bag_outlined, 'Utilities', () {
+                _showUtilitiesPopup(context);
+              }),
+            ]),
+            const SizedBox(height: 10),
+            buildSection('Others', [
+              buildGridItem(
+                  Icons.account_balance_outlined, 'Vyapar Premium', () => Get.to(()=> VyaparPremiumScreen())),
+              buildGridItem(Icons.account_balance_wallet_outlined,
+                  'Get Desktop Billing Software', () => _getDeskBillingBottomSheet()),
+              buildGridItem(
+                  Icons.view_comfortable_rounded, 'Other Products', () => Get.to(()=>const OtherProductScreen())),
+              buildGridItem(Icons.phone_enabled, 'Greeting & Offers', () => Get.to(()=>const GreetingOfferScreen())),
+              buildGridItem(Icons.settings_outlined, 'Settings', () => Get.to(()=>const SettingScreen())),
+
+               buildGridItem(
+                          Icons.wallet_giftcard_rounded,
+                          'Refer & Earn',
+                          () => Get.to(() => ReferEarnScreen())),
+                      buildGridItem(
+                          Icons.headset_mic_outlined, 'Help & Support', () {
+                        _showHelpSupportPopup(context);
+                      }),
+                      buildGridItem(
+                          Icons.star_border_outlined, 'Rate This App', () => _rateThisAppDialog())
+            ]),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+
+   Future<void> _openCalculator(BuildContext context) async {
     const String calculatorUrl =
         'calculator://'; // Common URL scheme for calculators
 
@@ -65,13 +239,13 @@ class _MenuScreenState extends State<MenuScreen> {
         await launch(
             'intent://calculator#Intent;scheme=android.intent.action.VIEW;end');
       } catch (e) {
-        _showSnackbar('Could not open the calculator app.');
+        _showSnackbar('Could not open the calculator app.',context);
       }
     }
   }
 
   // Function to show the custom Snackbar-like message
-  void _showSnackbar(String message) {
+   _showSnackbar(String message,context) {
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -122,7 +296,7 @@ class _MenuScreenState extends State<MenuScreen> {
     }
   }
 
-  void _showVerificationDialog() {
+   _showVerificationDialog(context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -375,7 +549,7 @@ class _MenuScreenState extends State<MenuScreen> {
         'icon': Icons.save_alt,
         'label': 'Backup to Phone',
         'onTap': () {
-          _showSnackbar('Data has been backed up in Documents/file path');
+          _showSnackbar('Data has been backed up in Documents/file path',context);
         }
       },
       {
@@ -393,12 +567,12 @@ class _MenuScreenState extends State<MenuScreen> {
     ]);
   }
 
-  void _showUtilitiesPopup(BuildContext context) {
+   _showUtilitiesPopup(context) {
     _showCustomPopup(context, [
       {
         'icon': Icons.check,
         'label': 'Verify my data',
-        'onTap': _showVerificationDialog,
+        'onTap': _showVerificationDialog(context),
       },
       {
         'icon': Icons.calculate,
@@ -408,7 +582,9 @@ class _MenuScreenState extends State<MenuScreen> {
       {
         'icon': Icons.import_contacts,
         'label': 'Import items',
-        'onTap': () {
+        'onTap': () 
+        
+        {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => ImportItemsScreen()));
         }
@@ -548,174 +724,7 @@ class _MenuScreenState extends State<MenuScreen> {
         ));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: const Icon(
-          Icons.home_outlined,
-          color: Colors.blue,
-        ),
-        title: const Text(
-          'XianInfoTech',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.notifications_none_outlined)),
-          IconButton(
-              onPressed: () {}, icon: const Icon(Icons.settings_outlined)),
-        ],
-        elevation: 4.0,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const CustomPageView(),
-            const SizedBox(height: 10),
-            buildSummaryCard(),
-            const SizedBox(height: 10),
-            buildSection('Create', [
-              buildGridItem(Icons.blinds_closed_rounded, 'Invoice', () {
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => SaleListScreen()));
-              }),
-              buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {}),
-              buildGridItem(Icons.timelapse_outlined, 'Delivery Challan', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DeliveryChallanScreen()));
-              }),
-              buildGridItem(Icons.auto_graph_sharp, 'Credit Note', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CreditNoteScreen()));
-              }),
-              buildGridItem(
-                  Icons.business_center_outlined, 'Purchase Order', () {}),
-              buildGridItem(Icons.card_membership, 'Pro Forma Invoice', () {}),
-            ]),
-            const SizedBox(height: 10),
-            buildSection('My Business', [
-              buildGridItem(Icons.currency_rupee_sharp, 'Sale', () {
-                _showSalePopup(context);
-              }),
-              buildGridItem(Icons.shopping_cart_outlined, 'Purchase', () {
-                _showPurchasePopup(context);
-              }),
-              buildGridItem(Icons.note_alt_outlined, 'Expenses', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ExpenseDetailScreen()));
-              }),
-              buildGridItem(Icons.home_outlined, 'My Online Store', () {
-                _showOnlineShopPopup(context);
-              }),
-              buildGridItem(Icons.note_outlined, 'Report', () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ReportScreen()));
-              }),
-            ]),
-            const SizedBox(height: 10),
-            buildSection('Quick Access', [
-              buildGridItem(Icons.blinds_closed_rounded, 'E-Way Bill', () {}),
-              buildGridItem(Icons.inventory_2_outlined, 'E-Invoice', () {}),
-              buildGridItem(
-                  Icons.timelapse_outlined, 'Payment Timeline', () {}),
-              buildGridItem(Icons.auto_graph_sharp, 'Insights', () {}),
-              buildGridItem(
-                  Icons.business_center_outlined, 'Business Card', () {}),
-              buildGridItem(Icons.card_membership, 'Greetings', () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GreetingOfferScreen(),
-                  ),
-                );
-              }),
-              buildGridItem(
-                  Icons.business_center_outlined, 'Invoice Templates', () {}),
-              buildGridItem(
-                  Icons.document_scanner_outlined, 'Document Settings', () {}),
-            ]),
-            const SizedBox(height: 10),
-            buildSection('Cash & Bank', [
-              buildGridItem(Icons.account_balance_outlined, 'Bank Accounts',
-                  () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BankAccountsPage()));
-              }),
-              buildGridItem(
-                  Icons.account_balance_wallet_outlined, 'Cash In-Hand', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CashInHand()));
-              }),
-              buildGridItem(Icons.note, 'Cheques', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Cheques()));
-              }),
-              buildGridItem(Icons.playlist_add_circle_outlined, 'Loan Account',
-                  () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoanAccountPage()));
-              }),
-              buildGridItem(Icons.currency_rupee_outlined, 'Apply Loan', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ApplyLoanPage()));
-              }),
-            ]),
-            const SizedBox(height: 10),
-            buildSection('Important Utilities', [
-              buildGridItem(Icons.sync, 'Sync & Share', () {}),
-              buildGridItem(Icons.manage_history_sharp, 'Manage Companies', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ManageCompanies()));
-              }),
-              buildGridItem(
-                  Icons.settings_backup_restore_outlined, 'Backup/Restore', () {
-                _showBackupRestorePopup(context);
-              }),
-              buildGridItem(Icons.shopping_bag_outlined, 'Utilities', () {
-                _showUtilitiesPopup(context);
-              }),
-            ]),
-            const SizedBox(height: 10),
-            buildSection('Others', [
-              buildGridItem(Icons.account_balance_outlined, 'Vyapar Premium',
-                  () => Get.to(() => VyaparPremiumScreen())),
-              buildGridItem(
-                  Icons.account_balance_wallet_outlined,
-                  'Get Desktop Billing Software',
-                  () => _getDeskBillingBottomSheet()),
-              buildGridItem(Icons.view_comfortable_rounded, 'Other Products',
-                  () => Get.to(() => const OtherProductScreen())),
-              buildGridItem(Icons.phone_enabled, 'Greeting & Offers',
-                  () => Get.to(() => const GreetingOfferScreen())),
-              buildGridItem(Icons.settings_outlined, 'Settings',
-                  () => Get.to(() => const SettingScreen())),
-              buildGridItem(Icons.wallet_giftcard_rounded, 'Refer & Earn',
-                  () => Get.to(() => ReferEarnScreen())),
-              buildGridItem(Icons.headset_mic_outlined, 'Help & Support', () {
-                _showHelpSupportPopup(context);
-              }),
-              buildGridItem(Icons.star_border_outlined, 'Rate This App',
-                  () => _rateThisAppDialog())
-            ]),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   void _rateThisAppDialog() {
     Get.dialog(
@@ -808,8 +817,281 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ));
   }
+void _eEnvoiceBottomSheet() {
+    Get.bottomSheet(SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+           
+            width: double.infinity,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(13.r), topRight: Radius.circular(13.r)),
+                color: Colors.white),
+            child: Column(
+              children: [
+                SizedBox(height: 10.h,),
+                SizedBox(
+                  // height: 160.h,
+                  child: Icon(Icons.inventory_sharp,size: 90.sp,),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "One-click E-Invoicing.",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          // InkWell(
+                          //   onTap: () => Get.back(),
+                          //   child: Icon(
+                          //     Icons.close,
+                          //     size: 20.sp,
+                          //     color: Colors.black54,
+                          //   ),
+                          // )
+                        ],
+                      ),
+                      SizedBox(height: 12.h,),
 
-  void _getDeskBillingBottomSheet() {
+                       Align(
+                        alignment: Alignment.topLeft,
+                         child: Text(
+                          textAlign: TextAlign.left,
+                              "Boost your experience with our quick & easy E-Invoicing",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                       ),
+
+                      
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12.h,),
+                _quickAccessEwayCheckTextWidget(text: "Generate E-invoices in a click."),
+                SizedBox(height: 10.h,),
+                _quickAccessEwayCheckTextWidget(text: "Uninterrupted E-invoicing with a backup provider."),
+                SizedBox(height: 10.h,),
+                _quickAccessEwayCheckTextWidget(text: "Monitor the status of your E-Invoices."),
+                SizedBox(height: 10.h,),
+               
+                
+                
+          
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.r),
+                              color: Colorconst.cRed),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 14.h),
+                            child: Text("Subscribe to E-Invoicing now",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500)),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+          
+                
+          
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.headset_mic_outlined,size: 16.sp,),
+                      SizedBox(width: 7.w,),
+                      Text(
+                        "Talk to a specialist",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                     
+                    ],
+                  ),
+                ),
+                SizedBox(height: 7.h,)
+          
+                // Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+void _eWayBillBottomSheet() {
+    Get.bottomSheet(SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+           
+            width: double.infinity,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(13.r), topRight: Radius.circular(13.r)),
+                color: Colors.white),
+            child: Column(
+              children: [
+                SizedBox(height: 10.h,),
+                SizedBox(
+                  // height: 160.h,
+                  child: Icon(Icons.mobile_friendly_outlined,size: 90.sp,),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Hassle free E-way bills.",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          // InkWell(
+                          //   onTap: () => Get.back(),
+                          //   child: Icon(
+                          //     Icons.close,
+                          //     size: 20.sp,
+                          //     color: Colors.black54,
+                          //   ),
+                          // )
+                        ],
+                      ),
+                      SizedBox(height: 12.h,),
+
+                       Align(
+                        alignment: Alignment.topLeft,
+                         child: Text(
+                          textAlign: TextAlign.left,
+                              "Simplify logistics with our effortless E-way bill creation.",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                       ),
+
+                      
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12.h,),
+                _quickAccessEwayCheckTextWidget(),
+                SizedBox(height: 10.h,),
+                _quickAccessEwayCheckTextWidget(text: "Sync your E-way bills to govt portal."),
+                SizedBox(height: 10.h,),
+                _quickAccessEwayCheckTextWidget(text: "Avoid hassles and delays on your transport"),
+                SizedBox(height: 10.h,),
+               
+                
+                
+          
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.r),
+                              color: Colorconst.cRed),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 14.h),
+                            child: Text("Subscribe to JET Plan now",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500)),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+          
+                
+          
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.headset_mic_outlined,size: 16.sp,),
+                      SizedBox(width: 7.w,),
+                      Text(
+                        "Talk to a specialist",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                     
+                    ],
+                  ),
+                ),
+                SizedBox(height: 7.h,)
+          
+                // Divider(height: 1.w,color: Colorconst.cSecondaryGrey,),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+  Widget _quickAccessEwayCheckTextWidget({String? text}){
+
+    return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.check_circle,size: 17.sp,),
+                      SizedBox(width: 7.w,),
+                      Text(
+                        text?? "Easily create E-way bills with a click.",
+                        style: pdfOptionStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            fontsize: 14.sp),
+                      ),
+                    ],
+                  ),
+                );
+  }
+void _getDeskBillingBottomSheet() {
     Get.bottomSheet(Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -974,13 +1256,16 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   TextStyle pdfOptionStyle(
-      {Color? color, double? fontsize, FontWeight? fontWeight}) {
-    return TextStyle(
-        color: color ?? Colors.black54,
-        fontSize: fontsize ?? 15.sp,
-        fontWeight: fontWeight ?? FontWeight.w600);
-  }
+    {Color? color, double? fontsize, FontWeight? fontWeight}) {
+  return TextStyle(
+      color: color ?? Colors.black54,
+      fontSize: fontsize ?? 15.sp,
+      fontWeight: fontWeight ?? FontWeight.w600);
 }
+
+
+
+
 
 Widget buildSummaryCard() {
   return Container(
@@ -1146,4 +1431,7 @@ Widget iconWithLabel(IconData icon, String label, VoidCallback onTap) {
       ],
     ),
   );
+}
+
+
 }
