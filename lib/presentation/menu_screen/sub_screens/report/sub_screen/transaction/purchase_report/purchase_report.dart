@@ -134,7 +134,7 @@ class PurchaseReport extends StatelessWidget {
                   height: 100.h, // Responsive height
                   width: 100.w, // Responsive width
                   child: Image(
-                      image: AssetImage('assets/images/purchase order.jpg')),
+                      image: AssetImage('assets/images/purchase_order.jpg')),
                 ),
               ),
               SizedBox(height: 50.h), // Responsive height

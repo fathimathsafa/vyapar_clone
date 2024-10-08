@@ -73,134 +73,137 @@ class _SalePurchaseByPartyScreenState extends State<SalePurchaseByPartyScreen> {
           ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.lightBlue.shade100,
-              Colors.lightBlue.shade50,
-              Colors.lightBlue.shade50,
-              Colors.lightBlue.shade50,
-              Colors.lightBlue.shade50,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.lightBlue.shade100,
+                Colors.lightBlue.shade50,
+                Colors.lightBlue.shade50,
+                Colors.lightBlue.shade50,
+                Colors.lightBlue.shade50,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            Container(
-              color: Colorconst.cwhite,
-              child: IntrinsicHeight(
-                child: Row(
-                  children: [
-                    DropdownButton<String>(
-                      value: dropdownValue,
-                      icon: Icon(Icons.arrow_drop_down,
-                          size: 19.sp,
-                          color: Colors.black), // Dropdown icon color
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
-                      items: <String>[
-                        "Today",
-                        'This Month',
-                        "This Quarter",
-                        'Custom',
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value,
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: Colorconst
-                                      .cBlack)), // Dropdown items text color
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    const VerticalDivider(
-                      color: Colorconst.cGrey,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.calendar_today,
-                          color: Colorconst.cBlue), // Calendar icon color
-                      onPressed: () {
-                        _selectDateRange(context);
-                      },
-                    ),
-                    Text(
-                      "$startDate to $endDate",
-                      style:
-                          TextStyle(fontSize: 13.sp, color: Colorconst.cBlack),
-                    ),
-                  ],
+          child: Column(
+            children: [
+              Container(
+                color: Colorconst.cwhite,
+                child: IntrinsicHeight(
+                  child: Row(
+                    children: [
+                      DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: Icon(Icons.arrow_drop_down,
+                            size: 19.sp,
+                            color: Colors.black), // Dropdown icon color
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                          });
+                        },
+                        items: <String>[
+                          "Today",
+                          'This Month',
+                          "This Quarter",
+                          'Custom',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value,
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colorconst
+                                        .cBlack)), // Dropdown items text color
+                          );
+                        }).toList(),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      const VerticalDivider(
+                        color: Colorconst.cGrey,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.calendar_today,
+                            color: Colorconst.cBlue), // Calendar icon color
+                        onPressed: () {
+                          _selectDateRange(context);
+                        },
+                      ),
+                      Text(
+                        "$startDate to $endDate",
+                        style: TextStyle(
+                            fontSize: 13.sp, color: Colorconst.cBlack),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                SizedBox(width: 15.h),
-                Container(
-                  height: 50.h,
-                  width: 140.h,
-                  decoration: BoxDecoration(
-                      color: Colorconst.cwhite,
-                      borderRadius: BorderRadius.circular(10.w)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Total Sale Amount',
-                        style:
-                            TextStyle(color: Colorconst.cGrey, fontSize: 13.sp),
-                      ),
-                      Text(
-                        '\₹5000',
-                        style: TextStyle(
-                            color: Colorconst.cBlack, fontSize: 15.sp),
-                      ),
-                    ],
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                children: [
+                  SizedBox(width: 15.h),
+                  Container(
+                    height: 50.h,
+                    width: 140.h,
+                    decoration: BoxDecoration(
+                        color: Colorconst.cwhite,
+                        borderRadius: BorderRadius.circular(10.w)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Total Sale Amount',
+                          style: TextStyle(
+                              color: Colorconst.cGrey, fontSize: 13.sp),
+                        ),
+                        Text(
+                          '\₹5000',
+                          style: TextStyle(
+                              color: Colorconst.cBlack, fontSize: 15.sp),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(width: 10.h),
-                Container(
-                  height: 50.h,
-                  width: 140.h,
-                  decoration: BoxDecoration(
-                      color: Colorconst.cwhite,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Total  Purchase Amount',
-                        style:
-                            TextStyle(color: Colorconst.cGrey, fontSize: 13.sp),
-                      ),
-                      Text(
-                        '\₹5000',
-                        style: TextStyle(
-                            color: Colorconst.cBlack, fontSize: 15.sp),
-                      ),
-                    ],
+                  SizedBox(width: 10.h),
+                  Container(
+                    height: 50.h,
+                    width: 140.h,
+                    decoration: BoxDecoration(
+                        color: Colorconst.cwhite,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          textAlign: TextAlign.center,
+                          'Total  Purchase Amount',
+                          style: TextStyle(
+                              color: Colorconst.cGrey, fontSize: 13.sp),
+                        ),
+                        Text(
+                          '\₹5000',
+                          style: TextStyle(
+                              color: Colorconst.cBlack, fontSize: 15.sp),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Table for transactions
-            _buildTransactionsTable(),
-          ],
+                ],
+              ),
+              const SizedBox(height: 16),
+              // Table for transactions
+              _buildTransactionsTable(),
+            ],
+          ),
         ),
       ),
     );

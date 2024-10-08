@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class GstReportPage extends StatelessWidget {
   @override
@@ -15,7 +15,7 @@ class GstReportPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // Add functionality for back navigation
+            Get.back();
           },
         ),
         actions: [
