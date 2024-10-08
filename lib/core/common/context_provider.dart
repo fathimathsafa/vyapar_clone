@@ -19,7 +19,7 @@ import 'package:intl/intl.dart';
       printInfo(info: "selected data==${pickedDate.toLocal()}");
       selectedDate = pickedDate;
       // return "${pickedDate.toLocal()}".split(' ')[0];
-       final DateFormat formatter = DateFormat('dd/MM/yyyy');
+       final DateFormat formatter = DateFormat('MM/dd/yyyy');
     return formatter.format(selectedDate);
     } else {
       return null;
@@ -27,7 +27,9 @@ import 'package:intl/intl.dart';
   }
 
   Future <String?> selectDate(context)async {
-    return await _chooseDate(context);
+    String? date= await _chooseDate(context);
+    printInfo(info: "Date ==${date}");
+    return date;
   }
 
   String _dateTimeNow(){

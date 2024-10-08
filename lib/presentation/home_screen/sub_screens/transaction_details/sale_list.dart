@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/images.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
@@ -170,9 +171,11 @@ class SaleListScreen extends StatelessWidget {
                 duration: const Duration(milliseconds: 350),
                 opacity: 1.0,
                 child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AddSaleInvoiceScreen()));
+                  onTap: () 
+                  {
+                    Get.to(()=>AddSaleInvoiceScreen());
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => AddSaleInvoiceScreen()));
                   },
                   child: Container(
                     decoration: BoxDecoration(

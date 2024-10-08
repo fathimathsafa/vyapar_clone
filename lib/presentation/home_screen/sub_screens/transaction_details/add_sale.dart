@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:vyapar_clone/core/common/context_provider.dart';
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
@@ -10,6 +12,8 @@ import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'controller/controller.dart';
 
 class AddSaleInvoiceScreen extends StatefulWidget {
   AddSaleInvoiceScreen({super.key});
@@ -24,6 +28,7 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
 
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
+  final _controller = Get.put(TransactionDetailController());
   int selectedIndex = 0;
   void _showStateSelectionBottomSheet() {
     showModalBottomSheet(
@@ -119,7 +124,8 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              Get.back();
             },
             icon: const Icon(Icons.arrow_back)),
         title: const Text(
@@ -165,7 +171,23 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
                   Container(
                     child: Column(
                       children: [
-                        DateInvoiceWidget(invoiceNumber: "10120"),
+                        Obx(
+                       () {
+                            return DateInvoiceWidget(
+                              invoiceNumber: "10120",
+                              onTapDate: () async {
+                                String? date =
+                                    await ContextProvider().selectDate(context);
+                                if (date == null) {
+                                } else {
+                                  _controller.selectedSaleDate.value = date;
+                                }
+                               
+                              },
+                              date: _controller.selectedSaleDate.value,
+                            );
+                          }
+                        ),
                         SizedBox(height: 10.h),
                         _buildFormContainer(),
                       ],
