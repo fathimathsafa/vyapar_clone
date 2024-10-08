@@ -258,7 +258,7 @@ class PartyDetails extends StatelessWidget {
           height: 40, // Adjust the height as needed
         ),
         SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 12)),
+        Text(label, style: TextStyle(fontSize: 12,color: Colors.black)),
       ],
     );
   }
