@@ -7,6 +7,7 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/p2p_transfer_s
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/sub_screens/add_expense_screen/view/add_expense_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/invoice_print/view/invoice_print.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/transaction/view/transaction.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
@@ -423,23 +424,18 @@ class SaleListScreen extends StatelessWidget {
                     );
                   }),
                 ]),
-                // Divider(),
-                // buildSectionHeader('Other Transactions'),
-                // buildIconGrid([
-                //   iconWithLabel(Icons.attach_money, 'Expenses', () {}),
-                //   iconWithLabel(Icons.sync, 'P2P Transfer', () {}),
-                // ]),
                 Divider(),
                 buildSectionHeader('Other Transactions'),
                 buildIconGrid([
-                  iconWithLabel(Icons.attach_money, 'Expenses', () {}),
-                  iconWithLabel(Icons.sync, 'P2P Transfer', () {
+                  iconWithLabel(Icons.attach_money, 'Expenses', () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                PartyToPartyTransferScreen()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddExpenseScreen(),
+                      ),
+                    );
                   }),
+                  iconWithLabel(Icons.sync, 'P2P Transfer', () {}),
                 ]),
               ],
             ),

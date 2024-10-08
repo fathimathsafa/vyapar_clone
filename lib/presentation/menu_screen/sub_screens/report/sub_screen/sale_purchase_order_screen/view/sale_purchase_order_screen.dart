@@ -86,11 +86,16 @@ class SalePurchaseOrderItemReport extends StatelessWidget {
                         style: TextStyle(fontSize: 12, color: Colors.black)),
                     DropdownButton<String>(
                       value: 'All parties',
-                      items: <String>['All parties', 'Party A', 'Party B']
-                          .map((String value) {
+                      style: TextStyle(color: Colors.black),
+                      items: <String>[
+                        'All parties',
+                        'Party A',
+                        'Party B',
+                      ].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value),
+                          child: Text(value,
+                              style: TextStyle(color: Colors.black)),
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
@@ -113,7 +118,8 @@ class SalePurchaseOrderItemReport extends StatelessWidget {
                           .map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value),
+                          child: Text(value,
+                              style: TextStyle(color: Colors.black)),
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
