@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/sale_list.dart';
 
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/apply_loan_screen/view/apply_loan_screen.dart';
@@ -93,8 +94,10 @@ class MenuScreen extends StatelessWidget {
             const SizedBox(height: 10),
             buildSection('Create', [
               buildGridItem(Icons.blinds_closed_rounded, 'Invoice', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SaleListScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddSaleInvoiceScreen()));
               }),
               buildGridItem(Icons.inventory_2_outlined, 'Quotation', () {
                 Navigator.push(

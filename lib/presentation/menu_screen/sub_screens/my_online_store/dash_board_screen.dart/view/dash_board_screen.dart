@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/sub_screens/edit_store_info/view/edit_store_info.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_item_screen/view/manage_item_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_orders/view/manage_orders.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/store_report_screen/view/store_report_screen.dart';
 
 class DashBoardOnlineScreen extends StatelessWidget {
   const DashBoardOnlineScreen({super.key});
@@ -178,11 +182,11 @@ class DashBoardOnlineScreen extends StatelessWidget {
       onPressed: onPressed,
       child: Row(
         children: [
-          Icon(icon, color: Colorconst.cBlue, size: 15.sp), // Responsive size
+          Icon(icon, color: Colorconst.cBlue, size: 13.sp), // Responsive size
           Text(text,
               style: TextStyle(
                   color: Colorconst.cBlue,
-                  fontSize: 13.sp)), // Responsive font size
+                  fontSize: 11.sp)), // Responsive font size
         ],
       ),
     );
@@ -256,8 +260,9 @@ class DashBoardOnlineScreen extends StatelessWidget {
 
   Widget _buildQuickActionsSection(BuildContext context) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colorconst.cwhite,
         borderRadius: BorderRadius.circular(5.r),
         boxShadow: [
           BoxShadow(
@@ -270,7 +275,139 @@ class DashBoardOnlineScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Add your quick action items here
+          Text(
+            "Quick Actions",
+            style: TextStyle(
+                color: Colorconst.cBlack,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Divider(),
+          SizedBox(
+            height: 10.h,
+          ),
+          InkWell(
+            onTap: () {
+              Get.to(() => ManageItemScreen());
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircleAvatar(
+                  radius: 25.r,
+                  backgroundImage: AssetImage("assets/images/images (5).jpeg"),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "Manage Items",
+                      style:
+                          TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
+                    ),
+                    Text(
+                      "Total items added -2",
+                      style:
+                          TextStyle(color: Colorconst.cGrey, fontSize: 12.sp),
+                    ),
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colorconst.cBlue,
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Divider(),
+          SizedBox(
+            height: 10.h,
+          ),
+          InkWell(
+            onTap: () {
+              Get.to(() => ManageOrders());
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircleAvatar(
+                  radius: 25.r,
+                  backgroundImage: AssetImage("assets/images/images (1).png"),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "Manage Oreders",
+                      style:
+                          TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
+                    ),
+                    Text(
+                      "Order delivered till date -0",
+                      style:
+                          TextStyle(color: Colorconst.cGrey, fontSize: 12.sp),
+                    ),
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colorconst.cBlue,
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Divider(),
+          SizedBox(
+            height: 10.h,
+          ),
+          InkWell(
+            onTap: () {
+              Get.to(() => StoreReportScreen());
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CircleAvatar(
+                  radius: 25.r,
+                  backgroundImage: AssetImage("assets/images/images (2).png"),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "Store Reports",
+                      style:
+                          TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
+                    ),
+                    Text(
+                      "Today's Sale -  ₹0.00",
+                      style:
+                          TextStyle(color: Colorconst.cGrey, fontSize: 12.sp),
+                    ),
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colorconst.cBlue,
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -282,14 +419,17 @@ class DashBoardOnlineScreen extends StatelessWidget {
       margin: EdgeInsets.all(8.w), // Responsive margin
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(title,
               style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold)), // Responsive font size
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colorconst.cBlack)), // Responsive font size
           Text(value,
               style: TextStyle(
-                  fontSize: 14.sp, color: Colors.grey)), // Responsive font size
+                  fontSize: 14.sp,
+                  color: Colorconst.cBlack)), // Responsive font size
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/item_screen/sub_screens/add_item_screen/view/add_item_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/view/dash_board_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_item_screen/widget/online_store_view.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/item/view/item.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
@@ -79,7 +80,7 @@ class ItemPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => OnlineStoreView(),
+                                builder: (context) => DashBoardOnlineScreen(),
                               ),
                             );
                           },
