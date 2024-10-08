@@ -168,16 +168,14 @@ class PartyDetails extends StatelessWidget {
                 SizedBox(height: 20),
                 // Party Information Section
                 SizedBox(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: List.generate(
-                        3,
-                        (index) => Column(
-                          children: [
-                            _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
-                            SizedBox(height: 12),
-                          ],
-                        ),
+                  child: Column(
+                    children: List.generate(
+                      6,
+                      (index) => Column(
+                        children: [
+                          _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
+                          SizedBox(height: 12),
+                        ],
                       ),
                     ),
                   ),
