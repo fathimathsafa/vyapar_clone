@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vyapar_clone/core/common/widget/date_widget/view/date_widget.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/sub_screens/credit_note/view/credit_note.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,37 +11,10 @@ class SaleReturnScreen extends StatefulWidget {
 }
 
 class _SaleReturnScreenState extends State<SaleReturnScreen> {
-  String dropdownValue = 'This Month';
-  DateTimeRange? selectedDateRange;
   bool _isDataAvailable = false; // Simulate data availability
-
-  Future<void> _selectDateRange(BuildContext context) async {
-    final DateTime now = DateTime.now();
-    final DateTimeRange? picked = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-      initialDateRange: DateTimeRange(
-        start: now.subtract(const Duration(days: 30)),
-        end: now,
-      ),
-    );
-    if (picked != null && picked != selectedDateRange) {
-      setState(() {
-        selectedDateRange = picked;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    String startDate = selectedDateRange != null
-        ? DateFormat('dd/MM/yyyy').format(selectedDateRange!.start)
-        : '01/09/2024';
-    String endDate = selectedDateRange != null
-        ? DateFormat('dd/MM/yyyy').format(selectedDateRange!.end)
-        : '30/09/2024';
-
     return Scaffold(
       backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
@@ -53,67 +27,8 @@ class _SaleReturnScreenState extends State<SaleReturnScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            padding: EdgeInsets.all(6.w),
-            color: Colorconst.cwhite,
-            child: IntrinsicHeight(
-              child: Row(
-                children: [
-                  DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: dropdownValue,
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        size: 19.sp,
-                        color: Colors.black,
-                      ),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
-                      items: <String>[
-                        "Today",
-                        'This Month',
-                        "This Quarter",
-                        'Custom'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colorconst.cBlack,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Colorconst.cBlack,
-                      ),
-                      dropdownColor: Colors.white,
-                      isDense: true,
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  const VerticalDivider(color: Colorconst.cGrey),
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today,
-                        color: Colorconst.cBlue),
-                    onPressed: () {
-                      _selectDateRange(context);
-                    },
-                  ),
-                  Text(
-                    "$startDate to $endDate",
-                    style: TextStyle(fontSize: 13.sp, color: Colorconst.cBlack),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          Container(color: Colorconst.cwhite, child: DateDropdownAndPicker()),
+
           SizedBox(height: 10.h),
 
           // Main content
