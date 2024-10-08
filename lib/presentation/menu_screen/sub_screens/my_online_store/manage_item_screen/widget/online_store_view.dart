@@ -7,7 +7,9 @@ class OnlineStoreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+
+      body: Column(
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
@@ -40,6 +42,7 @@ class OnlineStoreView extends StatelessWidget {
           ),
         ),
       ],
+    ),
     );
   }
 }

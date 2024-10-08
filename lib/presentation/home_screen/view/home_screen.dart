@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/presentation/home_screen/controller/home_screen_controller.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_item.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
+
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/sale_list.dart';
 import 'package:vyapar_clone/repository/app_data/database/db.dart';
 
-import '../../../core/constatnts/colors.dart';
-import '../../../core/constatnts/images.dart';
-import '../../../core/constatnts/text_style.dart';
-import '../../menu_screen/sub_screens/others/sub_others/setting/sub_settings/transaction/view/transaction.dart';
+
 import '../sub_screens/party details/party_details.dart';
 import '../widget/header.dart';
 import '../widget/header_buttons.dart';
