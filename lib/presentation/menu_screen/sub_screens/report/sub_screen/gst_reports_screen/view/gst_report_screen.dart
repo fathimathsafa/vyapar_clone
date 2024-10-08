@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/widget/date_widget/view/date_widget.dart';
 
 class GstReportPage extends StatelessWidget {
   @override
@@ -40,33 +41,7 @@ class GstReportPage extends StatelessWidget {
             child: Column(
               children: [
                 // Date Range and Party Name
-                IntrinsicHeight(
-                  child: Row(
-                    children: [
-                      const Text(
-                        "This Month",
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.arrow_drop_down,
-                            color: Colors.black),
-                      ),
-                      const VerticalDivider(thickness: 2, color: Colors.grey),
-                      const SizedBox(width: 15),
-                      const Row(
-                        children: [
-                          Icon(Icons.calendar_today, size: 16),
-                          SizedBox(width: 4),
-                          Text(
-                            '01/09/2024 TO 30/09/2024',
-                            style: TextStyle(fontSize: 12, color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                DateDropdownAndPicker(),
                 const Divider(),
                 SizedBox(height: 16),
                 Row(

@@ -15,8 +15,8 @@ class DateDropdownAndPicker extends StatelessWidget {
         child: Row(
           children: [
             Obx(
-              () => DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
+              () => DropdownButtonHideUnderline( 
+                child: DropdownButton<String>(     
                   value: controller.dropdownValue.value,
                   icon: Icon(Icons.arrow_drop_down,
                       size: 25.sp, color: Colorconst.cBlue),
@@ -53,7 +53,7 @@ class DateDropdownAndPicker extends StatelessWidget {
               () => GestureDetector(
                 onTap: () {
                   controller.selectDateRange(context);
-                },
+                },   
                 child: Text(
                   "${controller.startDate} To ${controller.endDate}",
                   style: TextStyle(fontSize: 14.sp, color: Colorconst.cBlack),
@@ -66,3 +66,4 @@ class DateDropdownAndPicker extends StatelessWidget {
     );
   }
 }
+                                

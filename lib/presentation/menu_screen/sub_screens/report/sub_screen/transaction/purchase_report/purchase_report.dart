@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyapar_clone/core/common/widget/date_widget/view/date_widget.dart';
 
 class PurchaseReport extends StatelessWidget {
   @override
@@ -33,47 +34,11 @@ class PurchaseReport extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(8.w), // Responsive padding
+          padding: EdgeInsets.all(6.w), // Responsive padding
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IntrinsicHeight(
-                child: Row(
-                  children: [
-                    Text(
-                      "This Month",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black,
-                      ),
-                    ),
-                    VerticalDivider(
-                      thickness: 2,
-                      color: Colors.grey,
-                    ),
-                    SizedBox(
-                      width: 15.w, // Responsive width
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.calendar_today,
-                            size: 16.sp), // Responsive icon size
-                        SizedBox(width: 4.w), // Responsive width
-                        Text(
-                          '01/09/2024 TO 30/09/2024',
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              color: Colors.black), // Responsive font size
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              DateDropdownAndPicker(),
               Divider(),
               SizedBox(height: 12.h), // Responsive height
 

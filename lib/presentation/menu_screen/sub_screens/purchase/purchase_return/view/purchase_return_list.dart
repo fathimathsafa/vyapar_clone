@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/widget/date_widget/view/date_widget.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/images.dart';
 
 import '../../../../../../core/common/widget/add_button_green.dart';
 import '../../widget/appbar_purchase.dart';
 import '../sub_purchase_return/view/add_return_screen.dart';
-
-
 
 class PurchaseReturnListScreen extends StatelessWidget {
   PurchaseReturnListScreen({super.key});
@@ -34,73 +33,7 @@ class PurchaseReturnListScreen extends StatelessWidget {
                           BorderSide(color: Colorconst.cGrey, width: 1.w))),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 9.h),
-                child: Row(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(width: 12.w,),
-                        Text(
-                          "This Month",
-                          style:
-                              TextStyle(color: Colors.black45, fontSize: 12.sp),
-                        ),
-                        SizedBox(
-                          width: 30.w,
-                        ),
-                        Transform.rotate(
-                            angle: -1.55,
-                            child: Icon(
-                              Icons.arrow_back_ios_new_outlined,
-                              size: 12.sp,
-                              color: Colors.black45,
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Container(
-                      height: 12.h,
-                      width: 1.w,
-                      color: Colorconst.cGrey,
-                    ),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                     Icon(
-                          Icons.calendar_month_outlined,
-                          size: 14.sp,
-                          color: Colors.blue,
-                        ),
-                        SizedBox(
-                      width: 10.w,
-                    ),
-                    Expanded(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                       
-                        Text(
-                          "01/09/2024",
-                          style:
-                              TextStyle(fontSize: 10.sp, color: Colors.black54),
-                        ),
-                        Text(
-                          "To",
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          "01/09/2024",
-                          style:
-                              TextStyle(fontSize: 10.sp, color: Colors.black54),
-                        ),
-                      ],
-                    ))
-                  ],
-                ),
+                child: DateDropdownAndPicker(),
               ),
             ),
           ),
@@ -136,25 +69,21 @@ class PurchaseReturnListScreen extends StatelessWidget {
                   SizedBox(
                     height: 20.h,
                   ),
-                 
                 ],
               ),
             ),
           ),
-
-           Padding(
-             padding:  EdgeInsets.only(bottom: 12.h),
-             child: AddButtonGreen(
+          Padding(
+            padding: EdgeInsets.only(bottom: 12.h),
+            child: AddButtonGreen(
               backgroundColor: Colorconst.cRed,
               iconBackGroundColor: Colorconst.cRed,
-              icon: Icons.add ,
+              icon: Icons.add,
               iconColor: Colors.white,
               text: "Add Purchase Return",
-                      onTap: () => Get.to(() => AddReturnScreen(
-
-                      )),
-                    ),
-           )
+              onTap: () => Get.to(() => AddReturnScreen()),
+            ),
+          )
         ],
       ),
     );

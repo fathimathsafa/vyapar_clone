@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyapar_clone/core/common/widget/date_widget/view/date_widget.dart';
 
 class AllTransaction extends StatelessWidget {
   @override
@@ -21,37 +22,11 @@ class AllTransaction extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(8.w),
+          padding: EdgeInsets.all(6.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IntrinsicHeight(
-                child: Row(
-                  children: [
-                    Text(
-                      "This Month",
-                      style: TextStyle(color: Colors.black, fontSize: 12.sp),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                    ),
-                    VerticalDivider(thickness: 2.w, color: Colors.grey),
-                    SizedBox(width: 15.w),
-                    Row(
-                      children: [
-                        Icon(Icons.calendar_today, size: 16.sp),
-                        SizedBox(width: 4.w),
-                        Text(
-                          '01/09/2024 TO 30/09/2024',
-                          style:
-                              TextStyle(fontSize: 12.sp, color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              DateDropdownAndPicker(),
               Divider(),
               Row(
                 children: [
