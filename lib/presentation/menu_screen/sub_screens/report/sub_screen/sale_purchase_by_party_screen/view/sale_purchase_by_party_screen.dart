@@ -24,7 +24,25 @@ class _SalePurchaseByPartyScreenState extends State<SalePurchaseByPartyScreen> {
         start: now.subtract(const Duration(days: 30)),
         end: now,
       ),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData(
+            colorScheme: ColorScheme.light(
+              primary: Colorconst.cBlack, // Header background color
+              onPrimary: Colors.white, // Header text color
+              onSurface: Colorconst.cBlack, // Body text color
+            ),
+            textTheme: TextTheme(
+              bodyMedium:
+                  TextStyle(color: Colorconst.cBlack), // Dates text color
+            ),
+            dialogBackgroundColor: Colors.white, // Picker background color
+          ),
+          child: child!,
+        );
+      },
     );
+
     if (picked != null && picked != selectedDateRange) {
       setState(() {
         selectedDateRange = picked;
@@ -134,10 +152,15 @@ class _SalePurchaseByPartyScreenState extends State<SalePurchaseByPartyScreen> {
                           _selectDateRange(context);
                         },
                       ),
-                      Text(
-                        "$startDate to $endDate",
-                        style: TextStyle(
-                            fontSize: 13.sp, color: Colorconst.cBlack),
+                      GestureDetector(
+                        onTap: () {
+                          _selectDateRange(context);
+                        },
+                        child: Text(
+                          "$startDate to $endDate",
+                          style: TextStyle(
+                              fontSize: 13.sp, color: Colorconst.cBlack),
+                        ),
                       ),
                     ],
                   ),

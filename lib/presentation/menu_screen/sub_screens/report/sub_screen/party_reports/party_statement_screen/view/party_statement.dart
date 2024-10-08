@@ -25,13 +25,42 @@ class _PartyStatementState extends State<PartyStatement> {
         start: now.subtract(const Duration(days: 30)),
         end: now,
       ),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor:
+                Colorconst.cBlack, // Header background color (Month/Year)
+            textTheme: TextTheme(
+              bodyLarge: TextStyle(
+                  color: Colorconst.cBlack), // Year text color in header
+              bodyMedium:
+                  TextStyle(color: Colorconst.cBlack), // Dates text color
+              bodySmall:
+                  TextStyle(color: Colorconst.cBlack), // Weekday labels color
+              titleSmall:
+                  TextStyle(color: Colorconst.cBlack), // Month/Year text color
+            ),
+            colorScheme: ColorScheme.light(
+              primary: Colorconst.cBlack, // Selected date background color
+              onPrimary: Colors.white, // Selected date text color
+              onSurface: Colorconst.cBlack, // Default date text color
+            ),
+            dialogBackgroundColor:
+                Colors.white, // Background color of the dialog
+          ),
+          child: child!,
+        );
+      },
     );
+
     if (picked != null && picked != selectedDateRange) {
       setState(() {
         selectedDateRange = picked;
       });
     }
-  } // To hold the selected date range
+  }
+
+  // To hold the selected date range
 
   String searchQuery = ''; // To hold the search query
   bool showSuggestions = false; // To control the visibility of suggestions
@@ -141,10 +170,15 @@ class _PartyStatementState extends State<PartyStatement> {
                             _selectDateRange(context);
                           },
                         ),
-                        Text(
-                          "$startDate to $endDate",
-                          style: TextStyle(
-                              fontSize: 13.sp, color: Colorconst.cBlack),
+                        GestureDetector(
+                          onTap: () {
+                            _selectDateRange(context);
+                          },
+                          child: Text(
+                            "$startDate to $endDate",
+                            style: TextStyle(
+                                fontSize: 13.sp, color: Colorconst.cBlack),
+                          ),
                         ),
                       ],
                     ),

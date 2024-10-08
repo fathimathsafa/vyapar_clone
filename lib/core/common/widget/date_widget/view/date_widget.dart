@@ -7,7 +7,6 @@ import 'package:vyapar_clone/core/constatnts/colors.dart'; // Ensure you have th
 class DateDropdownAndPicker extends StatelessWidget {
   final DateController controller = Get.put(DateController());
 
-
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -35,8 +34,7 @@ class DateDropdownAndPicker extends StatelessWidget {
                       child: Text(
                         value,
                         style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colorconst.cBlack),
+                            fontSize: 14.sp, color: Colorconst.cBlack),
                       ),
                     );
                   }).toList(),
@@ -46,18 +44,20 @@ class DateDropdownAndPicker extends StatelessWidget {
             SizedBox(width: 10.w), // Responsive width
             const VerticalDivider(color: Colors.grey),
             IconButton(
-              icon: const Icon(Icons.calendar_today,
-                  color: Colorconst.cBlue),
+              icon: const Icon(Icons.calendar_today, color: Colorconst.cBlue),
               onPressed: () {
                 controller.selectDateRange(context);
               },
             ),
             Obx(
-              () => Text(
-                "${controller.startDate} To ${controller.endDate}",
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colorconst.cBlack),
+              () => GestureDetector(
+                onTap: () {
+                  controller.selectDateRange(context);
+                },
+                child: Text(
+                  "${controller.startDate} To ${controller.endDate}",
+                  style: TextStyle(fontSize: 14.sp, color: Colorconst.cBlack),
+                ),
               ),
             ),
           ],

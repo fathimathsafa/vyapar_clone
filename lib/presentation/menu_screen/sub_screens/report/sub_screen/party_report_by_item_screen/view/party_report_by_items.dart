@@ -34,7 +34,28 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
         start: now.subtract(const Duration(days: 30)),
         end: now,
       ),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.black, // Calendar header background color
+            textTheme: TextTheme(
+              bodyLarge: TextStyle(color: Colors.black), // Year in the header
+              bodyMedium: TextStyle(color: Colors.black), // Days' text color
+              bodySmall: TextStyle(color: Colors.black), // Weekday labels
+              titleSmall: TextStyle(color: Colors.black), // Month/Year header
+            ),
+            colorScheme: ColorScheme.light(
+              primary: Colors.black, // Selected date background color
+              onPrimary: Colors.white, // Selected date text color
+              onSurface: Colors.black, // Default dates' text color
+            ),
+            dialogBackgroundColor: Colors.white, // Dialog background color
+          ),
+          child: child!,
+        );
+      },
     );
+
     if (picked != null && picked != selectedDateRange) {
       setState(() {
         selectedDateRange = picked;
@@ -56,7 +77,7 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
       appBar: AppBar(
         backgroundColor: Colorconst.cBlue,
         title: const Text(
-          "All Party Reports",
+          "Party Report By Items",
           style: TextStyle(
             color: Colorconst.cwhite,
           ),
@@ -113,20 +134,16 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
                     ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value,
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                color: Colorconst
-                                    .cBlack)), // Dropdown items text color
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                              fontSize: 14.sp, color: Colorconst.cBlack),
+                        ), // Dropdown items text color
                       );
                     }).toList(),
                   ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  const VerticalDivider(
-                    color: Colorconst.cGrey,
-                  ),
+                  SizedBox(width: 10.w),
+                  const VerticalDivider(color: Colorconst.cGrey),
                   IconButton(
                     icon: const Icon(Icons.calendar_today,
                         color: Colorconst.cBlue), // Calendar icon color
@@ -134,9 +151,15 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
                       _selectDateRange(context);
                     },
                   ),
-                  Text(
-                    "$startDate to $endDate",
-                    style: TextStyle(fontSize: 13.sp, color: Colorconst.cBlack),
+                  GestureDetector(
+                    onTap: () {
+                      _selectDateRange(context);
+                    },
+                    child: Text(
+                      "$startDate to $endDate",
+                      style:
+                          TextStyle(fontSize: 13.sp, color: Colorconst.cBlack),
+                    ),
                   ),
                 ],
               ),
@@ -161,10 +184,7 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
               children: [
                 DropdownButton<String>(
                   value: selectedParty,
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    size: 30.sp,
-                  ),
+                  icon: Icon(Icons.arrow_drop_down, size: 30.sp),
                   onChanged: (String? newValue) {
                     setState(() {
                       selectedParty = newValue!;
@@ -184,10 +204,7 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
                 ),
                 DropdownButton<String>(
                   value: selectedSort,
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    size: 30.sp,
-                  ),
+                  icon: Icon(Icons.arrow_drop_down, size: 30.sp),
                   onChanged: (String? newValue) {
                     setState(() {
                       selectedSort = newValue!;
@@ -226,35 +243,35 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 10.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Party Name",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colorconst.cGrey,
-                        fontSize: 14.sp)),
-                SizedBox(
-                  width: 10.w,
+                Text(
+                  "Party Name",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colorconst.cGrey,
+                      fontSize: 14.sp),
                 ),
-                Text("Sale qty",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colorconst.cGrey,
-                        fontSize: 14.sp)),
-                Text("Purchase qty",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colorconst.cGrey,
-                        fontSize: 14.sp)),
+                SizedBox(width: 10.w),
+                Text(
+                  "Sale qty",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colorconst.cGrey,
+                      fontSize: 14.sp),
+                ),
+                Text(
+                  "Purchase qty",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colorconst.cGrey,
+                      fontSize: 14.sp),
+                ),
               ],
             ),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 10.h),
             Expanded(
               child: ListView.builder(
                 itemCount: 5, // Number of party items
@@ -277,56 +294,41 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
                                   color: Colorconst.cBlack, fontSize: 14.sp),
                             ),
                             Text(
-                              "\ 0.0",
+                              "0.0",
                               style: TextStyle(
                                   color: Colorconst.cBlack, fontSize: 14.sp),
                             ),
                           ],
                         ),
                       ),
-                      // Adding Divider after each item except the last one
-                      if (index < 5)
-                        SizedBox(
-                          height: 10.h,
-                        ),
+                      if (index < 5) SizedBox(height: 10.h),
                       const Divider(
-                        color: Colors
-                            .grey, // You can customize the color of the divider
-                        thickness:
-                            1.0, // Customize the thickness of the divider
+                        color: Colors.grey,
+                        thickness: 1.0,
                       ),
                     ],
                   );
                 },
               ),
             ),
-
-            const Spacer(), // Pushes the total row to the bottom of the screen
-
-            // Bottom row for total display
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const Spacer(),
                 Text(
                   "Total",
-                  style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colorconst.cBlack),
+                  style: TextStyle(fontSize: 14.sp, color: Colorconst.cBlack),
                 ),
+                SizedBox(width: 50.w),
                 Text(
-                  "2.0", // Example total amount
-                  style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colorconst.cBlack),
+                  "2.0",
+                  style: TextStyle(fontSize: 14.sp, color: Colorconst.cBlack),
                 ),
+                SizedBox(width: 15.w),
                 Text(
-                  "0.0", // Example balance
-                  style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colorconst.cBlack),
+                  "0.0",
+                  style: TextStyle(fontSize: 14.sp, color: Colorconst.cBlack),
                 ),
               ],
             ),

@@ -38,7 +38,7 @@ class _AllPartyReportsScreenState extends State<AllPartyReportsScreen> {
       appBar: AppBar(
         backgroundColor: Colorconst.cBlue,
         title: const Text(
-          "Party Report By Item",
+          "Party Report ",
           style: TextStyle(
             color: Colorconst.cwhite,
           ),
