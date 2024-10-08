@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
@@ -8,11 +9,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/widget/receipt_date_widget.dart';
 
+import '../controller/controller.dart';
+
 class PaymentInScreen extends StatelessWidget {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
+
+final _controller = Get.put(PaymentInController());
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -45,7 +50,14 @@ class PaymentInScreen extends StatelessWidget {
                   Container(
                     child: Column(
                       children: [
-                        DateReciptWidget(receiptNumber: "1"),
+                        Obx(
+                         () {
+                            return DateReciptWidget(receiptNumber: "1",date: _controller.selectedDate.value,
+                            
+                            onTapDate: () => _controller.selctedDate(context),
+                            );
+                          }
+                        ),
                         SizedBox(height: 10.h),
                         Container(
                           height: 180.h,

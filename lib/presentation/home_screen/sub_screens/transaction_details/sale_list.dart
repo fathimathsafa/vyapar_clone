@@ -22,7 +22,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_scr
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/sale_report_screen/view/sale_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/view/delivery_chellan.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_screen/view/add_estimate_screen.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/view/payment_in_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invoice_screen/view/sale_invoice_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';

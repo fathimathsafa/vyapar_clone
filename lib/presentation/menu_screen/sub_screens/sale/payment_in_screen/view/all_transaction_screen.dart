@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:intl/intl.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/payment_in_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/view/payment_in_screen.dart';
 
 class AllTransactionScreen extends StatefulWidget {
   const AllTransactionScreen({super.key});
