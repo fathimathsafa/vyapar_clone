@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
@@ -10,6 +11,7 @@ import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
 import '../../../../../../../../core/constatnts/text_style.dart';
+import '../controller/controller.dart';
 
 class CreditNoteScreen extends StatefulWidget {
   @override
@@ -56,6 +58,8 @@ class _CreditNoteScreenState extends State<CreditNoteScreen> {
 
   String? selectedState;
   // To store the selected state
+
+  final _controller = Get.put(CreditNoteController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +87,12 @@ class _CreditNoteScreenState extends State<CreditNoteScreen> {
                   Container(
                     child: Column(
                       children: [
-                        DateInvoiceWidget(invoiceNumber: "10120"),
+                        Obx(
+                         () {
+                            return DateInvoiceWidget(invoiceNumber: "10120", date: _controller.selectedPurchaseDate.value,
+                                          onTapDate:() => _controller.selctedDate(context));
+                          }
+                        ),
                         SizedBox(height: 10.h),
                         Container(
                           height: 310.h,

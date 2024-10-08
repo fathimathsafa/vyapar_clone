@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 // import 'package:intl/intl.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
@@ -11,6 +12,8 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_item_delivery_screen/view/add_item_delivery_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/widget/challan_date_widget.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/estimate_quotation_screen/sub_screens/add_estimate_item_screen/view/add_estimate_item.dart';
+
+import '../controller/controller.dart';
 
 class EstimateQuatationScreen extends StatefulWidget {
   @override
@@ -58,6 +61,8 @@ class _EstimateQuatationScreenState extends State<EstimateQuatationScreen> {
 
   String? selectedState; // To store the selected state
 
+  final _controller = Get.put(AddEstimateController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +93,14 @@ class _EstimateQuatationScreenState extends State<EstimateQuatationScreen> {
                   Container(
                     child: Column(
                       children: [
-                        DateChallanWidget(invoiceNumber: "10120"),
+                        Obx(
+                        () {
+                            return DateChallanWidget(invoiceNumber: "10120",
+                            date: _controller.selectedDate.value,
+                                                  onTapeDate:() => _controller.selctedDate(context) ,
+                            );
+                          }
+                        ),
                         SizedBox(height: 10.h),
                         Container(
                           height: 160.h,

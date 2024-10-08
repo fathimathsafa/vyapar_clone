@@ -5,11 +5,12 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 
 class DateExpenseInvoiceWidget extends StatelessWidget {
-  DateExpenseInvoiceWidget({super.key, this.invoiceNumber, this.date,this.titleOne,this.titleTwo});
+  DateExpenseInvoiceWidget({super.key, this.invoiceNumber, this.date,this.titleOne,this.titleTwo,this.onTapDate});
   final String? invoiceNumber;
   final String? date;
   final String? titleOne;
   final String? titleTwo;
+  final Function()? onTapDate;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class DateExpenseInvoiceWidget extends StatelessWidget {
                 ),
                 Flexible(
                     child: InkWell(
-                  onTap: () {},
+                  onTap: onTapDate,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

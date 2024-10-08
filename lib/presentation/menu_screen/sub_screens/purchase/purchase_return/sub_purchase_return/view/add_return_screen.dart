@@ -11,12 +11,14 @@ import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
 import '../../../../../../home_screen/sub_screens/transaction_details/add_item.dart';
+import '../controller/controller.dart';
 
 class AddReturnScreen extends StatelessWidget {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
+final _controller = Get.put(PurchaseReturnController());
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -52,10 +54,16 @@ class AddReturnScreen extends StatelessWidget {
                   SizedBox(
                     child: Column(
                       children: [
-                        DateInvoiceWidget(
-                          invoiceNumber: "10120",
-                          titleOne: "Return No.",
-                          titleTwo: "Date",
+                        Obx(
+                       () {
+                            return DateInvoiceWidget(
+                              invoiceNumber: "10120",
+                              titleOne: "Return No.",
+                              titleTwo: "Date",
+                                date: _controller.selectedPurchaseDate.value,
+                                  onTapDate:() => _controller.selctedDate(context) ,
+                            );
+                          }
                         ),
                         SizedBox(height: screenHeight * 0.01),
                         Container(

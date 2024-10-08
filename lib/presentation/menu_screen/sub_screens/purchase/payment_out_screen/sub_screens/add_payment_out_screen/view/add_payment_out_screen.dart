@@ -11,11 +11,15 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/widget/date_expense_invoice_widget.dart';
 
+import '../controller/controller.dart';
+
 class AddPaymentOutScreen extends StatelessWidget {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
+
+final _controller = Get.put(AddPaymentController());
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -51,10 +55,16 @@ class AddPaymentOutScreen extends StatelessWidget {
                   SizedBox(
                     child: Column(
                       children: [
-                        DateExpenseInvoiceWidget(
-                          invoiceNumber: "10120",
-                          titleOne: "Return No.",
-                          titleTwo: "Date",
+                        Obx(
+                         () {
+                            return DateExpenseInvoiceWidget(
+                              invoiceNumber: "10120",
+                              titleOne: "Return No.",
+                              titleTwo: "Date",
+                               date: _controller.selectedDate.value,
+                                          onTapDate:() => _controller.selctedDate(context) ,
+                            );
+                          }
                         ),
                         SizedBox(height: screenHeight * 0.01),
                         Container(

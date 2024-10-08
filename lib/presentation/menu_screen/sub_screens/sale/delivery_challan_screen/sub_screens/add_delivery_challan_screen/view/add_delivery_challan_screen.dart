@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
@@ -12,6 +13,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/widget/challan_date_widget.dart';
 
 import '../../../../../../../../core/constatnts/text_style.dart';
+import '../controller/controller.dart';
 
 class AddDeliveryChallanScreen extends StatefulWidget {
   @override
@@ -95,6 +97,8 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
 
   String? selectedState; // To store the selected state
 
+  final _controller = Get.put(AddChallanController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +129,14 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
                   Container(
                     child: Column(
                       children: [
-                        DateChallanWidget(invoiceNumber: "10120"),
+                        Obx(
+                        () {
+                            return DateChallanWidget(invoiceNumber: "10120",
+                            date: _controller.selectedDate.value,
+                                                  onTapeDate:() => _controller.selctedDate(context) ,
+                            );
+                          }
+                        ),
                         SizedBox(height: 10.h),
                         Container(
                           height: 230.h,

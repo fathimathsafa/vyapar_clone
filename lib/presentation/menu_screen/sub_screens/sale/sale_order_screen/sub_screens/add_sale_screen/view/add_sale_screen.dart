@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
@@ -8,6 +9,8 @@ import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_item.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
+
+import '../controller/controller.dart';
 
 class AddSaleOrdercreen extends StatefulWidget {
   @override
@@ -102,6 +105,8 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
     );
   }
 
+  final _controller = Get.put(AddSaleController());
+
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -130,7 +135,12 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                   Container(
                     child: Column(
                       children: [
-                        DateInvoiceWidget(invoiceNumber: "10120"),
+                        Obx(
+                           () {
+                            return DateInvoiceWidget(invoiceNumber: "10120", date: _controller.selectedPurchaseDate.value,
+                                      onTapDate:() => _controller.selctedDate(context) ,);
+                          }
+                        ),
                         SizedBox(height: screenHeight * 0.05),
                         Container(
                           height: screenHeight * 0.37,

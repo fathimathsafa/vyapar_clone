@@ -5,9 +5,10 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 
 class DateChallanWidget extends StatelessWidget {
-  DateChallanWidget({super.key, this.invoiceNumber, this.date});
+  DateChallanWidget({super.key, this.invoiceNumber, this.date,this.onTapeDate});
   final String? invoiceNumber;
   final String? date;
+  final Function()? onTapeDate;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,7 @@ class DateChallanWidget extends StatelessWidget {
                 ),
                 Flexible(
                   child: InkWell(
-                    onTap: () {},
+                    onTap: onTapeDate,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
