@@ -1203,6 +1203,7 @@ class MenuScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 14.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
             Icons.check_circle,
@@ -1211,12 +1212,14 @@ class MenuScreen extends StatelessWidget {
           SizedBox(
             width: 7.w,
           ),
-          Text(
-            text ?? "Easily create E-way bills with a click.",
-            style: pdfOptionStyle(
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-                fontsize: 14.sp),
+          Expanded(
+            child: Text(
+              text ?? "Easily create E-way bills with a click.",
+              style: pdfOptionStyle(
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                  fontsize: 14.sp),
+            ),
           ),
         ],
       ),
