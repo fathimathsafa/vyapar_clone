@@ -335,12 +335,13 @@ class SaleListScreen extends StatelessWidget {
                 buildSectionHeader('Sale Transactions'),
                 buildIconGrid([
                   iconWithLabel(Icons.payment, 'Payment-In', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PaymentInScreen(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => PaymentInScreen(),
+                    //   ),
+                    // );
+                    Get.to(()=>PaymentInScreen());
                   }),
                   iconWithLabel(Icons.assignment_return, 'Sale Return', () {
                     Navigator.push(
