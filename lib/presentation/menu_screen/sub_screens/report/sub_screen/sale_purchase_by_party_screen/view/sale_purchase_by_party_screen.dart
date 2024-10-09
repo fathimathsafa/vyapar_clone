@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vyapar_clone/core/common/widget/date_widget/view/date_widget.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,54 +11,8 @@ class SalePurchaseByPartyScreen extends StatefulWidget {
 }
 
 class _SalePurchaseByPartyScreenState extends State<SalePurchaseByPartyScreen> {
-  String dropdownValue = 'This Month';
-
-  DateTimeRange? selectedDateRange;
-
-  Future<void> _selectDateRange(BuildContext context) async {
-    final DateTime now = DateTime.now();
-    final DateTimeRange? picked = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-      initialDateRange: DateTimeRange(
-        start: now.subtract(const Duration(days: 30)),
-        end: now,
-      ),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData(
-            colorScheme: ColorScheme.light(
-              primary: Colorconst.cBlack, // Header background color
-              onPrimary: Colors.white, // Header text color
-              onSurface: Colorconst.cBlack, // Body text color
-            ),
-            textTheme: TextTheme(
-              bodyMedium:
-                  TextStyle(color: Colorconst.cBlack), // Dates text color
-            ),
-            dialogBackgroundColor: Colors.white, // Picker background color
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (picked != null && picked != selectedDateRange) {
-      setState(() {
-        selectedDateRange = picked;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    String startDate = selectedDateRange != null
-        ? DateFormat('dd/MM/yyyy').format(selectedDateRange!.start)
-        : '01/09/2024';
-    String endDate = selectedDateRange != null
-        ? DateFormat('dd/MM/yyyy').format(selectedDateRange!.end)
-        : '30/09/2024';
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -110,61 +65,7 @@ class _SalePurchaseByPartyScreenState extends State<SalePurchaseByPartyScreen> {
             children: [
               Container(
                 color: Colorconst.cwhite,
-                child: IntrinsicHeight(
-                  child: Row(
-                    children: [
-                      DropdownButton<String>(
-                        value: dropdownValue,
-                        icon: Icon(Icons.arrow_drop_down,
-                            size: 19.sp,
-                            color: Colors.black), // Dropdown icon color
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                        items: <String>[
-                          "Today",
-                          'This Month',
-                          "This Quarter",
-                          'Custom',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value,
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Colorconst
-                                        .cBlack)), // Dropdown items text color
-                          );
-                        }).toList(),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      const VerticalDivider(
-                        color: Colorconst.cGrey,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.calendar_today,
-                            color: Colorconst.cBlue), // Calendar icon color
-                        onPressed: () {
-                          _selectDateRange(context);
-                        },
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _selectDateRange(context);
-                        },
-                        child: Text(
-                          "$startDate to $endDate",
-                          style: TextStyle(
-                              fontSize: 13.sp, color: Colorconst.cBlack),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: DateDropdownAndPicker(),
               ),
               SizedBox(
                 height: 10.h,

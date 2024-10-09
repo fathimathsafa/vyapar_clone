@@ -1,78 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // for date formatting
+import 'package:get/get.dart'; // Import GetX package
+import 'package:intl/intl.dart';
+import 'package:vyapar_clone/core/common/widget/date_widget/view/date_widget.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/all_party_reports/controller/all_party_report_controller.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/controller/party_report_controller.dart';
 
-class PartyReportByItemsScreen extends StatefulWidget {
-  @override
-  _PartyReportByItemsScreenState createState() =>
-      _PartyReportByItemsScreenState();
-}
-
-class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
-  String dropdownValue = 'This Month';
-  DateTimeRange? selectedDateRange;
-  List<String> partyTypes = [
-    'All Categories',
-    'Uncategorized',
-  ];
-  List<String> sortOptions = [
-    'Party name',
-    'Sale quantity',
-    'Purchase quantity'
-  ];
-  String selectedParty = 'All Categories';
-  String selectedSort = 'Party name';
-
-  Future<void> _selectDateRange(BuildContext context) async {
-    final DateTime now = DateTime.now();
-    final DateTimeRange? picked = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-      initialDateRange: DateTimeRange(
-        start: now.subtract(const Duration(days: 30)),
-        end: now,
-      ),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: Colors.black, // Calendar header background color
-            textTheme: TextTheme(
-              bodyLarge: TextStyle(color: Colors.black), // Year in the header
-              bodyMedium: TextStyle(color: Colors.black), // Days' text color
-              bodySmall: TextStyle(color: Colors.black), // Weekday labels
-              titleSmall: TextStyle(color: Colors.black), // Month/Year header
-            ),
-            colorScheme: ColorScheme.light(
-              primary: Colors.black, // Selected date background color
-              onPrimary: Colors.white, // Selected date text color
-              onSurface: Colors.black, // Default dates' text color
-            ),
-            dialogBackgroundColor: Colors.white, // Dialog background color
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (picked != null && picked != selectedDateRange) {
-      setState(() {
-        selectedDateRange = picked;
-      });
-    }
-  }
+class PartyReportByItemsScreen extends StatelessWidget {
+  // Create the controller using GetX
+  final PartyReportByItemsController controller =
+      Get.put(PartyReportByItemsController());
 
   @override
   Widget build(BuildContext context) {
-    // Formatting date range
-    String startDate = selectedDateRange != null
-        ? DateFormat('dd/MM/yyyy').format(selectedDateRange!.start)
-        : '01/09/2024';
-    String endDate = selectedDateRange != null
-        ? DateFormat('dd/MM/yyyy').format(selectedDateRange!.end)
-        : '30/09/2024';
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colorconst.cBlue,
@@ -112,60 +53,11 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Row with dropdown and "This Month" text
-            IntrinsicHeight(
-              child: Row(
-                children: [
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(Icons.arrow_drop_down,
-                        size: 19.sp,
-                        color: Colors.black), // Dropdown icon color
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: <String>[
-                      "Today",
-                      'This Month',
-                      "This Quarter",
-                      'Custom',
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(
-                              fontSize: 14.sp, color: Colorconst.cBlack),
-                        ), // Dropdown items text color
-                      );
-                    }).toList(),
-                  ),
-                  SizedBox(width: 10.w),
-                  const VerticalDivider(color: Colorconst.cGrey),
-                  IconButton(
-                    icon: const Icon(Icons.calendar_today,
-                        color: Colorconst.cBlue), // Calendar icon color
-                    onPressed: () {
-                      _selectDateRange(context);
-                    },
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _selectDateRange(context);
-                    },
-                    child: Text(
-                      "$startDate to $endDate",
-                      style:
-                          TextStyle(fontSize: 13.sp, color: Colorconst.cBlack),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Date filter row with "This Month" text
+            DateDropdownAndPicker(),
             const Divider(),
 
+            // Category and Sort By row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -179,71 +71,75 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
                 ),
               ],
             ),
+
+            // Dropdowns for Category and Sort By
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DropdownButton<String>(
-                  value: selectedParty,
-                  icon: Icon(Icons.arrow_drop_down, size: 30.sp),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedParty = newValue!;
-                    });
-                  },
-                  items:
-                      partyTypes.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                            color: Colorconst.cBlack, fontSize: 14.sp),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                DropdownButton<String>(
-                  value: selectedSort,
-                  icon: Icon(Icons.arrow_drop_down, size: 30.sp),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedSort = newValue!;
-                    });
-                  },
-                  items:
-                      sortOptions.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                            color: Colorconst.cBlack, fontSize: 14.sp),
-                      ),
-                    );
-                  }).toList(),
-                ),
+                Obx(() => DropdownButton<String>(
+                      value: controller.selectedParty.value,
+                      icon: Icon(Icons.arrow_drop_down, size: 30.sp),
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          controller.updateSelectedParty(newValue);
+                        }
+                      },
+                      items: controller.partyTypes
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: TextStyle(
+                                color: Colorconst.cBlack, fontSize: 14.sp),
+                          ),
+                        );
+                      }).toList(),
+                    )),
+                Obx(() => DropdownButton<String>(
+                      value: controller.selectedSort.value,
+                      icon: Icon(Icons.arrow_drop_down, size: 30.sp),
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          controller.updateSelectedSort(newValue);
+                        }
+                      },
+                      items: controller.sortOptions
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: TextStyle(
+                                color: Colorconst.cBlack, fontSize: 14.sp),
+                          ),
+                        );
+                      }).toList(),
+                    )),
               ],
             ),
             const Divider(),
+
+            // Text field for entering the item name
             Text(
               "Enter Item Name",
               style: TextStyle(color: Colorconst.cGrey, fontSize: 14.sp),
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'All Items', // Placeholder text
-                border: UnderlineInputBorder(), // Single line underline
+                hintText: 'All Items',
+                border: UnderlineInputBorder(),
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black), // Line color
+                  borderSide: BorderSide(color: Colors.black),
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.blue,
-                      width: 2.0), // Line color and thickness when focused
+                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
                 ),
               ),
             ),
             SizedBox(height: 10.h),
+
+            // Headers for the party list
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -272,6 +168,8 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
               ],
             ),
             SizedBox(height: 10.h),
+
+            // List of parties
             Expanded(
               child: ListView.builder(
                 itemCount: 5, // Number of party items
@@ -312,6 +210,8 @@ class _PartyReportByItemsScreenState extends State<PartyReportByItemsScreen> {
               ),
             ),
             const Spacer(),
+
+            // Total row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
