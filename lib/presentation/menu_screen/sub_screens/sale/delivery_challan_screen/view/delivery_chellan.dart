@@ -1,29 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/controller/delivery_challan_controller.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_delivery_challan_screen/view/add_delivery_challan_screen.dart';
 
-class DeliveryChallanScreen extends StatefulWidget {
-  @override
-  _DeliveryChallanScreenState createState() => _DeliveryChallanScreenState();
-}
 
-class _DeliveryChallanScreenState extends State<DeliveryChallanScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+class DeliveryChallanScreen extends StatelessWidget {
+  final DeliveryChallanController controller = Get.put(DeliveryChallanController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +26,7 @@ class _DeliveryChallanScreenState extends State<DeliveryChallanScreen>
             style: TextStyle(color: Colorconst.cBlack),
           ),
           bottom: TabBar(
-            controller: _tabController,
+            controller: controller.tabController,
             labelColor: Colorconst.cRed,
             unselectedLabelColor: Colors.grey,
             tabs: [
@@ -52,15 +37,14 @@ class _DeliveryChallanScreenState extends State<DeliveryChallanScreen>
           ),
         ),
         body: TabBarView(
-          controller: _tabController,
+          controller: controller.tabController,
           children: [
             _buildEmptyChallanView(),
             _buildEmptyChallanView(),
             _buildEmptyChallanView(),
           ],
         ),
-        floatingActionButton:
-            _buildFloatingActionButton(context), // Added FloatingActionButton
+        floatingActionButton: _buildFloatingActionButton(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
@@ -70,12 +54,10 @@ class _DeliveryChallanScreenState extends State<DeliveryChallanScreen>
       children: [
         Lottie.asset("assets/animation/document.json",
             height: 150.h, width: 150.w),
-        SizedBox(height: 20.h), // Use .h for height
+        SizedBox(height: 20.h),
         Text(
           "Hey! You have no delivery challans yet.",
-          style: TextStyle(
-              fontSize: 16.sp,
-              color: Colorconst.cGrey), // Use .sp for font size
+          style: TextStyle(fontSize: 16.sp, color: Colorconst.cGrey),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 5.h),
@@ -96,8 +78,7 @@ class _DeliveryChallanScreenState extends State<DeliveryChallanScreen>
         padding: EdgeInsets.only(bottom: 20.h),
         child: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AddDeliveryChallanScreen()));
+            Get.to(() => AddDeliveryChallanScreen());
           },
           backgroundColor: Colorconst.cRed,
           icon: Icon(Icons.add, color: Colors.white),
