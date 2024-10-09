@@ -182,10 +182,10 @@ String _getFirstIndex(value){
                           padding:  EdgeInsets.symmetric(vertical: 6.h),
                           child: ListTile(
                             tileColor: Colors.blue.shade300,
-                            leading: (_controller.contacts[index].thumbnail != null)
+                            leading: (_controller.contacts[index].photoOrThumbnail != null)
                       ? CircleAvatar(
                         radius: 23.r,
-                          backgroundImage: MemoryImage(_controller.contacts[index].thumbnail!),
+                          backgroundImage: MemoryImage(_controller.contacts[index].photoOrThumbnail!),
                         )
                       : CircleAvatar(
                         radius: 23.r,
