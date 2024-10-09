@@ -119,17 +119,17 @@ class PartyDetails extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => ImportPartyPage()),
-                          //     );
-                          //   },
-                          //   child: _buildQuickLinkButton('Import Party',
-                          //       'assets/images/import party.jpeg'),
-                          // ), // Replace with your image asset path
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ImportPartyPage()),
+                              );
+                            },
+                            child: _buildQuickLinkButton('Import Party',
+                                'assets/images/import party.jpeg'),
+                          ), // Replace with your image asset path
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -258,7 +258,7 @@ class PartyDetails extends StatelessWidget {
           height: 40, // Adjust the height as needed
         ),
         SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 12,color: Colors.black)),
+        Text(label, style: TextStyle(fontSize: 12, color: Colors.black)),
       ],
     );
   }

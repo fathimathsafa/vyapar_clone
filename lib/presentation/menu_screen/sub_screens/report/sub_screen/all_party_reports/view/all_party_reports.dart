@@ -1,36 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:vyapar_clone/core/constatnts/colors.dart'; // for date formatting
+import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AllPartyReportsScreen extends StatefulWidget {
-  @override
-  _AllPartyReportsScreenState createState() => _AllPartyReportsScreenState();
-}
+import '../controller/all_party_report_controller.dart'; // Import the controller
 
-class _AllPartyReportsScreenState extends State<AllPartyReportsScreen> {
-  bool isChecked = false;
-  bool isZeroBalanceChecked = false;
-  String selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  String selectedParty = 'All Parties';
-  String selectedSort = 'Name';
-
-  List<String> partyTypes = ['All Parties', 'Receivables', 'Payables'];
-  List<String> sortOptions = ['Name', 'Amount'];
-
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != DateTime.now()) {
-      setState(() {
-        selectedDate = DateFormat('yyyy-MM-dd').format(picked);
-      });
-    }
-  }
+class AllPartyReportsScreen extends StatelessWidget {
+  final AllPartyReportController controller =
+      Get.put(AllPartyReportController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +16,7 @@ class _AllPartyReportsScreenState extends State<AllPartyReportsScreen> {
       appBar: AppBar(
         backgroundColor: Colorconst.cBlue,
         title: const Text(
-          "Party Report ",
+          "Party Report",
           style: TextStyle(
             color: Colorconst.cwhite,
           ),
@@ -57,13 +35,13 @@ class _AllPartyReportsScreenState extends State<AllPartyReportsScreen> {
               color: Colorconst.cRed,
             ),
             onPressed: () {
-              //  Fluttertoast.showToast(msg: "PDF Export Clicked");
+              // Add PDF export logic here
             },
           ),
           IconButton(
             icon: const Icon(Icons.table_chart, color: Colorconst.Green),
             onPressed: () {
-              // Fluttertoast.showToast(msg: "Excel Export Clicked");
+              // Add Excel export logic here
             },
           ),
         ],
@@ -78,45 +56,40 @@ class _AllPartyReportsScreenState extends State<AllPartyReportsScreen> {
                 padding: EdgeInsets.all(8.0.w),
                 child: Row(
                   children: [
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value ?? false;
-                        });
-                      },
-                    ),
+                    Obx(() => Checkbox(
+                          value: controller.isChecked.value,
+                          onChanged: (bool? value) {
+                            controller.isChecked.value = value ?? false;
+                          },
+                        )),
                     Text(
                       "Date Filter",
                       style:
                           TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
                     ),
-                    SizedBox(
-                      width: 80.w,
-                    ),
+                    SizedBox(width: 80.w),
                     GestureDetector(
-                      onTap: isChecked
+                      onTap: controller.isChecked.value
                           ? () {
-                              _selectDate(context);
+                              controller.selectDate(context);
                             }
                           : null,
-                      child: Row(
-                        children: [
-                          Text(
-                            "Date",
-                            style: TextStyle(
-                                color: Colorconst.cBlack, fontSize: 14.sp),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Text(
-                            selectedDate,
-                            style: TextStyle(
-                                color: Colorconst.cBlack, fontSize: 14.sp),
-                          ),
-                          //if (isChecked) Icon(Icons.calendar_today),
-                        ],
+                      child: Obx(
+                        () => Row(
+                          children: [
+                            Text(
+                              "Date",
+                              style: TextStyle(
+                                  color: Colorconst.cBlack, fontSize: 14.sp),
+                            ),
+                            SizedBox(width: 10.w),
+                            Text(
+                              controller.selectedDate.value,
+                              style: TextStyle(
+                                  color: Colorconst.cBlack, fontSize: 14.sp),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -139,65 +112,63 @@ class _AllPartyReportsScreenState extends State<AllPartyReportsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DropdownButton<String>(
-                  value: selectedParty,
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    size: 30.sp,
+                Obx(
+                  () => DropdownButton<String>(
+                    value: controller.selectedParty.value,
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      size: 30.sp,
+                    ),
+                    onChanged: (String? newValue) {
+                      controller.selectedParty.value = newValue!;
+                    },
+                    items: controller.partyTypes
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                              color: Colorconst.cBlack, fontSize: 14.sp),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedParty = newValue!;
-                    });
-                  },
-                  items:
-                      partyTypes.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                            color: Colorconst.cBlack, fontSize: 14.sp),
-                      ),
-                    );
-                  }).toList(),
                 ),
-                DropdownButton<String>(
-                  value: selectedSort,
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    size: 30.sp,
+                Obx(
+                  () => DropdownButton<String>(
+                    value: controller.selectedSort.value,
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      size: 30.sp,
+                    ),
+                    onChanged: (String? newValue) {
+                      controller.selectedSort.value = newValue!;
+                    },
+                    items: controller.sortOptions
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                              color: Colorconst.cBlack, fontSize: 14.sp),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedSort = newValue!;
-                    });
-                  },
-                  items:
-                      sortOptions.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                            color: Colorconst.cBlack, fontSize: 14.sp),
-                      ),
-                    );
-                  }).toList(),
                 ),
               ],
             ),
             const Divider(),
             Row(
               children: [
-                Checkbox(
-                  value: isZeroBalanceChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isZeroBalanceChecked = value ?? false;
-                    });
-                  },
-                ),
+                Obx(() => Checkbox(
+                      value: controller.isZeroBalanceChecked.value,
+                      onChanged: (bool? value) {
+                        controller.isZeroBalanceChecked.value = value ?? false;
+                      },
+                    )),
                 Text(
                   " Show 0 balance party",
                   style: TextStyle(color: Colorconst.cBlack, fontSize: 14.sp),
@@ -207,27 +178,32 @@ class _AllPartyReportsScreenState extends State<AllPartyReportsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Party Name",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colorconst.cGrey,
-                        fontSize: 14.sp)),
-                Text("Credit Limit",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colorconst.cGrey,
-                        fontSize: 14.sp)),
-                Text("Balance",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colorconst.cGrey,
-                        fontSize: 14.sp)),
+                Text(
+                  "Party Name",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colorconst.cGrey,
+                      fontSize: 14.sp),
+                ),
+                Text(
+                  "Credit Limit",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colorconst.cGrey,
+                      fontSize: 14.sp),
+                ),
+                Text(
+                  "Balance",
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colorconst.cGrey,
+                      fontSize: 14.sp),
+                ),
               ],
             ),
-            // Example Party List
             Expanded(
               child: ListView.builder(
-                itemCount: 5, // Number of party items
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: EdgeInsets.symmetric(vertical: 2.w),

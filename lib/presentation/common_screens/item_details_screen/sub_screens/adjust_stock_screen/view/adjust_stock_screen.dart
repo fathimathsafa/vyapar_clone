@@ -19,6 +19,8 @@ class AdjustStockScreen extends StatelessWidget {
   final StockOptionController stockOptionController =
       Get.put(StockOptionController());
 
+  AdjustStockScreen({super.key});
+
   // Add a method to show the date picker and update the text field
   Future<void> _selectDate(
       BuildContext context, TextEditingController controller) async {

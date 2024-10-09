@@ -28,27 +28,7 @@ class GstTrasactionReportScreen extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.white,
-        // actions: [
-        //   InkWell(
-        //     onTap: () => _pdfBottomSheet(),
-        //     child: Icon(
-        //       FontAwesomeIcons.solidFilePdf,
-        //       size: 20.sp,
-        //       color: Colors.red,
-        //     ),
-        //   ),
-        //   SizedBox(
-        //     width: 15.w,
-        //   ),
-        //   Icon(
-        //     FontAwesomeIcons.solidFileExcel,
-        //     size: 20.sp,
-        //     color: Colors.green,
-        //   ),
-        //   SizedBox(
-        //     width: 15.w,
-        //   )
-        // ],
+       
       ),
       body: Column(
         children: [
