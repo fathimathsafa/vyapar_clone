@@ -15,22 +15,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'controller/controller.dart';
 
-class AddSaleInvoiceScreen extends StatefulWidget {
-  AddSaleInvoiceScreen({super.key});
 
-  @override
-  State<AddSaleInvoiceScreen> createState() => _AddSaleInvoiceScreenState();
-}
 
-class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
+class AddSaleInvoiceScreen extends StatelessWidget {
+   AddSaleInvoiceScreen({super.key});
+
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
 
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
 
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
   final _controller = Get.put(TransactionDetailController());
-  int selectedIndex = 0;
-  void _showStateSelectionBottomSheet() {
+ 
+  void _showStateSelectionBottomSheet(context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -62,12 +59,15 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
                       return ListTile(
                         title: Text(states[index]),
                         onTap: () {
-                          setState(() {
-                            selectedState =
-                                states[index]; // Update selected state
-                          });
-                          Navigator.pop(
-                              context); // Close the bottom sheet after selecting
+                          _controller.selectedState!.value = states[index].toString();
+
+                          Get.back();
+                          // setState(() {
+                          //   selectedState =
+                          //       states[index]; // Update selected state
+                          // });
+                          // Navigator.pop(
+                          //     context); // Close the bottom sheet after selecting
                         },
                       );
                     },
@@ -81,8 +81,8 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
     );
   }
 
-  String? selectedState;
-  List<String> states = [
+  
+  final List<String> states = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
     "Assam",
@@ -133,27 +133,32 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
           style: TextStyle(color: Colorconst.cBlack),
         ),
         actions: [
-          ToggleSwitch(
-            minHeight: 28.h,
-            minWidth: 58.w,
-            cornerRadius: 20.r,
-            activeBgColors: [
-              [Colors.green[800]!],
-              [Colors.red[800]!]
-            ],
-            activeFgColor: Colors.white,
-            inactiveBgColor: Colors.grey,
-            inactiveFgColor: Colors.white,
-            initialLabelIndex: selectedIndex,
-            totalSwitches: 2,
-            labels: const ['Credit', 'Cash'],
-            radiusStyle: true,
-            onToggle: (index) {
-              setState(() {
-                selectedIndex = index!; // Update the selected index
-              });
-              // print('switched to: $index');
-            },
+          Obx(
+            () {
+              return ToggleSwitch(
+                minHeight: 28.h,
+                minWidth: 58.w,
+                cornerRadius: 20.r,
+                activeBgColors: [
+                  [Colors.green[800]!],
+                  [Colors.red[800]!]
+                ],
+                activeFgColor: Colors.white,
+                inactiveBgColor: Colors.grey,
+                inactiveFgColor: Colors.white,
+                initialLabelIndex: _controller.selectedIndex.value,
+                totalSwitches: 2,
+                labels: const ['Credit', 'Cash'],
+                radiusStyle: true,
+                onToggle: (index) {
+                  _controller.selectedIndex.value= index!;
+                  // setState(() {
+                  //   selectedIndex = index!; // Update the selected index
+                  // });
+                  // print('switched to: $index');
+                },
+              );
+            }
           ),
           SizedBox(width: 10.w),
           IconButton(
@@ -189,7 +194,7 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
                           }
                         ),
                         SizedBox(height: 10.h),
-                        _buildFormContainer(),
+                        _buildFormContainer(context),
                       ],
                     ),
                   ),
@@ -216,7 +221,7 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
                           _buildBalanceDueSection(totalAmount),
                           _buildZigzagSeparator(),
                           SizedBox(height: screenHeight * 0.01),
-                          _buildPaymentSection(),
+                          _buildPaymentSection(context),
                           SizedBox(height: screenHeight * 0.01),
                           _buildDescriptionAndPhotoSection(),
                           _buildAddDocumentButton(),
@@ -391,7 +396,7 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
     );
   }
 
-  Widget _buildPaymentSection() {
+  Widget _buildPaymentSection(context) {
     return Container(
       padding: const EdgeInsets.all(10),
       color: Colors.white,
@@ -405,7 +410,7 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
           ]),
           const Divider(),
           GestureDetector(
-              onTap: _showStateSelectionBottomSheet,
+              onTap:()=> _showStateSelectionBottomSheet(context),
               child: _buildRowWithText("State of Supply", "Select State")),
         ],
       ),
@@ -550,7 +555,7 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
     );
   }
 
-  Widget _buildFormContainer() {
+  Widget _buildFormContainer(context) {
     return Container(
       height: 240.h,
       color: Colors.white,
@@ -558,11 +563,15 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
       child: Column(
         children: [
           SizedBox(height: 20.h),
-          _buildCustomTextFormField(
-            labelText: selectedIndex == 0 ? "Customer *" : "Billing Name *",
-            hintText:
-                selectedIndex == 0 ? "Enter Customer" : "Enter Billing Name",
-            keyboardType: TextInputType.emailAddress,
+          Obx(
+             () {
+              return _buildCustomTextFormField(
+                labelText: _controller.selectedIndex.value == 0 ? "Customer *" : "Billing Name *",
+                hintText:
+                    _controller.selectedIndex.value == 0 ? "Enter Customer" : "Enter Billing Name",
+                keyboardType: TextInputType.emailAddress,
+              );
+            }
           ),
           SizedBox(height: 25.h),
           _buildCustomTextFormField(
@@ -572,10 +581,11 @@ class _AddSaleInvoiceScreenState extends State<AddSaleInvoiceScreen> {
           ),
           SizedBox(height: 20.h),
           AddItemButton(onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddItemToSale()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => AddItemToSale()),
+            // );
+            Get.to(()=>AddItemToSale());
           }),
         ],
       ),
@@ -614,3 +624,4 @@ class DottedLinePainter extends CustomPainter {
     return false;
   }
 }
+

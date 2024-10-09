@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-import '../../../../core/constatnts/colors.dart';
-import '../../../../core/constatnts/text_style.dart';
 
-class AddNewPartyPage extends StatefulWidget {
-  @override
-  _AddNewPartyPageState createState() => _AddNewPartyPageState();
-}
+import '../../../../../../../core/constatnts/colors.dart';
+import '../../../../../../../core/constatnts/text_style.dart';
+import '../controller/controller.dart';
 
-class _AddNewPartyPageState extends State<AddNewPartyPage> {
-  bool gstinToggle = true; // Initial state for the toggle switch
-  bool partyGroupingToggle = false;
-  bool inviteToggle = false;
-  bool isExpanded = false; // State to track if dropdown is open
-  Map<String, bool> additionalFields = {
-    "Additional Field 1": false,
-    "Additional Field 2": false,
-    "Additional Field 3": false,
-    "Date Field": false,
-  };
+// ignore: must_be_immutable, use_key_in_widget_constructors
+class AddNewPartyPage extends StatelessWidget {
+ 
+
+
 
   // Create a GlobalKey for the Scaffold to control its drawer
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+final _controller = Get.put(AddPartyController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +30,7 @@ class _AddNewPartyPageState extends State<AddNewPartyPage> {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () => Get.back(),
         ),
         actions: [
           IconButton(
@@ -66,13 +59,18 @@ class _AddNewPartyPageState extends State<AddNewPartyPage> {
                 "GSTIN Number",
                 style: TextStyle(color: Colors.black),
               ),
-              trailing: Switch(
-                value: gstinToggle,
-                onChanged: (bool value) {
-                  setState(() {
-                    gstinToggle = value;
-                  });
-                },
+              trailing: Obx(
+                 () {
+                  return Switch(
+                    value:_controller.gstinToggle.value,
+                    onChanged: (bool value) {
+                      _controller.gstinToggle.value= value;
+                      // setState(() {
+                      //   gstinToggle = value;
+                      // });
+                    },
+                  );
+                }
               ),
             ),
             ListTile(
@@ -80,13 +78,17 @@ class _AddNewPartyPageState extends State<AddNewPartyPage> {
                 "Party Shipping Address",
                 style: TextStyle(color: Colors.black),
               ),
-              trailing: Switch(
-                value: gstinToggle,
-                onChanged: (bool value) {
-                  setState(() {
-                    gstinToggle = value;
-                  });
-                },
+              trailing: Obx(
+               () {
+                  return Switch(
+                    value: _controller.partyShipToggle.value,
+                    onChanged: (bool value) {
+                    
+                        _controller.partyShipToggle.value= value;
+                   
+                    },
+                  );
+                }
               ),
             ),
             Divider(),
@@ -103,67 +105,78 @@ class _AddNewPartyPageState extends State<AddNewPartyPage> {
                 "Party Grouping",
                 style: TextStyle(color: Colors.black),
               ),
-              trailing: Switch(
-                value: partyGroupingToggle,
-                onChanged: (bool value) {
-                  setState(() {
-                    partyGroupingToggle = value;
-                  });
-                },
+              trailing: Obx(
+                () {
+                  return Switch(
+                    value:_controller.partyGroupingToggle.value,
+                    onChanged: (bool value) {
+                      _controller.partyGroupingToggle.value= value;
+                      // setState(() {
+                      //   partyGroupingToggle = value;
+                      // });
+                    },
+                  );
+                }
               ),
             ),
 
             // Expansion Tile for Party Additional Fields
-            ExpansionTile(
-              title: Text(
-                "Party Additional Fields",
-                style: TextStyle(color: Colors.black),
-              ),
-              trailing: Icon(isExpanded
-                  ? Icons.arrow_drop_up
-                  : Icons
-                      .arrow_drop_down), // Change icon based on expanded state
-              onExpansionChanged: (bool expanded) {
-                setState(() {
-                  isExpanded = expanded; // Update expanded state
-                });
-              },
-              children: [
-                Column(
-                  children: additionalFields.keys.map((String key) {
-                    return CheckboxListTile(
-                      title: Text(key),
-                      value: additionalFields[key],
-                      onChanged: (bool? value) {
-                        setState(() {
-                          additionalFields[key] = value ?? false;
-                        });
-                      },
-                    );
-                  }).toList(),
-                ),
-                // Save Button
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SizedBox(
-                    width: double.infinity, // Make button take full width
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.zero),
-                        backgroundColor: Colors.blue, // Blue background
-                      ),
-                      onPressed: () {
-                        // Handle save logic here
-                      },
-                      child: Text(
-                        "Save",
-                        style: TextStyle(color: Colors.white), // White text
+            Obx(
+               () {
+                return ExpansionTile(
+                  title: Text(
+                    "Party Additional Fields",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  trailing: Icon(_controller.isExpanded.value
+                      ? Icons.arrow_drop_up
+                      : Icons
+                          .arrow_drop_down), // Change icon based on expanded state
+                  onExpansionChanged: (bool expanded) {
+                    _controller.isExpanded.value= expanded;
+                    // setState(() {
+                    //   isExpanded = expanded; // Update expanded state
+                    // });
+                  },
+                  children: [
+                    Column(
+                      children:_controller.additionalFields.keys.map((String key) {
+                        return CheckboxListTile(
+                          title: Text(key),
+                          value: _controller.additionalFields[key],
+                          onChanged: (bool? value) {
+                            _controller.additionalFields[key] = value??false;
+                            // setState(() {
+                            //   additionalFields[key] = value ?? false;
+                            // });
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    // Save Button
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SizedBox(
+                        width: double.infinity, // Make button take full width
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero),
+                            backgroundColor: Colors.blue, // Blue background
+                          ),
+                          onPressed: () {
+                            // Handle save logic here
+                          },
+                          child: Text(
+                            "Save",
+                            style: TextStyle(color: Colors.white), // White text
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ],
+                  ],
+                );
+              }
             ),
 
             ListTile(
@@ -171,13 +184,18 @@ class _AddNewPartyPageState extends State<AddNewPartyPage> {
                 "Invite parties to add\nthemselves",
                 style: TextStyle(color: Colors.black),
               ),
-              trailing: Switch(
-                value: inviteToggle,
-                onChanged: (bool value) {
-                  setState(() {
-                    inviteToggle = value;
-                  });
-                },
+              trailing: Obx(
+              () {
+                  return Switch(
+                    value:_controller.inviteToggle.value,
+                    onChanged: (bool value) {
+                      _controller.inviteToggle.value=value;
+                      // setState(() {
+                      //   inviteToggle = value;
+                      // });
+                    },
+                  );
+                }
               ),
             ),
           ],
@@ -285,3 +303,4 @@ class _AddNewPartyPageState extends State<AddNewPartyPage> {
     );
   }
 }
+

@@ -3,17 +3,11 @@ import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/login__screen/sign_in_screen/sign_in_screen.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+import '../controller/controller.dart';
 
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  bool first = true;
-  double fontsize = 20;
-  Color color = Colorconst.text1;
+class SplashScreen extends StatelessWidget {
+   SplashScreen({super.key});
+ final _controller = Get.put(SplashScreenController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -116,32 +110,39 @@ class _SplashScreenState extends State<SplashScreen> {
                                 ),
                               ),
                               const Spacer(),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    fontsize = first ? 35 : 20;
-                                    color =
-                                        first ? Colors.red : Colorconst.text1;
-                                    first = !first;
-                                  });
-                                  Future.delayed(
-                                    Duration(milliseconds: 1000),
+                              Obx(
+                               () {
+                                  return GestureDetector(
+                                    onTap: () {
+                                   _controller.fontsize.value=   _controller.first.value?35 : 20;
+
+                                    _controller.first.value=! _controller.first.value;
+                                      // setState(() {
+                                      //   fontsize = first ? 35 : 20;
+                                      //   color =
+                                      //       first ? Colors.red : Colorconst.text1;
+                                      //   first = !first;
+                                      // });
+                                      Future.delayed(
+                                        Duration(milliseconds: 1000),
+                                      );
+                                      Get.to(
+                                        () => SignInScreen(),
+                                        transition: Transition.circularReveal,
+                                        duration: Duration(seconds: 2),
+                                      );
+                                    },
+                                    child: AnimatedDefaultTextStyle(
+                                      duration: Duration(seconds: 1),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color:  _controller.first.value?Colors.red : Colorconst.text1),
+                                      child: const Text(
+                                        'Sign In',
+                                      ),
+                                    ),
                                   );
-                                  Get.to(
-                                    () => SignInScreen(),
-                                    transition: Transition.circularReveal,
-                                    duration: Duration(seconds: 2),
-                                  );
-                                },
-                                child: AnimatedDefaultTextStyle(
-                                  duration: Duration(seconds: 1),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: color),
-                                  child: const Text(
-                                    'Sign In',
-                                  ),
-                                ),
+                                }
                               ),
                               const Spacer(),
                             ],

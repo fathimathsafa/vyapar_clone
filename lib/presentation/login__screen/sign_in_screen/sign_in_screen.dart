@@ -4,17 +4,14 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/bottom_navigation_screen/view/bottom_navigation_screen.dart';
+import 'package:vyapar_clone/presentation/login__screen/controller/controller.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
 
-  @override
-  State<SignInScreen> createState() => _SignInScreenState();
-}
+class SignInScreen extends StatelessWidget {
+   SignInScreen({super.key});
 
-class _SignInScreenState extends State<SignInScreen> {
-  bool isFlat = true;
-
+  
+final _controller = Get.put(SignInController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -96,9 +93,10 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        isFlat = !isFlat;
-                      });
+                      _controller.isFlat.value = !_controller.isFlat.value;
+                      // setState(() {
+                      //   isFlat = !isFlat;
+                      // });
                       Get.to(() => BottomNavigationScreen());
                     },
                     child: FadeInUp(
@@ -236,36 +234,42 @@ class _SignInScreenState extends State<SignInScreen> {
           horizontal: 25,
           vertical: 10,
         ),
-        child: AnimatedPhysicalModel(
-          shape: BoxShape.rectangle,
-          elevation: isFlat ? 0 : 5,
-          color: Colorconst.background2,
-          shadowColor: Colors.black,
-          duration: Duration(microseconds: 300),
-          child: TextField(
-            decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 22,
-                ),
-                fillColor: Colors.white,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                hintText: hint,
-                hintStyle: TextStyle(
-                  color: Colors.black45,
-                  fontSize: 19,
-                ),
-                suffixIcon: Icon(
-                  Icons.visibility_off_outlined,
-                  color: color,
-                )),
-          ),
+        child: Obx(
+           () {
+            return AnimatedPhysicalModel(
+              shape: BoxShape.rectangle,
+              elevation: _controller.isFlat.value ? 0 : 5,
+              color: Colorconst.background2,
+              shadowColor: Colors.black,
+              duration: Duration(microseconds: 300),
+              child: TextField(
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 22,
+                    ),
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    hintText: hint,
+                    hintStyle: TextStyle(
+                      color: Colors.black45,
+                      fontSize: 19,
+                    ),
+                    suffixIcon: Icon(
+                      Icons.visibility_off_outlined,
+                      color: color,
+                    )),
+              ),
+            );
+          }
         ),
       ),
     );
   }
 }
+
+

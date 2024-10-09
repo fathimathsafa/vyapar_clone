@@ -35,7 +35,7 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
   void initState() {
     super.initState();
     // Initialize the date controller with the current date formatted
-    _dateController = TextEditingController(
+    _dateController = TextEditingController(  
       text: DateFormat('dd/MM/yyyy').format(selectedDate), // Set initial date
     );
   }
