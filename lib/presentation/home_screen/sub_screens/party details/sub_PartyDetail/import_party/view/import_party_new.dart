@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-// import 'package:contacts_service/contacts_service.dart'; // Import contacts_service
-import 'package:permission_handler/permission_handler.dart'; // Import permission_handler
+import 'package:flutter_contacts/contact.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class ImportPartyPage extends StatefulWidget {
-  @override
-  _ImportPartyPageState createState() => _ImportPartyPageState();
-}
 
-class _ImportPartyPageState extends State<ImportPartyPage> {
-  // List<Contact> _contacts = []; // List to hold contacts
-  TextEditingController _searchController =
-      TextEditingController(); // Search controller
+import '../controller/controller.dart';
 
-  @override
-  void initState() {
-    super.initState();
-    // Show the dialog when the page is opened
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showAlertDialog(context);
-    });
-  }
+class ImportPartyPage extends StatelessWidget {
+   ImportPartyPage({super.key});
+
+
+
 
   void _showAlertDialog(BuildContext context) {
     showDialog(
@@ -78,7 +71,7 @@ class _ImportPartyPageState extends State<ImportPartyPage> {
                     onPressed: () async {
                       // Handle allow action
                       Navigator.of(context).pop(); // Close the second dialog
-                      await _requestContactsPermission(); // Request permission
+                      await _requestContactsPermission(context); // Request permission
                     },
                     child: Text(
                       "Allow",
@@ -107,7 +100,7 @@ class _ImportPartyPageState extends State<ImportPartyPage> {
     );
   }
 
-  Future<void> _requestContactsPermission() async {
+  Future<void> _requestContactsPermission(context) async {
     var status =
         await Permission.contacts.request(); // Request contact permission
     if (status.isGranted) {
@@ -124,14 +117,18 @@ class _ImportPartyPageState extends State<ImportPartyPage> {
       );
     }
   }
-
-  // Future<void> _fetchContacts() async {
-  //   Iterable<Contact> contacts =
-  //       await ContactsService.getContacts(); // Fetch contacts
-  //   setState(() {
-  //     _contacts = contacts.toList(); // Update the state with fetched contacts
-  //   });
-  // }
+ 
+ final _controller = Get.put(ImportPartyController());
+String _getFirstIndex(value){
+   if(value == null || value ==''){
+    
+     return "";
+     
+     }else{
+      // int length = value.length;
+      return value[0];
+     }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -144,13 +141,14 @@ class _ImportPartyPageState extends State<ImportPartyPage> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: 14.w),
         child: Column(
           children: [
             // Search Bar
+            SizedBox(height: 6.h,),
             TextField(
-              controller: _searchController,
+              controller: _controller.searchController,
               decoration: InputDecoration(
                 hintText: 'Search Contacts...',
                 helperStyle: TextStyle(color: Colors.black),
@@ -162,37 +160,67 @@ class _ImportPartyPageState extends State<ImportPartyPage> {
               ),
               onChanged: (value) {
                 // Implement search functionality if needed
-                setState(() {
-                  // Update UI based on search value
-                });
+              
               },
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
             // Display contacts
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              // itemCount: _contacts.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    // _contacts[index].displayName ?? 'No Name',
-                    "",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  subtitle: Text(
-                    // _contacts[index].phones?.isNotEmpty == true
-                    //     ? _contacts[index].phones!.first.value ?? ''
-                    //     : 'No Phone Number',
-                    "",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                );
-              },
+            Expanded(
+              child:
+               Obx(
+               () {
+                  return
+                 _controller.contacts.length.toInt()==0?Center(child: Text("No Contact Found",style: GoogleFonts.inter(fontSize: 18.sp,color: Colors.black,fontWeight: FontWeight.w700),)):  SizedBox(
+                    width: double.infinity,
+                     child: ListView.builder(
+                      shrinkWrap: true,
+                      // physics: NeverScrollableScrollPhysics(),
+                      itemCount: _controller.contacts.length,
+                      itemBuilder: (context, index) {
+                        
+                        return Padding(
+                          padding:  EdgeInsets.symmetric(vertical: 6.h),
+                          child: ListTile(
+                            tileColor: Colors.blue.shade300,
+                            leading: (_controller.contacts[index].thumbnail != null)
+                      ? CircleAvatar(
+                        radius: 23.r,
+                          backgroundImage: MemoryImage(_controller.contacts[index].thumbnail!),
+                        )
+                      : CircleAvatar(
+                        radius: 23.r,
+                          child: Text(  _getFirstIndex(_controller.contacts[index].displayName.toString()),style: GoogleFonts.inter(color: Colors.black,fontSize: 17.sp,fontWeight: FontWeight.w700),),
+                        ),
+                            // leading: CircleAvatar(radius: 25.r,
+                            // child: _controller.contacts[index].photoOrThumbnail,
+                            // ),
+                            title: Text(
+                              _controller.contacts[index].displayName ?? 'No Name',
+                           
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              _controller.contacts[index].phones.isNotEmpty == true
+                                  ? _controller.contacts[index].phones.first.number ?? ''
+                                  : 'No Phone Number',
+                            
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        );
+                      },
+                                       ),
+                   );
+                }
+              ),
             ),
           ],
         ),
       ),
     );
+
+
   }
+
+
 }

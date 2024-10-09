@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:vyapar_clone/presentation/dash_board_screen/view/dash_board_screen.dart';
 import 'package:vyapar_clone/presentation/home_screen/view/home_screen.dart';
 import 'package:vyapar_clone/presentation/item_screen/view/item_screen.dart';
+import 'package:vyapar_clone/presentation/login__screen/controller/controller.dart';
 import 'package:vyapar_clone/presentation/menu_screen/view/menu_screen.dart';
 
 class BottomNavigationController extends GetxController {
@@ -36,4 +37,16 @@ class BottomNavigationController extends GetxController {
 
      Center(child:  Text("Get Premium",style: TextStyle(color: Colors.red,fontSize: 20.sp),)),
   ];
+
+
+   @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    deleteSplashMemory();
+  }
+
+  void deleteSplashMemory(){
+    Get.delete<SignInController>(tag: 'SignInController memory deleted');
+  }
 }

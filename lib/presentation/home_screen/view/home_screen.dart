@@ -7,7 +7,7 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_de
 import 'package:vyapar_clone/repository/app_data/database/db.dart';
 
 
-import '../sub_screens/party details/party_details.dart';
+import '../sub_screens/party details/view/party_details.dart';
 import '../widget/header.dart';
 import '../widget/header_buttons.dart';
 
