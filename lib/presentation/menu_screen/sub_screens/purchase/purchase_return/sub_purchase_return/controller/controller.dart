@@ -4,6 +4,7 @@ import '../../../../../../../core/common/context_provider.dart';
 
 class PurchaseReturnController extends GetxController {
   RxString selectedPurchaseDate = "9/20/2024".obs;
+  RxString selectedReturnNo = "10121".obs;
 
   void selctedDate(context) async {
     String? date = await ContextProvider().selectDate(context);

@@ -543,20 +543,32 @@ class AddSaleInvoiceScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(text, style: const TextStyle(color: Colors.grey)),
-        Row(children: [
-          Icon(icon, color: Colors.green),
-          SizedBox(
-            width: 7.w,
-          ),
-          Text(
-            trailingText,
-            style: TextStyle(color: Colors.black, fontSize: 14.sp),
-          ),
-          SizedBox(
-            width: 7.w,
-          ),
-          const Icon(Icons.arrow_drop_down)
-        ]),
+        InkWell(
+          onTap: () {
+            showDialogGlobal(
+              itemList: ["Cash", "Online Online"],
+              onSelectItem: (p0) {
+                _controller.selectedPaymentType.value = p0;
+              },
+            );
+          },
+          child: Row(children: [
+            Icon(icon, color: Colors.green),
+            SizedBox(
+              width: 7.w,
+            ),
+            Obx(() {
+              return Text(
+                _controller.selectedPaymentType.value,
+                style: TextStyle(color: Colors.black, fontSize: 14.sp),
+              );
+            }),
+            SizedBox(
+              width: 7.w,
+            ),
+            const Icon(Icons.arrow_drop_down)
+          ]),
+        ),
       ],
     );
   }

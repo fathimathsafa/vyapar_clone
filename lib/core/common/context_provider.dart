@@ -85,7 +85,12 @@ class ContextProvider {
 
 showDialogGlobal(
     {List<String>? itemList, required Function(String) onSelectItem}) {
-  List<String> tempItem = ["item1", "item2"];
+  List<String> tempItem = [
+    "10120",
+    "10121",
+    "10122",
+    "10123",
+  ];
   Get.dialog(Center(
     child: Padding(
       padding: EdgeInsets.symmetric(horizontal: 13.w),
@@ -120,12 +125,19 @@ showDialogGlobal(
                           SizedBox(
                             height: 10.h,
                           ),
-                          Text(
-                            itemList == null ? tempItem[index] : itemList[index],
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17.sp),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  itemList == null ? tempItem[index] : itemList[index],
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 17.sp),
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: 10.h,

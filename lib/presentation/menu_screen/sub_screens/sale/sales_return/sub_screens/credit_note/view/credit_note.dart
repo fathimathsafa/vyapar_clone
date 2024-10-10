@@ -10,6 +10,7 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_de
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
+import '../../../../../../../../core/common/context_provider.dart';
 import '../../../../../../../../core/constatnts/text_style.dart';
 import '../controller/controller.dart';
 
@@ -84,65 +85,74 @@ class _CreditNoteScreenState extends State<CreditNoteScreen> {
               padding: EdgeInsets.only(bottom: 500.h),
               child: Column(
                 children: [
-                  Container(
-                    child: Column(
-                      children: [
-                        Obx(
-                         () {
-                            return DateInvoiceWidget(invoiceNumber: "10120", date: _controller.selectedPurchaseDate.value,
-                                          onTapDate:() => _controller.selctedDate(context));
+                  Column(
+                    children: [
+                      Obx(
+                       () {
+                          return DateInvoiceWidget(
+                            
+                              invoiceNumber: _controller.selectedReturnNo.value,
+                  
+                             ontapInvoice: () {
+                            showDialogGlobal(
+                              onSelectItem: (p0) {
+                                _controller.selectedReturnNo.value = p0;
+                              },
+                            );
                           }
-                        ),
-                        SizedBox(height: 10.h),
-                        Container(
-                          height: 310.h,
-                          color: Colors.white,
-                          padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 20.h),
-                              CustomTextFormField(
-                                labelText: "Customer *",
-                                hintText: "Enter Customer",
-                              ),
-                              SizedBox(height: 25.h),
-                              CustomTextFormField(
-                                keyboardType: TextInputType.number,
-                                labelText: "Phone Number",
-                                hintText: "Enter Phone Number",
-                              ),
-                              SizedBox(height: 25.h),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: _buildFormField(
-                                      label: 'Invoice Date',
-                                      suffixIcon: Icon(Icons.calendar_today),
-                                    ),
+                          , date: _controller.selectedPurchaseDate.value,
+                                        onTapDate:() => _controller.selctedDate(context));
+                        }
+                      ),
+                      SizedBox(height: 10.h),
+                      Container(
+                        height: 310.h,
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20.h),
+                            CustomTextFormField(
+                              labelText: "Customer *",
+                              hintText: "Enter Customer",
+                            ),
+                            SizedBox(height: 25.h),
+                            CustomTextFormField(
+                              keyboardType: TextInputType.number,
+                              labelText: "Phone Number",
+                              hintText: "Enter Phone Number",
+                            ),
+                            SizedBox(height: 25.h),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: _buildFormField(
+                                    label: 'Invoice Date',
+                                    suffixIcon: Icon(Icons.calendar_today),
                                   ),
-                                  SizedBox(width: 16.w),
-                                  Expanded(
-                                    child: _buildFormField(
-                                      label: 'Inv No.',
-                                    ),
+                                ),
+                                SizedBox(width: 16.w),
+                                Expanded(
+                                  child: _buildFormField(
+                                    label: 'Inv No.',
                                   ),
-                                ],
-                              ),
-                              SizedBox(height: 20.h),
-                              AddItemButton(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AddItemToSale()));
-                                },
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20.h),
+                            AddItemButton(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddItemToSale()));
+                              },
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   // SizedBox(height: screenHeight * 0.005),
                   Padding(

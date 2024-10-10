@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/context_provider.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
@@ -18,7 +19,7 @@ class AddPurchaseOrderScreen extends StatelessWidget {
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
-final _controller = Get.put(AddPurchaseeScreenController());
+  final _controller = Get.put(AddPurchaseeScreenController());
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -54,17 +55,22 @@ final _controller = Get.put(AddPurchaseeScreenController());
                   SizedBox(
                     child: Column(
                       children: [
-                        Obx(
-                           () {
-                            return DateInvoiceWidget(
-                              invoiceNumber: "10120",
-                              titleOne: "Return No.",
-                              titleTwo: "Date",
-                              date: _controller.selectedPurchaseDate.value,
-                              onTapDate:() => _controller.selctedDate(context) ,
-                            );
-                          }
-                        ),
+                        Obx(() {
+                          return DateInvoiceWidget(
+                            invoiceNumber: _controller.selectedReturnNo.value,
+                            ontapInvoice: () {
+                              showDialogGlobal(
+                                onSelectItem: (p0) {
+                                  _controller.selectedReturnNo.value = p0;
+                                },
+                              );
+                            },
+                            titleOne: "Return No.",
+                            titleTwo: "Date",
+                            date: _controller.selectedPurchaseDate.value,
+                            onTapDate: () => _controller.selctedDate(context),
+                          );
+                        }),
                         SizedBox(height: screenHeight * 0.01),
                         Container(
                           height: screenHeight * 0.24,
@@ -327,29 +333,45 @@ final _controller = Get.put(AddPurchaseeScreenController());
                                 children: [
                                   Row(
                                     children: [
-                                      const Text(
-                                        "Payment Type",
-                                        style:
-                                            TextStyle(color: Colorconst.cGrey),
+                                    const  Expanded(
+                                        child:  Text(
+                                          "Payment Type",
+                                          style:
+                                              TextStyle(color: Colorconst.cGrey),
+                                        ),
                                       ),
-                                      SizedBox(
-                                        width: screenWidth * .45,
-                                      ),
-                                      const Icon(
-                                        Icons.money,
-                                        color: Colorconst.Green,
-                                      ),
-                                      // SizedBox(
-                                      //   width: screenWidth * .01,
-                                      // ),
-                                      SizedBox(
-                                        width: 5.w,
-                                      ),
-                                      const Text(
-                                        "Cash",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                      const Icon(Icons.arrow_drop_down),
+                                      InkWell(
+                                        onTap: () {
+                                          showDialogGlobal(itemList: ["Cash","Online Online"], onSelectItem: (p0) {
+                                            _controller.selectedPaymentType.value=p0;
+                                            
+                                          },);  
+                                        },
+                                        child: Row(children: [
+                                        
+                                          const Icon(
+                                          Icons.money,
+                                          color: Colorconst.Green,
+                                        ),
+                                        // SizedBox(
+                                        //   width: screenWidth * .01,
+                                        // ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                         Obx(
+                                       () {
+                                             return Text(
+                                              _controller.selectedPaymentType.value,
+                                              style: TextStyle(color: Colors.black,fontSize: 14.sp),
+                                                                                     );
+                                           }
+                                         ),
+                                        const Icon(Icons.arrow_drop_down)
+                                        
+                                        ],),
+                                      )
+                                      ,
                                       SizedBox(
                                         width: 6.w,
                                       ),
