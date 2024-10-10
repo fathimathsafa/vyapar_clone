@@ -15,10 +15,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'controller/controller.dart';
 
-
-
 class AddSaleInvoiceScreen extends StatelessWidget {
-   AddSaleInvoiceScreen({super.key});
+  AddSaleInvoiceScreen({super.key});
 
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
 
@@ -26,7 +24,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
 
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
   final _controller = Get.put(TransactionDetailController());
- 
+
   void _showStateSelectionBottomSheet(context) {
     showModalBottomSheet(
       context: context,
@@ -50,7 +48,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Expanded(
                   child: ListView.builder(
                     controller: controller,
@@ -59,7 +57,8 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                       return ListTile(
                         title: Text(states[index]),
                         onTap: () {
-                          _controller.selectedState!.value = states[index].toString();
+                          _controller.selectedState!.value =
+                              states[index].toString();
 
                           Get.back();
                           // setState(() {
@@ -81,7 +80,6 @@ class AddSaleInvoiceScreen extends StatelessWidget {
     );
   }
 
-  
   final List<String> states = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -112,6 +110,13 @@ class AddSaleInvoiceScreen extends StatelessWidget {
     "Uttarakhand",
     "West Bengal"
   ];
+
+  final List<String> invoiceNumList = [
+    "10120",
+    "10121",
+    "10122",
+    "10123",
+  ];
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -133,33 +138,31 @@ class AddSaleInvoiceScreen extends StatelessWidget {
           style: TextStyle(color: Colorconst.cBlack),
         ),
         actions: [
-          Obx(
-            () {
-              return ToggleSwitch(
-                minHeight: 28.h,
-                minWidth: 58.w,
-                cornerRadius: 20.r,
-                activeBgColors: [
-                  [Colors.green[800]!],
-                  [Colors.red[800]!]
-                ],
-                activeFgColor: Colors.white,
-                inactiveBgColor: Colors.grey,
-                inactiveFgColor: Colors.white,
-                initialLabelIndex: _controller.selectedIndex.value,
-                totalSwitches: 2,
-                labels: const ['Credit', 'Cash'],
-                radiusStyle: true,
-                onToggle: (index) {
-                  _controller.selectedIndex.value= index!;
-                  // setState(() {
-                  //   selectedIndex = index!; // Update the selected index
-                  // });
-                  // print('switched to: $index');
-                },
-              );
-            }
-          ),
+          Obx(() {
+            return ToggleSwitch(
+              minHeight: 28.h,
+              minWidth: 58.w,
+              cornerRadius: 20.r,
+              activeBgColors: [
+                [Colors.green[800]!],
+                [Colors.red[800]!]
+              ],
+              activeFgColor: Colors.white,
+              inactiveBgColor: Colors.grey,
+              inactiveFgColor: Colors.white,
+              initialLabelIndex: _controller.selectedIndex.value,
+              totalSwitches: 2,
+              labels: const ['Credit', 'Cash'],
+              radiusStyle: true,
+              onToggle: (index) {
+                _controller.selectedIndex.value = index!;
+                // setState(() {
+                //   selectedIndex = index!; // Update the selected index
+                // });
+                // print('switched to: $index');
+              },
+            );
+          }),
           SizedBox(width: 10.w),
           IconButton(
               onPressed: () {}, icon: const Icon(Icons.settings_outlined)),
@@ -173,30 +176,34 @@ class AddSaleInvoiceScreen extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 500.h),
               child: Column(
                 children: [
-                  Container(
-                    child: Column(
-                      children: [
-                        Obx(
-                       () {
-                            return DateInvoiceWidget(
-                              invoiceNumber: "10120",
-                              onTapDate: () async {
-                                String? date =
-                                    await ContextProvider().selectDate(context);
-                                if (date == null) {
-                                } else {
-                                  _controller.selectedSaleDate.value = date;
-                                }
-                               
+                  Column(
+                    children: [
+                      Obx(() {
+                        return DateInvoiceWidget(
+                          invoiceNumber: _controller.selectedInvoicNm.value,
+                          ontapInvoice: () {
+                            showDialogGlobal(
+                              itemList: invoiceNumList,
+                              onSelectItem: (value) {
+                                // printInfo(info: "value ==$value");
+                                _controller.selectedInvoicNm.value = value;
                               },
-                              date: _controller.selectedSaleDate.value,
                             );
-                          }
-                        ),
-                        SizedBox(height: 10.h),
-                        _buildFormContainer(context),
-                      ],
-                    ),
+                          },
+                          onTapDate: () async {
+                            String? date =
+                                await ContextProvider().selectDate(context);
+                            if (date == null) {
+                            } else {
+                              _controller.selectedSaleDate.value = date;
+                            }
+                          },
+                          date: _controller.selectedSaleDate.value,
+                        );
+                      }),
+                      SizedBox(height: 10.h),
+                      _buildFormContainer(context),
+                    ],
                   ),
                   Padding(
                     padding:
@@ -290,12 +297,48 @@ class AddSaleInvoiceScreen extends StatelessWidget {
           isReceivedChecked.value = !isReceivedChecked.value;
           receivedAmountNotifier.value =
               isReceivedChecked.value ? totalAmount : 0.0;
+          if (isReceivedChecked.value) {
+            _controller.recivedAmountController.text = totalAmount.toString();
+          } else {
+            _controller.recivedAmountController.text = "";
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildCheckBoxWithLabel(),
-            _buildReceivedAmountInput(totalAmount),
+            // _buildReceivedAmountInput(totalAmount),
+            SizedBox(
+              width: 110.w,
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 0,
+                    right: 10,
+                    bottom: 1, // Fixed bottom position
+                    child: CustomPaint(painter: DottedLinePainter()),
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: _controller.recivedAmountController,
+                    decoration: const InputDecoration(
+                      hintText: "₹",
+                      border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.only(left: 10), // Fixed padding
+                    ),
+                    // onChanged: (value) {
+                    //   receivedAmountNotifier.value = double.tryParse(value) ?? 0.0;
+                    // },
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.black), // Fixed font size
+                    // initialValue:
+                    //     isReceivedChecked.value ? totalAmount.toString() : '',
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -309,15 +352,17 @@ class AddSaleInvoiceScreen extends StatelessWidget {
         return Row(
           children: [
             Container(
-              width: 20, // Fixed width
-              height: 20, // Fixed height
+              width: 18.w, // Fixed width
+              height: 18.w, // Fixed height
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 3),
-                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: Colors.blue, width: 2.w),
+                borderRadius: BorderRadius.circular(2.r),
                 color: isChecked ? Colors.blue : Colors.transparent,
               ),
               child: isChecked
-                  ? const Icon(Icons.check, color: Colors.white, size: 18)
+                  ? Center(
+                      child:
+                          Icon(Icons.check, color: Colors.white, size: 15.sp))
                   : null,
             ),
             const SizedBox(width: 8), // Fixed spacing
@@ -329,45 +374,41 @@ class AddSaleInvoiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReceivedAmountInput(double totalAmount) {
-    return SizedBox(
-      width: 100, // Fixed width for the text input field
-      child: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 1, // Fixed bottom position
-            child: CustomPaint(painter: DottedLinePainter()),
-          ),
-          ValueListenableBuilder<double>(
-            valueListenable: receivedAmountNotifier,
-            builder: (context, receivedAmount, child) {
-              return TextFormField(
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  hintText: "₹",
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(left: 10), // Fixed padding
-                ),
-                onChanged: (value) {
-                  receivedAmountNotifier.value = double.tryParse(value) ?? 0.0;
-                },
-                style: const TextStyle(
-                    fontSize: 16, color: Colors.black), // Fixed font size
-                initialValue:
-                    isReceivedChecked.value ? totalAmount.toString() : '',
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildReceivedAmountInput(double totalAmount) {
+  //   return SizedBox(
+  //     width: 100, // Fixed width for the text input field
+  //     child: Stack(
+  //       children: [
+  //         Positioned(
+  //           left: 0,
+  //           right: 10,
+  //           bottom: 1, // Fixed bottom position
+  //           child: CustomPaint(painter: DottedLinePainter()),
+  //         ),
+  //         TextFormField(
+  //           keyboardType: TextInputType.number,
+  //           controller: _controller.recivedAmountController,
+  //           decoration: const InputDecoration(
+  //             hintText: "₹",
+  //             border: InputBorder.none,
+  //             contentPadding: EdgeInsets.only(left: 10), // Fixed padding
+  //           ),
+  //           // onChanged: (value) {
+  //           //   receivedAmountNotifier.value = double.tryParse(value) ?? 0.0;
+  //           // },
+  //           style: TextStyle(
+  //               fontSize: 16.sp, color: Colors.black), // Fixed font size
+  //           initialValue:
+  //               isReceivedChecked.value ? totalAmount.toString() : '',
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildBalanceDueSection(double totalAmount) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10), // Fixed padding
+      padding: EdgeInsets.only(left: 10.w, right: 10.w), // Fixed padding
       child: ValueListenableBuilder<double>(
         valueListenable: receivedAmountNotifier,
         builder: (context, receivedAmount, child) {
@@ -410,7 +451,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
           ]),
           const Divider(),
           GestureDetector(
-              onTap:()=> _showStateSelectionBottomSheet(context),
+              onTap: () => _showStateSelectionBottomSheet(context),
               child: _buildRowWithText("State of Supply", "Select State")),
         ],
       ),
@@ -504,7 +545,16 @@ class AddSaleInvoiceScreen extends StatelessWidget {
         Text(text, style: const TextStyle(color: Colors.grey)),
         Row(children: [
           Icon(icon, color: Colors.green),
-          Text(trailingText),
+          SizedBox(
+            width: 7.w,
+          ),
+          Text(
+            trailingText,
+            style: TextStyle(color: Colors.black, fontSize: 14.sp),
+          ),
+          SizedBox(
+            width: 7.w,
+          ),
           const Icon(Icons.arrow_drop_down)
         ]),
       ],
@@ -563,16 +613,17 @@ class AddSaleInvoiceScreen extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 20.h),
-          Obx(
-             () {
-              return _buildCustomTextFormField(
-                labelText: _controller.selectedIndex.value == 0 ? "Customer *" : "Billing Name *",
-                hintText:
-                    _controller.selectedIndex.value == 0 ? "Enter Customer" : "Enter Billing Name",
-                keyboardType: TextInputType.emailAddress,
-              );
-            }
-          ),
+          Obx(() {
+            return _buildCustomTextFormField(
+              labelText: _controller.selectedIndex.value == 0
+                  ? "Customer *"
+                  : "Billing Name *",
+              hintText: _controller.selectedIndex.value == 0
+                  ? "Enter Customer"
+                  : "Enter Billing Name",
+              keyboardType: TextInputType.emailAddress,
+            );
+          }),
           SizedBox(height: 25.h),
           _buildCustomTextFormField(
             keyboardType: TextInputType.number,
@@ -585,7 +636,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
             //   context,
             //   MaterialPageRoute(builder: (context) => AddItemToSale()),
             // );
-            Get.to(()=>AddItemToSale());
+            Get.to(() => AddItemToSale());
           }),
         ],
       ),
@@ -624,4 +675,3 @@ class DottedLinePainter extends CustomPainter {
     return false;
   }
 }
-

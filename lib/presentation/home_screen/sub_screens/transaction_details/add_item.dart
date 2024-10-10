@@ -303,7 +303,7 @@ class AddItemToSale extends StatelessWidget {
                                           )),
                                           Text(
                                             "₹            ",
-                                            style: interFontBlack(context),
+                                            style: interFontBlack(context,color: Colors.black,fontsize: 14.sp),
                                           ),
                                         ],
                                       ),
