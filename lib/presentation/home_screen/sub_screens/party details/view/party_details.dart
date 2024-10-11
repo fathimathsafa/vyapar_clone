@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20details/sub_PartyDetail/add_party/view/add_party.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20details/sub_PartyDetail/import_party/view/import_party.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/party/view/party.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/reminder/sub_reminder/view/payment_reminder.dart';

@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
+
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/bottom_navigation_screen/view/bottom_navigation_screen.dart';
 import 'package:vyapar_clone/presentation/login__screen/controller/controller.dart';
@@ -17,7 +17,7 @@ final _controller = Get.put(SignInController());
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration:const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             colors: [

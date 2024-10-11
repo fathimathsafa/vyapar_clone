@@ -255,6 +255,7 @@ final _controller = Get.put(PurchaseReturnController());
                                                           InputDecoration(
                                                         hintText: "₹",
                                                         hintStyle: TextStyle(
+                                                          fontSize: 14.sp,
                                                             color:
                                                                 Colors.black),
                                                         border:
