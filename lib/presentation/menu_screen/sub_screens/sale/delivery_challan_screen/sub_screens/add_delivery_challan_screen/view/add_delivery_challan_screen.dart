@@ -35,7 +35,7 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
   void initState() {
     super.initState();
     // Initialize the date controller with the current date formatted
-    _dateController = TextEditingController(  
+    _dateController = TextEditingController(
       text: DateFormat('dd/MM/yyyy').format(selectedDate), // Set initial date
     );
   }
@@ -129,14 +129,13 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
                   Container(
                     child: Column(
                       children: [
-                        Obx(
-                        () {
-                            return DateChallanWidget(invoiceNumber: "10120",
+                        Obx(() {
+                          return DateChallanWidget(
+                            invoiceNumber: "10120",
                             date: _controller.selectedDate.value,
-                                                  onTapeDate:() => _controller.selctedDate(context) ,
-                            );
-                          }
-                        ),
+                            onTapeDate: () => _controller.selctedDate(context),
+                          );
+                        }),
                         SizedBox(height: 10.h),
                         Container(
                           height: 230.h,
@@ -153,8 +152,7 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
                               TextField(
                                 controller: _dateController,
                                 style: interFontBlack(context,
-            color: Colorconst.cBlack,
-            fontsize: 17.sp),
+                                    color: Colorconst.cBlack, fontsize: 17.sp),
                                 decoration: InputDecoration(
                                   helperStyle:
                                       TextStyle(color: Colorconst.cBlack),
@@ -316,8 +314,8 @@ class _AddDeliveryChallanScreenState extends State<AddDeliveryChallanScreen> {
                                   child: Center(
                                     child: TextFormField(
                                       style: interFontBlack(context,
-            color: Colorconst.cBlack,
-            fontsize: 17.sp),
+                                          color: Colorconst.cBlack,
+                                          fontsize: 17.sp),
                                       decoration: const InputDecoration(
                                         labelText: 'Description',
                                         hintText: 'Add Note',

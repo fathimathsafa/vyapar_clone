@@ -46,6 +46,8 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/impor
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/message_screen/view/message_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
+import 'package:vyapar_clone/presentation/splash_screen/view/splash_screen.dart';
+import 'package:vyapar_clone/service/login_service.dart';
 
 import '../models/show_dialog.dart';
 import '../sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
@@ -64,6 +66,7 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthService _authService = AuthService();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -241,7 +244,10 @@ class MenuScreen extends StatelessWidget {
                 _showHelpSupportPopup(context);
               }),
               buildGridItem(Icons.star_border_outlined, 'Rate This App',
-                  () => _rateThisAppDialog())
+                  () => _rateThisAppDialog()),
+              buildGridItem(Icons.logout_outlined, 'Log Out', () async {
+                _authService.logout();
+              })
             ]),
           ],
         ),
