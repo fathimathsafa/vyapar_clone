@@ -86,6 +86,7 @@ Widget customTextFormFieldNew({ String? hintText,
    double? width,
    Widget? suffixIconWidget,
    Color? filledColor,
+   Color? borderColor,
     TextStyle? hintSytle,
    TextStyle? labelStyle,
    
@@ -112,16 +113,16 @@ Widget customTextFormFieldNew({ String? hintText,
               fontSize: 14.sp), 
               disabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  width: 1.w, color: Colorconst.cGrey), 
+                  width: 1.w, color:borderColor?? Colorconst.cGrey), 
               borderRadius:
                   BorderRadius.circular(5.r)),
           border: OutlineInputBorder(
               borderSide: BorderSide(
-                  width: 1.w, color: Colorconst.cGrey), 
+                  width: 1.w, color:borderColor?? Colorconst.cGrey), 
               borderRadius:
                   BorderRadius.circular(5.r)), 
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.w, color: Colors.blue),
+              borderSide: BorderSide(width: 1.w, color:borderColor?? Colors.blue),
               borderRadius: BorderRadius.circular(5.r)),
           // contentPadding: EdgeInsets.symmetric(
           //   vertical: 20.h, 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:vyapar_clone/core/snackbar/my_snackbar.dart';
 
 import '../base_url/base_url.dart';
 
@@ -20,12 +21,13 @@ class ApiServices {
     }
   }
 
-  Future<Response?> postRequest(
+  Future<Response?> postMultiPartData(
       {required String endUrl,
       required Map<String, dynamic> data,
       Map<String, String>? headers,
       List<File>? files,
       List<String>? fileParameters}) async {
+    printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data);
     try {
       FormData formData = FormData.fromMap(data);
 
@@ -46,13 +48,55 @@ class ApiServices {
       final response = await _dio.post(
         _baseUrls.apiBaseUrl() + endUrl,
         data: formData,
-        options: headers == null ? null : Options(headers: headers),
+        options: Options(
+            headers: headers ?? {'Content-Type': 'multipart/form-data'}),
       );
 
       return response;
     } on DioException catch (e) {
-     e;
+      print("Error==$e");
       return null;
     }
   }
+
+  Future<Response?> postJsonData({
+    required String endUrl,
+    required Map<String, dynamic> data,
+    Map<String, String>? headers,
+  }) async {
+    printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data);
+    try {
+      final response = await _dio.post(
+        _baseUrls.apiBaseUrl() + endUrl,
+        data: data,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response?.statusCode == 404) {
+          SnackBars.showErrorSnackBar(text: "You are not registered yet.");
+        } else {
+          SnackBars.showErrorSnackBar(
+            text: "Error ${e.response?.statusCode}: ${e.response?.data}",
+          );
+        }
+      } else {
+        SnackBars.showErrorSnackBar(text: "Something went wrong!");
+      }
+      return null;
+    }
+  }
+}
+
+void printApiInfo({url, payload}) {
+  print("api hitting----------------");
+  print("api url----------------$url");
+  print("api payload----------------$payload");
+  print("finished api call----------------");
 }

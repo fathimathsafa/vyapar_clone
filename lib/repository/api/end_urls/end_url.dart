@@ -1,6 +1,6 @@
 class EndUrl {
   
-  static const _registerEuRl='auth/register';
+  static const registerUrl='auth/register';
+  static const loginUrl='auth/login';
 
-  String regiterEUrl ()=> _registerEuRl;
 }
