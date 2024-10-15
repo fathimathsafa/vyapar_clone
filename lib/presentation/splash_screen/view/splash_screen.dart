@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/login__screen/sign_in_screen/sign_in_screen.dart';
-
 import '../controller/controller.dart';
 
 class SplashScreen extends StatelessWidget {
-   SplashScreen({super.key});
- final _controller = Get.put(SplashScreenController());
+  SplashScreen({super.key});
+
+  // Initialize the controller
+  final _controller = Get.put(SplashScreenController());
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Container(
         color: Colorconst.background1,
@@ -24,13 +27,14 @@ class SplashScreen extends StatelessWidget {
                 height: size.height * 0.53,
                 width: size.width,
                 decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40)),
-                    color: Colorconst.primaryC,
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/splash_screen_img.jpeg'),
-                        fit: BoxFit.cover)),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40)),
+                  color: Colorconst.primaryC,
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/splash_screen_img.jpeg'),
+                      fit: BoxFit.cover),
+                ),
               ),
             ),
             Positioned(
@@ -54,7 +58,7 @@ class SplashScreen extends StatelessWidget {
                       height: 20,
                     ),
                     const Text(
-                      "Discover your\nCompany's Status",
+                      "Find detailed insights into your business.",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colorconst.text2,
@@ -111,49 +115,49 @@ class SplashScreen extends StatelessWidget {
                               ),
                               const Spacer(),
                               Obx(
-                               () {
+                                () {
                                   return GestureDetector(
                                     onTap: () {
-                                   _controller.fontsize.value=   _controller.first.value?35 : 20;
+                                      _controller.fontsize.value =
+                                          _controller.first.value ? 35 : 20;
+                                      _controller.first.value =
+                                          !_controller.first.value;
 
-                                    _controller.first.value=! _controller.first.value;
-                                      // setState(() {
-                                      //   fontsize = first ? 35 : 20;
-                                      //   color =
-                                      //       first ? Colors.red : Colorconst.text1;
-                                      //   first = !first;
-                                      // });
                                       Future.delayed(
-                                        Duration(milliseconds: 1000),
+                                        const Duration(milliseconds: 1000),
                                       );
                                       Get.to(
                                         () => SignInScreen(),
                                         transition: Transition.circularReveal,
-                                        duration: Duration(seconds: 2),
+                                        duration: const Duration(seconds: 2),
                                       );
                                     },
                                     child: AnimatedDefaultTextStyle(
-                                      duration: Duration(seconds: 1),
+                                      duration: const Duration(seconds: 1),
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color:  _controller.first.value?Colors.red : Colorconst.text1),
+                                        fontWeight: FontWeight.bold,
+                                        color: _controller.first.value
+                                            ? Colors.red
+                                            : Colorconst.text1,
+                                        fontSize: _controller.fontsize.value,
+                                      ),
                                       child: const Text(
                                         'Sign In',
                                       ),
                                     ),
                                   );
-                                }
+                                },
                               ),
                               const Spacer(),
                             ],
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

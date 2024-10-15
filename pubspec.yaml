@@ -57,6 +57,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   flutter_contacts: ^1.1.9+2
   dio: ^5.7.0
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:

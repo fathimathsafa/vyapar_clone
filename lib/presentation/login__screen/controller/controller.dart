@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
 import 'package:vyapar_clone/presentation/splash_screen/controller/controller.dart';
 
-class SignInController extends GetxController{
-
-
+class SignInController extends GetxController {
   RxBool isFlat = true.obs;
   @override
   void onInit() {
@@ -12,7 +10,7 @@ class SignInController extends GetxController{
     deleteSplashMemory();
   }
 
-  void deleteSplashMemory(){
+  void deleteSplashMemory() {
     Get.delete<SplashScreenController>(tag: 'Splash memory deleted');
   }
 }
