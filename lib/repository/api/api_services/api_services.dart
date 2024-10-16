@@ -10,13 +10,20 @@ class ApiServices {
 
   final Dio _dio = Dio();
 
-  Future<Response?> getRequest({required String endurl}) async {
+  Future<Response?> getRequest({required String endurl,String? authToken}) async {
     try {
-      final response = await _dio.get(_baseUrls.apiBaseUrl() + endurl);
+      final options = Options(
+      headers: {
+        if (authToken != null) 'Authorization': 'Bearer $authToken',
+      },
+    );
+    printApiInfo(url: _baseUrls.apiBaseUrl() + endurl,payload: options.headers);
+      final response = await _dio.get(_baseUrls.apiBaseUrl() + endurl,options: options,);
 
       return response;
     } on DioException catch (e) {
       e;
+    
       return null;
     }
   }

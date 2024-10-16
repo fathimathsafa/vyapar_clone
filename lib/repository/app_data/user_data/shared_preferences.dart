@@ -30,6 +30,11 @@ class SharedPreLocalStorage {
     return CredentialModel(token: token??'', userId: userId??'', phoneNo: phone??'');
   }
 
+  static Future<String> getToken()async{
+      CredentialModel model = await getCredential();
+    return model.token.toString();
+  }
+
 
   static clear() async{
     await _preferences.clear();

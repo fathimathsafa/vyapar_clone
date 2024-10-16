@@ -8,6 +8,7 @@ import 'package:vyapar_clone/repository/api/end_urls/end_url.dart';
 
 import '../../../core/isResponseOk.dart';
 import '../../../repository/app_data/user_data/shared_preferences.dart';
+import '../../bottom_navigation_screen/view/bottom_navigation_screen.dart';
 
 class SignInController extends GetxController {
   final ApiServices _apiServices = ApiServices();
@@ -36,6 +37,7 @@ class SignInController extends GetxController {
               userId: response.data["data"]["user"]["id"],
               phoneNo: response.data["data"]["user"]["details"]["phoneNo"]);
           await SharedPreLocalStorage.setCredential(model);
+          Get.off(() => BottomNavigationScreen());
           SnackBars.showSuccessSnackBar(text: "You are logged in.");
 
           setLoadingValue(false);

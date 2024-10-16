@@ -125,6 +125,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colorconst.cSecondaryGrey,
+      
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(

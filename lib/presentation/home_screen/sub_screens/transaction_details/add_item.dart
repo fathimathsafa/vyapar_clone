@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 
 import 'package:vyapar_clone/core/common/widget/custom_dropdown.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/common/widget/verticle_divider.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
+import 'package:vyapar_clone/model/unit_model.dart';
 
 import 'controller/controller.dart';
 
@@ -14,38 +16,47 @@ import 'controller/controller.dart';
 // import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_sale.dart';
 
 class AddItemToSale extends StatelessWidget {
-   AddItemToSale({super.key});
+  AddItemToSale({super.key});
 
-
- final GlobalKey<FormState> addItemKey = GlobalKey<FormState>();
-  final List<int> units = List.generate(5, (index) => index + 1);
-
- 
+  final GlobalKey<FormState> addItemKey = GlobalKey<FormState>();
 
   final _controller = Get.put(TransactionDetailController());
 
   void showUnitsDialog(context) {
+    _controller.fetchUnitList();
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Unit'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: units.map((unit) {
-              return ListTile(
-                title: Text('$unit Unit(s)'),
-                onTap: () {
-                  _controller.selectedUnit.value = '$unit Unit(s)';
-                  // setState(() {
-                  //   selectedUnit = '$unit Unit(s)';
-                  // });
-                  // Navigator.pop(context);
-                  Get.back();
-                },
-              );
-            }).toList(),
+          title: Text(
+            'Unit',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.sp,
+            ),
           ),
+          content: Obx(() {
+            return isLoading.value == true
+                ? SizedBox(
+                    height: 60.h,
+                    width: 60.w,
+                    child: const Center(child: CircularProgressIndicator()))
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: _controller.unitList.map((unit) {
+                      UnitModel ob = unit;
+                      return ListTile(
+                        title: Text(ob.name.toString()),
+                        onTap: () {
+                          _controller.unitModel.value = ob;
+
+                          Get.back();
+                        },
+                      );
+                    }).toList(),
+                  );
+          }),
         );
       },
     );
@@ -62,7 +73,7 @@ class AddItemToSale extends StatelessWidget {
               ListTile(
                 title: const Text('With Tax'),
                 onTap: () {
-                  _controller.selectedTax.value ='With Tax';
+                  _controller.selectedTax.value = 'With Tax';
                   // setState(() {
                   //   selectedTax = 'With Tax';
                   // });
@@ -73,8 +84,8 @@ class AddItemToSale extends StatelessWidget {
               ListTile(
                 title: const Text('Without Tax'),
                 onTap: () {
-                   _controller.selectedTax.value ='Without Tax';
-                   Get.back();
+                  _controller.selectedTax.value = 'Without Tax';
+                  Get.back();
                   // setState(() {
                   //   selectedTax = 'Without Tax';
                   // });
@@ -103,7 +114,7 @@ class AddItemToSale extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back)),
         title: Text(
-          "Add Items to Delivery Challan",
+          "Add Items to Sale",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -129,6 +140,7 @@ class AddItemToSale extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: CustomTextFormField(
+                              controller: _controller.itemNameContr,
                               hintText: "e.g. Chocolate Cake",
                               labelText: "Item Name",
                             )),
@@ -141,7 +153,25 @@ class AddItemToSale extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: CustomTextFormField(
+                              controller: _controller.quantityContr,
                               keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                printInfo(info: "qantitty");
+                                if (_controller.quantityContr.text != '' &&
+                                    _controller.priceContr.text != '') {
+                                  _controller.calculateTotalAmount(
+                                      price: double.parse(
+                                          _controller.priceContr.text),
+                                      quantity: double.parse(
+                                          _controller.quantityContr.text),
+                                      discountPercentage: _controller
+                                                  .discountContr.text ==
+                                              ''
+                                          ? 0.0
+                                          : double.parse(
+                                              _controller.discountContr.text));
+                                }
+                              },
                               hintText: "Enter Quantity",
                               labelText: "Quantity",
                             )),
@@ -150,38 +180,40 @@ class AddItemToSale extends StatelessWidget {
                             ),
                             Expanded(
                               child: GestureDetector(
-                                onTap:()=> showUnitsDialog(context),
+                                onTap: () => showUnitsDialog(context),
                                 child: InputDecorator(
-                                  
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(left: 13.w,right: 10.w),
+                                    contentPadding: EdgeInsets.only(
+                                        left: 13.w, right: 10.w),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Obx(
-                                       () {
-                                          return Text(
-                                           _controller.selectedUnit.value,
-                                            style: TextStyle(
-                                              color: _controller.selectedUnit.value == 'Unit'
+                                      Obx(() {
+                                        return Text(
+                                          _controller.unitModel.value.name ==
+                                                  null
+                                              ? "Select Unit"
+                                              : _controller.unitModel.value.name
+                                                  .toString(),
+                                          style: TextStyle(
+                                              color: _controller.unitModel.value
+                                                          .name ==
+                                                      null
                                                   ? Colorconst.cGrey
                                                   : Colorconst.cBlack,
-                                                  fontSize: 16.sp
-                                            ),
-                                          );
-                                        }
-                                      ),
-                                     
+                                              fontSize: 16.sp),
+                                        );
+                                      }),
                                       Icon(
                                         Icons.arrow_drop_down,
                                         color: Colorconst.cGrey,
                                         size: 25.sp,
                                       ),
-                                      
                                     ],
                                   ),
                                 ),
@@ -196,6 +228,7 @@ class AddItemToSale extends StatelessWidget {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                controller: _controller.priceContr,
                                 keyboardType: TextInputType.number,
                                 style: interFontBlack(context,
                                     color: Colorconst.cBlack, fontsize: 16.sp),
@@ -206,7 +239,20 @@ class AddItemToSale extends StatelessWidget {
                                     labelStyle:
                                         TextStyle(color: Colorconst.cGrey)),
                                 onChanged: (value) {
-                                  _controller.isPriceEntered.value =value.isNotEmpty;
+                                  _controller.isPriceEntered.value =
+                                      value.isNotEmpty;
+                                  if (_controller.priceContr.text != '') {
+                                    _controller.calculateTotalAmount(
+                                        price: double.parse(
+                                            _controller.priceContr.text),
+                                        quantity: double.parse(
+                                            _controller.quantityContr.text),
+                                        discountPercentage:
+                                            _controller.discountContr.text == ''
+                                                ? 0.0
+                                                : double.parse(_controller
+                                                    .discountContr.text));
+                                  }
                                   // setState(() {
                                   //   isPriceEntered = value.isNotEmpty;
                                   // });
@@ -218,7 +264,7 @@ class AddItemToSale extends StatelessWidget {
                             ),
                             Expanded(
                               child: GestureDetector(
-                                onTap:()=> showTaxDialog(context),
+                                onTap: () => showTaxDialog(context),
                                 child: InputDecorator(
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -227,18 +273,18 @@ class AddItemToSale extends StatelessWidget {
                                   ),
                                   child: Row(
                                     children: [
-                                      Obx(
-                                         () {
-                                          return Text(
-                                            _controller.selectedTax.value,
-                                            style: TextStyle(
-                                              color: _controller.selectedTax.value == 'Select Tax'
-                                                  ? Colorconst.cGrey
-                                                  : Colorconst.cGrey,
-                                            ),
-                                          );
-                                        }
-                                      ),
+                                      Obx(() {
+                                        return Text(
+                                          _controller.selectedTax.value,
+                                          style: TextStyle(
+                                            color:
+                                                _controller.selectedTax.value ==
+                                                        'Select Tax'
+                                                    ? Colorconst.cGrey
+                                                    : Colorconst.cGrey,
+                                          ),
+                                        );
+                                      }),
                                       SizedBox(
                                         width: screenWidth * .1,
                                       ),
@@ -257,322 +303,403 @@ class AddItemToSale extends StatelessWidget {
                           height: screenHeight * .02,
                         ),
                         // if (_controller.isPriceEntered.value)
-                          Obx(
-                          () {
-                              return _controller.isPriceEntered.value? Container(
-                                color: Colors.white,
-                                width: double.infinity,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: screenWidth * .01),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: screenHeight * .01,
-                                      ),
-                                      Text(
-                                        "Totals & Taxes",
-                                        style: interFontBlack(context),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      const VerticleDivider(),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                              child: Row(
-                                            children: [
-                                              Text(
-                                                "Subtotal",
-                                                style: interFontBlack(context),
-                                              ),
-                                              SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                "(Rate x Qty)",
-                                                style: interFontBlack(context,
-                                                    color: Colorconst.cGrey),
-                                              ),
-                                            ],
-                                          )),
-                                          Text(
-                                            "₹            ",
-                                            style: interFontBlack(context,color: Colors.black,fontsize: 14.sp),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: screenHeight * .02,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width: screenWidth * .22,
-                                            child: Text(
-                                              'Discount',
-                                              style: interFontBlack(context),
-                                            ),
-                                          ),
-                                          Expanded(
-                                              child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Container(
-                                                  height: screenHeight *
-                                                      .055, // Adjust height for better appearance
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      width: 1,
-                                                      color:
-                                                          Colorconst.cYellowLight,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(5),
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(
-                                                          width: screenWidth * .02),
-                                                      Expanded(
-                                                        child: TextFormField(
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border:
-                                                                InputBorder.none,
-                                                            contentPadding:
-                                                                EdgeInsets.symmetric(
-                                                                    vertical:
-                                                                        5), // Adjust padding
-                                                          ),
-                                                          style: interFontBlack(
-                                                              context),
-                                                        ),
-                                                      ),
-                                                      Column(
-                                                        children: [
-                                                          Expanded(
-                                                            child: Container(
-                                                              width: 1,
-                                                              color: Colorconst
-                                                                  .cYellowLight,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Container(
-                                                        color: Colorconst
-                                                            .cSecondaryYellowLight,
-                                                        height: double.infinity,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.symmetric(
-                                                                  horizontal: 12),
-                                                          child: Icon(
-                                                            Icons.percent,
-                                                            color: Colorconst
-                                                                .cYellowLight,
-                                                            size: 13,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: screenWidth * .02,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  height: screenHeight * .055,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        width: 1,
-                                                        color: Colorconst.cGrey),
-                                                    borderRadius:
-                                                        BorderRadius.circular(5),
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        color: Colorconst
-                                                            .cSecondaryGrey,
-                                                        height: double.infinity,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.symmetric(
-                                                                  horizontal: 12),
-                                                          child: const SizedBox(),
-                                                        ),
-                                                      ),
-                                                      Column(
-                                                        children: [
-                                                          Expanded(
-                                                              child: Container(
-                                                            width: 1,
-                                                            color: Colorconst.cGrey,
-                                                          ))
-                                                        ],
-                                                      ),
-                                                      Expanded(
-                                                        child: Center(
-                                                          child: Text(
-                                                            "0.00",
-                                                            style: interFontBlack(
-                                                                context),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ))
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: screenHeight * .02,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 110,
-                                            child: Text(
-                                              'Tax %',
-                                              style: interFontBlack(context),
-                                            ),
-                                          ),
-                                          Expanded(
-                                              child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Container(
-                                                  height: screenHeight * .055,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        width: 1,
-                                                        color: Colorconst.cGrey),
-                                                    borderRadius:
-                                                        BorderRadius.circular(5),
-                                                  ),
-                                                  child: CustomDropdown(
-                                                    items: [],
-                                                    selectedValue: '',
-                                                    onChanged: (newValue) {},
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: screenWidth * .02,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  height: screenHeight * .055,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        width: 1,
-                                                        color: Colorconst.cGrey),
-                                                    borderRadius:
-                                                        BorderRadius.circular(5),
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        color: Colorconst
-                                                            .cSecondaryGrey,
-                                                        height: double.infinity,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.symmetric(
-                                                                  horizontal: 12),
-                                                          child: const SizedBox(),
-                                                        ),
-                                                      ),
-                                                      Column(
-                                                        children: [
-                                                          Expanded(
-                                                              child: Container(
-                                                            width: 1,
-                                                            color: Colorconst.cGrey,
-                                                          ))
-                                                        ],
-                                                      ),
-                                                      Expanded(
-                                                        child: Center(
-                                                          child: Text(
-                                                            "0.00",
-                                                            style: interFontBlack(
-                                                                context),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ))
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: screenHeight * .02,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "Total Amount",
-                                            style: interFontBlack(context),
-                                          ),
-                                          SizedBox(
-                                            width: screenWidth * .45,
-                                          ),
-                                          SizedBox(
-                                            width: screenWidth * 0.25,
-                                            child: Stack(
+                        Obx(() {
+                          return _controller.isPriceEntered.value
+                              ? Container(
+                                  color: Colors.white,
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: screenWidth * .01),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: screenHeight * .01,
+                                        ),
+                                        Text(
+                                          "Totals & Taxes",
+                                          style: interFontBlack(context),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        const VerticleDivider(),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                                child: Row(
                                               children: [
-                                                Positioned(
-                                                  left: 0,
-                                                  right: 0,
-                                                  bottom: screenHeight * 0.001,
-                                                  child: CustomPaint(
-                                                    painter: DottedLinePainter(),
-                                                  ),
+                                                Text(
+                                                  "Subtotal",
+                                                  style:
+                                                      interFontBlack(context),
                                                 ),
-                                                TextFormField(
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text(
+                                                  "(Rate x Qty)",
                                                   style: interFontBlack(context,
-                                                      color: Colorconst.cBlack,
-                                                      fontsize: 16.sp),
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                    hintText: "₹",
-                                                    border: InputBorder.none,
-                                                    contentPadding: EdgeInsets.only(
-                                                      left: screenWidth * 0.025,
-                                                    ),
-                                                  ),
+                                                      color: Colorconst.cGrey),
                                                 ),
                                               ],
+                                            )),
+                                            Text(
+                                              "₹ ${_controller.subTotalP.value}",
+                                              style: interFontBlack(context,
+                                                  color: Colors.black,
+                                                  fontsize: 14.sp),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: screenHeight * .02,
-                                      )
-                                    ],
+                                            SizedBox(
+                                              width: 10.w,
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: screenHeight * .02,
+                                        ),
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: screenWidth * .22,
+                                              child: Text(
+                                                'Discount',
+                                                style: interFontBlack(context),
+                                              ),
+                                            ),
+                                            Expanded(
+                                                child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    height: screenHeight *
+                                                        .055, // Adjust height for better appearance
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        width: 1,
+                                                        color: Colorconst
+                                                            .cYellowLight,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        SizedBox(
+                                                            width: screenWidth *
+                                                                .02),
+                                                        Expanded(
+                                                          child: TextFormField(
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            controller: _controller
+                                                                .discountContr,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  InputBorder
+                                                                      .none,
+                                                              contentPadding:
+                                                                  EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          5), // Adjust padding
+                                                            ),
+                                                            onChanged: (value) {
+                                                              if (_controller
+                                                                      .discountContr
+                                                                      .text !=
+                                                                  '') {
+                                                                _controller.calculateTotalAmount(
+                                                                    price: double.parse(
+                                                                        _controller
+                                                                            .priceContr
+                                                                            .text),
+                                                                    quantity: double.parse(
+                                                                        _controller
+                                                                            .quantityContr
+                                                                            .text),
+                                                                    discountPercentage: _controller.discountContr.text ==
+                                                                            ''
+                                                                        ? 0.0
+                                                                        : double.parse(_controller
+                                                                            .discountContr
+                                                                            .text));
+                                                              } else {
+                                                                _controller
+                                                                    .calculateTotalAmount(
+                                                                  price: double.parse(
+                                                                      _controller
+                                                                          .priceContr
+                                                                          .text),
+                                                                  quantity: double.parse(
+                                                                      _controller
+                                                                          .quantityContr
+                                                                          .text),
+                                                                );
+                                                              }
+                                                            },
+                                                            style:
+                                                                interFontBlack(
+                                                                    context),
+                                                          ),
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            Expanded(
+                                                              child: Container(
+                                                                width: 1,
+                                                                color: Colorconst
+                                                                    .cYellowLight,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          color: Colorconst
+                                                              .cSecondaryYellowLight,
+                                                          height:
+                                                              double.infinity,
+                                                          child: Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        12),
+                                                            child: Icon(
+                                                              Icons.percent,
+                                                              color: Colorconst
+                                                                  .cYellowLight,
+                                                              size: 13,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: screenWidth * .02,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    height: screenHeight * .055,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color:
+                                                              Colorconst.cGrey),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        Container(
+                                                          color: Colorconst
+                                                              .cSecondaryGrey,
+                                                          height:
+                                                              double.infinity,
+                                                          child: Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        12),
+                                                            child:
+                                                                const SizedBox(),
+                                                          ),
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            Expanded(
+                                                                child:
+                                                                    Container(
+                                                              width: 1,
+                                                              color: Colorconst
+                                                                  .cGrey,
+                                                            ))
+                                                          ],
+                                                        ),
+                                                        Expanded(
+                                                          child: Center(
+                                                            child: Text(
+                                                              _controller
+                                                                  .totalDiscount
+                                                                  .value
+                                                                  .toString(),
+                                                              style:
+                                                                  interFontBlack(
+                                                                      context),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ))
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: screenHeight * .02,
+                                        ),
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 110,
+                                              child: Text(
+                                                'Tax %',
+                                                style: interFontBlack(context),
+                                              ),
+                                            ),
+                                            Expanded(
+                                                child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    height: screenHeight * .055,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color:
+                                                              Colorconst.cGrey),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: CustomDropdown(
+                                                      items: [],
+                                                      selectedValue: '',
+                                                      onChanged: (newValue) {},
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: screenWidth * .02,
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    height: screenHeight * .055,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color:
+                                                              Colorconst.cGrey),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        Container(
+                                                          color: Colorconst
+                                                              .cSecondaryGrey,
+                                                          height:
+                                                              double.infinity,
+                                                          child: Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        12),
+                                                            child:
+                                                                const SizedBox(),
+                                                          ),
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            Expanded(
+                                                                child:
+                                                                    Container(
+                                                              width: 1,
+                                                              color: Colorconst
+                                                                  .cGrey,
+                                                            ))
+                                                          ],
+                                                        ),
+                                                        Expanded(
+                                                          child: Center(
+                                                            child: Text(
+                                                              "0.00",
+                                                              style:
+                                                                  interFontBlack(
+                                                                      context),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ))
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: screenHeight * .02,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Total Amount",
+                                              style: interFontBlack(context),
+                                            ),
+                                            SizedBox(
+                                              width: screenWidth * .45,
+                                            ),
+                                            SizedBox(
+                                              width: screenWidth * 0.25,
+                                              child: Stack(
+                                                children: [
+                                                  Positioned(
+                                                    left: 0,
+                                                    right: 0,
+                                                    bottom:
+                                                        screenHeight * 0.001,
+                                                    child: CustomPaint(
+                                                      painter:
+                                                          DottedLinePainter(),
+                                                    ),
+                                                  ),
+                                                  TextFormField(
+                                                    controller: _controller
+                                                        .totalAmountContr,
+                                                    style: interFontBlack(
+                                                        context,
+                                                        color:
+                                                            Colorconst.cBlack,
+                                                        fontsize: 16.sp),
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    decoration: InputDecoration(
+                                                      hintText: "₹",
+                                                      border: InputBorder.none,
+                                                      contentPadding:
+                                                          EdgeInsets.only(
+                                                        left:
+                                                            screenWidth * 0.025,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: screenHeight * .02,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ):const SizedBox();
-                            }
-                          )
+                                )
+                              : const SizedBox();
+                        })
                       ],
                     ),
                   )),
@@ -628,8 +755,8 @@ class AddItemToSale extends StatelessWidget {
       ),
     );
   }
-
 }
+
 class DottedLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
