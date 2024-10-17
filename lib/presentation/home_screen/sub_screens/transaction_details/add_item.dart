@@ -8,6 +8,8 @@ import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/common/widget/verticle_divider.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
+import 'package:vyapar_clone/core/snackbar/my_snackbar.dart';
+import 'package:vyapar_clone/model/item_model.dart';
 import 'package:vyapar_clone/model/unit_model.dart';
 
 import 'controller/controller.dart';
@@ -246,7 +248,7 @@ class AddItemToSale extends StatelessWidget {
                                         price: double.parse(
                                             _controller.priceContr.text),
                                         quantity: double.parse(
-                                            _controller.quantityContr.text),
+                                            _controller.quantityContr.text==''?"1.0":_controller.quantityContr.text),
                                         discountPercentage:
                                             _controller.discountContr.text == ''
                                                 ? 0.0
@@ -718,7 +720,20 @@ class AddItemToSale extends StatelessWidget {
                   children: [
                     Expanded(
                         child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+
+                        ItemModel obj = ItemModel(discount: _controller.totalDiscount.value.toString(),
+                        itemName: _controller.itemNameContr.text,price: _controller.priceContr.text,
+                        quantity: _controller.quantityContr.text,
+                        tax: "0.0",
+                        total: _controller.totalPrice.value.toString(),
+                        discountP: _controller.discountContr.text,
+                        subtotalP: _controller.subTotalP.value.toString()
+                        );
+                        _controller.addItem(item: obj);
+                        _controller.clearItemController();
+                        SnackBars.showSuccessSnackBar(text: "Add item to sale");
+                      },
                       child: Container(
                         color: Colors.white,
                         child: Padding(
@@ -733,7 +748,19 @@ class AddItemToSale extends StatelessWidget {
                     )),
                     Expanded(
                         child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+
+                        ItemModel obj = ItemModel(discount: _controller.totalDiscount.value.toString(),
+                        itemName: _controller.itemNameContr.text,price: _controller.priceContr.text,
+                        quantity: _controller.quantityContr.text,
+                        tax: "0.0",
+                        total: _controller.totalPrice.value.toString(),
+                        discountP: _controller.discountContr.text,
+                        subtotalP: _controller.subTotalP.value.toString()
+                        );
+                        _controller.addItem(item: obj);
+                        Get.back();
+                      },
                       child: Container(
                         color: Colorconst.cRed,
                         child: Padding(

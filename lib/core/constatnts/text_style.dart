@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Function to get responsive black text style
 TextStyle interFontBlack(BuildContext context, {double? fontsize, FontWeight? fontWeight, Color? color}) {
@@ -29,3 +30,26 @@ TextStyle interFontGrey(BuildContext context, {double? fontsize, FontWeight? fon
     fontWeight: fontWeight ?? FontWeight.w500,
   );
 }
+
+
+
+TextStyle interFontBlack1({double? fontsize,FontWeight? fontWeight,Color? color}){
+  return TextStyle(
+
+    fontSize: fontsize??20.sp,
+    color: color??Colors.black,
+    fontWeight:fontWeight?? FontWeight.w500
+  );
+}
+
+TextStyle interFontGrey1({double? fontsize,FontWeight? fontWeight,Color?color}){
+  return TextStyle(
+
+    fontSize: fontsize??20.sp,
+    color:color?? Colors.grey,
+    fontWeight:fontWeight?? FontWeight.w500
+  );
+}
+
+
+

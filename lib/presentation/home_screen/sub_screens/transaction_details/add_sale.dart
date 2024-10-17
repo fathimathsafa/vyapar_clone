@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:vyapar_clone/core/common/context_provider.dart';
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
@@ -7,22 +8,19 @@ import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
+import 'package:vyapar_clone/model/item_model.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_item.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../widget/item_card_widget.dart';
 import 'controller/controller.dart';
 
 class AddSaleInvoiceScreen extends StatelessWidget {
   AddSaleInvoiceScreen({super.key});
 
-  final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
-
-  final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
-
-  final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
   final _controller = Get.put(TransactionDetailController());
 
   void _showStateSelectionBottomSheet(context) {
@@ -125,7 +123,6 @@ class AddSaleInvoiceScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colorconst.cSecondaryGrey,
-      
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -181,13 +178,17 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                     children: [
                       Obx(() {
                         return DateInvoiceWidget(
-                          invoiceNumber: _controller.selectedInvoicNm.value,
+                          invoiceNumber:
+                              _controller.invoiceNo.value.invoiceNo == null
+                                  ? "1"
+                                  : _controller.invoiceNo.value.invoiceNo
+                                      .toString(),
                           ontapInvoice: () {
                             showDialogGlobal(
                               itemList: invoiceNumList,
                               onSelectItem: (value) {
                                 // printInfo(info: "value ==$value");
-                                _controller.selectedInvoicNm.value = value;
+                                // _controller.selectedInvoicNm.value = value;
                               },
                             );
                           },
@@ -217,26 +218,29 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  ValueListenableBuilder<double>(
-                    valueListenable: totalAmountNotifier,
-                    builder: (context, totalAmount, child) {
-                      if (totalAmount <= 0) return const SizedBox();
-
-                      return Column(
-                        children: [
-                          _buildReceivedAmountSection(totalAmount),
-                          SizedBox(height: screenHeight * 0.01),
-                          _buildBalanceDueSection(totalAmount),
-                          _buildZigzagSeparator(),
-                          SizedBox(height: screenHeight * 0.01),
-                          _buildPaymentSection(context),
-                          SizedBox(height: screenHeight * 0.01),
-                          _buildDescriptionAndPhotoSection(),
-                          _buildAddDocumentButton(),
-                        ],
-                      );
-                    },
-                  ),
+                  Obx(() {
+                    return _controller.grandSubTotal.value == 0.0
+                        ? const SizedBox()
+                        : Column(
+                            children: [
+                              _controller.selectedIndex.value == 0
+                                  ? Column(
+                                      children: [
+                                        _buildReceivedAmountSection(),
+                                        SizedBox(height: 12.h),
+                                        _buildBalanceDueSection(),
+                                      ],
+                                    )
+                                  : const SizedBox(),
+                              _buildZigzagSeparator(),
+                              SizedBox(height: 12.h),
+                              _buildPaymentSection(context),
+                              SizedBox(height: 12.h),
+                              _buildDescriptionAndPhotoSection(),
+                              _buildAddDocumentButton(),
+                            ],
+                          );
+                  }),
                 ],
               ),
             ),
@@ -255,7 +259,8 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Your Current Plan May not support some features",
-                    style: interFontGrey(context, fontsize: 12),
+                    style:
+                        GoogleFonts.inter(fontSize: 12.sp, color: Colors.grey),
                     // textAlign: TextAlign.center,
                   ),
                   Icon(
@@ -290,19 +295,33 @@ class AddSaleInvoiceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReceivedAmountSection(double totalAmount) {
+  Widget _buildReceivedAmountSection() {
     return Padding(
       padding: const EdgeInsets.only(left: 10), // Fixed padding
       child: GestureDetector(
         onTap: () {
-          isReceivedChecked.value = !isReceivedChecked.value;
-          receivedAmountNotifier.value =
-              isReceivedChecked.value ? totalAmount : 0.0;
-          if (isReceivedChecked.value) {
-            _controller.recivedAmountController.text = totalAmount.toString();
+          printInfo(info: "clicked");
+
+          _controller.isChecked.value = !_controller.isChecked.value;
+
+          if (_controller.isChecked.value) {
+            _controller.recivedAmountController.text =
+                _controller.grandSubTotal.value.toString();
+            _controller.balanceDue.value = _controller.grandSubTotal.value -
+                double.parse(_controller.recivedAmountController.text);
           } else {
-            _controller.recivedAmountController.text = "";
+            _controller.recivedAmountController.text = '0.0';
+            _controller.balanceDue.value =
+                double.parse(_controller.totalAmountContr.text);
           }
+          // isReceivedChecked.value = !isReceivedChecked.value;
+          // _controller.receivedAmountNotifier.value =
+          //     isReceivedChecked.value ? totalAmount : 0.0;
+          // if (_controller.isReceivedChecked.value) {
+          //   _controller.recivedAmountController.text = totalAmount.toString();
+          // } else {
+          //   _controller.recivedAmountController.text = "";
+          // }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -328,9 +347,19 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                       contentPadding:
                           EdgeInsets.only(left: 10), // Fixed padding
                     ),
-                    // onChanged: (value) {
-                    //   receivedAmountNotifier.value = double.tryParse(value) ?? 0.0;
-                    // },
+                    onChanged: (value) {
+                      //   receivedAmountNotifier.value = double.tryParse(value) ?? 0.0;
+                      if (_controller.isChecked.value) {
+                        _controller.balanceDue.value = double.parse(
+                                _controller.totalAmountContr.text == ''
+                                    ? '0.0'
+                                    : _controller.totalAmountContr.text) -
+                            double.parse(
+                                _controller.recivedAmountController.text == ""
+                                    ? "0.0"
+                                    : _controller.recivedAmountController.text);
+                      }
+                    },
                     style: TextStyle(
                         fontSize: 16.sp,
                         color: Colors.black), // Fixed font size
@@ -347,31 +376,26 @@ class AddSaleInvoiceScreen extends StatelessWidget {
   }
 
   Widget _buildCheckBoxWithLabel() {
-    return ValueListenableBuilder<bool>(
-      valueListenable: isReceivedChecked,
-      builder: (context, isChecked, child) {
-        return Row(
-          children: [
-            Container(
-              width: 18.w, // Fixed width
-              height: 18.w, // Fixed height
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 2.w),
-                borderRadius: BorderRadius.circular(2.r),
-                color: isChecked ? Colors.blue : Colors.transparent,
-              ),
-              child: isChecked
-                  ? Center(
-                      child:
-                          Icon(Icons.check, color: Colors.white, size: 15.sp))
-                  : null,
-            ),
-            const SizedBox(width: 8), // Fixed spacing
-            const Text("Received",
-                style: TextStyle(fontSize: 14, color: Colors.black)),
-          ],
-        );
-      },
+    return Row(
+      children: [
+        Container(
+          width: 18.w, // Fixed width
+          height: 18.w, // Fixed height
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.blue, width: 2.w),
+            borderRadius: BorderRadius.circular(2.r),
+            color:
+                _controller.isChecked.value ? Colors.blue : Colors.transparent,
+          ),
+          child: _controller.isChecked.value
+              ? Center(
+                  child: Icon(Icons.check, color: Colors.white, size: 15.sp))
+              : null,
+        ),
+        const SizedBox(width: 8), // Fixed spacing
+        const Text("Received",
+            style: TextStyle(fontSize: 14, color: Colors.black)),
+      ],
     );
   }
 
@@ -407,25 +431,20 @@ class AddSaleInvoiceScreen extends StatelessWidget {
   //   );
   // }
 
-  Widget _buildBalanceDueSection(double totalAmount) {
+  Widget _buildBalanceDueSection() {
     return Padding(
-      padding: EdgeInsets.only(left: 10.w, right: 10.w), // Fixed padding
-      child: ValueListenableBuilder<double>(
-        valueListenable: receivedAmountNotifier,
-        builder: (context, receivedAmount, child) {
-          double balanceDue = totalAmount - receivedAmount;
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Balance Due",
-                  style: TextStyle(color: Colors.green, fontSize: 14)),
-              Text("₹ ${balanceDue.toStringAsFixed(2)}",
-                  style: const TextStyle(color: Colors.green, fontSize: 14)),
-            ],
-          );
-        },
-      ),
-    );
+        padding: EdgeInsets.only(left: 10.w, right: 10.w), // Fixed padding
+        child:
+            // double balanceDue = totalAmount - receivedAmount;
+            Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Balance Due",
+                style: TextStyle(color: Colors.green, fontSize: 14)),
+            Text("₹ ${_controller.balanceDue.toStringAsFixed(2)}",
+                style: const TextStyle(color: Colors.green, fontSize: 14)),
+          ],
+        ));
   }
 
   Widget _buildZigzagSeparator() {
@@ -469,72 +488,72 @@ class AddSaleInvoiceScreen extends StatelessWidget {
   }
 
   Widget _buildDescriptionField() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      height: 120, // Fixed height for the description field
-      width: 250, // Fixed width
-      color: Colors.white,
-      child: TextFormField(
-        decoration: const InputDecoration(
-            labelText: 'Description',
-            hintText: 'Add Note',
-            border: OutlineInputBorder()),
-        maxLines: 3,
+    return Expanded(
+      flex: 2,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        color: Colors.white,
+        child: TextFormField(
+          decoration: const InputDecoration(
+              labelText: 'Description',
+              hintText: 'Add Note',
+              border: OutlineInputBorder()),
+          maxLines: 3,
+        ),
       ),
     );
   }
 
   Widget _buildAddPhotoContainer() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      height: 120, // Fixed height
-      width: 120, // Fixed width
-      color: Colors.white,
+    return Expanded(
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(color: Colors.grey)),
-        child: const Center(
-            child: Icon(Icons.add_a_photo, color: Colors.blue, size: 30)),
+        padding: const EdgeInsets.all(10),
+        height: 110.h,
+        color: Colors.white,
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(color: Colors.grey.shade700)),
+          child: const Center(
+              child: Icon(Icons.add_a_photo, color: Colors.blue, size: 30)),
+        ),
       ),
     );
   }
 
   Widget _buildAddDocumentButton() {
-    return Container(
-      height: 150, // Fixed height
-      color: Colors.white,
-      child: Center(
-        child: Container(
-          height: 120, // Fixed button height
-          width: 300, // Fixed button width
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-              border: Border.all(color: Colors.grey)),
-          child: OutlinedButton(
-            onPressed: () {
-              // Your onPressed logic
-            },
-            style: ButtonStyle(
-              side: WidgetStateProperty.all(
-                  const BorderSide(color: Colors.black, width: 2)),
-              shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8))),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.only(left: 50),
-              child: Row(
-                children: [
-                  Icon(Icons.document_scanner_outlined, color: Colors.grey),
-                  Text('Add Your Documents',
-                      style: TextStyle(color: Colors.grey)),
-                ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 110.h,
+              child: OutlinedButton(
+                onPressed: () {
+                  // Your onPressed logic
+                },
+                style: ButtonStyle(
+                  side: WidgetStateProperty.all(
+                      const BorderSide(color: Colors.black, width: 2)),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8))),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 50),
+                  child: Row(
+                    children: [
+                      Icon(Icons.document_scanner_outlined, color: Colors.grey),
+                      Text('Add Your Documents',
+                          style: TextStyle(color: Colors.grey)),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -546,12 +565,8 @@ class AddSaleInvoiceScreen extends StatelessWidget {
         Text(text, style: const TextStyle(color: Colors.grey)),
         InkWell(
           onTap: () {
-            showDialogGlobal(
-              itemList: ["Cash", "Online Online"],
-              onSelectItem: (p0) {
-                _controller.selectedPaymentType.value = p0;
-              },
-            );
+           showPaymentTypeBottom();
+            
           },
           child: Row(children: [
             Icon(icon, color: Colors.green),
@@ -599,17 +614,21 @@ class AddSaleInvoiceScreen extends StatelessWidget {
           ),
           TextFormField(
             keyboardType: TextInputType.number,
+            controller: _controller.totalAmountContr,
             decoration: InputDecoration(
               hintText: "₹",
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(left: 20.w),
             ),
             onChanged: (value) {
-              double parsedValue = double.tryParse(value) ?? 0.0;
-              totalAmountNotifier.value = parsedValue;
-              if (isReceivedChecked.value) {
-                receivedAmountNotifier.value = parsedValue;
-              }
+              _controller.grandSubTotal.value = double.tryParse(value) ?? 0.0;
+              _controller.balanceDue.value = _controller.grandSubTotal.value;
+              // double parsedValue = double.tryParse(value) ?? 0.0;
+              // totalAmountNotifier.value = parsedValue;
+              // if (isReceivedChecked.value) {
+              //   receivedAmountNotifier.value = parsedValue;
+
+              // }
             },
             style: TextStyle(fontSize: 15.sp, color: Colorconst.cBlack),
           ),
@@ -620,7 +639,6 @@ class AddSaleInvoiceScreen extends StatelessWidget {
 
   Widget _buildFormContainer(context) {
     return Container(
-      height: 240.h,
       color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Column(
@@ -644,7 +662,79 @@ class AddSaleInvoiceScreen extends StatelessWidget {
             hintText: "Enter Phone Number",
           ),
           SizedBox(height: 20.h),
+          Column(
+            children: List.generate(
+              _controller.itemList.length,
+              (index) {
+                ItemModel obj = _controller.itemList[index];
+                return ItemsCardWidget(
+                  discount: obj.discount,
+                  itemName: obj.itemName,
+                  itemNum: (index + 1).toString(),
+                  price: obj.price,
+                  quantity: obj.quantity,
+                  tax: obj.tax,
+                  total: obj.total,
+                  discountP: obj.discountP,
+                  subtotal: obj.subtotalP,
+                );
+              },
+            ),
+          ),
+          _controller.itemList.length.toInt() == 0
+              ? const SizedBox()
+              : Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Tatal Disc: ${_controller.grandDiscount}",
+                            style: interFontBlack1(
+                              fontsize: 11.sp,
+                              color: Colors.black45,
+                            ),
+                          ),
+                          Text(
+                            "Total Tax Amt: ${_controller.grandTax}",
+                            style: interFontBlack1(
+                                fontsize: 11.sp, color: Colors.black45),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Tatal Qty: ${_controller.grandQty}",
+                            style: interFontBlack1(
+                              fontsize: 11.sp,
+                              color: Colors.black45,
+                            ),
+                          ),
+                          Text(
+                            "Subtotal: ${_controller.grandSubTotal}",
+                            style: interFontBlack1(
+                                fontsize: 11.sp, color: Colors.black45),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+          SizedBox(
+            height: 20.h,
+          ),
           AddItemButton(onTap: () {
+            _controller.clearItemController();
             // Navigator.push(
             //   context,
             //   MaterialPageRoute(builder: (context) => AddItemToSale()),

@@ -18,11 +18,12 @@ class ApiServices {
       },
     );
     printApiInfo(url: _baseUrls.apiBaseUrl() + endurl,payload: options.headers);
+    
       final response = await _dio.get(_baseUrls.apiBaseUrl() + endurl,options: options,);
 
       return response;
     } on DioException catch (e) {
-      e;
+      SnackBars.showErrorSnackBar(text: e.toString());
     
       return null;
     }

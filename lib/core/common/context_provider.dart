@@ -4,7 +4,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+
+import '../constatnts/colors.dart';
 
 class ContextProvider {
   Future<String?> _chooseDate(context) async {
@@ -155,6 +158,173 @@ showDialogGlobal(
     ),
   ));
 }
+showPaymentTypeBottom(
+    {Function()?onClickCash,Function()?onClickCheque,Function()?onClickAddBank,Function()?onClickClose}) {
+  
+  Get.bottomSheet(SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(13.r),
+                            topRight: Radius.circular(13.r))),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.h, horizontal: 12.w),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Payment Type",
+                                style: GoogleFonts.inter(
+                                    fontSize: 18.sp,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              InkWell(
+                                onTap: onClickClose,
+                                child: Icon(
+                                  Icons.close_outlined,
+                                  size: 23.sp,
+                                  color: Colors.grey,
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Divider(
+                            color: Colorconst.cSecondaryGrey,
+                            height: 1.w,
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          InkWell(
+                            onTap: onClickCash,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.money_outlined,
+                                        size: 23.sp,
+                                        color: Colors.green,
+                                      ),
+                                      SizedBox(
+                                        width: 12.w,
+                                      ),
+                                      Text(
+                                        "Cash",
+                                        style: GoogleFonts.inter(
+                                            fontSize: 14.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Divider(
+                            color: Colorconst.cSecondaryGrey,
+                            height: 1.w,
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          InkWell(
+                            onTap: onClickCheque,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.edit_document,
+                                        size: 23.sp,
+                                        color: Colors.amberAccent,
+                                      ),
+                                      SizedBox(
+                                        width: 12.w,
+                                      ),
+                                      Text(
+                                        "Cheque",
+                                        style: GoogleFonts.inter(
+                                            fontSize: 14.sp,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Divider(
+                            color: Colorconst.cSecondaryGrey,
+                            height: 1.w,
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          InkWell(
+                            onTap: onClickAddBank,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.add,
+                                        size: 23.sp,
+                                        color: Colors.blue,
+                                      ),
+                                      SizedBox(
+                                        width: 12.w,
+                                      ),
+                                      Text(
+                                        "Add Bank A/c",
+                                        style: GoogleFonts.inter(
+                                            fontSize: 14.sp,
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ));
+}
+
+
+
 
 class FileDetails {
   String? fileName;
