@@ -36,6 +36,8 @@ class TransactionDetailController extends GetxController {
   final priceContr = TextEditingController();
   final discountContr = TextEditingController();
   final totalAmountContr = TextEditingController();
+  
+  final referenceNoContr = TextEditingController();
 
   RxDouble subTotalP = 0.0.obs;
   RxDouble totalPrice = 0.0.obs;
@@ -163,4 +165,8 @@ class TransactionDetailController extends GetxController {
 
   RxDouble balanceDue = 0.0.obs;
 
+void setPaymentType(value){
+  selectedPaymentType.value=value;
+  Get.back();
+}
 }

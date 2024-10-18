@@ -14,6 +14,7 @@ import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/create/sub_create/pro_forma_invoice/sub_pro_forma_invoice/adde_bank/view/add_bank.dart';
 
 import '../../widget/item_card_widget.dart';
 import 'controller/controller.dart';
@@ -463,7 +464,9 @@ class AddSaleInvoiceScreen extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          _buildRowWithIcon("Payment Type", Icons.money, "Cash"),
+          _buildRowWithIcon("Payment Type", Icons.money,_controller.selectedPaymentType.value),
+          const SizedBox(height: 10),
+         _controller.selectedPaymentType.value =='Cheque'? _checkReferenceWidget():const SizedBox(),
           const SizedBox(height: 10),
           const Row(children: [
             Icon(Icons.add, color: Colors.blue),
@@ -565,7 +568,9 @@ class AddSaleInvoiceScreen extends StatelessWidget {
         Text(text, style: const TextStyle(color: Colors.grey)),
         InkWell(
           onTap: () {
-           showPaymentTypeBottom();
+           showPaymentTypeBottom( 
+            onClickClose: () => Get.back(),
+            onClickCash: () => _controller.setPaymentType("Cash"),onClickCheque: () => _controller.setPaymentType("Cheque"),onClickAddBank: () => Get.to( ()=>AddBankScreen()));
             
           },
           child: Row(children: [
@@ -597,6 +602,47 @@ class AddSaleInvoiceScreen extends StatelessWidget {
         Row(children: [Text(trailingText), const Icon(Icons.arrow_drop_down)]),
       ],
     );
+  }
+
+  Widget _checkReferenceWidget(){
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+
+      Text("Payment Ref No.",style: GoogleFonts.inter(fontSize: 13.sp,color: Colors.black45,fontWeight: FontWeight.w400),),
+          SizedBox(
+      width: 120.w,
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 10.h,
+            child: CustomPaint(
+              painter: DottedLinePainter(),
+            ),
+          ),
+          TextFormField(
+            keyboardType: TextInputType.number,
+            controller: _controller.referenceNoContr,
+            decoration: InputDecoration(
+              hintStyle: TextStyle(fontSize: 12.sp,color: Colors.black45),
+              hintText: "Referenc No.",
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(left: 20.w),
+            ),
+            
+            onChanged: (value) {
+             
+            
+            },
+            style: TextStyle(fontSize: 14.sp, color: Colorconst.cBlack),
+          ),
+        ],
+      ),
+    )
+    ],);
   }
 
   Widget _buildAmountInputField() {
