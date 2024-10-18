@@ -1,204 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20details/sub_PartyDetail/add_party/controller/controller.dart';
 
-
-import '../../../../../../../core/constatnts/colors.dart';
-import '../../../../../../../core/constatnts/text_style.dart';
-import '../controller/controller.dart';
-
-// ignore: must_be_immutable, use_key_in_widget_constructors
 class AddNewPartyPage extends StatelessWidget {
- 
-
-
-
-  // Create a GlobalKey for the Scaffold to control its drawer
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _controller = Get.put(AddPartyController());
 
-final _controller = Get.put(AddPartyController());
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController gstInController = TextEditingController();
+  final TextEditingController gstTypeController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController billingAddressController =
+      TextEditingController();
+  final TextEditingController shippingAddressController =
+      TextEditingController();
+  final TextEditingController openingBalanceController =
+      TextEditingController();
+  final TextEditingController balanceTypeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey, // Assign the GlobalKey to the Scaffold
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
-          "Add New Party",
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text("Add New Party", style: TextStyle(color: Colors.black)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Get.back(),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings, color: Colors.black),
-            onPressed: () {
-              // Use the GlobalKey to open the end drawer
-              _scaffoldKey.currentState?.openEndDrawer();
-            },
-          )
-        ],
-      ),
-      endDrawer: Drawer(
-        elevation: 16.0,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            // Party Settings Section
-            ListTile(
-              title: Text(
-                'Party Settings',
-                style: TextStyle(color: Colors.black, fontSize: 24),
-              ),
-            ),
-            ListTile(
-              title: Text(
-                "GSTIN Number",
-                style: TextStyle(color: Colors.black),
-              ),
-              trailing: Obx(
-                 () {
-                  return Switch(
-                    value:_controller.gstinToggle.value,
-                    onChanged: (bool value) {
-                      _controller.gstinToggle.value= value;
-                      // setState(() {
-                      //   gstinToggle = value;
-                      // });
-                    },
-                  );
-                }
-              ),
-            ),
-            ListTile(
-              title: Text(
-                "Party Shipping Address",
-                style: TextStyle(color: Colors.black),
-              ),
-              trailing: Obx(
-               () {
-                  return Switch(
-                    value: _controller.partyShipToggle.value,
-                    onChanged: (bool value) {
-                    
-                        _controller.partyShipToggle.value= value;
-                   
-                    },
-                  );
-                }
-              ),
-            ),
-            Divider(),
-
-            // Others Section
-            ListTile(
-              title: Text(
-                'OTHERS',
-                style: TextStyle(color: Colors.grey, fontSize: 14),
-              ),
-            ),
-            ListTile(
-              title: Text(
-                "Party Grouping",
-                style: TextStyle(color: Colors.black),
-              ),
-              trailing: Obx(
-                () {
-                  return Switch(
-                    value:_controller.partyGroupingToggle.value,
-                    onChanged: (bool value) {
-                      _controller.partyGroupingToggle.value= value;
-                      // setState(() {
-                      //   partyGroupingToggle = value;
-                      // });
-                    },
-                  );
-                }
-              ),
-            ),
-
-            // Expansion Tile for Party Additional Fields
-            Obx(
-               () {
-                return ExpansionTile(
-                  title: Text(
-                    "Party Additional Fields",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  trailing: Icon(_controller.isExpanded.value
-                      ? Icons.arrow_drop_up
-                      : Icons
-                          .arrow_drop_down), // Change icon based on expanded state
-                  onExpansionChanged: (bool expanded) {
-                    _controller.isExpanded.value= expanded;
-                    // setState(() {
-                    //   isExpanded = expanded; // Update expanded state
-                    // });
-                  },
-                  children: [
-                    Column(
-                      children:_controller.additionalFields.keys.map((String key) {
-                        return CheckboxListTile(
-                          title: Text(key),
-                          value: _controller.additionalFields[key],
-                          onChanged: (bool? value) {
-                            _controller.additionalFields[key] = value??false;
-                            // setState(() {
-                            //   additionalFields[key] = value ?? false;
-                            // });
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    // Save Button
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SizedBox(
-                        width: double.infinity, // Make button take full width
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero),
-                            backgroundColor: Colors.blue, // Blue background
-                          ),
-                          onPressed: () {
-                            // Handle save logic here
-                          },
-                          child: Text(
-                            "Save",
-                            style: TextStyle(color: Colors.white), // White text
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              }
-            ),
-
-            ListTile(
-              title: Text(
-                "Invite parties to add\nthemselves",
-                style: TextStyle(color: Colors.black),
-              ),
-              trailing: Obx(
-              () {
-                  return Switch(
-                    value:_controller.inviteToggle.value,
-                    onChanged: (bool value) {
-                      _controller.inviteToggle.value=value;
-                      // setState(() {
-                      //   inviteToggle = value;
-                      // });
-                    },
-                  );
-                }
-              ),
-            ),
-          ],
         ),
       ),
       body: Padding(
@@ -206,7 +38,6 @@ final _controller = Get.put(AddPartyController());
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Invite Parties Banner
             Card(
               color: Colors.pink[50],
               child: ListTile(
@@ -227,80 +58,141 @@ final _controller = Get.put(AddPartyController());
               ),
             ),
             SizedBox(height: 20),
-
-            // Party Name Input
             Text("Party Name*", style: TextStyle(fontSize: 16)),
             SizedBox(height: 8),
             TextFormField(
-             style: interFontBlack(context,
-            color: Colorconst.cBlack,
-            fontsize: 17.sp),
+              controller: nameController,
+              onChanged: (value) {
+                _controller.isPartyNameFilled.value = value.isNotEmpty;
+              },
+              style: TextStyle(fontSize: 17, color: Colors.black),
               decoration: InputDecoration(
                 hintText: "e.g. Ram Prasad",
-                helperStyle: TextStyle(color: Colors.black),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
             ),
-            SizedBox(height: 8),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                "Add party through contacts",
-                style: TextStyle(color: Colors.blue),
-              ),
-            ),
-            SizedBox(height: 20),
-
-            // GSTIN Input
-            Text("GSTIN", style: TextStyle(fontSize: 16, color: Colors.black)),
-            SizedBox(height: 8),
-            TextFormField(
-              style: interFontBlack(context,
-            color: Colorconst.cBlack,
-            fontsize: 17.sp),
-              initialValue: "1",
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
-            Spacer(),
-
-            // Buttons at the bottom
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.grey[300], // Button color
+            Obx(() {
+              if (_controller.isPartyNameFilled.value) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20),
+                    Text("GSTIN", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    TextFormField(
+                      controller: gstInController,
+                      style: TextStyle(fontSize: 17, color: Colors.black),
+                      decoration: InputDecoration(
+                        hintText: "e.g. 22AAABC1234D1Z2",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
                     ),
-                    child: Text("Save & New",
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.grey, // Button color
+                    SizedBox(height: 20),
+                    Text("Contact Number", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    TextFormField(
+                      controller: phoneController,
+                      style: TextStyle(fontSize: 17, color: Colors.black),
+                      decoration: InputDecoration(
+                        hintText: "e.g. +91 9876543210",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
                     ),
-                    child: Text("Save Party",
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-              ],
-            ),
+                    SizedBox(height: 20),
+                    Text("Opening Balance", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    TextFormField(
+                      controller: openingBalanceController,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(fontSize: 17, color: Colors.black),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text("Balance Type", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    TextFormField(
+                      controller: balanceTypeController,
+                      style: TextStyle(fontSize: 17, color: Colors.black),
+                      decoration: InputDecoration(
+                        hintText: "e.g. toPay or toReceive",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text("Date", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    TextFormField(
+                      onTap: () async {
+                        DateTime? selectedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
+                        if (selectedDate != null) {
+                          _controller.selectedDate.value =
+                              selectedDate.toString();
+                        }
+                      },
+                      readOnly: true,
+                      controller: TextEditingController(
+                        text: _controller.selectedDate.value.isNotEmpty
+                            ? _controller.selectedDate.value
+                            : "Select Date",
+                      ),
+                      style: TextStyle(fontSize: 17, color: Colors.black),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _controller.addNewParty(
+                                name: nameController.text,
+                                gstIn: gstInController.text,
+                                gstType: gstTypeController.text,
+                                email: emailController.text,
+                                phone: phoneController.text,
+                                state: stateController.text,
+                                billingAddress: billingAddressController.text,
+                                shippingAddress: shippingAddressController.text,
+                                openingBalance:
+                                    double.parse(openingBalanceController.text),
+                                asOfDate: _controller.selectedDate.value,
+                                balanceType: balanceTypeController.text,
+                              );
+                            },
+                            child: Text("Save Party"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }
+              return SizedBox.shrink();
+            }),
           ],
         ),
       ),
     );
   }
 }
-

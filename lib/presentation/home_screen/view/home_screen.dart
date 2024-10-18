@@ -6,8 +6,7 @@ import 'package:vyapar_clone/presentation/home_screen/controller/home_screen_con
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/sale_list.dart';
 import 'package:vyapar_clone/repository/app_data/database/db.dart';
 
-
-import '../sub_screens/party details/view/party_details.dart';
+import '../sub_screens/party details/view/party_list.dart';
 import '../widget/header.dart';
 import '../widget/header_buttons.dart';
 
@@ -21,8 +20,8 @@ class HomeScreen extends StatelessWidget {
     //   int index = _controller.screenIndex.value;
     //   if (index == 0) {
     //     return SaleListScreen();
-    //   } 
-      
+    //   }
+
     //  else {
     //     return Center(child: Text("No Widget found"));
     //   }
@@ -47,47 +46,39 @@ class HomeScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: Obx(
-                         () {
-                            return Row(
-                              children: [
-                                HeaderButtons(
-                                  index: 0,
-                                  selectedIndex: _controller.tabIndex.value,
-                                  onSingleTap: () => _controller.settabIndexValue(0),
-                                ),
-                                SizedBox(
-                                  width: 16.w,
-                                ),
-                                HeaderButtons(
-                                  butnTxt: "Party Details",
-                                  index: 1,
-                                  selectedIndex:  _controller.tabIndex.value,
-                                  onSingleTap: ()=> _controller.settabIndexValue(1),
-                                )
-                              ],
-                            );
-                          }
-                        ),
+                        child: Obx(() {
+                          return Row(
+                            children: [
+                              HeaderButtons(
+                                index: 0,
+                                selectedIndex: _controller.tabIndex.value,
+                                onSingleTap: () =>
+                                    _controller.settabIndexValue(0),
+                              ),
+                              SizedBox(
+                                width: 16.w,
+                              ),
+                              HeaderButtons(
+                                butnTxt: "Party Details",
+                                index: 1,
+                                selectedIndex: _controller.tabIndex.value,
+                                onSingleTap: () =>
+                                    _controller.settabIndexValue(1),
+                              )
+                            ],
+                          );
+                        }),
                       ),
-
-                     
                       SizedBox(
                         height: 15.h,
                       )
                     ],
                   ),
                 ),
-                 Expanded(
+                Expanded(
                     child: TabBarView(
-                      
                   controller: _controller.tabController,
-                  children: [
-                SaleListScreen(),
-                PartyDetails()
-                  
-                  
-                  ],
+                  children: [SaleListScreen(), PartyList()],
                 ))
               ],
             ),

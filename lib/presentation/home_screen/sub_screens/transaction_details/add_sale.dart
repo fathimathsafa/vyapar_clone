@@ -15,10 +15,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'controller/controller.dart';
 
-
-
 class AddSaleInvoiceScreen extends StatelessWidget {
-   AddSaleInvoiceScreen({super.key});
+  AddSaleInvoiceScreen({super.key});
 
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
 
@@ -26,7 +24,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
 
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
   final _controller = Get.put(TransactionDetailController());
- 
+
   void _showStateSelectionBottomSheet(context) {
     showModalBottomSheet(
       context: context,
@@ -59,7 +57,8 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                       return ListTile(
                         title: Text(states[index]),
                         onTap: () {
-                          _controller.selectedState!.value = states[index].toString();
+                          _controller.selectedState!.value =
+                              states[index].toString();
 
                           Get.back();
                           // setState(() {
@@ -81,7 +80,6 @@ class AddSaleInvoiceScreen extends StatelessWidget {
     );
   }
 
-  
   final List<String> states = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -133,33 +131,31 @@ class AddSaleInvoiceScreen extends StatelessWidget {
           style: TextStyle(color: Colorconst.cBlack),
         ),
         actions: [
-          Obx(
-            () {
-              return ToggleSwitch(
-                minHeight: 28.h,
-                minWidth: 58.w,
-                cornerRadius: 20.r,
-                activeBgColors: [
-                  [Colors.green[800]!],
-                  [Colors.red[800]!]
-                ],
-                activeFgColor: Colors.white,
-                inactiveBgColor: Colors.grey,
-                inactiveFgColor: Colors.white,
-                initialLabelIndex: _controller.selectedIndex.value,
-                totalSwitches: 2,
-                labels: const ['Credit', 'Cash'],
-                radiusStyle: true,
-                onToggle: (index) {
-                  _controller.selectedIndex.value= index!;
-                  // setState(() {
-                  //   selectedIndex = index!; // Update the selected index
-                  // });
-                  // print('switched to: $index');
-                },
-              );
-            }
-          ),
+          Obx(() {
+            return ToggleSwitch(
+              minHeight: 28.h,
+              minWidth: 58.w,
+              cornerRadius: 20.r,
+              activeBgColors: [
+                [Colors.green[800]!],
+                [Colors.red[800]!]
+              ],
+              activeFgColor: Colors.white,
+              inactiveBgColor: Colors.grey,
+              inactiveFgColor: Colors.white,
+              initialLabelIndex: _controller.selectedIndex.value,
+              totalSwitches: 2,
+              labels: const ['Credit', 'Cash'],
+              radiusStyle: true,
+              onToggle: (index) {
+                _controller.selectedIndex.value = index!;
+                // setState(() {
+                //   selectedIndex = index!; // Update the selected index
+                // });
+                // print('switched to: $index');
+              },
+            );
+          }),
           SizedBox(width: 10.w),
           IconButton(
               onPressed: () {}, icon: const Icon(Icons.settings_outlined)),
@@ -176,23 +172,20 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                   Container(
                     child: Column(
                       children: [
-                        Obx(
-                       () {
-                            return DateInvoiceWidget(
-                              invoiceNumber: "10120",
-                              onTapDate: () async {
-                                String? date =
-                                    await ContextProvider().selectDate(context);
-                                if (date == null) {
-                                } else {
-                                  _controller.selectedSaleDate.value = date;
-                                }
-                               
-                              },
-                              date: _controller.selectedSaleDate.value,
-                            );
-                          }
-                        ),
+                        Obx(() {
+                          return DateInvoiceWidget(
+                            invoiceNumber: "10120",
+                            onTapDate: () async {
+                              String? date =
+                                  await ContextProvider().selectDate(context);
+                              if (date == null) {
+                              } else {
+                                _controller.selectedSaleDate.value = date;
+                              }
+                            },
+                            date: _controller.selectedSaleDate.value,
+                          );
+                        }),
                         SizedBox(height: 10.h),
                         _buildFormContainer(context),
                       ],
@@ -410,7 +403,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
           ]),
           const Divider(),
           GestureDetector(
-              onTap:()=> _showStateSelectionBottomSheet(context),
+              onTap: () => _showStateSelectionBottomSheet(context),
               child: _buildRowWithText("State of Supply", "Select State")),
         ],
       ),
@@ -563,16 +556,17 @@ class AddSaleInvoiceScreen extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 20.h),
-          Obx(
-             () {
-              return _buildCustomTextFormField(
-                labelText: _controller.selectedIndex.value == 0 ? "Customer *" : "Billing Name *",
-                hintText:
-                    _controller.selectedIndex.value == 0 ? "Enter Customer" : "Enter Billing Name",
-                keyboardType: TextInputType.emailAddress,
-              );
-            }
-          ),
+          Obx(() {
+            return _buildCustomTextFormField(
+              labelText: _controller.selectedIndex.value == 0
+                  ? "Customer *"
+                  : "Billing Name *",
+              hintText: _controller.selectedIndex.value == 0
+                  ? "Enter Customer"
+                  : "Enter Billing Name",
+              keyboardType: TextInputType.emailAddress,
+            );
+          }),
           SizedBox(height: 25.h),
           _buildCustomTextFormField(
             keyboardType: TextInputType.number,
@@ -585,7 +579,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
             //   context,
             //   MaterialPageRoute(builder: (context) => AddItemToSale()),
             // );
-            Get.to(()=>AddItemToSale());
+            Get.to(() => AddItemToSale());
           }),
         ],
       ),
@@ -624,4 +618,3 @@ class DottedLinePainter extends CustomPainter {
     return false;
   }
 }
-
