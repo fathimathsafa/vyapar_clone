@@ -175,7 +175,7 @@ class ItemsCardWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                       tax?? "0",
+                       tax !=null? double.parse(tax.toString()).toStringAsFixed(2): "0.00",
                         style: interFontBlack1(
                             fontsize: 11.sp, color: Colors.black45),
                       ),

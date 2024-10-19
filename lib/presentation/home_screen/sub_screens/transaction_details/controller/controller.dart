@@ -1,5 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/context_provider.dart';
+import 'package:vyapar_clone/core/models/credential_model.dart';
+import 'package:vyapar_clone/model/state_model.dart';
+import 'package:vyapar_clone/model/tax_model.dart';
 
 import 'package:vyapar_clone/model/unit_model.dart';
 import 'package:vyapar_clone/repository/api/end_urls/end_url.dart';
@@ -13,21 +20,27 @@ import '../../../../../repository/api/api_services/api_services.dart';
 import '../../../../../repository/app_data/user_data/shared_preferences.dart';
 
 class TransactionDetailController extends GetxController {
+  final ContextProvider _contextProvider = ContextProvider();
   final ApiServices _apiServices = ApiServices();
 
   RxString selectedSaleDate = "9/20/2024".obs;
   RxString selectedPaymentType = "Cash".obs;
 
-  RxString? selectedState = "Select".obs;
+  var selectedState = StateModel().obs;
+  var selectedTax = TaxModel(taxType: "None",rate: '0.0').obs;
+
+  RxString isTaxOrNo = 'Without Tax'.obs;
   RxInt selectedIndex = 0.obs;
+  RxString selectedSaleType = 'Credit'.obs;
   var unitModel = UnitModel().obs;
   var invoiceNo = InvoiceNoModel().obs;
   RxList itemList = <ItemModel>[].obs;
+
   //addItem
 
   // RxString selectedUnit = 'Unit'.obs;
 
-  RxString selectedTax = 'Without Tax'.obs;
+  // RxString selectedTax = 'Without Tax'.obs;
   RxBool isPriceEntered = false.obs;
    ValueNotifier<RxDouble> receivedAmountNotifier = ValueNotifier(0.0.obs);
   final TextEditingController recivedAmountController = TextEditingController();
@@ -38,17 +51,31 @@ class TransactionDetailController extends GetxController {
   final totalAmountContr = TextEditingController();
   
   final referenceNoContr = TextEditingController();
+  final descriptionContr = TextEditingController();
+  final customerTxtCont = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
   RxDouble subTotalP = 0.0.obs;
   RxDouble totalPrice = 0.0.obs;
   RxDouble totalDiscount = 0.0.obs;
+  RxDouble totalTaxes = 0.0.obs;
 
   RxList unitList = <UnitModel>[].obs;
+  RxList stateList = <StateModel>[].obs;
+  RxList taxList = <TaxModel>[].obs;
   @override
   void onInit() {
     super.onInit();
-    // fetchUnitList();
     fetchInvoicNo();
+    fetchUnitList();
+  }
+
+  void setSaleFormType(index){
+    if(index==0){
+      selectedSaleType.value = 'Credit';
+    }else{
+      selectedSaleType.value = 'Cash';
+    }
   }
 
   RxDouble grandSubTotal = 0.0.obs;
@@ -62,6 +89,10 @@ class TransactionDetailController extends GetxController {
     itemList.add(item);
     _calculateGrandTotal();
   }
+   List<File?> fileList =[null,null];
+   List<String?> fileNames =[null, null];
+   RxString documentName =''.obs;
+   RxString imgPath =''.obs;
 
   RxBool isChecked = false.obs;
 
@@ -97,7 +128,7 @@ class TransactionDetailController extends GetxController {
     double discountPercentage = 0.0,
     double taxPercentage = 0.0,
   }) {
-    printInfo(info: "is this called");
+    printInfo(info: "discountPrecentage==${discountPercentage}");
 
     double baseAmount = quantity * price;
     subTotalP.value = baseAmount;
@@ -107,6 +138,7 @@ class TransactionDetailController extends GetxController {
 
     double taxableAmount = baseAmount - discountAmount;
     double taxAmount = (taxPercentage / 100) * taxableAmount;
+    totalTaxes.value = taxAmount;
 
     double totalAmount = taxableAmount + taxAmount;
 
@@ -127,7 +159,9 @@ class TransactionDetailController extends GetxController {
 
         List<UnitModel> units = List<UnitModel>.from(
             jsonResponse.map((x) => UnitModel.fromJson(x)));
-
+         if(units.length.toInt()!=0){
+          unitModel.value = units[0];
+         }
         unitList.assignAll(units);
 
         setLoadingValue(false);
@@ -151,6 +185,50 @@ class TransactionDetailController extends GetxController {
       }
     }
   }
+  void fetchStates() async {
+     setLoadingValue(true);
+    var response = await _apiServices.getRequest(
+        endurl: EndUrl.statesUrl,
+        authToken: await SharedPreLocalStorage.getToken());
+ if (response != null) {
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        var jsonResponse = response.data['data'];
+
+        List<StateModel> list = List<StateModel>.from(
+            jsonResponse.map((x) => StateModel.fromJson(x)));
+
+        stateList.assignAll(list);
+
+        setLoadingValue(false);
+      }
+      setLoadingValue(false);
+      
+    }
+    setLoadingValue(false);
+   
+  }
+  void fetchTax() async {
+     setLoadingValue(true);
+    var response = await _apiServices.getRequest(
+        endurl: EndUrl.taxUrl,
+        authToken: await SharedPreLocalStorage.getToken());
+ if (response != null) {
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        var jsonResponse = response.data['data'];
+
+        List<TaxModel> list = List<TaxModel>.from(
+            jsonResponse.map((x) => TaxModel.fromJson(x)));
+
+        taxList.assignAll(list);
+
+        setLoadingValue(false);
+      }
+      setLoadingValue(false);
+      
+    }
+    setLoadingValue(false);
+   
+  }
 
   void clearItemController(){
     itemNameContr.text = '';
@@ -169,4 +247,107 @@ void setPaymentType(value){
   selectedPaymentType.value=value;
   Get.back();
 }
+
+void chooseImage()async{
+  
+ FileDetails? fileDetail=await _contextProvider.selectFile(allowedExtensions: ['jpg',
+    'jpeg',
+    'png',]);
+  if(fileDetail != null){
+
+  fileList[0]=File(fileDetail.filePath.toString());
+  fileNames[0]=fileDetail.fileName;
+  imgPath.value=fileDetail.filePath.toString();
+
+  }
+}
+void chooseDocument()async{
+  
+ FileDetails? fileDetail=await _contextProvider.selectFile(allowedExtensions: [ 'pdf',    // PDF files
+  'doc',   
+  'docx',   
+  'xls',     
+  'xlsx',   
+  'ppt',    
+  'pptx',]);
+  if(fileDetail != null){
+  
+  fileList[1]=File(fileDetail.filePath.toString());
+  fileNames[1]=fileDetail.fileName;
+  documentName.value=fileDetail.fileName.toString();
+  
+
+  }
+}
+
+void addSale()async{
+
+   CredentialModel credentialModel = await SharedPreLocalStorage.getCredential();
+
+    List<Map<String, dynamic>> items = [];
+  for(int i=0; i<itemList.length;i++){
+    ItemModel item = itemList[i];
+    Map<String, dynamic> object ={
+       "name": item.itemName,
+      "quantity": item.quantity,
+      "unit": item.unit,
+      "price": item.price,
+      "discountPercent": item.discountP,
+      "taxPercent": item.taxPercent,
+      "finalAmount": item.total
+    };
+     items.add(object);
+
+  }
+
+  Map<String, dynamic> data ={
+    'invoiceNo':invoiceNo.value.invoiceNo.toString(),
+    'invoiceType':selectedSaleType.value.toString(),
+    'invoiceDate':selectedSaleDate.value.toString(),
+
+    'partyName':credentialModel.userId.toString(),
+    'billingName':customerTxtCont.text,
+    'stateOfSupply':selectedState.value.id.toString(),
+    'phoneNo':phoneNumberController.text,
+    'billingAddress':'',
+    'description':descriptionContr.text,
+    'paymentMethod':selectedPaymentType.value,
+    'bankName':'',
+    'referenceNo':referenceNoContr.text,
+    'items':jsonEncode(items),
+    'roundOff':'00',
+    'totalAmount':grandSubTotal.value.toStringAsFixed(2),
+    'receivedAmount':double.parse(recivedAmountController.text).toStringAsFixed(2),
+    'balanceAmount':grandSubTotal.value.toStringAsFixed(2),
+    'source':'Direct',
+    'grossTotal':grandSubTotal.value.toStringAsFixed(2),
+
+
+  };
+  List<String> parameters=["files","files"];
+  var response = await _apiServices.postMultiPartData(
+    data: data,
+    fileParameters: parameters,
+    files: fileList,
+        endUrl: EndUrl.invoiceUrl,
+        authToken: await SharedPreLocalStorage.getToken());
+
+
+        if (response != null) {
+        printInfo(info: "response to save invoice==$response");
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+       
+
+        setLoadingValue(false);
+      }
+      setLoadingValue(false);
+      
+    }
+    setLoadingValue(false);
+
+}
+
+
+
+
 }

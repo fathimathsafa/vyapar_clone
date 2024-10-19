@@ -45,7 +45,7 @@ class ContextProvider {
     return _dateTimeNow();
   }
 
-  Future<FileDetails?> _selectFile({List<String>? allowedExtensions}) async {
+  Future<FileDetails?> _selectFile(allowedExtensions) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: false,
@@ -81,8 +81,8 @@ class ContextProvider {
     }
   }
 
-  Future<FileDetails?> selectFile() async {
-    return await _selectFile();
+  Future<FileDetails?> selectFile({List<String>? allowedExtensions}) async {
+    return await _selectFile(allowedExtensions);
   }
 }
 

@@ -32,37 +32,48 @@ class ApiServices {
   Future<Response?> postMultiPartData(
       {required String endUrl,
       required Map<String, dynamic> data,
-      Map<String, String>? headers,
-      List<File>? files,
-      List<String>? fileParameters}) async {
+      String? authToken,
+      List<File?>? files,
+      List<String?>? fileParameters}) async {
+
+        
     printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data);
     try {
+
+      final options = Options(
+      headers: {
+        if (authToken != null) 'Authorization': 'Bearer $authToken',
+      },
+    );
       FormData formData = FormData.fromMap(data);
 
       if (fileParameters != null &&
           files != null &&
           fileParameters.length.toInt() != 0) {
         for (int i = 0; i < fileParameters.length; i++) {
-          String fileName = files[i].path.split('/').last;
+          if(files[i] !=null && fileParameters[i] !=null){
+          String fileName = files[i]!.path.split('/').last;
           formData.files.add(
             MapEntry(
-              fileParameters[i],
-              await MultipartFile.fromFile(files[i].path, filename: fileName),
+              fileParameters[i]!,
+              await MultipartFile.fromFile(files[i]!.path, filename: fileName),
             ),
           );
+
+          }
         }
       }
 
       final response = await _dio.post(
         _baseUrls.apiBaseUrl() + endUrl,
         data: formData,
-        options: Options(
-            headers: headers ?? {'Content-Type': 'multipart/form-data'}),
+        options:options,
       );
 
       return response;
     } on DioException catch (e) {
-      print("Error==$e");
+      print("error==${e}");
+      SnackBars.showErrorSnackBar(text: e.toString());
       return null;
     }
   }

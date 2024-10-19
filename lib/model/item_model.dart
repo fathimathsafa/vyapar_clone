@@ -10,6 +10,8 @@ class ItemModel {
     String? discount;
     String? subtotalP;
     String? discountP;
+    String? unit;
+    String? taxPercent;
 
-    ItemModel({this.subtotalP,this.discountP, this.itemName,this.itemNum,this.price,this.quantity,this.total,this.tax,this.discount});
+    ItemModel({this.taxPercent, this.unit, this.subtotalP,this.discountP, this.itemName,this.itemNum,this.price,this.quantity,this.total,this.tax,this.discount});
 }

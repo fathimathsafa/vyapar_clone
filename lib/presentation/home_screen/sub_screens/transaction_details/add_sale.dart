@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:vyapar_clone/core/common/context_provider.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 import 'package:vyapar_clone/model/item_model.dart';
+import 'package:vyapar_clone/model/state_model.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_item.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
@@ -25,6 +29,10 @@ class AddSaleInvoiceScreen extends StatelessWidget {
   final _controller = Get.put(TransactionDetailController());
 
   void _showStateSelectionBottomSheet(context) {
+   if(_controller.stateList.length.toInt()==0){
+     _controller.fetchStates();}
+
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -43,33 +51,42 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                   trailing: IconButton(
                     icon: Icon(Icons.close),
                     onPressed: () {
-                      Navigator.pop(context); // Close the bottom sheet
+                     Get.back();
                     },
                   ),
                 ),
                 const Divider(),
-                Expanded(
-                  child: ListView.builder(
-                    controller: controller,
-                    itemCount: states.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(states[index]),
-                        onTap: () {
-                          _controller.selectedState!.value =
-                              states[index].toString();
-
-                          Get.back();
-                          // setState(() {
-                          //   selectedState =
-                          //       states[index]; // Update selected state
-                          // });
-                          // Navigator.pop(
-                          //     context); // Close the bottom sheet after selecting
+                Obx(
+                  () {
+                    return Expanded(
+                      child:isLoading.value==true?Center(child: SizedBox(
+                        height: 80.w,
+                        width: 80.w,
+                        child:const CircularProgressIndicator()),):_controller.stateList.length.toInt()==0?Center(child: Text("No Data Found",style: TextStyle(fontSize: 20.sp,color: Colors.black),)): ListView.builder(
+                        controller: controller,
+                        itemCount: _controller.stateList.length,
+                        itemBuilder: (context, index) {
+                          StateModel obj = _controller.stateList[index];
+                          return ListTile(
+                            title: Text(obj.name.toString()),
+                            onTap: () {
+                              // _controller.selectedState!.value =
+                                  // states[index].toString();
+                                  _controller.selectedState.value = obj;
+                    
+                              Get.back();
+                              // setState(() {
+                              //   selectedState =
+                              //       states[index]; // Update selected state
+                              // });
+                              // Navigator.pop(
+                              //     context); // Close the bottom sheet after selecting
+                            },
+                          );
                         },
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  }
                 ),
               ],
             );
@@ -155,6 +172,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
               radiusStyle: true,
               onToggle: (index) {
                 _controller.selectedIndex.value = index!;
+               _controller.setSaleFormType(index);
                 // setState(() {
                 //   selectedIndex = index!; // Update the selected index
                 // });
@@ -278,7 +296,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
             bottom: 0,
             left: 0,
             right: 0,
-            child: BottomButton(),
+            child: BottomButton(onClickSave: () => _controller.addSale(),),
           ),
         ],
       ),
@@ -475,7 +493,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
           const Divider(),
           GestureDetector(
               onTap: () => _showStateSelectionBottomSheet(context),
-              child: _buildRowWithText("State of Supply", "Select State")),
+              child: _buildRowWithText("State of Supply", _controller.selectedState.value.name?? "Select State")),
         ],
       ),
     );
@@ -497,6 +515,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         color: Colors.white,
         child: TextFormField(
+          controller: _controller.descriptionContr,
           decoration: const InputDecoration(
               labelText: 'Description',
               hintText: 'Add Note',
@@ -513,13 +532,18 @@ class AddSaleInvoiceScreen extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         height: 110.h,
         color: Colors.white,
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(color: Colors.grey.shade700)),
-          child: const Center(
-              child: Icon(Icons.add_a_photo, color: Colors.blue, size: 30)),
+        child: InkWell(
+          onTap: () => _controller.chooseImage(),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+                border: Border.all(color: Colors.grey.shade700)),
+            child:
+            _controller.imgPath.value !=''?ClipRRect(child: Image.file(File(_controller.imgPath.value),fit: BoxFit.cover,)):
+             const Center(
+                child: Icon(Icons.add_a_photo, color: Colors.blue, size: 30)),
+          ),
         ),
       ),
     );
@@ -535,7 +559,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
               height: 110.h,
               child: OutlinedButton(
                 onPressed: () {
-                  // Your onPressed logic
+                  _controller.chooseDocument();
                 },
                 style: ButtonStyle(
                   side: WidgetStateProperty.all(
@@ -543,13 +567,14 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8))),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.only(left: 50),
+                child:  Padding(
+                  padding: EdgeInsets.only(left: 50.w),
                   child: Row(
                     children: [
                       Icon(Icons.document_scanner_outlined, color: Colors.grey),
-                      Text('Add Your Documents',
-                          style: TextStyle(color: Colors.grey)),
+                     Text(_controller.documentName.value != ''? _controller.documentName.value:'Add Your Documents',
+                              style: TextStyle(color: Colors.grey))
+                       
                     ],
                   ),
                 ),
@@ -599,7 +624,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(text, style: const TextStyle(color: Colors.grey)),
-        Row(children: [Text(trailingText), const Icon(Icons.arrow_drop_down)]),
+        Row(children: [Text(trailingText,style: TextStyle(color: Colors.black,fontSize: 13.sp),), const Icon(Icons.arrow_drop_down)]),
       ],
     );
   }
@@ -744,7 +769,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Total Tax Amt: ${_controller.grandTax}",
+                            "Total Tax Amt: ${_controller.grandTax.toStringAsFixed(2)}",
                             style: interFontBlack1(
                                 fontsize: 11.sp, color: Colors.black45),
                           ),
@@ -795,11 +820,15 @@ class AddSaleInvoiceScreen extends StatelessWidget {
   Widget _buildCustomTextFormField(
       {required String labelText,
       required String hintText,
-      required TextInputType keyboardType}) {
+      required TextInputType keyboardType,
+    final  TextEditingController? controller
+      
+      }) {
     return CustomTextFormField(
+      controller: controller,
       labelText: labelText,
       hintText: hintText,
-      keyboardType: keyboardType ?? TextInputType.text,
+      keyboardType: keyboardType ,
     );
   }
 }
