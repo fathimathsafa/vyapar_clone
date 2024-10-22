@@ -5,12 +5,13 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 
 class DateExpenseInvoiceWidget extends StatelessWidget {
-  DateExpenseInvoiceWidget({super.key, this.invoiceNumber, this.date,this.titleOne,this.titleTwo,this.onTapDate});
+  DateExpenseInvoiceWidget({super.key, this.invoiceNumber, this.date,this.titleOne,this.titleTwo,this.onTapDate,this.onTapBillNo});
   final String? invoiceNumber;
   final String? date;
   final String? titleOne;
   final String? titleTwo;
   final Function()? onTapDate;
+  final Function()? onTapBillNo;
 
   @override
   Widget build(BuildContext context) {
@@ -27,37 +28,40 @@ class DateExpenseInvoiceWidget extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                     titleOne?? "Invoce No.",
-                      style: interFontBlack(context, color: Colorconst.cGrey,fontsize: 15.sp),
-                    ),
-                    SizedBox(
-                      height: screenHeight * .0009,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          invoiceNumber ?? "",
-                          style:
-                              interFontBlack(context, color: Colorconst.cBlack,fontsize: 15.sp),
-                        ),
-                        SizedBox(
-                          width: screenWidth * .009,
-                        ),
-                        Transform.rotate(
-                            angle: -1.55,
-                            child: Icon(
-                              Icons.arrow_back_ios_new_outlined,
-                              size: 13.sp,
-                              color: Colors.black45,
-                            )),
-                      ],
-                    ),
-                  ],
-                )),
+                    child: InkWell(
+                       onTap: onTapBillNo,
+                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                      Text(
+                       titleOne?? "Invoce No.",
+                        style: interFontBlack(context, color: Colorconst.cGrey,fontsize: 15.sp),
+                      ),
+                      SizedBox(
+                        height: screenHeight * .0009,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            invoiceNumber ?? "",
+                            style:
+                                interFontBlack(context, color: Colorconst.cBlack,fontsize: 15.sp),
+                          ),
+                          SizedBox(
+                            width: screenWidth * .009,
+                          ),
+                          Transform.rotate(
+                              angle: -1.55,
+                              child: Icon(
+                                Icons.arrow_back_ios_new_outlined,
+                                size: 13.sp,
+                                color: Colors.black45,
+                              )),
+                        ],
+                      ),
+                                        ],
+                                      ),
+                    )),
                 Container(
                   height: screenHeight * .04,
                   width: 1,

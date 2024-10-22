@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/presentation/bottom_navigation_screen/view/bottom_navigation_screen.dart';
+import 'package:vyapar_clone/repository/app_data/user_data/shared_preferences.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  await SharedPreLocalStorage.init();
 }
 
 class MyApp extends StatelessWidget {

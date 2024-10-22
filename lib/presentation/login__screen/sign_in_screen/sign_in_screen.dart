@@ -1,29 +1,30 @@
-import 'dart:developer';
+
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
-import 'package:vyapar_clone/model/login_model.dart';
-import 'package:vyapar_clone/presentation/bottom_navigation_screen/view/bottom_navigation_screen.dart';
+import 'package:vyapar_clone/core/snackbar/my_snackbar.dart';
+
 import 'package:vyapar_clone/presentation/login__screen/controller/controller.dart';
-import 'package:vyapar_clone/service/login_service.dart';
+
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
   final _controller = Get.put(SignInController());
-  final AuthService _authService =
-      AuthService(); // AuthService instance for login
+
   final TextEditingController phoneNoController =
-      TextEditingController(); // Controller for input
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration:const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             colors: [
@@ -64,7 +65,9 @@ class SignInScreen extends StatelessWidget {
               ),
               SizedBox(height: size.height * 0.04),
               // Input field for phone number
-              MyTextField('Enter Your Mobile Number', Colors.white),
+              MyTextField(
+                
+                'Enter Your Mobile Number', Colors.white),
               SizedBox(height: size.height * 0.04),
               FadeInUp(
                 from: 200,
@@ -86,45 +89,41 @@ class SignInScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     // Sign-in button with login functionality
-                    GestureDetector(
-                      onTap: () async {
-                        String phoneNo = phoneNoController.text.trim();
-                        try {
-                          // Perform login via AuthService
-                          LoginResponse loginResponse =
-                              await _authService.login(phoneNo);
-                          if (loginResponse.status == 200) {
-                            log('Navigating to the main screen...');
-                            Get.to(() => BottomNavigationScreen());
-                          } else {
-                            Get.snackbar('Error',
-                                'Login failed: ${loginResponse.message}');
-                          }
-                        } catch (e) {
-                          Get.snackbar('Error', 'Failed to log in: $e');
-                        }
-                      },
-                      child: FadeInUp(
-                        from: 200,
-                        child: Container(
-                          width: size.width,
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            color: Colorconst.buttonC,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Sign In',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 22,
+                    Obx(
+                       () {
+                        return isLoading.value == true?const CircularProgressIndicator(): GestureDetector(
+                          onTap: ()  {
+                            String phoneNo = phoneNoController.text.trim();
+                            if(phoneNo.length.toInt()>=10){
+                           _controller.login(number: phoneNo);
+
+                            }else{
+                              SnackBars.showErrorSnackBar(text: "Invalid Phone Number.");
+                            }
+                          },
+                          child: FadeInUp(
+                            from: 200,
+                            child: Container(
+                              width: size.width,
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              decoration: BoxDecoration(
+                                color: Colorconst.buttonC,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Sign In',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      }
                     ),
                     SizedBox(height: size.height * 0.06),
                     // Other UI elements...
@@ -231,6 +230,7 @@ class SignInScreen extends StatelessWidget {
             shadowColor: Colors.black,
             duration: Duration(microseconds: 300),
             child: TextField(
+              style: TextStyle(fontSize: 18.sp,color: Colors.black87),
               controller:
                   phoneNoController, // Using the phone number controller
               obscureText:

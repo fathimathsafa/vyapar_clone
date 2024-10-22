@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/core/constatnts/text_style.dart';
+import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20details/sub_PartyDetail/add_party/view/add_party.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20details/sub_PartyDetail/edit_party/edit_party.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
+
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/party/view/party.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/reminder/sub_reminder/view/payment_reminder.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/all_party_reports/view/all_party_reports.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/party_report_by_item_screen/view/party_report_by_items.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/payment_in_screen/sub_screen/view/payment_in_screen.dart';
 
-class PartyDetailsScreen extends StatelessWidget {
-  final List<String> transactionTypes = [
-    'Sale',
-    'Sale Order',
-    'Credit Note',
-    'Purchase',
-    'Purchase Note',
-    'Debit Note',
-  ];
+import '../sub_PartyDetail/import_party/view/import_party_new.dart';
 
-  final List<bool> _selectedFilters = List.generate(
-      6, (index) => false); // Initially all filters are unselected
+class PartyDetails extends StatelessWidget {
+  const PartyDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -272,17 +275,17 @@ class PartyDetailsScreen extends StatelessWidget {
                         color: Colors.black),
                   ),
                   SizedBox(height: 16.h),
-                  ...List.generate(transactionTypes.length, (index) {
-                    return CheckboxListTile(
-                      title: Text(transactionTypes[index]),
-                      value: _selectedFilters[index],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedFilters[index] = value!;
-                        });
-                      },
-                    );
-                  }),
+                  // ...List.generate(transactionTypes.length, (index) {
+                  //   return CheckboxListTile(
+                  //     title: Text(transactionTypes[index]),
+                  //     value: _selectedFilters[index],
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         _selectedFilters[index] = value!;
+                  //       });
+                  //     },
+                  //   );
+                  // }),
                   SizedBox(height: 16.h),
                   ElevatedButton(
                     onPressed: () {

@@ -15,6 +15,7 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
+            
             ElevatedButton(
               onPressed: () {
                 // Navigate to the sign-in screen

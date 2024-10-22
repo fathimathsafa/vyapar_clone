@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/context_provider.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 
@@ -58,7 +59,12 @@ final _controller = Get.put(AddPaymentController());
                         Obx(
                          () {
                             return DateExpenseInvoiceWidget(
-                              invoiceNumber: "10120",
+                              onTapBillNo: () {
+                                showDialogGlobal(onSelectItem: (p0) {
+                                  _controller.returnNo.value=p0;
+                                },);
+                              },
+                              invoiceNumber: _controller.returnNo.value,
                               titleOne: "Return No.",
                               titleTwo: "Date",
                                date: _controller.selectedDate.value,

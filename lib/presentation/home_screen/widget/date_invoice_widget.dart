@@ -5,12 +5,13 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 
 class DateInvoiceWidget extends StatelessWidget {
-  DateInvoiceWidget({super.key, this.invoiceNumber, this.date,this.titleOne,this.titleTwo,this.onTapDate});
+  DateInvoiceWidget({super.key,this.ontapInvoice, this.invoiceNumber, this.date,this.titleOne,this.titleTwo,this.onTapDate});
   final String? invoiceNumber;
   final String? date;
   final String? titleOne;
   final String? titleTwo;
   final Function()? onTapDate;
+  final Function()? ontapInvoice;
 
   @override
   Widget build(BuildContext context) {
@@ -27,37 +28,40 @@ class DateInvoiceWidget extends StatelessWidget {
             child: Row(
               children: [
                 Flexible(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                     titleOne?? "Invoce No.",
-                      style: interFontBlack(context, color: Colorconst.cGrey),
-                    ),
-                    SizedBox(
-                      height: screenHeight * .0009,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          invoiceNumber ?? "",
-                          style:
-                              interFontBlack(context, color: Colorconst.cBlack),
-                        ),
-                        SizedBox(
-                          width: screenWidth * .009,
-                        ),
-                        Transform.rotate(
-                            angle: -1.55,
-                            child: Icon(
-                              Icons.arrow_back_ios_new_outlined,
-                              size: 12.sp,
-                              color: Colors.black45,
-                            )),
-                      ],
-                    ),
-                  ],
-                )),
+                    child: GestureDetector(
+                      onTap:  ontapInvoice,
+                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                      Text(
+                       titleOne?? "Invoce No.",
+                        style: interFontBlack(context, color: Colorconst.cGrey),
+                      ),
+                      SizedBox(
+                        height: screenHeight * .0009,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            invoiceNumber ?? "",
+                            style:
+                                interFontBlack(context, color: Colorconst.cBlack),
+                          ),
+                          SizedBox(
+                            width: screenWidth * .009,
+                          ),
+                          Transform.rotate(
+                              angle: -1.55,
+                              child: Icon(
+                                Icons.arrow_back_ios_new_outlined,
+                                size: 12.sp,
+                                color: Colors.black45,
+                              )),
+                        ],
+                      ),
+                                        ],
+                                      ),
+                    )),
                 Container(
                   height: screenHeight * .04,
                   width: 1,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/context_provider.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 import 'package:vyapar_clone/core/common/widget/custom_add_item_button.dart';
@@ -139,7 +140,12 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                         Obx(
                         () {
                             return DateExpenseInvoiceWidget(
-                              invoiceNumber: "10120",
+                              invoiceNumber: _controller.selectBillNo.value,
+                              onTapBillNo: () {
+                                showDialogGlobal(onSelectItem: (p0) {
+                                  _controller.selectBillNo.value = p0;
+                                },);
+                              },
                               titleOne: "Bill No.",
                               titleTwo: "Date",
                                date: _controller.selectedDate.value,

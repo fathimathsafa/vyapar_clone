@@ -72,7 +72,7 @@ class _PartyListState extends State<PartyList> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PartyDetailsScreen(),
+            builder: (context) => PartyDetails(),
           ),
         );
       },

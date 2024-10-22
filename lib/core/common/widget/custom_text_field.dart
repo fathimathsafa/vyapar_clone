@@ -19,12 +19,13 @@ class CustomTextFormField extends StatelessWidget {
     this.labelStyle,
     this.height, // Height for customization
     this.width,
-    Function? onChanged, // Width for customization
+    this.onChanged, // Width for customization
   });
   final String? hintText;
   final String? labelText;
   final bool? isFiled;
   final bool? isEditable;
+  final Function(String)? onChanged;
   final TextInputType? keyboardType;
   final double? height;
   final double? width;
@@ -41,6 +42,7 @@ class CustomTextFormField extends StatelessWidget {
       height: height ?? 50.h, // Use ScreenUtil to make height responsive
       width: width ?? double.infinity, // Full width by default
       child: TextFormField(
+        onChanged: onChanged,
         controller: controller,
         keyboardType: keyboardType,
         style: interFontBlack(context,
@@ -86,6 +88,7 @@ Widget customTextFormFieldNew({ String? hintText,
    double? width,
    Widget? suffixIconWidget,
    Color? filledColor,
+   Color? borderColor,
     TextStyle? hintSytle,
    TextStyle? labelStyle,
    
@@ -112,16 +115,16 @@ Widget customTextFormFieldNew({ String? hintText,
               fontSize: 14.sp), 
               disabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  width: 1.w, color: Colorconst.cGrey), 
+                  width: 1.w, color:borderColor?? Colorconst.cGrey), 
               borderRadius:
                   BorderRadius.circular(5.r)),
           border: OutlineInputBorder(
               borderSide: BorderSide(
-                  width: 1.w, color: Colorconst.cGrey), 
+                  width: 1.w, color:borderColor?? Colorconst.cGrey), 
               borderRadius:
                   BorderRadius.circular(5.r)), 
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.w, color: Colors.blue),
+              borderSide: BorderSide(width: 1.w, color:borderColor?? Colors.blue),
               borderRadius: BorderRadius.circular(5.r)),
           // contentPadding: EdgeInsets.symmetric(
           //   vertical: 20.h, 

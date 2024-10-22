@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 
 import 'package:vyapar_clone/core/common/widget/custom_dropdown.dart';
 import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/common/widget/verticle_divider.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
+import 'package:vyapar_clone/core/snackbar/my_snackbar.dart';
+import 'package:vyapar_clone/model/item_model.dart';
+import 'package:vyapar_clone/model/unit_model.dart';
 
+import '../../../../model/tax_model.dart';
 import 'controller/controller.dart';
 
 // import 'package:vyapar_clone/presentation/home_screen/sub_screens/add_item.dart';
@@ -17,32 +22,44 @@ class AddItemToSale extends StatelessWidget {
   AddItemToSale({super.key});
 
   final GlobalKey<FormState> addItemKey = GlobalKey<FormState>();
-  final List<int> units = List.generate(5, (index) => index + 1);
 
   final _controller = Get.put(TransactionDetailController());
 
   void showUnitsDialog(context) {
+    _controller.fetchUnitList();
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Unit'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: units.map((unit) {
-              return ListTile(
-                title: Text('$unit Unit(s)'),
-                onTap: () {
-                  _controller.selectedUnit.value = '$unit Unit(s)';
-                  // setState(() {
-                  //   selectedUnit = '$unit Unit(s)';
-                  // });
-                  // Navigator.pop(context);
-                  Get.back();
-                },
-              );
-            }).toList(),
+          title: Text(
+            'Unit',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.sp,
+            ),
           ),
+          content: Obx(() {
+            return isLoading.value == true
+                ? SizedBox(
+                    height: 60.h,
+                    width: 60.w,
+                    child: const Center(child: CircularProgressIndicator()))
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: _controller.unitList.map((unit) {
+                      UnitModel ob = unit;
+                      return ListTile(
+                        title: Text(ob.name.toString()),
+                        onTap: () {
+                          _controller.unitModel.value = ob;
+
+                          Get.back();
+                        },
+                      );
+                    }).toList(),
+                  );
+          }),
         );
       },
     );
@@ -59,9 +76,9 @@ class AddItemToSale extends StatelessWidget {
               ListTile(
                 title: const Text('With Tax'),
                 onTap: () {
-                  _controller.selectedTax.value = 'With Tax';
+                  _controller.isTaxOrNo.value = 'With Tax';
                   // setState(() {
-                  //   selectedTax = 'With Tax';
+                  //   isTaxOrNo = 'With Tax';
                   // });
                   // Navigator.pop(context);
                   Get.back();
@@ -70,16 +87,103 @@ class AddItemToSale extends StatelessWidget {
               ListTile(
                 title: const Text('Without Tax'),
                 onTap: () {
-                  _controller.selectedTax.value = 'Without Tax';
+                  _controller.isTaxOrNo.value = 'Without Tax';
                   Get.back();
                   // setState(() {
-                  //   selectedTax = 'Without Tax';
+                  //   isTaxOrNo = 'Without Tax';
                   // });
                   // Navigator.pop(context);
                 },
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  void showTaxexDialog(context) {
+    if (_controller.taxList.length.toInt() == 0) {
+      _controller.fetchTax();
+    }
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Obx(() {
+            return isLoading.value == true
+                ? Center(
+                    child: SizedBox(
+                        height: 80.w,
+                        width: 80.w,
+                        child: const CircularProgressIndicator()),
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: _controller.taxList.length.toInt() == 0
+                            ? [
+                                Align(
+                                    alignment: Alignment.center,
+                                    child: Center(
+                                        child: Text(
+                                      "No Data Found",
+                                      style: TextStyle(
+                                          fontSize: 20.sp, color: Colors.black),
+                                    )))
+                              ]
+                            : List.generate(
+                                _controller.taxList.length,
+                                (index) {
+                                  TaxModel ob = _controller.taxList[index];
+                                  return ListTile(
+                                    title: Text('${ob.taxType}  ${ob.rate}%'),
+                                    onTap: () {
+                                      if (_controller.priceContr.text != '') {
+                                        _controller.calculateTotalAmount(
+                                            price: double.parse(
+                                                _controller.priceContr.text),
+                                            quantity: double.parse(_controller
+                                                        .quantityContr.text ==
+                                                    ''
+                                                ? "1.0"
+                                                : _controller
+                                                    .quantityContr.text),
+                                            discountPercentage: _controller
+                                                        .discountContr.text ==
+                                                    ''
+                                                ? 0.0
+                                                : double.parse(
+                                                    _controller
+                                                        .discountContr.text,
+                                                  ),
+                                            taxPercentage: double.parse(
+                                                ob.rate.toString()));
+                                      }
+                                      _controller.selectedTax.value = ob;
+                                      Get.back();
+                                    },
+                                  );
+                                },
+                              )
+
+                        // [
+
+                        //   ListTile(
+                        //     title: const Text('Without Tax'),
+                        //     onTap: () {
+                        //       // _controller.selectedTax.value = 'Without Tax';
+                        //       Get.back();
+                        //       // setState(() {
+                        //       //   selectedTax = 'Without Tax';
+                        //       // });
+                        //       // Navigator.pop(context);
+                        //     },
+                        //   ),
+                        // ],
+                        ),
+                  );
+          }),
         );
       },
     );
@@ -126,6 +230,7 @@ class AddItemToSale extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: CustomTextFormField(
+                              controller: _controller.itemNameContr,
                               hintText: "e.g. Chocolate Cake",
                               labelText: "Item Name",
                             )),
@@ -138,7 +243,28 @@ class AddItemToSale extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: CustomTextFormField(
+                              controller: _controller.quantityContr,
                               keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                printInfo(info: "qantitty");
+                                if (_controller.quantityContr.text != '' &&
+                                    _controller.priceContr.text != '') {
+                                  _controller.calculateTotalAmount(
+                                      price: double.parse(
+                                          _controller.priceContr.text),
+                                      quantity: double.parse(
+                                          _controller.quantityContr.text),
+                                      discountPercentage: _controller
+                                                  .discountContr.text ==
+                                              ''
+                                          ? 0.0
+                                          : double.parse(
+                                              _controller.discountContr.text),
+                                      taxPercentage: double.parse(_controller
+                                          .selectedTax.value.rate
+                                          .toString()));
+                                }
+                              },
                               hintText: "Enter Quantity",
                               labelText: "Quantity",
                             )),
@@ -162,11 +288,15 @@ class AddItemToSale extends StatelessWidget {
                                     children: [
                                       Obx(() {
                                         return Text(
-                                          _controller.selectedUnit.value,
+                                          _controller.unitModel.value.name ==
+                                                  null
+                                              ? "Select Unit"
+                                              : _controller.unitModel.value.name
+                                                  .toString(),
                                           style: TextStyle(
-                                              color: _controller
-                                                          .selectedUnit.value ==
-                                                      'Unit'
+                                              color: _controller.unitModel.value
+                                                          .name ==
+                                                      null
                                                   ? Colorconst.cGrey
                                                   : Colorconst.cBlack,
                                               fontSize: 16.sp),
@@ -191,6 +321,7 @@ class AddItemToSale extends StatelessWidget {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                controller: _controller.priceContr,
                                 keyboardType: TextInputType.number,
                                 style: interFontBlack(context,
                                     color: Colorconst.cBlack, fontsize: 16.sp),
@@ -203,6 +334,25 @@ class AddItemToSale extends StatelessWidget {
                                 onChanged: (value) {
                                   _controller.isPriceEntered.value =
                                       value.isNotEmpty;
+                                  if (_controller.priceContr.text != '') {
+                                    _controller.calculateTotalAmount(
+                                        price: double.parse(
+                                            _controller.priceContr.text),
+                                        quantity: double.parse(
+                                            _controller.quantityContr.text == ''
+                                                ? "1.0"
+                                                : _controller
+                                                    .quantityContr.text),
+                                        discountPercentage: _controller
+                                                    .discountContr.text ==
+                                                ''
+                                            ? 0.0
+                                            : double.parse(
+                                                _controller.discountContr.text),
+                                        taxPercentage: double.parse(_controller
+                                            .selectedTax.value.rate
+                                            .toString()));
+                                  }
                                   // setState(() {
                                   //   isPriceEntered = value.isNotEmpty;
                                   // });
@@ -225,11 +375,12 @@ class AddItemToSale extends StatelessWidget {
                                     children: [
                                       Obx(() {
                                         return Text(
-                                          _controller.selectedTax.value,
+                                          _controller.isTaxOrNo.value
+                                              .toString(),
                                           style: TextStyle(
                                             color:
-                                                _controller.selectedTax.value ==
-                                                        'Select Tax'
+                                                _controller.isTaxOrNo.value ==
+                                                        'Without tax'
                                                     ? Colorconst.cGrey
                                                     : Colorconst.cGrey,
                                           ),
@@ -300,9 +451,14 @@ class AddItemToSale extends StatelessWidget {
                                               ],
                                             )),
                                             Text(
-                                              "₹            ",
-                                              style: interFontBlack(context),
+                                              "₹ ${_controller.subTotalP.value}",
+                                              style: interFontBlack(context,
+                                                  color: Colors.black,
+                                                  fontsize: 14.sp),
                                             ),
+                                            SizedBox(
+                                              width: 10.w,
+                                            )
                                           ],
                                         ),
                                         SizedBox(
@@ -341,6 +497,11 @@ class AddItemToSale extends StatelessWidget {
                                                                 .02),
                                                         Expanded(
                                                           child: TextFormField(
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            controller: _controller
+                                                                .discountContr,
                                                             decoration:
                                                                 InputDecoration(
                                                               border:
@@ -351,6 +512,48 @@ class AddItemToSale extends StatelessWidget {
                                                                       vertical:
                                                                           5), // Adjust padding
                                                             ),
+                                                            onChanged: (value) {
+                                                              if (_controller
+                                                                      .discountContr
+                                                                      .text !=
+                                                                  '') {
+                                                                _controller.calculateTotalAmount(
+                                                                    price: double.parse(_controller
+                                                                        .priceContr
+                                                                        .text),
+                                                                    quantity: double.parse(_controller.quantityContr.text == ''
+                                                                        ? '1.0'
+                                                                        : _controller
+                                                                            .quantityContr
+                                                                            .text),
+                                                                    discountPercentage: _controller.discountContr.text ==
+                                                                            ''
+                                                                        ? 0.0
+                                                                        : double.parse(_controller
+                                                                            .discountContr
+                                                                            .text),
+                                                                    taxPercentage:
+                                                                        double.parse(
+                                                                            _controller.selectedTax.value.rate.toString()));
+                                                              } else {
+                                                                _controller.calculateTotalAmount(
+                                                                    price: double.parse(
+                                                                        _controller
+                                                                            .priceContr
+                                                                            .text),
+                                                                    quantity: double.parse(_controller.quantityContr.text ==
+                                                                            ''
+                                                                        ? '1.0'
+                                                                        : _controller
+                                                                            .quantityContr
+                                                                            .text),
+                                                                    taxPercentage: double.parse(_controller
+                                                                        .selectedTax
+                                                                        .value
+                                                                        .rate
+                                                                        .toString()));
+                                                              }
+                                                            },
                                                             style:
                                                                 interFontBlack(
                                                                     context),
@@ -434,7 +637,11 @@ class AddItemToSale extends StatelessWidget {
                                                         Expanded(
                                                           child: Center(
                                                             child: Text(
-                                                              "0.00",
+                                                              _controller
+                                                                  .totalDiscount
+                                                                  .value
+                                                                  .toStringAsFixed(
+                                                                      2),
                                                               style:
                                                                   interFontBlack(
                                                                       context),
@@ -465,22 +672,36 @@ class AddItemToSale extends StatelessWidget {
                                                 child: Row(
                                               children: [
                                                 Expanded(
-                                                  child: Container(
-                                                    height: screenHeight * .055,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color:
-                                                              Colorconst.cGrey),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    child: CustomDropdown(
-                                                      items: [],
-                                                      selectedValue: '',
-                                                      onChanged: (newValue) {},
-                                                    ),
+                                                  child: InkWell(
+                                                    onTap: () =>
+                                                        showTaxexDialog(
+                                                            context),
+                                                    child: Container(
+                                                        height:
+                                                            screenHeight * .055,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 1,
+                                                              color: Colorconst
+                                                                  .cGrey),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                        ),
+                                                        child: CustomDropdown(
+                                                          hintText:
+                                                              "${_controller.selectedTax.value.taxType} ${_controller.selectedTax.value.rate}%",
+                                                          items: [],
+                                                          selectedValue:
+                                                              _controller
+                                                                      .selectedTax
+                                                                      .value
+                                                                      .taxType ??
+                                                                  '',
+                                                          onChanged:
+                                                              (newValue) {},
+                                                        )),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -528,7 +749,11 @@ class AddItemToSale extends StatelessWidget {
                                                         Expanded(
                                                           child: Center(
                                                             child: Text(
-                                                              "0.00",
+                                                              _controller
+                                                                  .totalTaxes
+                                                                  .value
+                                                                  .toStringAsFixed(
+                                                                      2),
                                                               style:
                                                                   interFontBlack(
                                                                       context),
@@ -570,6 +795,8 @@ class AddItemToSale extends StatelessWidget {
                                                     ),
                                                   ),
                                                   TextFormField(
+                                                    controller: _controller
+                                                        .totalAmountContr,
                                                     style: interFontBlack(
                                                         context,
                                                         color:
@@ -619,7 +846,23 @@ class AddItemToSale extends StatelessWidget {
                   children: [
                     Expanded(
                         child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        ItemModel obj = ItemModel(
+                            discount:
+                                _controller.totalDiscount.value.toString(),
+                            itemName: _controller.itemNameContr.text,
+                            price: _controller.priceContr.text,
+                            quantity: _controller.quantityContr.text,
+                            tax: _controller.totalTaxes.value.toString(),
+                            total: _controller.totalPrice.value.toString(),
+                            discountP: _controller.discountContr.text,
+                            subtotalP: _controller.subTotalP.value.toString(),
+                            unit: _controller.unitModel.value.name,
+                            taxPercent: _controller.selectedTax.value.rate);
+                        _controller.addItem(item: obj);
+                        _controller.clearItemController();
+                        SnackBars.showSuccessSnackBar(text: "Add item to sale");
+                      },
                       child: Container(
                         color: Colors.white,
                         child: Padding(
@@ -634,7 +877,22 @@ class AddItemToSale extends StatelessWidget {
                     )),
                     Expanded(
                         child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        ItemModel obj = ItemModel(
+                            discount:
+                                _controller.totalDiscount.value.toString(),
+                            itemName: _controller.itemNameContr.text,
+                            price: _controller.priceContr.text,
+                            quantity: _controller.quantityContr.text,
+                            tax: _controller.totalTaxes.value.toString(),
+                            total: _controller.totalPrice.value.toString(),
+                            discountP: _controller.discountContr.text,
+                            subtotalP: _controller.subTotalP.value.toString(),
+                            unit: _controller.unitModel.value.name,
+                            taxPercent: _controller.selectedTax.value.rate);
+                        _controller.addItem(item: obj);
+                        Get.back();
+                      },
                       child: Container(
                         color: Colorconst.cRed,
                         child: Padding(

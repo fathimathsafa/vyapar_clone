@@ -10,6 +10,7 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
+import '../../../../../../../core/common/context_provider.dart';
 import '../../../../../../home_screen/sub_screens/transaction_details/add_item.dart';
 import '../controller/controller.dart';
 
@@ -57,7 +58,15 @@ final _controller = Get.put(PurchaseReturnController());
                         Obx(
                        () {
                             return DateInvoiceWidget(
-                              invoiceNumber: "10120",
+                              invoiceNumber: _controller.selectedReturnNo.value,
+
+                               ontapInvoice: () {
+                              showDialogGlobal(
+                                onSelectItem: (p0) {
+                                  _controller.selectedReturnNo.value = p0;
+                                },
+                              );
+                            },
                               titleOne: "Return No.",
                               titleTwo: "Date",
                                 date: _controller.selectedPurchaseDate.value,
@@ -246,6 +255,7 @@ final _controller = Get.put(PurchaseReturnController());
                                                           InputDecoration(
                                                         hintText: "₹",
                                                         hintStyle: TextStyle(
+                                                          fontSize: 14.sp,
                                                             color:
                                                                 Colors.black),
                                                         border:

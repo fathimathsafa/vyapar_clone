@@ -10,6 +10,7 @@ import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_de
 import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 
+import '../../../../../../../../core/common/context_provider.dart';
 import '../controller/controller.dart';
 
 class AddSaleOrdercreen extends StatefulWidget {
@@ -137,7 +138,15 @@ class _AddSaleOrdercreenState extends State<AddSaleOrdercreen> {
                       children: [
                         Obx(
                            () {
-                            return DateInvoiceWidget(invoiceNumber: "10120", date: _controller.selectedPurchaseDate.value,
+                            return DateInvoiceWidget(             invoiceNumber: _controller.selectedReturnNo.value,
+
+                               ontapInvoice: () {
+                              showDialogGlobal(
+                                onSelectItem: (p0) {
+                                  _controller.selectedReturnNo.value = p0;
+                                },
+                              );
+                            }, date: _controller.selectedPurchaseDate.value,
                                       onTapDate:() => _controller.selctedDate(context) ,);
                           }
                         ),

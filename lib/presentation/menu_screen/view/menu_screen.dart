@@ -46,7 +46,7 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/impor
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/message_screen/view/message_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/recycle_bin_screen/view/recycle_bin_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/widget/custom_page_view.dart';
-import 'package:vyapar_clone/presentation/splash_screen/view/splash_screen.dart';
+
 import 'package:vyapar_clone/service/login_service.dart';
 
 import '../models/show_dialog.dart';

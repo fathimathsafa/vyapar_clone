@@ -9,11 +9,14 @@ class ImportPartyController extends GetxController {
 
   RxList contacts = <Contact>[].obs;
 
+  RxBool showLoading = false.obs;
 
-
-
+void setLoading(value){
+  showLoading.value = value;
+}
 
   Future<void> _fetchContacts() async {
+    setLoading(true);
     if (await FlutterContacts.requestPermission()) {
       // List<Contact> contact = await FlutterContacts.getContacts();
 
@@ -28,6 +31,8 @@ class ImportPartyController extends GetxController {
     // setState(() {
     //   _contacts = contacts.toList(); // Update the state with fetched contacts
     // });
+
+    setLoading(false);
   }
 
 
