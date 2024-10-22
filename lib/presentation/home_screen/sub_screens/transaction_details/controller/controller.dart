@@ -1,10 +1,20 @@
+
+
+
+
+
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart' as dio;
+
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:vyapar_clone/core/common/context_provider.dart';
 import 'package:vyapar_clone/core/models/credential_model.dart';
+import 'package:vyapar_clone/core/snackbar/my_snackbar.dart';
 import 'package:vyapar_clone/model/state_model.dart';
 import 'package:vyapar_clone/model/tax_model.dart';
 
@@ -280,54 +290,108 @@ void chooseDocument()async{
   }
 }
 
-void addSale()async{
+String saleValidator(){
 
+  if(customerTxtCont.text.isEmpty){
+    SnackBars.showErrorSnackBar(text: "Please enter customer");
+   return "Please enter customer";
+  }else if(itemList.length.toInt()==0){
+    SnackBars.showErrorSnackBar(text: "Please add item");
+    return "Please add item";
+
+  }else if(invoiceNo.value.invoiceNo==null){
+    SnackBars.showErrorSnackBar(text: "Empty invoice number");
+    return "Empty invoice number";
+  }else if(descriptionContr.text.isEmpty){
+    SnackBars.showErrorSnackBar(text: "Please enter description");
+    return "Please enter description";
+  }else if(selectedState.value.id == null){
+    SnackBars.showErrorSnackBar(text: "Please select state");
+    return "Please select state";
+  }else if(selectedPaymentType.value==''){
+    SnackBars.showErrorSnackBar(text: "Please select payment method");
+    return "Please select payment method";
+  }else{
+    return "ok";
+  }
+}
+
+void addSale()async{
+  setLoadingValue(true);
    CredentialModel credentialModel = await SharedPreLocalStorage.getCredential();
 
-    List<Map<String, dynamic>> items = [];
-  for(int i=0; i<itemList.length;i++){
+   List<Map<String, dynamic>> items = [];
+  for (int i = 0; i < itemList.length; i++) {
     ItemModel item = itemList[i];
-    Map<String, dynamic> object ={
-       "name": item.itemName,
+    Map<String, dynamic> object = {
+      "name": item.itemName,
       "quantity": item.quantity,
       "unit": item.unit,
       "price": item.price,
       "discountPercent": item.discountP,
-      "taxPercent": item.taxPercent,
+      // "taxPercent": item.taxPercent,
+      "taxPercent": '66f7e57fdcfcf7f3a6fc5066',
       "finalAmount": item.total
     };
-     items.add(object);
-
+    items.add(object);
   }
 
-  Map<String, dynamic> data ={
-    'invoiceNo':invoiceNo.value.invoiceNo.toString(),
-    'invoiceType':selectedSaleType.value.toString(),
-    'invoiceDate':selectedSaleDate.value.toString(),
 
-    'partyName':credentialModel.userId.toString(),
-    'billingName':customerTxtCont.text,
-    'stateOfSupply':selectedState.value.id.toString(),
-    'phoneNo':phoneNumberController.text,
-    'billingAddress':'',
-    'description':descriptionContr.text,
-    'paymentMethod':selectedPaymentType.value,
-    'bankName':'',
-    'referenceNo':referenceNoContr.text,
-    'items':jsonEncode(items),
-    'roundOff':'00',
-    'totalAmount':grandSubTotal.value.toStringAsFixed(2),
-    'receivedAmount':double.parse(recivedAmountController.text).toStringAsFixed(2),
-    'balanceAmount':grandSubTotal.value.toStringAsFixed(2),
-    'source':'Direct',
-    'grossTotal':grandSubTotal.value.toStringAsFixed(2),
+  dio.FormData formData = dio.FormData.fromMap({
+    'invoiceNo': invoiceNo.toString(),
+    'invoiceType': selectedSaleType.value.toString(),
+    'invoiceDate': selectedSaleDate.value.toString(),
+    'partyName': 'AK Traders',
+    'billingName': customerTxtCont.text,
+    'stateOfSupply': selectedState.value.id.toString(),
+    'phoneNo': phoneNumberController.text,
+    'billingAddress': '', 
+    'description': descriptionContr.text,
+    'paymentMethod': selectedPaymentType.value.toString(),
+    'bankName': '', 
+    // 'items':[{ "name": "item1", "quantity": '2', "unit": "KILOGRAM", "price": "120", "discountPercent": "2", "taxPercent": "66f7e57fdcfcf7f3a6fc5066" ,"finalAmount":"245.76"}].toString(),
+    'referenceNo': referenceNoContr.text,
+    'roundOff': '00',
+    'totalAmount': grandSubTotal.value.toStringAsFixed(2).toString(),
+    'receivedAmount': double.parse(recivedAmountController.text).toStringAsFixed(2).toString(),
+    'balanceAmount': grandSubTotal.value.toStringAsFixed(2).toString(),
+    'source': 'Direct',
+    'grossTotal': grandSubTotal.value.toStringAsFixed(2).toString(),
+  });
+     formData.fields.add(MapEntry('items', jsonEncode(items)));
 
-
-  };
+     printInfo(info: "item ==${jsonEncode(items)}");
+      
+  // for (int i = 0; i < items.length; i++) {
+  //   formData.fields.add(MapEntry('items[$i][name]', items[i]['name'].toString()));
+  //   formData.fields.add(MapEntry('items[$i][quantity]', items[i]['quantity'].toString()));
+  //   formData.fields.add(MapEntry('items[$i][unit]', items[i]['unit'].toString()));
+  //   formData.fields.add(MapEntry('items[$i][price]', items[i]['price'].toString()));
+  //   formData.fields.add(MapEntry('items[$i][discountPercent]', items[i]['discountPercent'].toString()));
+  //   formData.fields.add(MapEntry('items[$i][taxPercent]', items[i]['taxPercent'].toString()));
+  //   formData.fields.add(MapEntry('items[$i][finalAmount]', items[i]['finalAmount'].toString()));
+  // }
   List<String> parameters=["files","files"];
+
+
+  if (fileList.length.toInt() >= 1
+          ) {
+        for (int i = 0; i < parameters.length; i++) {
+          if(fileList[i] !=null){
+          String fileName = fileList[i]!.path.split('/').last;
+          formData.files.add(
+            MapEntry(
+              parameters[i],
+              await  dio.MultipartFile.fromFile(fileList[i]!.path, filename: fileName),
+            ),
+          );
+
+          }
+        }
+      }
   var response = await _apiServices.postMultiPartData(
-    data: data,
-    fileParameters: parameters,
+    data: formData,
+    // fileParameters: parameters,
     files: fileList,
         endUrl: EndUrl.invoiceUrl,
         authToken: await SharedPreLocalStorage.getToken());
@@ -337,7 +401,8 @@ void addSale()async{
         printInfo(info: "response to save invoice==$response");
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
        
-
+         fetchInvoicNo();
+         SnackBars.showSuccessSnackBar(text: "Successfully saved invoice");
         setLoadingValue(false);
       }
       setLoadingValue(false);

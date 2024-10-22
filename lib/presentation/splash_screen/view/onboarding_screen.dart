@@ -4,8 +4,8 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/login__screen/sign_in_screen/sign_in_screen.dart';
 import '../controller/controller.dart';
 
-class SplashScreen extends StatelessWidget {
-  SplashScreen({super.key});
+class OnboardingScreen extends StatelessWidget {
+  OnboardingScreen({super.key});
 
   // Initialize the controller
   final _controller = Get.put(SplashScreenController());

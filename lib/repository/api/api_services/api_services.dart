@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -31,42 +32,30 @@ class ApiServices {
 
   Future<Response?> postMultiPartData(
       {required String endUrl,
-      required Map<String, dynamic> data,
+      required FormData data,
       String? authToken,
       List<File?>? files,
       List<String?>? fileParameters}) async {
 
-        
-    printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data);
+        printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.toString());
+    
     try {
 
       final options = Options(
+        // contentType: 'application/x-www-form-urlencoded',
       headers: {
         if (authToken != null) 'Authorization': 'Bearer $authToken',
       },
     );
-      FormData formData = FormData.fromMap(data);
+      
 
-      if (fileParameters != null &&
-          files != null &&
-          fileParameters.length.toInt() != 0) {
-        for (int i = 0; i < fileParameters.length; i++) {
-          if(files[i] !=null && fileParameters[i] !=null){
-          String fileName = files[i]!.path.split('/').last;
-          formData.files.add(
-            MapEntry(
-              fileParameters[i]!,
-              await MultipartFile.fromFile(files[i]!.path, filename: fileName),
-            ),
-          );
-
-          }
-        }
-      }
+      
+      printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.fields);
+      printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.files);
 
       final response = await _dio.post(
         _baseUrls.apiBaseUrl() + endUrl,
-        data: formData,
+        data: data,
         options:options,
       );
 

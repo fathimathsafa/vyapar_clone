@@ -858,7 +858,7 @@ class AddItemToSale extends StatelessWidget {
                             total: _controller.totalPrice.value.toString(),
                             discountP: _controller.discountContr.text,
                             subtotalP: _controller.subTotalP.value.toString(),
-                            unit: _controller.unitModel.value.id,
+                            unit: _controller.unitModel.value.name,
                             taxPercent: _controller.selectedTax.value.rate
                             );
                         _controller.addItem(item: obj);
@@ -890,7 +890,7 @@ class AddItemToSale extends StatelessWidget {
                             total: _controller.totalPrice.value.toString(),
                             discountP: _controller.discountContr.text,
                             subtotalP: _controller.subTotalP.value.toString(),
-                            unit: _controller.unitModel.value.id,
+                            unit: _controller.unitModel.value.name,
                             taxPercent: _controller.selectedTax.value.rate
                             );
                         _controller.addItem(item: obj);

@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/model/login_model.dart';
-import 'package:vyapar_clone/presentation/splash_screen/view/splash_screen.dart';
+
+import '../presentation/splash_screen/view/onboarding_screen.dart';
+
 
 class AuthService {
   final Dio _dio = Dio();
@@ -68,7 +70,7 @@ class AuthService {
       log('Phone number removed from storage');
 
       // Navigate to SplashScreen after logout
-      Get.offAll(() => SplashScreen());
+      Get.offAll(() => OnboardingScreen());
     } catch (e) {
       log('Error during logout: $e');
     }

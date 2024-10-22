@@ -292,11 +292,15 @@ class AddSaleInvoiceScreen extends StatelessWidget {
             ),
           ),
           // Bottom button fixed at the bottom
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: BottomButton(onClickSave: () => _controller.addSale(),),
+          Obx(
+             () {
+              return Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child:isLoading.value == true? const SizedBox(child: Center(child: CircularProgressIndicator(),),): BottomButton(onClickSave: () =>_controller.saleValidator()=="ok"? _controller.addSale():null,),
+              );
+            }
           ),
         ],
       ),
@@ -516,6 +520,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
         color: Colors.white,
         child: TextFormField(
           controller: _controller.descriptionContr,
+          style: TextStyle(color: Colors.black,fontSize: 14.sp),
           decoration: const InputDecoration(
               labelText: 'Description',
               hintText: 'Add Note',
@@ -709,111 +714,117 @@ class AddSaleInvoiceScreen extends StatelessWidget {
   }
 
   Widget _buildFormContainer(context) {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Column(
-        children: [
-          SizedBox(height: 20.h),
-          Obx(() {
-            return _buildCustomTextFormField(
-              labelText: _controller.selectedIndex.value == 0
-                  ? "Customer *"
-                  : "Billing Name *",
-              hintText: _controller.selectedIndex.value == 0
-                  ? "Enter Customer"
-                  : "Enter Billing Name",
-              keyboardType: TextInputType.emailAddress,
-            );
-          }),
-          SizedBox(height: 25.h),
-          _buildCustomTextFormField(
-            keyboardType: TextInputType.number,
-            labelText: "Phone Number",
-            hintText: "Enter Phone Number",
-          ),
-          SizedBox(height: 20.h),
-          Column(
-            children: List.generate(
-              _controller.itemList.length,
-              (index) {
-                ItemModel obj = _controller.itemList[index];
-                return ItemsCardWidget(
-                  discount: obj.discount,
-                  itemName: obj.itemName,
-                  itemNum: (index + 1).toString(),
-                  price: obj.price,
-                  quantity: obj.quantity,
-                  tax: obj.tax,
-                  total: obj.total,
-                  discountP: obj.discountP,
-                  subtotal: obj.subtotalP,
+    return Obx(
+       () {
+        return Container(
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Column(
+            children: [
+              SizedBox(height: 20.h),
+              Obx(() {
+                return _buildCustomTextFormField(
+                  controller: _controller.customerTxtCont,
+                  labelText: _controller.selectedIndex.value == 0
+                      ? "Customer *"
+                      : "Billing Name *",
+                  hintText: _controller.selectedIndex.value == 0
+                      ? "Enter Customer"
+                      : "Enter Billing Name",
+                  keyboardType: TextInputType.emailAddress,
                 );
-              },
-            ),
-          ),
-          _controller.itemList.length.toInt() == 0
-              ? const SizedBox()
-              : Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Tatal Disc: ${_controller.grandDiscount}",
-                            style: interFontBlack1(
-                              fontsize: 11.sp,
-                              color: Colors.black45,
-                            ),
-                          ),
-                          Text(
-                            "Total Tax Amt: ${_controller.grandTax.toStringAsFixed(2)}",
-                            style: interFontBlack1(
-                                fontsize: 11.sp, color: Colors.black45),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Tatal Qty: ${_controller.grandQty}",
-                            style: interFontBlack1(
-                              fontsize: 11.sp,
-                              color: Colors.black45,
-                            ),
-                          ),
-                          Text(
-                            "Subtotal: ${_controller.grandSubTotal}",
-                            style: interFontBlack1(
-                                fontsize: 11.sp, color: Colors.black45),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+              }),
+              SizedBox(height: 25.h),
+              _buildCustomTextFormField(
+                controller: _controller.phoneNumberController,
+                keyboardType: TextInputType.number,
+                labelText: "Phone Number",
+                hintText: "Enter Phone Number",
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                children: List.generate(
+                  _controller.itemList.length,
+                  (index) {
+                    ItemModel obj = _controller.itemList[index];
+                    return ItemsCardWidget(
+                      discount: obj.discount,
+                      itemName: obj.itemName,
+                      itemNum: (index + 1).toString(),
+                      price: obj.price,
+                      quantity: obj.quantity,
+                      tax: obj.tax,
+                      total: obj.total,
+                      discountP: obj.discountP,
+                      subtotal: obj.subtotalP,
+                    );
+                  },
                 ),
-          SizedBox(
-            height: 20.h,
+              ),
+              _controller.itemList.length.toInt() == 0
+                  ? const SizedBox()
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Tatal Disc: ${_controller.grandDiscount}",
+                                style: interFontBlack1(
+                                  fontsize: 11.sp,
+                                  color: Colors.black45,
+                                ),
+                              ),
+                              Text(
+                                "Total Tax Amt: ${_controller.grandTax.toStringAsFixed(2)}",
+                                style: interFontBlack1(
+                                    fontsize: 11.sp, color: Colors.black45),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Tatal Qty: ${_controller.grandQty}",
+                                style: interFontBlack1(
+                                  fontsize: 11.sp,
+                                  color: Colors.black45,
+                                ),
+                              ),
+                              Text(
+                                "Subtotal: ${_controller.grandSubTotal}",
+                                style: interFontBlack1(
+                                    fontsize: 11.sp, color: Colors.black45),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+              SizedBox(
+                height: 20.h,
+              ),
+              AddItemButton(onTap: () {
+                _controller.clearItemController();
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => AddItemToSale()),
+                // );
+                Get.to(() => AddItemToSale());
+              }),
+            ],
           ),
-          AddItemButton(onTap: () {
-            _controller.clearItemController();
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => AddItemToSale()),
-            // );
-            Get.to(() => AddItemToSale());
-          }),
-        ],
-      ),
+        );
+      }
     );
   }
 
