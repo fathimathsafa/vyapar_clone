@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/item_screen/sub_screens/add_item_screen/view/add_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/view/dash_board_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/manage_item_screen/widget/online_store_view.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/setting/sub_settings/item/view/item.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/vyaprar_premium/view/vyapar_premium.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/item_detail_report_screen/view/item_detail_report_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/low_stock_summery_screen/view/low_stock_summery_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/item_stock_report/stock_summery_report_screen/view/stock_summery_report_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/export_item_screen/view/export_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/utilites/import_item_screen/view/import_item_screen.dart';
-import 'package:vyapar_clone/service/item_service.dart';
 
 class ItemPage extends StatelessWidget {
-  final ProductService productService = ProductService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +127,7 @@ class ItemPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
 
-            // Web Info Container with FutureBuilder
+            // Web Info Container
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -143,59 +143,34 @@ class ItemPage extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: FutureBuilder<List<dynamic>>(
-                  future: productService.fetchProducts(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Failed to load products'));
-                    } else if (snapshot.hasData) {
-                      var products = snapshot.data ?? [];
-
-                      // Display the first product's info as a sample
-                      if (products.isNotEmpty) {
-                        var product = products[0];
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Web',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                                Icon(Icons.share, color: Colors.blue),
-                              ],
-                            ),
-                            SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                _buildWebInfoItem('Sale Price',
-                                    '₹ ${product['salePrice']}', Colors.black),
-                                _buildWebInfoItem(
-                                    'Purchase Price',
-                                    '₹ ${product['purchasePrice']}',
-                                    Colors.black),
-                                _buildWebInfoItem(
-                                    'In Stock',
-                                    '${product['stock']['openingStock']}',
-                                    Colors.green),
-                              ],
-                            ),
-                          ],
-                        );
-                      } else {
-                        return Center(child: Text('No products available'));
-                      }
-                    }
-                    return Container();
-                  },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Web',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        Icon(Icons.share, color: Colors.blue),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildWebInfoItem(
+                            'Sale Price', '₹ 10,000.00', Colors.black),
+                        _buildWebInfoItem(
+                            'Purchase Price', '₹ 0.00', Colors.black),
+                        _buildWebInfoItem('In Stock', '0.0', Colors.green),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -315,25 +290,24 @@ class ItemPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => VyaparPremiumScreen(),
+                            builder: (context) => ItemDetailReportScreen(),
                           ),
                         );
                       },
                       child: _buildQuickLinkItem(
-                          'assets/images/bulk import.jpeg', 'Bulk Import'),
+                          'assets/images/item details.jpeg', 'Item Details'),
                     ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => VyaparPremiumScreen(),
+                            builder: (context) => LowStockSummaryScreen(),
                           ),
                         );
                       },
                       child: _buildQuickLinkItem(
-                          'assets/images/itemwise discount.jpeg',
-                          'Itemwise Discount'),
+                          'assets/images/low stock.jpeg', 'Low Stock Sum...'),
                     ),
                   ],
                 ),
@@ -345,44 +319,43 @@ class ItemPage extends StatelessWidget {
     );
   }
 
-  // Method to build Quick Link Item
-  Widget _buildQuickLinkItem(String imagePath, String title) {
+  // Quick Links Widget with images
+  Widget _buildQuickLinkItem(String imagePath, String label) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+        CircleAvatar(
+          radius: 30,
+          backgroundColor: Colors.white,
           child: Image.asset(
             imagePath,
-            width: 60,
-            height: 60,
+            width: 40,
+            height: 40,
             fit: BoxFit.cover,
           ),
         ),
         SizedBox(height: 8),
         Text(
-          title,
+          label,
+          style: TextStyle(fontSize: 12, color: Colorconst.cBlack),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
 
-  // Method to build Web Info Item
-  Widget _buildWebInfoItem(String title, String value, Color color) {
+  // Web Info Widget
+  Widget _buildWebInfoItem(String label, String value, [Color? color]) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 12, color: Colors.grey),
-        ),
+        Text(label, style: TextStyle(fontSize: 14, color: Colors.grey)),
         SizedBox(height: 4),
         Text(
           value,
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: color),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: color ?? Colors.black,
+          ),
         ),
       ],
     );

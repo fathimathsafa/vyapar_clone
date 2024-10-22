@@ -15,8 +15,6 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen
 
 import '../controller/controller.dart';
 
-
-
 class AddPurchaseScreen extends StatefulWidget {
   @override
   State<AddPurchaseScreen> createState() => _AddPurchaseScreenState();
@@ -137,22 +135,22 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                   SizedBox(
                     child: Column(
                       children: [
-                        Obx(
-                        () {
-                            return DateExpenseInvoiceWidget(
-                              invoiceNumber: _controller.selectBillNo.value,
-                              onTapBillNo: () {
-                                showDialogGlobal(onSelectItem: (p0) {
+                        Obx(() {
+                          return DateExpenseInvoiceWidget(
+                            invoiceNumber: _controller.selectBillNo.value,
+                            onTapBillNo: () {
+                              showDialogGlobal(
+                                onSelectItem: (p0) {
                                   _controller.selectBillNo.value = p0;
-                                },);
-                              },
-                              titleOne: "Bill No.",
-                              titleTwo: "Date",
-                               date: _controller.selectedDate.value,
-                                              onTapDate:() => _controller.selctedDate(context) ,
-                            );
-                          }
-                        ),
+                                },
+                              );
+                            },
+                            titleOne: "Bill No.",
+                            titleTwo: "Date",
+                            date: _controller.selectedDate.value,
+                            onTapDate: () => _controller.selctedDate(context),
+                          );
+                        }),
                         SizedBox(height: screenHeight * 0.01),
                         Container(
                           height: screenHeight * 0.3,
