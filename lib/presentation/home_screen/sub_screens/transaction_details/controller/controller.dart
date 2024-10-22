@@ -330,7 +330,7 @@ void addSale()async{
       "price": item.price,
       "discountPercent": item.discountP,
       // "taxPercent": item.taxPercent,
-      "taxPercent": '66f7e57fdcfcf7f3a6fc5066',
+      "taxPercent": item.taxPercent,
       "finalAmount": item.total
     };
     items.add(object);
@@ -338,7 +338,7 @@ void addSale()async{
 
 
   dio.FormData formData = dio.FormData.fromMap({
-    'invoiceNo': invoiceNo.toString(),
+    'invoiceNo': invoiceNo.value.invoiceNo.toString(),
     'invoiceType': selectedSaleType.value.toString(),
     'invoiceDate': selectedSaleDate.value.toString(),
     'partyName': 'AK Traders',
