@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 
 
 import '../../../../../../../core/constatnts/colors.dart';
@@ -235,7 +236,9 @@ final _controller = Get.put(AddPartyController());
              style: interFontBlack(context,
             color: Colorconst.cBlack,
             fontsize: 17.sp),
+            controller: _controller.pNameController,
               decoration: InputDecoration(
+                
                 hintText: "e.g. Ram Prasad",
                 helperStyle: TextStyle(color: Colors.black),
                 border: OutlineInputBorder(
@@ -257,10 +260,12 @@ final _controller = Get.put(AddPartyController());
             Text("GSTIN", style: TextStyle(fontSize: 16, color: Colors.black)),
             SizedBox(height: 8),
             TextFormField(
+              controller: _controller.pGstinController,
               style: interFontBlack(context,
             color: Colorconst.cBlack,
+            
             fontsize: 17.sp),
-              initialValue: "1",
+              // initialValue: "1",
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
@@ -270,32 +275,70 @@ final _controller = Get.put(AddPartyController());
             Spacer(),
 
             // Buttons at the bottom
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.grey[300], // Button color
-                    ),
-                    child: Text("Save & New",
-                        style: TextStyle(color: Colors.white)),
+            Obx(
+               () {
+                return isLoading.value == true? const Center(child: CircularProgressIndicator(),):SizedBox(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: 
+                           InkWell(
+                             onTap: () {
+                              
+                                  printInfo(info: "is clicked save party");
+                                  bool isVal = _controller.validateParty();
+                               if(isVal){
+                              
+                                _controller.addParty();
+                               }
+                              
+                                },
+                  
+                              child: ElevatedButton(
+                                onPressed: () {
+                              
+                                  printInfo(info: "is clicked save party");
+                                  bool isVal = _controller.validateParty();
+                               if(isVal){
+                              
+                                _controller.addParty();
+                               }
+                              
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.grey[300], // Button color
+                                ),
+                                child: Text("Save & New",
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            )
+                         
+                      ),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                  
+                              printInfo(info: "is clicked save party");
+                                  bool isVal = _controller.validateParty();
+                               if(isVal){
+                              
+                                _controller.addParty();
+                               }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.grey, // Button color
+                          ),
+                          child: Text("Save Party",
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.grey, // Button color
-                    ),
-                    child: Text("Save Party",
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-              ],
+                );
+              }
             ),
           ],
         ),

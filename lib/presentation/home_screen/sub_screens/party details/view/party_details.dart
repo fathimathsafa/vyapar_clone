@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
+import 'package:vyapar_clone/model/party_model.dart';
+import 'package:vyapar_clone/presentation/home_screen/controller/home_screen_controller.dart';
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/party%20details/sub_PartyDetail/add_party/view/add_party.dart';
 
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/others/sub_others/greetin_offer/view/greeting_offer.dart';
@@ -15,8 +18,8 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_scr
 import '../sub_PartyDetail/import_party/view/import_party_new.dart';
 
 class PartyDetails extends StatelessWidget {
-  const PartyDetails({super.key});
-
+   PartyDetails({super.key});
+  var _controller = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     void showShowMorePopup(BuildContext context) {
@@ -173,16 +176,28 @@ class PartyDetails extends StatelessWidget {
                 SizedBox(height: 20),
                 // Party Information Section
                 SizedBox(
-                  child: Column(
-                    children: List.generate(
-                      6,
-                      (index) => Column(
-                        children: [
-                          _buildPartyInfo('Gokul', '12 Sep, 24', '₹ 0'),
-                          SizedBox(height: 12),
-                        ],
-                      ),
-                    ),
+                  child: Obx(
+                     () {
+                      return isLoading.value == true?const Center(child: CircularProgressIndicator(),): _controller.allParties.length.toInt()==0?Center(
+                                child: Text(
+                                  "Empty list",
+                                  style: interFontBlack(context),
+                                ),
+                              ): Column(
+                        children: List.generate(
+                          _controller.allParties.length,
+                          (index) { 
+                            PartyModel ob = _controller.allParties[index];
+                            return Column(
+                            children: [
+                              _buildPartyInfo(ob.name.toString(), '', '₹ ${ob.partyBalance}'),
+                              SizedBox(height: 12),
+                            ],
+                          );
+                     }
+                        ),
+                      );
+                    }
                   ),
                 ),
                 SizedBox(height: 20),

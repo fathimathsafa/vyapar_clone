@@ -6,45 +6,55 @@ import 'package:get/get.dart';
 import 'package:vyapar_clone/core/common/context_provider.dart';
 import 'package:vyapar_clone/core/models/add_item.dart';
 import 'package:vyapar_clone/core/models/sale_model.dart';
+import 'package:vyapar_clone/model/invoice_model.dart';
+import 'package:vyapar_clone/model/party_model.dart';
 
 import 'package:vyapar_clone/repository/app_data/database/db.dart';
+
+import '../../../core/common/loading_var.dart';
+import '../../../core/isResponseOk.dart';
+import '../../../repository/api/api_services/api_services.dart';
+import '../../../repository/api/end_urls/end_url.dart';
+import '../../../repository/app_data/user_data/shared_preferences.dart';
 
 
 class HomeController extends GetxController with GetTickerProviderStateMixin {
   final ContextProvider contextProvider = ContextProvider();
   final ScrollController scrollController = ScrollController();
+  final ApiServices _apiServices = ApiServices();
 
    final Repository repository;
 
   HomeController({required this.repository});
 
-  final TextEditingController recievedMoneyTxtCnt = TextEditingController();
-  final TextEditingController searchTxtCnt = TextEditingController();
-  final TextEditingController customerTxtCnt = TextEditingController();
-  final TextEditingController billingNameTxtCnt = TextEditingController();
-  final TextEditingController phoneNumTxtCnt = TextEditingController();
-  //add item to sale
-  final TextEditingController itemNameTxtCnt = TextEditingController();
-  final TextEditingController quantityTxtCnt = TextEditingController();
+  // final TextEditingController recievedMoneyTxtCnt = TextEditingController();
+  // final TextEditingController searchTxtCnt = TextEditingController();
+  // final TextEditingController customerTxtCnt = TextEditingController();
+  // final TextEditingController billingNameTxtCnt = TextEditingController();
+  // final TextEditingController phoneNumTxtCnt = TextEditingController();
+  // //add item to sale
+  // final TextEditingController itemNameTxtCnt = TextEditingController();
+  // final TextEditingController quantityTxtCnt = TextEditingController();
 
-  final TextEditingController priceRateTxtCnt = TextEditingController();
+  // final TextEditingController priceRateTxtCnt = TextEditingController();
 
   RxInt screenIndex = 0.obs;
   RxInt selectedHeaderBtnIndex = 0.obs;
-  RxDouble itemPrice = 0.00.obs;
-  RxBool checkedBoxValue = false.obs;
-  RxDouble grandTotalPrice = 0.00.obs;
-  RxDouble dueRemain = 0.00.obs;
+  // RxDouble itemPrice = 0.00.obs;
+  // RxBool checkedBoxValue = false.obs;
+  // RxDouble grandTotalPrice = 0.00.obs;
+  // RxDouble dueRemain = 0.00.obs;
 
-  var saleList = <SaleModel>[].obs;
-  var searchableSale = <SaleModel>[].obs;
-  var itemList = <AddItemModel>[].obs;
+  // var saleList = <SaleModel>[].obs;
+  // var searchableSale = <SaleModel>[].obs;
+  // var itemList = <AddItemModel>[].obs;
   RxBool isAddButnVisible = true.obs;
 
-  void onHeaderButtonTap(value) {
-    selectedHeaderBtnIndex.value = value;
-  }
-
+  // void onHeaderButtonTap(value) {
+  //   selectedHeaderBtnIndex.value = value;
+  // }
+  var allInvoice = <InvoiceModel>[].obs;
+  var allParties = <PartyModel>[].obs;
   
 
   late TabController tabController;
@@ -64,10 +74,12 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     tabController = TabController(length: 2, vsync: this);
     _tabListener();
     scrollListener();
-      fetchSale();
-    _inititalizeInvoiceNum();
-    _initializedDate();
-    initializeSale();
+    getAllInvoice();
+    getAllParty();
+      // fetchSale();
+    // _inititalizeInvoiceNum();
+    // _initializedDate();
+    // initializeSale();
   }
 
   _tabListener(){
@@ -79,29 +91,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
     });
   }
 
-  void initializeSale() {
-    searchableSale.assignAll(saleList);
-  }
-
-  void _inititalizeInvoiceNum() {
-    int number = saleList.length + 1;
-    invoiceNumber.value = "23-24-01 $number";
-  }
-
-  void updatedInvoiceNum() {
-    _inititalizeInvoiceNum();
-  }
-
-  void _initializedDate() {
-    date.value = contextProvider.getCurrentDate();
-  }
-
-  void updateDate() {
-    _initializedDate();
-  }
-
-  RxString invoiceNumber = "".obs;
-  RxString date = "".obs;
+  
   @override
   void dispose() {
     // TODO: implement dispose
@@ -121,123 +111,68 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
         if (!isAddButnVisible.value) {
           isAddButnVisible.value = true;
         }
-      }
+      } 
     });
   }
 
-  RxInt paymentIndex = 0.obs;
-  void setPaymentType(value) {
-    paymentIndex.value = value;
-  }
+  // RxInt paymentIndex = 0.obs;
+  // void setPaymentType(value) {
+  //   paymentIndex.value = value;
+  // }
 
   void setCurrenScreen(value) {
     screenIndex.value = value;
   }
 
-  RxString selectedTaxItem = "Without Tax".obs;
-  final List<String> taxDropItems = [
-    'Without Tax',
-    'Item2',
-    'Item3',
-    'Item4',
-  ];
-  RxString selectedUnitItem = "Unit".obs;
 
-  final List<String> unitDropItems = [
-    'Unit',
-  ];
+  void getAllInvoice()async{
+  setLoadingValue(true);
+    var response = await _apiServices.getRequest(
+        endurl: EndUrl.invoiceUrl,
+        authToken: await SharedPreLocalStorage.getToken());
+ if (response != null) {
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        var jsonResponse = response.data['data'];
 
-  void addItemIntoSale(AddItemModel model) {
-    itemList.add(model);
-    itemNameTxtCnt.text = '';
-    quantityTxtCnt.text = '';
-    priceRateTxtCnt.text = '';
+        List<InvoiceModel> list = List<InvoiceModel>.from(
+            jsonResponse.map((x) => InvoiceModel.fromJson(x)));
 
-    selectedTaxItem.value = 'Without Tax';
-    itemPrice.value = 0.00;
-    grandTotal(list: itemList);
-    Get.snackbar("Added item", "Successfully added a item",
-        backgroundColor: Colors.green);
-  }
+        allInvoice.assignAll(list);
 
-  void addSale(SaleModel model) {
-  
+        printInfo(info: "length of invoices ==${allInvoice.length}");
 
-    try {
-       addSaleItem(model);
-    customerTxtCnt.text = '';
-    billingNameTxtCnt.text = '';
-    phoneNumTxtCnt.text = '';
-
-    Get.snackbar("Added sale", "Successfully added a sale",
-        backgroundColor: Colors.green);
+        setLoadingValue(false);
+      }
+      setLoadingValue(false);
       
-    } catch (e) {
-      printInfo(info: "error===${e}");
-      Get.snackbar("Error", "$e",
-        backgroundColor: Colors.red);
     }
+    setLoadingValue(false);
    
+
   }
+  void getAllParty()async{
+  setLoadingValue(true);
+    var response = await _apiServices.getRequest(
+        endurl: EndUrl.getAllParty,
+        authToken: await SharedPreLocalStorage.getToken());
+ if (response != null) {
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        var jsonResponse = response.data['data'];
 
-  searchByDateInvoiceNum(value) {
-    if (value == '') {
-      searchableSale.assignAll(saleList);
-    } else {
-      List<SaleModel> searchedList = saleList
-          .where((t) =>
-              t.billDate.toString().contains(value.toString()))
-          .toList();
+        List<PartyModel> list = List<PartyModel>.from(
+            jsonResponse.map((x) => PartyModel.fromJson(x)));
 
-      searchableSale.assignAll(searchedList);
+        allParties.assignAll(list);
+
+        printInfo(info: "length of invoices ==${allInvoice.length}");
+
+        setLoadingValue(false);
+      }
+      setLoadingValue(false);
+      
     }
-  }
+    setLoadingValue(false);
+   
 
-  void grandTotal({required List<AddItemModel> list}) {
-    double grandTotal = 0.0;
-
-    for (int i = 0; i < list.length; i++) {
-      AddItemModel ob = list[i];
-      double price = double.parse(ob.totalPrice.toString());
-      grandTotal = grandTotal + price;
-    }
-
-    grandTotalPrice.value = grandTotal;
-    dueRemain.value = grandTotal;
-    checkedBoxValue.value = false;
-  }
-
-  String totalAmount({quantity, price}) {
-    return "${double.parse(quantity.toString() == '' ? '1.0' : quantity.toString()) * double.parse(price.toString() == '' ? '0.0' : price.toString())}";
-  }
-
-
-
-  Future<void> fetchSale() async {
-    
-    try {
-      saleList.value = await repository.getAllSale();
-      searchableSale.value = await repository.getAllSale();
-    } catch(e){
-         printInfo(info: "eorrr====$e");
-    }
-  }
-
-  Future<void> addSaleItem(SaleModel saleObj) async {
-
-    printInfo(info: "sale object == ${saleObj.toJson()}");
-     await repository.insertSale(saleObj);
-     printInfo(info: "sale item ==${saleList.length}");
-       fetchSale();
-  }
-
-  
-
-  Future<void> deleteSale(int id) async {
-    await repository.deleteSale(id);
-    fetchSale();
-
-    Get.back();
-    Get.snackbar("Deleted", "Sale has been deleted",backgroundColor: Colors.blue);
   }
 }

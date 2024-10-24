@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -11,21 +10,26 @@ class ApiServices {
 
   final Dio _dio = Dio();
 
-  Future<Response?> getRequest({required String endurl,String? authToken}) async {
+  Future<Response?> getRequest(
+      {required String endurl, String? authToken}) async {
     try {
       final options = Options(
-      headers: {
-        if (authToken != null) 'Authorization': 'Bearer $authToken',
-      },
-    );
-    printApiInfo(url: _baseUrls.apiBaseUrl() + endurl,payload: options.headers);
-    
-      final response = await _dio.get(_baseUrls.apiBaseUrl() + endurl,options: options,);
+        headers: {
+          if (authToken != null) 'Authorization': 'Bearer $authToken',
+        },
+      );
+      printApiInfo(
+          url: _baseUrls.apiBaseUrl() + endurl, payload: options.headers);
+
+      final response = await _dio.get(
+        _baseUrls.apiBaseUrl() + endurl,
+        options: options,
+      );
 
       return response;
     } on DioException catch (e) {
       SnackBars.showErrorSnackBar(text: e.toString());
-    
+
       return null;
     }
   }
@@ -36,27 +40,24 @@ class ApiServices {
       String? authToken,
       List<File?>? files,
       List<String?>? fileParameters}) async {
+    printApiInfo(
+        url: _baseUrls.apiBaseUrl() + endUrl, payload: data.toString());
 
-        printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.toString());
-    
     try {
-
       final options = Options(
         // contentType: 'application/x-www-form-urlencoded',
-      headers: {
-        if (authToken != null) 'Authorization': 'Bearer $authToken',
-      },
-    );
-      
+        headers: {
+          if (authToken != null) 'Authorization': 'Bearer $authToken',
+        },
+      );
 
-      
       printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.fields);
       printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.files);
 
       final response = await _dio.post(
         _baseUrls.apiBaseUrl() + endUrl,
         data: data,
-        options:options,
+        options: options,
       );
 
       return response;
@@ -71,17 +72,20 @@ class ApiServices {
     required String endUrl,
     required Map<String, dynamic> data,
     Map<String, String>? headers,
+    String? authToken
   }) async {
-    printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data);
+    printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl , payload: data,);
+     final options = Options(
+        // contentType: 'application/x-www-form-urlencoded',
+        headers: {
+          if (authToken != null) 'Authorization': 'Bearer $authToken',
+        },
+      );
     try {
       final response = await _dio.post(
         _baseUrls.apiBaseUrl() + endUrl,
         data: data,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
+        options: options
       );
 
       return response;

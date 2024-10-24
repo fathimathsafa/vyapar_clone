@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/images.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
-import 'package:vyapar_clone/presentation/home_screen/sub_screens/p2p_transfer_screen/view/p2p_transfer_screen.dart';
+import 'package:vyapar_clone/model/invoice_model.dart';
+
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_sale.dart';
+import 'package:vyapar_clone/presentation/home_screen/widget/sale_card.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_accounts_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/create/sub_create/pro_forma_invoice/view/pro_forma_invoice.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/sub_screens/add_expense_screen/view/add_expense_screen.dart';
@@ -27,9 +30,11 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_invo
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
 
+import '../../controller/home_screen_controller.dart';
+
 class SaleListScreen extends StatelessWidget {
   SaleListScreen({super.key});
-
+ final _controller = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,11 +155,24 @@ class SaleListScreen extends StatelessWidget {
                           height: 10.h,
                         ),
                         Expanded(
-                          child: Center(
-                            child: Text(
-                              "Empty list",
-                              style: interFontBlack(context),
-                            ),
+                          child: Obx(
+                             () {
+                              return isLoading.value==true? const Center(child: CircularProgressIndicator(),): _controller.allInvoice.length.toInt()==0? Center(
+                                child: Text(
+                                  "Empty list",
+                                  style: interFontBlack(context),
+                                ),
+                              ):ListView.builder(itemCount: _controller.allInvoice.length, itemBuilder: (context, index) {
+                                InvoiceModel ob = _controller.allInvoice[index];
+                                         printInfo(info: "invoice date ==${ob.invoiceDate}");
+                                return Column(
+                                  children: [
+                                    InvoiceCard(object:ob,),
+                                    SizedBox(height: 7.h,)
+                                  ],
+                                );
+                              },);
+                            }
                           ),
                         )
                       ],
@@ -352,12 +370,13 @@ class SaleListScreen extends StatelessWidget {
                     );
                   }),
                   iconWithLabel(Icons.local_shipping, 'Delivery Challan', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DeliveryChallanScreen(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => DeliveryChallanScreen(),
+                    //   ),
+                    // );
+                    Get.to(()=>DeliveryChallanScreen());
                   }),
                   iconWithLabel(Icons.receipt, 'Estimate/Quotation', () {
                     Navigator.push(

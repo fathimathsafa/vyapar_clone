@@ -5,14 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/controller/all_transaction_payment_out.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/sub_screens/add_payment_out_screen/view/add_payment_out_screen.dart';
 
-class PaymentAllTransactionScreen extends StatelessWidget {
-  const PaymentAllTransactionScreen({super.key});
+import '../sub_screens/add_payment_out_screen/controller/controller.dart';
 
+class PaymentAllTransactionScreen extends StatelessWidget {
+   PaymentAllTransactionScreen({super.key});
+
+    final AddPaymentController controller =
+        Get.put(AddPaymentController()); // Initialize controller
   @override
   Widget build(BuildContext context) {
-    final PaymentTransactionController controller =
-        Get.put(PaymentTransactionController()); // Initialize controller
-
+      controller.fetchAllPaymentOout();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colorconst.cBlue,

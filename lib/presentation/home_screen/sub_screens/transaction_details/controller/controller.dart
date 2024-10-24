@@ -19,6 +19,7 @@ import 'package:vyapar_clone/model/state_model.dart';
 import 'package:vyapar_clone/model/tax_model.dart';
 
 import 'package:vyapar_clone/model/unit_model.dart';
+import 'package:vyapar_clone/presentation/home_screen/controller/home_screen_controller.dart';
 import 'package:vyapar_clone/repository/api/end_urls/end_url.dart';
 
 import '../../../../../core/common/loading_var.dart';
@@ -78,6 +79,7 @@ class TransactionDetailController extends GetxController {
     super.onInit();
     fetchInvoicNo();
     fetchUnitList();
+    // setLoadingValue(false);
   }
 
   void setSaleFormType(index){
@@ -157,7 +159,7 @@ class TransactionDetailController extends GetxController {
   }
 
   void fetchUnitList() async {
-    setLoadingValue(true);
+    setLoadingValue(false);
 
     var response = await _apiServices.getRequest(
         endurl: EndUrl.unitListUrl,
@@ -171,6 +173,7 @@ class TransactionDetailController extends GetxController {
             jsonResponse.map((x) => UnitModel.fromJson(x)));
          if(units.length.toInt()!=0){
           unitModel.value = units[0];
+          setLoadingValue(false);
          }
         unitList.assignAll(units);
 
@@ -400,10 +403,13 @@ void addSale()async{
         if (response != null) {
         printInfo(info: "response to save invoice==$response");
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
-       
+         var homec = Get.find<HomeController>();
          fetchInvoicNo();
          SnackBars.showSuccessSnackBar(text: "Successfully saved invoice");
+         homec.getAllInvoice();
         setLoadingValue(false);
+        
+        Get.back();
       }
       setLoadingValue(false);
       

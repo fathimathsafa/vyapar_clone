@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/model/challan_list_model.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/controller/delivery_challan_controller.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/delivery_challan_screen/sub_screens/add_delivery_challan_screen/view/add_delivery_challan_screen.dart';
 
@@ -12,18 +14,24 @@ class DeliveryChallanScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.getAllChallan();
     return Scaffold(
+      
         backgroundColor: Colors.lightBlue[50],
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              Get.back();
             },
           ),
-          title: Text(
-            "Delivery Challan Details",
-            style: TextStyle(color: Colorconst.cBlack),
+          title: InkWell(
+            onTap:()=> controller.getAllChallan(),
+            child: Text(
+              "Delivery Challan Details",
+              style: TextStyle(color: Colorconst.cBlack),
+            ),
           ),
           bottom: TabBar(
             controller: controller.tabController,
@@ -49,25 +57,45 @@ class DeliveryChallanScreen extends StatelessWidget {
   }
 
   Widget _buildEmptyChallanView() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Lottie.asset("assets/animation/document.json",
-            height: 150.h, width: 150.w),
-        SizedBox(height: 20.h),
-        Text(
-          "Hey! You have no delivery challans yet.",
-          style: TextStyle(fontSize: 16.sp, color: Colorconst.cGrey),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 5.h),
-        Text(
-          "Please add your delivery challans here",
-          style: TextStyle(fontSize: 16.sp, color: Colorconst.cGrey),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 40.h),
-      ],
+    return Obx(
+       () {
+           return isLoading.value==true?  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+           
+            Lottie.asset("assets/animation/document.json",
+                height: 150.h, width: 150.w),
+            SizedBox(height: 20.h),
+            // Text(
+            //   "Hey! You have no delivery challans yet.",
+            //   style: TextStyle(fontSize: 16.sp, color: Colorconst.cGrey),
+            //   textAlign: TextAlign.center,
+            // ),
+            // SizedBox(height: 5.h),
+            // Text(
+            //   "Please add your delivery challans here",
+            //   style: TextStyle(fontSize: 16.sp, color: Colorconst.cGrey),
+            //   textAlign: TextAlign.center,
+            // ),
+            // SizedBox(height: 40.h),
+          ],
+        ):controller.challanList.length.toInt()==0?Center(
+          child: Text(
+                "Please add your delivery challans here",
+                style: TextStyle(fontSize: 16.sp, color: Colorconst.cGrey),
+                textAlign: TextAlign.center,
+              ),
+        ):Column(
+          children: [
+            Expanded(
+              child: ListView.builder(itemCount: controller.challanList.length, itemBuilder: (context, index) {
+                 ChallanModel ob = controller.challanList[index];
+               return Text("${ob.challanNo}",style: TextStyle(color: Colors.red,fontSize: 20.sp),);
+              },),
+            ),
+          ],
+        );
+      }
     );
   }
 

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/core/common/context_provider.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 
 import 'package:vyapar_clone/core/common/widget/bottom_button.dart';
 
@@ -12,6 +15,7 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/widget/date_expense_invoice_widget.dart';
 
+import '../../../../../create/sub_create/pro_forma_invoice/sub_pro_forma_invoice/adde_bank/view/add_bank.dart';
 import '../controller/controller.dart';
 
 class AddPaymentOutScreen extends StatelessWidget {
@@ -19,8 +23,7 @@ class AddPaymentOutScreen extends StatelessWidget {
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
-
-final _controller = Get.put(AddPaymentController());
+  final _controller = Get.put(AddPaymentController());
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -56,22 +59,22 @@ final _controller = Get.put(AddPaymentController());
                   SizedBox(
                     child: Column(
                       children: [
-                        Obx(
-                         () {
-                            return DateExpenseInvoiceWidget(
-                              onTapBillNo: () {
-                                showDialogGlobal(onSelectItem: (p0) {
-                                  _controller.returnNo.value=p0;
-                                },);
-                              },
-                              invoiceNumber: _controller.returnNo.value,
-                              titleOne: "Return No.",
-                              titleTwo: "Date",
-                               date: _controller.selectedDate.value,
-                                          onTapDate:() => _controller.selctedDate(context) ,
-                            );
-                          }
-                        ),
+                        Obx(() {
+                          return DateExpenseInvoiceWidget(
+                            onTapBillNo: () {
+                              showDialogGlobal(
+                                onSelectItem: (p0) {
+                                  _controller.recieptNo.value = p0;
+                                },
+                              );
+                            },
+                            invoiceNumber: _controller.recieptNo.value,
+                            titleOne: "Reciept No.",
+                            titleTwo: "Date",
+                            date: _controller.selectedDate.value,
+                            onTapDate: () => _controller.selctedDate(context),
+                          );
+                        }),
                         SizedBox(height: screenHeight * 0.01),
                         Container(
                           height: screenHeight * 0.24,
@@ -82,11 +85,13 @@ final _controller = Get.put(AddPaymentController());
                             children: [
                               SizedBox(height: screenHeight * 0.01),
                               CustomTextFormField(
+                                controller: _controller.partyNameController,
                                 labelText: "Party Name *",
                                 hintText: "Enter party name",
                               ),
                               SizedBox(height: screenHeight * 0.03),
                               CustomTextFormField(
+                                controller: _controller.billNoController,
                                 labelText: "Bill No",
                                 hintText: "Enter bill no.",
                               ),
@@ -128,6 +133,7 @@ final _controller = Get.put(AddPaymentController());
                               ),
                               TextFormField(
                                 keyboardType: TextInputType.number,
+                                controller: _controller.paidAmountController,
                                 decoration: InputDecoration(
                                   hintText: "₹",
                                   border: InputBorder.none,
@@ -160,52 +166,52 @@ final _controller = Get.put(AddPaymentController());
                         children: [
                           if (totalAmount > 0) ...[
                             SizedBox(height: screenHeight * 0.01),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: screenWidth * .03, bottom: 6.h),
-                              child: ValueListenableBuilder<double>(
-                                valueListenable: receivedAmountNotifier,
-                                builder: (context, receivedAmount, child) {
-                                  double balanceDue =
-                                      totalAmount - receivedAmount;
-                                  return Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 5.w,
-                                      ),
-                                      const Text("Balance Due",
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 14)),
-                                      // SizedBox(width: screenWidth * .53),
-                                      Expanded(
-                                          child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text("₹ ",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize:
-                                                      screenWidth * 0.04)),
-                                          SizedBox(
-                                            width: 48.w,
-                                          ),
-                                          Text(balanceDue.toStringAsFixed(2),
-                                              style: TextStyle(
-                                                  color: Colors.green,
-                                                  fontSize:
-                                                      screenWidth * 0.03)),
-                                          SizedBox(
-                                            width: 15.w,
-                                          )
-                                        ],
-                                      ))
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: EdgeInsets.only(
+                            //       left: screenWidth * .03, bottom: 6.h),
+                            //   child: ValueListenableBuilder<double>(
+                            //     valueListenable: receivedAmountNotifier,
+                            //     builder: (context, receivedAmount, child) {
+                            //       double balanceDue =
+                            //           totalAmount - receivedAmount;
+                            //       return Row(
+                            //         children: [
+                            //           SizedBox(
+                            //             width: 5.w,
+                            //           ),
+                            //           const Text("Balance Due",
+                            //               style: TextStyle(
+                            //                   color: Colors.green,
+                            //                   fontSize: 14)),
+                            //           // SizedBox(width: screenWidth * .53),
+                            //           Expanded(
+                            //               child: Row(
+                            //             mainAxisAlignment:
+                            //                 MainAxisAlignment.end,
+                            //             children: [
+                            //               Text("₹ ",
+                            //                   style: TextStyle(
+                            //                       color: Colors.black,
+                            //                       fontSize:
+                            //                           screenWidth * 0.04)),
+                            //               SizedBox(
+                            //                 width: 48.w,
+                            //               ),
+                            //               Text(balanceDue.toStringAsFixed(2),
+                            //                   style: TextStyle(
+                            //                       color: Colors.green,
+                            //                       fontSize:
+                            //                           screenWidth * 0.03)),
+                            //               SizedBox(
+                            //                 width: 15.w,
+                            //               )
+                            //             ],
+                            //           ))
+                            //         ],
+                            //       );
+                            //     },
+                            //   ),
+                            // ),
                             ClipPath(
                               clipper: ZigzagClipper(),
                               child: Container(
@@ -221,35 +227,52 @@ final _controller = Get.put(AddPaymentController());
                               color: Colorconst.cwhite,
                               child: Column(
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Payment Type",
-                                        style:
-                                            TextStyle(color: Colorconst.cGrey),
-                                      ),
-                                      SizedBox(
-                                        width: screenWidth * .45,
-                                      ),
-                                      const Icon(
-                                        Icons.money,
-                                        color: Colorconst.Green,
-                                      ),
-                                      // SizedBox(
-                                      //   width: screenWidth * .01,
-                                      // ),
-                                      SizedBox(
-                                        width: 5.w,
-                                      ),
-                                      const Text(
-                                        "Cash",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                      const Icon(Icons.arrow_drop_down),
-                                      SizedBox(
-                                        width: 6.w,
-                                      ),
-                                    ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      showPaymentTypeBottom(
+                                          onClickClose: () => Get.back(),
+                                          onClickCash: () => _controller
+                                              .setPaymentType("Cash"),
+                                          onClickCheque: () => _controller
+                                              .setPaymentType("Cheque"),
+                                          onClickAddBank: () =>
+                                              Get.to(() => AddBankScreen()));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        const Text(
+                                          "Payment Type",
+                                          style: TextStyle(
+                                              color: Colorconst.cGrey),
+                                        ),
+                                        SizedBox(
+                                          width: screenWidth * .45,
+                                        ),
+                                        const Icon(
+                                          Icons.money,
+                                          color: Colorconst.Green,
+                                        ),
+                                        // SizedBox(
+                                        //   width: screenWidth * .01,
+                                        // ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        Obx(() {
+                                          return Text(
+                                            _controller
+                                                .selectedPaymentType.value,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14.sp),
+                                          );
+                                        }),
+                                        const Icon(Icons.arrow_drop_down),
+                                        SizedBox(
+                                          width: 6.w,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(
                                     height: screenHeight * .02,
@@ -279,6 +302,8 @@ final _controller = Get.put(AddPaymentController());
                                     color: Colorconst.cwhite,
                                     child: Center(
                                       child: TextFormField(
+                                        style: TextStyle(color: Colors.black,fontSize: 14.sp),
+                                        controller: _controller.descriptionCon,
                                         decoration: const InputDecoration(
                                           labelText: 'Description',
                                           hintText: 'Add Note',
@@ -294,21 +319,29 @@ final _controller = Get.put(AddPaymentController());
                                     height: screenHeight * .11,
                                     width: screenWidth * .27,
                                     color: Colorconst.cwhite,
-                                    child: Container(
-                                      width: 60,
-                                      height: 10,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        border: Border.all(color: Colors.grey),
-                                      ),
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.add_a_photo,
-                                          color: Colors.blue,
-                                          size: 30,
-                                        ),
+                                    child: InkWell(
+                                      onTap: () => _controller.chooseImage(),
+                                      child: Obx(
+                                       () {
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                border: Border.all(
+                                                    color: Colors.grey.shade700)),
+                                            child: _controller.imgPath.value != ''
+                                                ? ClipRRect(
+                                                    child: Image.file(
+                                                    File(_controller.imgPath.value),
+                                                    fit: BoxFit.cover,
+                                                  ))
+                                                : const Center(
+                                                    child: Icon(Icons.add_a_photo,
+                                                        color: Colors.blue,
+                                                        size: 30)),
+                                          );
+                                        }
                                       ),
                                     ),
                                   ),
@@ -331,11 +364,23 @@ final _controller = Get.put(AddPaymentController());
           // Positioned text above the bottom button
 
           // Bottom button fixed at the bottom
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: BottomButton(),
+          Obx(
+             () {
+              return Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child:isLoading.value == true?const Center(child: CircularProgressIndicator(),): BottomButton(onClickSave: () {
+                  String valid = _controller.saleValidator();
+                 
+                 if(valid =="ok"){
+              
+                  _controller.addPaymentOut();
+              
+                 }
+                },),
+              );
+            }
           ),
         ],
       ),
