@@ -355,7 +355,7 @@ class DeliveryChallanController extends GetxController
         authToken: await SharedPreLocalStorage.getToken());
 
     if (response != null) {
-      printInfo(info: "response to save invoice==$response");
+      printInfo(info: "response to save invoice==${response.statusCode},${CheckRStatus.checkResStatus(statusCode: response.statusCode)}");
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
         //  var homec = Get.find<HomeController>();
         fetchLatestChallan();
@@ -364,6 +364,7 @@ class DeliveryChallanController extends GetxController
         getAllChallan();
         setLoadingValue(false);
       printInfo(info: "response status ==${response.statusCode}");
+        Get.back();
         Get.back();
       }
       setLoadingValue(false);

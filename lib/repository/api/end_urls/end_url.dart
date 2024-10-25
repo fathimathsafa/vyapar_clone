@@ -16,6 +16,7 @@ class EndUrl {
   //payment out
   static const createPaymentOutUrl='paymentOut/';
   static const getAllPaymentOutUrl='paymentOut/';
+  static const paymentOutRecieptNo='paymentOut/receiptNo';
 
 
 }

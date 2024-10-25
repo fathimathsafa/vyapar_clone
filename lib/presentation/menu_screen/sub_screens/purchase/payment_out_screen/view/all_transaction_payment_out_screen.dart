@@ -161,7 +161,7 @@ class PaymentAllTransactionScreen extends StatelessWidget {
             ),
           ],
         ),
-        Divider(),
+       const Divider(),
         Expanded(
           child: ListView.builder(
             itemCount: 2, // Number of items in the list

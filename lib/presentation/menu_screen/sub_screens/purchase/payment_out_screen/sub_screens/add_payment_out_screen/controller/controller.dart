@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/model/reciept_no_model.dart';
 
 
 import '../../../../../../../../core/common/context_provider.dart';
@@ -23,6 +24,15 @@ class AddPaymentController extends GetxController {
   RxString selectedDate = "9/20/2024".obs;
   RxString recieptNo = "10121".obs;
   RxString selectedPaymentType = "Cash".obs;
+
+@override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+
+    fetchAllPaymentOout();
+    fetchInvoicNo();
+  }
 
   void selctedDate(context) async {
     String? date = await ContextProvider().selectDate(context);
@@ -57,7 +67,7 @@ List<File?> fileList =[null,null];
    RxString documentName =''.obs;
    RxString imgPath =''.obs;
 
-
+var receiptNoModel = RecieptNoModel().obs;
 void chooseImage()async{
   
  FileDetails? fileDetail=await _contextProvider.selectFile(allowedExtensions: ['jpg',
@@ -183,11 +193,23 @@ String saleValidator() {
    
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
+  
 
-    fetchAllPaymentOout();
+
+  void fetchInvoicNo() async {
+    var response = await _apiServices.getRequest(
+        endurl: EndUrl.getLatestInvoice,
+        authToken: await SharedPreLocalStorage.getToken());
+
+    if (response != null) {
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        RecieptNoModel ob = RecieptNoModel(
+            id: response.data['data']['_id'],
+            paymentOutReceiptNo: response.data['data']['invoiceNo']);
+
+            recieptNo.value =response.data['data']['invoiceNo'];
+        receiptNoModel.value = ob;
+      }
+    }
   }
 }

@@ -331,9 +331,9 @@ void addSale()async{
       "quantity": item.quantity,
       "unit": item.unit,
       "price": item.price,
-      "discountPercent": item.discountP,
+      "discountPercent": item.discountP??"",
       // "taxPercent": item.taxPercent,
-      "taxPercent": item.taxPercent,
+      "taxPercent": item.taxPercent??"",
       "finalAmount": item.total
     };
     items.add(object);
