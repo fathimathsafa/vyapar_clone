@@ -78,7 +78,7 @@ class TransactionDetailController extends GetxController {
   void onInit() {
     super.onInit();
     fetchInvoicNo();
-    fetchUnitList();
+    // fetchUnitList();
     // setLoadingValue(false);
   }
 
@@ -159,7 +159,7 @@ class TransactionDetailController extends GetxController {
   }
 
   void fetchUnitList() async {
-    setLoadingValue(false);
+    setLoadingValue(true);
 
     var response = await _apiServices.getRequest(
         endurl: EndUrl.unitListUrl,
@@ -405,6 +405,7 @@ void addSale()async{
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
          var homec = Get.find<HomeController>();
          fetchInvoicNo();
+         Get.snackbar("Successfully saved invoice", "",backgroundColor: Colors.green);
          SnackBars.showSuccessSnackBar(text: "Successfully saved invoice");
          homec.getAllInvoice();
         setLoadingValue(false);

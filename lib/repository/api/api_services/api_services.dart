@@ -38,6 +38,7 @@ class ApiServices {
 
       return response;
     } on DioException catch (e) {
+      print("error while fetching data ==${e}");
       SnackBars.showErrorSnackBar(text: e.toString());
 
       return null;

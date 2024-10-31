@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/model/sale_order_model.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/sub_screens/add_sale_screen/view/add_sale_screen.dart';
 // import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/view/sale_order_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_order_screen/widget/filtter_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../../../../../core/common/loading_var.dart';
+import '../../../../../../../../core/constatnts/text_style.dart';
+
+import '../../../../../../../home_screen/widget/sale_order_card.dart';
+import '../../add_sale_screen/controller/controller.dart';
 
 class SaleOrdersScreen extends StatefulWidget {
   @override
@@ -13,9 +21,12 @@ class SaleOrdersScreen extends StatefulWidget {
 
 class _SaleOrdersScreenState extends State<SaleOrdersScreen> {
   String _currentFilter = "All"; // Keep track of which filter is selected
+   final _controller = Get.put(AddSaleController());
 
+   
   @override
   Widget build(BuildContext context) {
+     _controller.fetchSaleOrderList();
     return Column(
       children: [
         // Filter buttons
@@ -100,17 +111,39 @@ class _SaleOrdersScreenState extends State<SaleOrdersScreen> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Lottie.asset(
-            'assets/animation/document.json',
-            height: 150.h,
-            width: 105.w,
-          ),
-          SizedBox(height: 20),
-          Text(
-            "Hey! You have no orders yet.\nPlease add your sale order here",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey),
-          ),
+
+          Expanded(
+                          child: Obx(
+                             () {
+                              return isLoading.value==true? const Center(child: CircularProgressIndicator(),): _controller.saleOrderList.length.toInt()==0? Center(
+                                child: Text(
+                                  "Empty list",
+                                  style: interFontBlack(context),
+                                ),
+                              ):ListView.builder(itemCount: _controller.saleOrderList.length, itemBuilder: (context, index) {
+                                SaleOrderModel ob = _controller.saleOrderList[index];
+                                         printInfo(info: "invoice date ==${ob.orderDate}");
+                                return Column(
+                                  children: [
+                                    SaleOrderCard(object:ob),
+                                    SizedBox(height: 7.h,)
+                                  ],
+                                );
+                              },);
+                            }
+                          ),
+                        ),
+          // Lottie.asset(
+          //   'assets/animation/document.json',
+          //   height: 150.h,
+          //   width: 105.w,
+          // ),
+          // SizedBox(height: 20),
+          // Text(
+          //   "Hey! You have no orders yet.\nPlease add your sale order here",
+          //   textAlign: TextAlign.center,
+          //   style: TextStyle(color: Colors.grey),
+          // ),
         ],
       );
     } else if (_currentFilter == "Open Orders") {

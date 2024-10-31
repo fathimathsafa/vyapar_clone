@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AddItemUnitPage extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _AddItemUnitPageState extends State<AddItemUnitPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
+            Get.back();
             // Handle back action
           },
         ),

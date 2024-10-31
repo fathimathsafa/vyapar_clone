@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:vyapar_clone/presentation/item_screen/sub_screens/add_item_unit_screen/view/add_item_unit_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import 'package:vyapar_clone/model/category_model.dart';
+import 'package:vyapar_clone/presentation/item_screen/controller/controller.dart';
+
+
+import '../../../../../core/common/loading_var.dart';
+import '../../../../../model/unit_model.dart';
 
 class AddItemPage extends StatefulWidget {
   @override
@@ -28,6 +36,7 @@ class _AddItemPageState extends State<AddItemPage>
     super.dispose();
   }
 
+  final controller = Get.find<ItemScreenController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,6 +128,7 @@ class _AddItemPageState extends State<AddItemPage>
                     });
                   }
                 },
+                style: TextStyle(color: Colors.black, fontSize: 16.sp),
               ),
               SizedBox(height: 16),
 
@@ -138,11 +148,26 @@ class _AddItemPageState extends State<AddItemPage>
                 SizedBox(height: 16),
 
                 // Item Category
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Item Category',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                InkWell(
+                  onTap: () {
+                    showCateGorySelectionBottomSheet(context);
+                  },
+                  child: TextFormField(
+                    controller: controller.cateController,
+                    enabled: false,
+                    onTap: () {
+                      // sfdsf
+                      // showCateGorySelectionBottomSheet(context);
+                    },
+                    style: TextStyle(color: Colors.black, fontSize: 16.sp),
+                    decoration: InputDecoration(
+                      labelText: 'Item Category',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8)),
                     ),
                   ),
                 ),
@@ -336,6 +361,120 @@ class _AddItemPageState extends State<AddItemPage>
     );
   }
 
+  void showCateGorySelectionBottomSheet(context) {
+    if (controller.categoryList.length.toInt() == 0) {
+      controller.fetchCategories();
+    }
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.7, // Adjust size as needed
+          maxChildSize: 0.9,
+          minChildSize: 0.3,
+          builder: (_, controllers) {
+            return Column(
+              children: [
+                // Header of Bottom Sheet
+                ListTile(
+                  title: Text("Select Category"),
+                  trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+                const Divider(),
+                Obx(() {
+                  return Expanded(
+                    child: isLoading.value == true
+                        ? Center(
+                            child: SizedBox(
+                                height: 80.w,
+                                width: 80.w,
+                                child: const CircularProgressIndicator()),
+                          )
+                        : controller.categoryList.length.toInt() == 0
+                            ? Center(
+                                child: Text(
+                                "No Data Found",
+                                style: TextStyle(
+                                    fontSize: 20.sp, color: Colors.black),
+                              ))
+                            : ListView.builder(
+                                controller: controllers,
+                                itemCount: controller.categoryList.length,
+                                itemBuilder: (context, index) {
+                                  CategoryModel obj =
+                                      controller.categoryList[index];
+                                  return ListTile(
+                                    title: Text(obj.name.toString()),
+                                    onTap: () {
+                                      controller.selectedCate.value = obj;
+
+                                      controller.cateController.text =
+                                          obj.name.toString();
+
+                                      Get.back();
+                                    },
+                                  );
+                                },
+                              ),
+                  );
+                }),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+
+
+void showUnitsDialog(context) {
+    controller.fetchUnitList();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Unit',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.sp,
+            ),
+          ),
+          content: Obx(() {
+            return isLoading.value == true
+                ? SizedBox(
+                    height: 60.h,
+                    width: 60.w,
+                    child: const Center(child: CircularProgressIndicator()))
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: controller.unitList.map((unit) {
+                      UnitModel ob = unit;
+                      return ListTile(
+                        title: Text(ob.name.toString()),
+                        onTap: () {
+                          controller.selectedUnitModel.value = ob;
+
+                          Get.back();
+                        },
+                      );
+                    }).toList(),
+                  );
+          }),
+        );
+      },
+    );
+  }
   // Build Unit Button
   Widget _buildUnitButton() {
     return Padding(
@@ -356,17 +495,22 @@ class _AddItemPageState extends State<AddItemPage>
         ),
         child: TextButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddItemUnitPage()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => AddItemUnitPage()),
+            // );
+            showUnitsDialog(context);
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                selectedUnit ?? 'Unit',
-                style: TextStyle(color: Colors.blue),
+              Obx(
+                 () {
+                  return Text(
+                    controller.selectedUnitModel.value.name ?? 'Unit',
+                    style: TextStyle(color: Colors.blue),
+                  );
+                }
               ),
               Icon(Icons.arrow_drop_down, color: Colors.blue),
             ],
@@ -394,12 +538,14 @@ class _AddItemPageState extends State<AddItemPage>
           ],
         ),
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            
+          },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                selectedUnit ?? 'Unit',
+                selectedUnit ?? 'Assign code',
                 style: TextStyle(color: Colors.blue),
               ),
             ],

@@ -379,12 +379,13 @@ class SaleListScreen extends StatelessWidget {
                     Get.to(()=>DeliveryChallanScreen());
                   }),
                   iconWithLabel(Icons.receipt, 'Estimate/Quotation', () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EstimateQuatationScreen(),
-                      ),
-                    );
+                    Get.to(()=> EstimateQuatationScreen());
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => EstimateQuatationScreen(),
+                    //   ),
+                    // );
                   }),
                   iconWithLabel(Icons.description, 'Proforma Invoice', () {
                     Navigator.push(

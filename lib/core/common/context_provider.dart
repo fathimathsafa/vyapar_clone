@@ -84,6 +84,11 @@ class ContextProvider {
   Future<FileDetails?> selectFile({List<String>? allowedExtensions}) async {
     return await _selectFile(allowedExtensions);
   }
+
+  static String filteredDateFormate({String? date}){
+
+  return DateFormat('yyyy-MM-dd').format(DateTime.parse(date??"2024-10-17"));
+}
 }
 
 showDialogGlobal(
@@ -321,7 +326,11 @@ showPaymentTypeBottom(
                 ],
               ),
             ));
+
+
 }
+
+
 
 
 

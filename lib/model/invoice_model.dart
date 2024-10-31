@@ -6,15 +6,17 @@ List<InvoiceModel> invoiceModelFromJson(String str) => List<InvoiceModel>.from(j
 String invoiceModelToJson(List<InvoiceModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class InvoiceModel {
+    String? id;
     String? invoiceNo;
-    String? invoiceDate;
-    String? partyName;
+    InvoiceDate? invoiceDate;
+    PartyName? partyName;
     PaymentMethod? paymentMethod;
     BankName? bankName;
     double? totalAmount;
     double? balanceAmount;
 
     InvoiceModel({
+        this.id,
         this.invoiceNo,
         this.invoiceDate,
         this.partyName,
@@ -25,9 +27,10 @@ class InvoiceModel {
     });
 
     factory InvoiceModel.fromJson(Map<String, dynamic> json) => InvoiceModel(
+        id: json["_id"],
         invoiceNo: json["invoiceNo"],
-        invoiceDate: json["invoiceDate"],
-        partyName: json["partyName"],
+        invoiceDate: invoiceDateValues.map[json["invoiceDate"]]!,
+        partyName: partyNameValues.map[json["partyName"]]!,
         paymentMethod: paymentMethodValues.map[json["paymentMethod"]]!,
         bankName: json["bankName"] == null ? null : BankName.fromJson(json["bankName"]),
         totalAmount: json["totalAmount"]?.toDouble(),
@@ -35,6 +38,7 @@ class InvoiceModel {
     );
 
     Map<String, dynamic> toJson() => {
+        "_id": id,
         "invoiceNo": invoiceNo,
         "invoiceDate": invoiceDateValues.reverse[invoiceDate],
         "partyName": partyNameValues.reverse[partyName],
@@ -63,12 +67,14 @@ class BankName {
 
 enum PaymentMethod {
     AXIS_BANK,
-    CASH
+    CASH,
+    CHEQUE
 }
 
 final paymentMethodValues = EnumValues({
     "Axis Bank": PaymentMethod.AXIS_BANK,
-    "Cash": PaymentMethod.CASH
+    "Cash": PaymentMethod.CASH,
+    "Cheque": PaymentMethod.CHEQUE
 });
 
 enum InvoiceDate {

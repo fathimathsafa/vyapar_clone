@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/common/widget/date_widget/view/date_widget.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/report/sub_screen/transaction/all_transaction/controller/controller.dart';
 
 class AllTransaction extends StatelessWidget {
+   final controller = Get.put(AllTransactionReportController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      floatingActionButton: InkWell(
+        onTap: () {
+          controller.getAllTransaction();
+          
+        },
+        child: CircleAvatar(radius: 55,)),
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('All Transactions', style: TextStyle(fontSize: 16.sp)),
@@ -56,13 +67,26 @@ class AllTransaction extends StatelessWidget {
                   ),
                 ],
               ),
+             
               Divider(),
-              _buildTransactionCard('Gokul', 'Amount', '₹ 10.00', 'Balance',
-                  '₹ 0.00', 'SALE: 1', '12 SEP, 24'),
-              _buildTransactionCard('Gokul', 'Amount', '₹ 10,000.00', 'Balance',
-                  '₹ 10,000.00', 'SALE 2', '19 SEP, 24'),
-              _buildTransactionCard('Gokul', 'Amount', '₹ 10,000.00', 'Balance',
-                  '₹ 10,000.00', 'CN 1', '19 SEP, 24'),
+              Obx(
+                () {
+                  return Column( 
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:isLoading.value ? const[ Center(child: CircularProgressIndicator(),)]: List.generate( controller.transactionReportList.length, (index) {
+                    var ob = controller.transactionReportList[index];
+                    return _buildTransactionCard(ob.party.toString(), 'Amount', '₹ ${ob.totalAmount.toString()}', 'Balance',
+                      '₹ ${ob.balance.toString()}', 'SALE:${ob.reference!.documentNumber.toString()}', ob.transactionDate.toString());
+                  },));
+                }
+              )
+              // _buildTransactionCard('Gokul', 'Amount', '₹ 10.00', 'Balance',
+              //     '₹ 0.00', 'SALE: 1', '12 SEP, 24'),
+              // _buildTransactionCard('Gokul', 'Amount', '₹ 10,000.00', 'Balance',
+              //     '₹ 10,000.00', 'SALE 2', '19 SEP, 24'),
+              // _buildTransactionCard('Gokul', 'Amount', '₹ 10,000.00', 'Balance',
+              //     '₹ 10,000.00', 'CN 1', '19 SEP, 24'),
             ],
           ),
         ),
