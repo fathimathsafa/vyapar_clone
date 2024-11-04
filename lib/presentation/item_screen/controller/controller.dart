@@ -46,7 +46,7 @@ class ItemScreenController extends GetxController {
     var response = await _apiServices.getRequest(
         endurl: EndUrl.unitListUrl,
         authToken: await SharedPreLocalStorage.getToken());
-
+      //  printInfo(info: "response status code ==${response!.data}");
     if (response != null) {
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
         var jsonResponse = response.data['data'];

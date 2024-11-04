@@ -52,4 +52,33 @@ class SignInController extends GetxController {
     }
     setLoadingValue(false);
   }
+  void register({number}) async {
+    setLoadingValue(true);
+
+    var data = {"phoneNo": int.parse(number)};
+    var response =
+        await _apiServices.postJsonData(data: data, endUrl: EndUrl.registerUrl);
+    if (response != null) {
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        try {
+          CredentialModel model = CredentialModel(
+              token: response.data["data"]["token"],
+              userId: response.data["data"]["user"]["id"],
+              phoneNo: response.data["data"]["user"]["phoneNo"]);
+          await SharedPreLocalStorage.setCredential(model);
+          Get.off(() => BottomNavigationScreen());
+          SnackBars.showSuccessSnackBar(text: "You are registered.");
+
+          setLoadingValue(false);
+        } catch (e) {
+          SnackBars.showAlertSnackBar(text: "Failed to save user credential.");
+          setLoadingValue(false);
+        }
+
+        setLoadingValue(false);
+      }
+      setLoadingValue(false);
+    }
+    setLoadingValue(false);
+  }
 }

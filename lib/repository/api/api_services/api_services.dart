@@ -44,6 +44,31 @@ class ApiServices {
       return null;
     }
   }
+  Future<Response?> deleteRequest(
+      {required String endurl, String? authToken}) async {
+    try {
+      initDio();
+      final options = Options(
+        headers: {
+          if (authToken != null) 'Authorization': 'Bearer $authToken',
+        },
+      );
+      printApiInfo(
+          url: _baseUrls.apiBaseUrl() + endurl, payload: options.headers);
+
+      final response = await _dio.delete(
+        _baseUrls.apiBaseUrl() + endurl,
+        options: options,
+      );
+
+      return response;
+    } on DioException catch (e) {
+      print("error while fetching data ==${e}");
+      SnackBars.showErrorSnackBar(text: e.toString());
+
+      return null;
+    }
+  }
 
   Future<Response?> postMultiPartData(
       {required String endUrl,
@@ -67,6 +92,40 @@ class ApiServices {
       printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.files);
 
       final response = await _dio.post(
+        _baseUrls.apiBaseUrl() + endUrl,
+        data: data,
+        options: options,
+      );
+
+      return response;
+    } on DioException catch (e) {
+      print("error==${e}");
+      SnackBars.showErrorSnackBar(text: e.toString());
+      return null;
+    }
+  }
+  Future<Response?> putMultiPartData(
+      {required String endUrl,
+      required FormData data,
+      String? authToken,
+      List<File?>? files,
+      List<String?>? fileParameters}) async {
+    printApiInfo(
+        url: _baseUrls.apiBaseUrl() + endUrl, payload: data.toString());
+
+    try {
+      initDio();
+      final options = Options(
+        // contentType: 'application/x-www-form-urlencoded',
+        headers: {
+          if (authToken != null) 'Authorization': 'Bearer $authToken',
+        },
+      );
+
+      printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.fields);
+      printApiInfo(url: _baseUrls.apiBaseUrl() + endUrl, payload: data.files);
+
+      final response = await _dio.put(
         _baseUrls.apiBaseUrl() + endUrl,
         data: data,
         options: options,

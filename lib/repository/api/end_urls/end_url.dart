@@ -34,6 +34,9 @@ class EndUrl {
  static String getAllTransaction({String? start,String? end}){
   return "reports/transaction?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
 }
+ static String getProfitLoss({String? start,String? end}){
+  return "reports/profitLoss?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
+}
 
   
 

@@ -22,6 +22,7 @@ String date({String? date}){
     getAllTransaction();
   }
  void getAllTransaction()async{
+  
   var dateCont = Get.find<DateController>();
   var dtOb = dateCont.selectedDateRange.value;
   
@@ -29,7 +30,7 @@ String date({String? date}){
    
     setLoadingValue(true);
     var response = await _apiServices.getRequest(
-        endurl: EndUrl.getAllTransaction(start:date(date:  dtOb!.start.toString()),end:date(date:  dtOb.end.toString())  ),
+        endurl: EndUrl.getAllTransaction(start:date(date: dtOb != null? dtOb.start.toString():"2024-10-29"),end:date(date:  dtOb != null?dtOb.end.toString():"2024-10-30")  ),
         authToken: await SharedPreLocalStorage.getToken());
  if (response != null) {
   setLoadingValue(false);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
+import 'package:vyapar_clone/presentation/login__screen/sign_in_screen/register_screen.dart';
 import 'package:vyapar_clone/presentation/login__screen/sign_in_screen/sign_in_screen.dart';
 import '../controller/controller.dart';
 
@@ -95,20 +96,23 @@ class OnboardingScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 5),
                           child: Row(
                             children: [
-                              Container(
-                                height: size.height * 0.08,
-                                width: size.width / 2.2,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'Register',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                      color: Colorconst.text1,
+                              InkWell(
+                                onTap: () => Get.to(()=>RegisterScreen()),
+                                child: Container(
+                                  height: size.height * 0.08,
+                                  width: size.width / 2.2,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Register',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: Colorconst.text1,
+                                      ),
                                     ),
                                   ),
                                 ),

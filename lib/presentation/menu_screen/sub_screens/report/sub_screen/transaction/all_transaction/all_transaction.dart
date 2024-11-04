@@ -9,6 +9,7 @@ class AllTransaction extends StatelessWidget {
    final controller = Get.put(AllTransactionReportController());
   @override
   Widget build(BuildContext context) {
+    // controller.getAllTransaction();
     return Scaffold(
 
       floatingActionButton: InkWell(
@@ -16,7 +17,9 @@ class AllTransaction extends StatelessWidget {
           controller.getAllTransaction();
           
         },
-        child: CircleAvatar(radius: 55,)),
+        child:const CircleAvatar(radius: 30,
+        child: Center(child: Icon(Icons.refresh_outlined),),
+        )),
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('All Transactions', style: TextStyle(fontSize: 16.sp)),
@@ -31,66 +34,75 @@ class AllTransaction extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
+      body: 
+         Padding(
           padding: EdgeInsets.all(6.w),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DateDropdownAndPicker(),
-              Divider(),
-              Row(
-                children: [
-                  Text(
-                    'All Transactions',
-                    style: TextStyle(fontSize: 12.sp, color: Colors.black),
+               DateDropdownAndPicker(),
+                  Divider(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                     
+                      Row(
+                        children: [
+                          Text(
+                            'All Transactions',
+                            style: TextStyle(fontSize: 12.sp, color: Colors.black),
+                          ),
+                          SizedBox(height: 10.h),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Party Name All Parties',
+                            style: TextStyle(fontSize: 12.sp, color: Colors.black),
+                          ),
+                          SizedBox(height: 10.h),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                     
+                      Divider(),
+                      Obx(
+                        () {
+                          return Column( 
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:isLoading.value ? const[ Center(child: CircularProgressIndicator(),)]: List.generate( controller.transactionReportList.length, (index) {
+                            var ob = controller.transactionReportList[index];
+                            return _buildTransactionCard(ob.party!.name.toString(), 'Amount', '₹ ${ob.totalAmount.toString()}', 'Balance',
+                              '₹ ${ob.balance.toString()}', 'SALE:${ob.reference!.documentNumber.toString()}', ob.transactionDate.toString());
+                          },));
+                        }
+                      )
+                      // _buildTransactionCard('Gokul', 'Amount', '₹ 10.00', 'Balance',
+                      //     '₹ 0.00', 'SALE: 1', '12 SEP, 24'),
+                      // _buildTransactionCard('Gokul', 'Amount', '₹ 10,000.00', 'Balance',
+                      //     '₹ 10,000.00', 'SALE 2', '19 SEP, 24'),
+                      // _buildTransactionCard('Gokul', 'Amount', '₹ 10,000.00', 'Balance',
+                      //     '₹ 10,000.00', 'CN 1', '19 SEP, 24'),
+                    ],
                   ),
-                  SizedBox(height: 10.h),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                  ),
-                ],
+                ),
               ),
-              Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Party Name All Parties',
-                    style: TextStyle(fontSize: 12.sp, color: Colors.black),
-                  ),
-                  SizedBox(height: 10.h),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                  ),
-                ],
-              ),
-             
-              Divider(),
-              Obx(
-                () {
-                  return Column( 
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children:isLoading.value ? const[ Center(child: CircularProgressIndicator(),)]: List.generate( controller.transactionReportList.length, (index) {
-                    var ob = controller.transactionReportList[index];
-                    return _buildTransactionCard(ob.party.toString(), 'Amount', '₹ ${ob.totalAmount.toString()}', 'Balance',
-                      '₹ ${ob.balance.toString()}', 'SALE:${ob.reference!.documentNumber.toString()}', ob.transactionDate.toString());
-                  },));
-                }
-              )
-              // _buildTransactionCard('Gokul', 'Amount', '₹ 10.00', 'Balance',
-              //     '₹ 0.00', 'SALE: 1', '12 SEP, 24'),
-              // _buildTransactionCard('Gokul', 'Amount', '₹ 10,000.00', 'Balance',
-              //     '₹ 10,000.00', 'SALE 2', '19 SEP, 24'),
-              // _buildTransactionCard('Gokul', 'Amount', '₹ 10,000.00', 'Balance',
-              //     '₹ 10,000.00', 'CN 1', '19 SEP, 24'),
             ],
           ),
         ),
-      ),
+      
     );
   }
 

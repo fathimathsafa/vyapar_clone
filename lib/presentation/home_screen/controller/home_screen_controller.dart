@@ -139,7 +139,7 @@ class HomeController extends GetxController with GetTickerProviderStateMixin {
 
         allInvoice.assignAll(list);
 
-        printInfo(info: "length of invoices ==${allInvoice.length}");
+        printInfo(info: "length of invoices ==${list.length}");
 
         setLoadingValue(false);
       }

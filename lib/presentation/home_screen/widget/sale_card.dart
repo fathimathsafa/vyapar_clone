@@ -7,16 +7,18 @@ import '../../../core/constatnts/colors.dart';
 import '../../../core/constatnts/text_style.dart';
 
 import '../../../model/invoice_model.dart';
+import '../sub_screens/transaction_details/add_sale.dart';
 
 class InvoiceCard extends StatelessWidget {
   InvoiceCard(
       {super.key,
       this.object,
-      this.deleteFunction
+      this.popupWidget
+     
       
       });
  final InvoiceModel? object;
- final Function()?deleteFunction;
+ final Widget? popupWidget;
   
   @override
   Widget build(BuildContext context) {
@@ -141,33 +143,7 @@ class InvoiceCard extends StatelessWidget {
                     SizedBox(
                       width: 10.w,
                     ),
-                    PopupMenuButton<String>(
-                      icon: Icon(
-                        Icons.more_vert,
-                        size: 23.sp,
-                        color: Colorconst.cGrey,
-                      ),
-                      onSelected: (value) {
-                        if (value == 'Edit') {
-                        } else if (value == 'Delete') {
-                          showDeleteBottomSheet(object??InvoiceModel());
-                        } else if (value == 'Update') {}
-                      },
-                      itemBuilder: (BuildContext context) => [
-                        const PopupMenuItem(
-                          value: 'Edit',
-                          child: Text('Edit'),
-                        ),
-                        const PopupMenuItem(
-                          value: 'Delete',
-                          child: Text('Delete'),
-                        ),
-                        const PopupMenuItem(
-                          value: 'Update',
-                          child: Text('Update'),
-                        ),
-                      ],
-                    ),
+                    popupWidget?? const SizedBox(),
                   ],
                 )
               ],
@@ -178,85 +154,5 @@ class InvoiceCard extends StatelessWidget {
     );
   }
 
-  void showDeleteBottomSheet(InvoiceModel object){
-
-    Get.bottomSheet(Padding(
-                                padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 10.h),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8.r)),
-                                  
-                                  height: 150.h,
-                                  child: Padding(
-                                    padding:  EdgeInsets.symmetric(horizontal: 12.w,vertical: 10.h),
-                                    child: Column(
-                                      children: [
-                                        Icon(Icons.delete_forever_outlined,size: 35.sp,color: Colors.red,),
-                                        Row(
-                                          children: [
-                                            
-                                            Expanded(
-                                              child: SizedBox(
-                                                child: Text(
-                                                  "Are you sure want to delete ${object.partyName.toString()} bill ?",
-                                                  style:
-                                                      TextStyle( color:  Colors.black87,fontSize: 15.sp),
-                                                      textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 12.h,),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            InkWell(
-                                              onTap: (){
-                                                Get.back();
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(8.r),
-                                                    color: Colors.blue),
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 12.w, vertical: 7.h),
-                                                  child: Text(
-                                                    "Cencel",
-                                                    style:
-                                                        TextStyle(color:  Colors.white,fontSize: 13.sp),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                           
-                                            InkWell(
-                                              onTap: deleteFunction,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(8.r),
-                                                    color: Colors.blue),
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 12.w, vertical: 7.h),
-                                                  child: Text(
-                                                    "Delete",
-                                                    style:
-                                                        TextStyle(color:  Colors.white,fontSize: 13.sp),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ));
-  }
+ 
 }

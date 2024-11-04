@@ -1,19 +1,14 @@
-
-
-
-
-
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
-
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:vyapar_clone/core/common/context_provider.dart';
 import 'package:vyapar_clone/core/models/credential_model.dart';
+
 import 'package:vyapar_clone/core/snackbar/my_snackbar.dart';
 import 'package:vyapar_clone/model/state_model.dart';
 import 'package:vyapar_clone/model/tax_model.dart';
@@ -27,8 +22,10 @@ import '../../../../../core/isResponseOk.dart';
 
 import '../../../../../model/invoice_no.dart';
 import '../../../../../model/item_model.dart';
+import '../../../../../model/sale_model.dart';
 import '../../../../../repository/api/api_services/api_services.dart';
 import '../../../../../repository/app_data/user_data/shared_preferences.dart';
+import '../add_sale.dart';
 
 class TransactionDetailController extends GetxController {
   final ContextProvider _contextProvider = ContextProvider();
@@ -36,15 +33,17 @@ class TransactionDetailController extends GetxController {
 
   RxString selectedSaleDate = "9/20/2024".obs;
   RxString selectedPaymentType = "Cash".obs;
-
+ RxBool youRedting= false.obs;
+ RxString saleId = ''.obs;
   var selectedState = StateModel().obs;
-  var selectedTax = TaxModel(taxType: "None",rate: '0.0').obs;
+  var selectedTax = TaxModel(taxType: "None", rate: '0.0').obs;
 
   RxString isTaxOrNo = 'Without Tax'.obs;
   RxInt selectedIndex = 0.obs;
   RxString selectedSaleType = 'Credit'.obs;
   var unitModel = UnitModel().obs;
   var invoiceNo = InvoiceNoModel().obs;
+  var saleDetailModel = SaleDetailModel().obs;
   RxList itemList = <ItemModel>[].obs;
 
   //addItem
@@ -53,14 +52,14 @@ class TransactionDetailController extends GetxController {
 
   // RxString selectedTax = 'Without Tax'.obs;
   RxBool isPriceEntered = false.obs;
-   ValueNotifier<RxDouble> receivedAmountNotifier = ValueNotifier(0.0.obs);
+  ValueNotifier<RxDouble> receivedAmountNotifier = ValueNotifier(0.0.obs);
   final TextEditingController recivedAmountController = TextEditingController();
   final itemNameContr = TextEditingController();
   final quantityContr = TextEditingController();
   final priceContr = TextEditingController();
   final discountContr = TextEditingController();
   final totalAmountContr = TextEditingController();
-  
+
   final referenceNoContr = TextEditingController();
   final descriptionContr = TextEditingController();
   final customerTxtCont = TextEditingController();
@@ -82,10 +81,10 @@ class TransactionDetailController extends GetxController {
     // setLoadingValue(false);
   }
 
-  void setSaleFormType(index){
-    if(index==0){
+  void setSaleFormType(index) {
+    if (index == 0) {
       selectedSaleType.value = 'Credit';
-    }else{
+    } else {
       selectedSaleType.value = 'Cash';
     }
   }
@@ -101,10 +100,11 @@ class TransactionDetailController extends GetxController {
     itemList.add(item);
     _calculateGrandTotal();
   }
-   List<File?> fileList =[null,null];
-   List<String?> fileNames =[null, null];
-   RxString documentName =''.obs;
-   RxString imgPath =''.obs;
+
+  List<File?> fileList = [null, null];
+  List<String?> fileNames = [null, null];
+  RxString documentName = ''.obs;
+  RxString imgPath = ''.obs;
 
   RxBool isChecked = false.obs;
 
@@ -131,7 +131,6 @@ class TransactionDetailController extends GetxController {
     grandQty.value = totalQty;
     grandDiscount.value = totalDiscount;
     totalAmountContr.text = subTotals.toString();
-   
   }
 
   void calculateTotalAmount({
@@ -171,10 +170,10 @@ class TransactionDetailController extends GetxController {
 
         List<UnitModel> units = List<UnitModel>.from(
             jsonResponse.map((x) => UnitModel.fromJson(x)));
-         if(units.length.toInt()!=0){
+        if (units.length.toInt() != 0) {
           unitModel.value = units[0];
           setLoadingValue(false);
-         }
+        }
         unitList.assignAll(units);
 
         setLoadingValue(false);
@@ -198,12 +197,13 @@ class TransactionDetailController extends GetxController {
       }
     }
   }
+
   void fetchStates() async {
-     setLoadingValue(true);
+    setLoadingValue(true);
     var response = await _apiServices.getRequest(
         endurl: EndUrl.statesUrl,
         authToken: await SharedPreLocalStorage.getToken());
- if (response != null) {
+    if (response != null) {
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
         var jsonResponse = response.data['data'];
 
@@ -215,211 +215,397 @@ class TransactionDetailController extends GetxController {
         setLoadingValue(false);
       }
       setLoadingValue(false);
-      
     }
     setLoadingValue(false);
-   
   }
+
   void fetchTax() async {
-     setLoadingValue(true);
+    setLoadingValue(true);
     var response = await _apiServices.getRequest(
         endurl: EndUrl.taxUrl,
         authToken: await SharedPreLocalStorage.getToken());
- if (response != null) {
+    if (response != null) {
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
         var jsonResponse = response.data['data'];
 
-        List<TaxModel> list = List<TaxModel>.from(
-            jsonResponse.map((x) => TaxModel.fromJson(x)));
+        List<TaxModel> list =
+            List<TaxModel>.from(jsonResponse.map((x) => TaxModel.fromJson(x)));
 
         taxList.assignAll(list);
 
         setLoadingValue(false);
       }
       setLoadingValue(false);
-      
     }
     setLoadingValue(false);
-   
   }
 
-  void clearItemController(){
+  void clearItemController() {
     itemNameContr.text = '';
-   quantityContr.text = ''; 
-   priceContr.text = ''; 
-   discountContr.text = ''; 
-   totalAmountContr.text = ''; 
-   subTotalP.value =0.0;
-   totalDiscount.value = 0.0;
-
+    quantityContr.text = '';
+    priceContr.text = '';
+    discountContr.text = '';
+    totalAmountContr.text = '';
+    subTotalP.value = 0.0;
+    totalDiscount.value = 0.0;
   }
 
   RxDouble balanceDue = 0.0.obs;
 
-void setPaymentType(value){
-  selectedPaymentType.value=value;
-  Get.back();
-}
-
-void chooseImage()async{
-  
- FileDetails? fileDetail=await _contextProvider.selectFile(allowedExtensions: ['jpg',
-    'jpeg',
-    'png',]);
-  if(fileDetail != null){
-
-  fileList[0]=File(fileDetail.filePath.toString());
-  fileNames[0]=fileDetail.fileName;
-  imgPath.value=fileDetail.filePath.toString();
-
-  }
-}
-void chooseDocument()async{
-  
- FileDetails? fileDetail=await _contextProvider.selectFile(allowedExtensions: [ 'pdf',    // PDF files
-  'doc',   
-  'docx',   
-  'xls',     
-  'xlsx',   
-  'ppt',    
-  'pptx',]);
-  if(fileDetail != null){
-  
-  fileList[1]=File(fileDetail.filePath.toString());
-  fileNames[1]=fileDetail.fileName;
-  documentName.value=fileDetail.fileName.toString();
-  
-
-  }
-}
-
-String saleValidator(){
-
-  if(customerTxtCont.text.isEmpty){
-    SnackBars.showErrorSnackBar(text: "Please enter customer");
-   return "Please enter customer";
-  }else if(itemList.length.toInt()==0){
-    SnackBars.showErrorSnackBar(text: "Please add item");
-    return "Please add item";
-
-  }else if(invoiceNo.value.invoiceNo==null){
-    SnackBars.showErrorSnackBar(text: "Empty invoice number");
-    return "Empty invoice number";
-  }else if(descriptionContr.text.isEmpty){
-    SnackBars.showErrorSnackBar(text: "Please enter description");
-    return "Please enter description";
-  }else if(selectedState.value.id == null){
-    SnackBars.showErrorSnackBar(text: "Please select state");
-    return "Please select state";
-  }else if(selectedPaymentType.value==''){
-    SnackBars.showErrorSnackBar(text: "Please select payment method");
-    return "Please select payment method";
-  }else{
-    return "ok";
-  }
-}
-
-void addSale()async{
-  setLoadingValue(true);
-   CredentialModel credentialModel = await SharedPreLocalStorage.getCredential();
-
-   List<Map<String, dynamic>> items = [];
-  for (int i = 0; i < itemList.length; i++) {
-    ItemModel item = itemList[i];
-    Map<String, dynamic> object = {
-      "name": item.itemName,
-      "quantity": item.quantity,
-      "unit": item.unit,
-      "price": item.price,
-      "discountPercent": item.discountP??"",
-      // "taxPercent": item.taxPercent,
-      "taxPercent": item.taxPercent??"",
-      "finalAmount": item.total
-    };
-    items.add(object);
+  void setPaymentType(value) {
+    selectedPaymentType.value = value;
+    Get.back();
   }
 
+  void chooseImage() async {
+    FileDetails? fileDetail =
+        await _contextProvider.selectFile(allowedExtensions: [
+      'jpg',
+      'jpeg',
+      'png',
+    ]);
+    if (fileDetail != null) {
+      fileList[0] = File(fileDetail.filePath.toString());
+      fileNames[0] = fileDetail.fileName;
+      imgPath.value = fileDetail.filePath.toString();
+    }
+  }
 
-  dio.FormData formData = dio.FormData.fromMap({
-    'invoiceNo': invoiceNo.value.invoiceNo.toString(),
-    'invoiceType': selectedSaleType.value.toString(),
-    'invoiceDate': selectedSaleDate.value.toString(),
-    'partyName': 'AK Traders',
-    'billingName': customerTxtCont.text,
-    'stateOfSupply': selectedState.value.id.toString(),
-    'phoneNo': phoneNumberController.text,
-    'billingAddress': '', 
-    'description': descriptionContr.text,
-    'paymentMethod': selectedPaymentType.value.toString(),
-    'bankName': '', 
-    // 'items':[{ "name": "item1", "quantity": '2', "unit": "KILOGRAM", "price": "120", "discountPercent": "2", "taxPercent": "66f7e57fdcfcf7f3a6fc5066" ,"finalAmount":"245.76"}].toString(),
-    'referenceNo': referenceNoContr.text,
-    'roundOff': '00',
-    'totalAmount': grandSubTotal.value.toStringAsFixed(2).toString(),
-    'receivedAmount': double.parse(recivedAmountController.text).toStringAsFixed(2).toString(),
-    'balanceAmount': grandSubTotal.value.toStringAsFixed(2).toString(),
-    'source': 'Direct',
-    'grossTotal': grandSubTotal.value.toStringAsFixed(2).toString(),
-  });
-     formData.fields.add(MapEntry('items', jsonEncode(items)));
+  void chooseDocument() async {
+    FileDetails? fileDetail =
+        await _contextProvider.selectFile(allowedExtensions: [
+      'pdf', // PDF files
+      'doc',
+      'docx',
+      'xls',
+      'xlsx',
+      'ppt',
+      'pptx',
+    ]);
+    if (fileDetail != null) {
+      fileList[1] = File(fileDetail.filePath.toString());
+      fileNames[1] = fileDetail.fileName;
+      documentName.value = fileDetail.fileName.toString();
+    }
+  }
 
-     printInfo(info: "item ==${jsonEncode(items)}");
-      
-  // for (int i = 0; i < items.length; i++) {
-  //   formData.fields.add(MapEntry('items[$i][name]', items[i]['name'].toString()));
-  //   formData.fields.add(MapEntry('items[$i][quantity]', items[i]['quantity'].toString()));
-  //   formData.fields.add(MapEntry('items[$i][unit]', items[i]['unit'].toString()));
-  //   formData.fields.add(MapEntry('items[$i][price]', items[i]['price'].toString()));
-  //   formData.fields.add(MapEntry('items[$i][discountPercent]', items[i]['discountPercent'].toString()));
-  //   formData.fields.add(MapEntry('items[$i][taxPercent]', items[i]['taxPercent'].toString()));
-  //   formData.fields.add(MapEntry('items[$i][finalAmount]', items[i]['finalAmount'].toString()));
-  // }
-  List<String> parameters=["files","files"];
+  String saleValidator() {
+    if (customerTxtCont.text.isEmpty) {
+      SnackBars.showErrorSnackBar(text: "Please enter customer");
+      return "Please enter customer";
+    } else if (itemList.length.toInt() == 0) {
+      SnackBars.showErrorSnackBar(text: "Please add item");
+      return "Please add item";
+    } else if (invoiceNo.value.invoiceNo == null) {
+      SnackBars.showErrorSnackBar(text: "Empty invoice number");
+      return "Empty invoice number";
+    } else if (descriptionContr.text.isEmpty) {
+      SnackBars.showErrorSnackBar(text: "Please enter description");
+      return "Please enter description";
+    } else if (selectedState.value.id == null) {
+      SnackBars.showErrorSnackBar(text: "Please select state");
+      return "Please select state";
+    } else if (selectedPaymentType.value == '') {
+      SnackBars.showErrorSnackBar(text: "Please select payment method");
+      return "Please select payment method";
+    } else {
+      return "ok";
+    }
+  }
 
+  void addSale() async {
+    setLoadingValue(true);
+    CredentialModel credentialModel =
+        await SharedPreLocalStorage.getCredential();
 
-  if (fileList.length.toInt() >= 1
-          ) {
-        for (int i = 0; i < parameters.length; i++) {
-          if(fileList[i] !=null){
+    List<Map<String, dynamic>> items = [];
+    for (int i = 0; i < itemList.length; i++) {
+      ItemModel item = itemList[i];
+      Map<String, dynamic> object = {
+        "name": item.itemName,
+        "quantity": item.quantity,
+        "unit": item.unit,
+        "price": item.price,
+        "discountPercent": item.discountP ?? "",
+        // "taxPercent": item.taxPercent,
+        "taxPercent": item.taxPercent ?? "",
+        "finalAmount": item.total
+      };
+      items.add(object);
+    }
+
+    dio.FormData formData = dio.FormData.fromMap({
+      'invoiceNo': invoiceNo.value.invoiceNo.toString(),
+      'invoiceType': selectedSaleType.value.toString(),
+      'invoiceDate': selectedSaleDate.value.toString(),
+      'partyName': customerTxtCont.text,
+      'billingName': customerTxtCont.text,
+      'stateOfSupply': selectedState.value.id.toString(),
+      'phoneNo': phoneNumberController.text,
+      'billingAddress': '',
+      'description': descriptionContr.text,
+      'paymentMethod': selectedPaymentType.value.toString(),
+      'bankName': '',
+      // 'items':[{ "name": "item1", "quantity": '2', "unit": "KILOGRAM", "price": "120", "discountPercent": "2", "taxPercent": "66f7e57fdcfcf7f3a6fc5066" ,"finalAmount":"245.76"}].toString(),
+      'referenceNo': referenceNoContr.text,
+      'roundOff': '00',
+      'totalAmount': grandSubTotal.value.toStringAsFixed(2).toString(),
+      'receivedAmount': double.parse(recivedAmountController.text)
+          .toStringAsFixed(2)
+          .toString(),
+      'balanceAmount': grandSubTotal.value.toStringAsFixed(2).toString(),
+      'source': 'Direct',
+      'grossTotal': grandSubTotal.value.toStringAsFixed(2).toString(),
+    });
+    formData.fields.add(MapEntry('items', jsonEncode(items)));
+
+    printInfo(info: "item ==${jsonEncode(items)}");
+
+    // for (int i = 0; i < items.length; i++) {
+    //   formData.fields.add(MapEntry('items[$i][name]', items[i]['name'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][quantity]', items[i]['quantity'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][unit]', items[i]['unit'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][price]', items[i]['price'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][discountPercent]', items[i]['discountPercent'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][taxPercent]', items[i]['taxPercent'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][finalAmount]', items[i]['finalAmount'].toString()));
+    // }
+    List<String> parameters = ["files", "files"];
+
+    if (fileList.length.toInt() >= 1) {
+      for (int i = 0; i < parameters.length; i++) {
+        if (fileList[i] != null) {
           String fileName = fileList[i]!.path.split('/').last;
           formData.files.add(
             MapEntry(
               parameters[i],
-              await  dio.MultipartFile.fromFile(fileList[i]!.path, filename: fileName),
+              await dio.MultipartFile.fromFile(fileList[i]!.path,
+                  filename: fileName),
             ),
           );
-
-          }
         }
       }
-  var response = await _apiServices.postMultiPartData(
-    data: formData,
-    // fileParameters: parameters,
-    files: fileList,
+    }
+    var response = await _apiServices.postMultiPartData(
+        data: formData,
+        // fileParameters: parameters,
+        files: fileList,
         endUrl: EndUrl.invoiceUrl,
         authToken: await SharedPreLocalStorage.getToken());
 
-
-        if (response != null) {
-        printInfo(info: "response to save invoice==$response");
+    if (response != null) {
+      printInfo(info: "response to save invoice==$response");
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
-         var homec = Get.find<HomeController>();
-         fetchInvoicNo();
-         Get.snackbar("Successfully saved invoice", "",backgroundColor: Colors.green);
-         SnackBars.showSuccessSnackBar(text: "Successfully saved invoice");
-         homec.getAllInvoice();
+        var homec = Get.find<HomeController>();
+        fetchInvoicNo();
+        Get.snackbar("Successfully saved invoice", "",
+            backgroundColor: Colors.green);
+        SnackBars.showSuccessSnackBar(text: "Successfully saved invoice");
+        homec.getAllInvoice();
         setLoadingValue(false);
-        
+
         Get.back();
       }
       setLoadingValue(false);
-      
     }
     setLoadingValue(false);
+  }
+  void updateSale() async {
+    setLoadingValue(true);
+    CredentialModel credentialModel =
+        await SharedPreLocalStorage.getCredential();
 
-}
+    List<Map<String, dynamic>> items = [];
+    for (int i = 0; i < itemList.length; i++) {
+      ItemModel item = itemList[i];
+      Map<String, dynamic> object = {
+        "name": item.itemName,
+        "quantity": item.quantity,
+        "unit": item.unit,
+        "price": item.price,
+        "discountPercent": item.discountP ?? "",
+        // "taxPercent": item.taxPercent,
+        "taxPercent": item.taxPercent ?? "",
+        "finalAmount": item.total
+      };
+      items.add(object);
+    }
 
+    dio.FormData formData = dio.FormData.fromMap({
+      'invoiceNo': invoiceNo.value.invoiceNo.toString(),
+      'invoiceType': selectedSaleType.value.toString(),
+      'invoiceDate': selectedSaleDate.value.toString(),
+      'partyName': customerTxtCont.text,
+      'billingName': customerTxtCont.text,
+      'stateOfSupply': selectedState.value.id.toString(),
+      'phoneNo': phoneNumberController.text,
+      'billingAddress': '',
+      'description': descriptionContr.text,
+      'paymentMethod': selectedPaymentType.value.toString(),
+      'bankName': '',
+      // 'items':[{ "name": "item1", "quantity": '2', "unit": "KILOGRAM", "price": "120", "discountPercent": "2", "taxPercent": "66f7e57fdcfcf7f3a6fc5066" ,"finalAmount":"245.76"}].toString(),
+      'referenceNo': referenceNoContr.text,
+      'roundOff': '00',
+      'totalAmount': grandSubTotal.value.toStringAsFixed(2).toString(),
+      'receivedAmount': double.parse(recivedAmountController.text)
+          .toStringAsFixed(2)
+          .toString(),
+      'balanceAmount': grandSubTotal.value.toStringAsFixed(2).toString(),
+      'source': 'Direct',
+      'grossTotal': grandSubTotal.value.toStringAsFixed(2).toString(),
+    });
+    formData.fields.add(MapEntry('items', jsonEncode(items)));
 
+    printInfo(info: "item ==${jsonEncode(items)}");
 
+    // for (int i = 0; i < items.length; i++) {
+    //   formData.fields.add(MapEntry('items[$i][name]', items[i]['name'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][quantity]', items[i]['quantity'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][unit]', items[i]['unit'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][price]', items[i]['price'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][discountPercent]', items[i]['discountPercent'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][taxPercent]', items[i]['taxPercent'].toString()));
+    //   formData.fields.add(MapEntry('items[$i][finalAmount]', items[i]['finalAmount'].toString()));
+    // }
+    List<String> parameters = ["files", "files"];
 
+    if (fileList.length.toInt() >= 1) {
+      for (int i = 0; i < parameters.length; i++) {
+        if (fileList[i] != null) {
+          String fileName = fileList[i]!.path.split('/').last;
+          formData.files.add(
+            MapEntry(
+              parameters[i],
+              await dio.MultipartFile.fromFile(fileList[i]!.path,
+                  filename: fileName),
+            ),
+          );
+        }
+      }
+    }
+    var response = await _apiServices.putMultiPartData(
+        data: formData,
+        // fileParameters: parameters,
+        files: fileList,
+        endUrl: EndUrl.invoiceUrl+saleId.value,
+        authToken: await SharedPreLocalStorage.getToken());
+
+    if (response != null) {
+      printInfo(info: "response to save invoice==$response");
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        var homec = Get.find<HomeController>();
+        fetchInvoicNo();
+        Get.snackbar("Successfully saved invoice", "",
+            backgroundColor: Colors.green);
+        SnackBars.showSuccessSnackBar(text: "Successfully saved invoice");
+        homec.getAllInvoice();
+        setLoadingValue(false);
+
+        Get.back();
+      }
+      setLoadingValue(false);
+    }
+    setLoadingValue(false);
+  }
+
+  void getSaleDetailById({required String id}) async {
+
+    saleId.value = id;
+    setLoadingValue(true);
+
+    var response = await _apiServices.getRequest(
+        endurl: EndUrl.invoiceUrl + id,
+        authToken: await SharedPreLocalStorage.getToken());
+
+    if (response != null) {
+      setLoadingValue(false);
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        var jsonResponse = response.data['data'];
+        SaleDetailModel model = SaleDetailModel(
+          
+          invoiceNo: jsonResponse['invoiceNo'],
+          invoiceType: jsonResponse['invoiceType'],
+          invoiceDate: jsonResponse['invoiceDate'],
+          party: jsonResponse['party'],
+          partyName: jsonResponse['partyName'],
+          document: jsonResponse['document'],
+          image: jsonResponse['image'],
+          paymentMethod: jsonResponse['paymentMethod'],
+          items: jsonResponse["items"] == null
+              ? []
+              : List<Item>.from(
+                  jsonResponse["items"]!.map((x) => Item.fromJson(x))),
+          roundOff: double.parse(jsonResponse['roundOff'] != null
+              ? jsonResponse['roundOff'].toString()
+              : '0'),
+          totalAmount: double.parse(jsonResponse['totalAmount'] != null
+              ? jsonResponse['totalAmount'].toString()
+              : '0'),
+          receivedAmount: double.parse(jsonResponse['receivedAmount'] != null
+              ? jsonResponse['receivedAmount'].toString()
+              : '0'),
+          balanceAmount: double.parse(jsonResponse['balanceAmount'] != null
+              ? jsonResponse['balanceAmount'].toString()
+              : '0'),
+          createdBy: jsonResponse['createdBy'],
+          source: jsonResponse['source'],
+          createdAt: jsonResponse["createdAt"],
+          updatedAt: jsonResponse["updatedAt"],
+          v: jsonResponse['__v'],
+        );
+
+        saleDetailModel.value = model;
+        List<ItemModel> items = [];
+
+        for (int i = 0; i < saleDetailModel.value.items!.length; i++) {
+          Item item = saleDetailModel.value.items![i];
+          ItemModel object = ItemModel(
+              discountP: item.discountPercent.toString(),
+              itemName: item.itemId!.itemName.toString(),
+              price: item.price.toString(),
+              quantity: item.quantity.toString(),
+              unit: item.unit.toString(),
+              taxPercent: item.taxPercent!.rate,
+              total: item.finalAmount.toString(),
+              subtotalP: item.price.toString());
+          items.add(object);
+        }
+        itemList.assignAll(items);
+
+        selectedSaleType.value = model.invoiceType.toString();
+        invoiceNo.value.invoiceNo = int.parse(model.invoiceNo.toString());
+        customerTxtCont.text = model.partyName.toString();
+        //  grandTax.value = model.
+        selectedPaymentType.value = model.paymentMethod.toString();
+        _calculateGrandTotal();
+        //  grandDiscount.value =
+        //  phoneNumberController.text = model.
+        printInfo(info: "sale object ===${model.items!.length}");
+        Get.to(() => AddSaleInvoiceScreen());
+      }
+    }
+
+    setLoadingValue(false);
+  }
+
+  void deleteSaleById({required String id}) async {
+    setLoadingValue(true);
+   
+    var response = await _apiServices.deleteRequest(
+        endurl: EndUrl.invoiceUrl + id,
+        authToken: await SharedPreLocalStorage.getToken());
+
+    if (response != null) {
+       setLoadingValue(false);
+      if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
+        final controller = Get.find<HomeController>();
+        controller.getAllInvoice();
+        Get.back();
+        SnackBars.showSuccessSnackBar(text: "Deleted invoice");
+
+      }
+    }
+
+     setLoadingValue(false);
+  }
 }

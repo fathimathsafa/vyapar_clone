@@ -10,11 +10,11 @@ import 'package:vyapar_clone/core/snackbar/my_snackbar.dart';
 
 import 'package:vyapar_clone/presentation/login__screen/controller/controller.dart';
 
-import 'register_screen.dart';
+import 'sign_in_screen.dart';
 
 
-class SignInScreen extends StatelessWidget {
-  SignInScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({super.key});
 
   final _controller = Get.put(SignInController());
 
@@ -43,7 +43,7 @@ class SignInScreen extends StatelessWidget {
               FadeInUp(
                 from: 200,
                 child: Text(
-                  'Hello Again',
+                  'Hello',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 37,
@@ -56,7 +56,7 @@ class SignInScreen extends StatelessWidget {
               FadeInUp(
                 from: 200,
                 child: Text(
-                  "Welcome back you've\nbeen missed",
+                  "Welcome",
                   style: TextStyle(
                     fontSize: 27,
                     color: Colorconst.text2,
@@ -71,20 +71,20 @@ class SignInScreen extends StatelessWidget {
                 
                 'Enter Your Mobile Number', Colors.white),
               SizedBox(height: size.height * 0.04),
-              FadeInUp(
-                from: 200,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'Recovery Password      ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colorconst.text2,
-                    ),
-                  ),
-                ),
-              ),
+              // FadeInUp(
+              //   from: 200,
+              //   child: Align(
+              //     alignment: Alignment.centerRight,
+              //     child: Text(
+              //       'Recovery Password      ',
+              //       style: TextStyle(
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 16,
+              //         color: Colorconst.text2,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: size.height * 0.04),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50),
@@ -97,7 +97,7 @@ class SignInScreen extends StatelessWidget {
                           onTap: ()  {
                             String phoneNo = phoneNoController.text.trim();
                             if(phoneNo.length.toInt()>=10){
-                           _controller.login(number: phoneNo);
+                           _controller.register(number: phoneNo);
 
                             }else{
                               SnackBars.showErrorSnackBar(text: "Invalid Phone Number.");
@@ -114,7 +114,7 @@ class SignInScreen extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Sign In',
+                                  'Sign Up',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -174,14 +174,11 @@ class SignInScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: size.height * 0.07),
-                    InkWell(
-                      onTap: () {
-                         printInfo(info: "this is register screen");
-                                Get.to(()=>RegisterScreen());
-                      },
+                    GestureDetector(
+                      onTap: () =>Get.to(()=>SignInScreen()) ,
                       child: Text.rich(
                         TextSpan(
-                          text: 'Not a member? ',
+                          text: 'Already member? ',
                           style: TextStyle(
                             color: Colorconst.text2,
                             fontWeight: FontWeight.bold,
@@ -190,7 +187,7 @@ class SignInScreen extends StatelessWidget {
                           children: [
                             TextSpan(
                             
-                              text: 'Register now',
+                              text: 'Sign In',
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontWeight: FontWeight.bold,

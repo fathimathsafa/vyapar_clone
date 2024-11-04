@@ -1,3 +1,6 @@
+// To parse this JSON data, do
+//
+//     final invoiceModel = invoiceModelFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -8,10 +11,10 @@ String invoiceModelToJson(List<InvoiceModel> data) => json.encode(List<dynamic>.
 class InvoiceModel {
     String? id;
     String? invoiceNo;
-    InvoiceDate? invoiceDate;
-    PartyName? partyName;
-    PaymentMethod? paymentMethod;
-    BankName? bankName;
+    String? invoiceDate;
+    String? partyName;
+    String? paymentMethod;
+    dynamic bankName;
     double? totalAmount;
     double? balanceAmount;
 
@@ -29,10 +32,10 @@ class InvoiceModel {
     factory InvoiceModel.fromJson(Map<String, dynamic> json) => InvoiceModel(
         id: json["_id"],
         invoiceNo: json["invoiceNo"],
-        invoiceDate: invoiceDateValues.map[json["invoiceDate"]]!,
-        partyName: partyNameValues.map[json["partyName"]]!,
-        paymentMethod: paymentMethodValues.map[json["paymentMethod"]]!,
-        bankName: json["bankName"] == null ? null : BankName.fromJson(json["bankName"]),
+        invoiceDate: json["invoiceDate"],
+        partyName: json["partyName"],
+        paymentMethod: json["paymentMethod"],
+        bankName: json["bankName"],
         totalAmount: json["totalAmount"]?.toDouble(),
         balanceAmount: json["balanceAmount"]?.toDouble(),
     );
@@ -40,81 +43,11 @@ class InvoiceModel {
     Map<String, dynamic> toJson() => {
         "_id": id,
         "invoiceNo": invoiceNo,
-        "invoiceDate": invoiceDateValues.reverse[invoiceDate],
-        "partyName": partyNameValues.reverse[partyName],
-        "paymentMethod": paymentMethodValues.reverse[paymentMethod],
-        "bankName": bankName?.toJson(),
+        "invoiceDate": invoiceDate,
+        "partyName": partyName,
+        "paymentMethod": paymentMethod,
+        "bankName": bankName,
         "totalAmount": totalAmount,
         "balanceAmount": balanceAmount,
     };
-}
-
-class BankName {
-    PaymentMethod? bankName;
-
-    BankName({
-        this.bankName,
-    });
-
-    factory BankName.fromJson(Map<String, dynamic> json) => BankName(
-        bankName: paymentMethodValues.map[json["bankName"]]!,
-    );
-
-    Map<String, dynamic> toJson() => {
-        "bankName": paymentMethodValues.reverse[bankName],
-    };
-}
-
-enum PaymentMethod {
-    AXIS_BANK,
-    CASH,
-    CHEQUE
-}
-
-final paymentMethodValues = EnumValues({
-    "Axis Bank": PaymentMethod.AXIS_BANK,
-    "Cash": PaymentMethod.CASH,
-    "Cheque": PaymentMethod.CHEQUE
-});
-
-enum InvoiceDate {
-    THE_03102024,
-    THE_10102024,
-    THE_19102024,
-    THE_20092024,
-    THE_21102024
-}
-
-final invoiceDateValues = EnumValues({
-    "03/10/2024": InvoiceDate.THE_03102024,
-    "10/10/2024": InvoiceDate.THE_10102024,
-    "19/10/2024": InvoiceDate.THE_19102024,
-    "20/09/2024": InvoiceDate.THE_20092024,
-    "21/10/2024": InvoiceDate.THE_21102024
-});
-
-enum PartyName {
-    AK_TRADERS,
-    PARTY_NAME_AK_TRADERS,
-    R_K_FABRICS,
-    STAR_BAKERS
-}
-
-final partyNameValues = EnumValues({
-    "AK Traders": PartyName.AK_TRADERS,
-    "\"AK Traders\"": PartyName.PARTY_NAME_AK_TRADERS,
-    "R.K. Fabrics": PartyName.R_K_FABRICS,
-    "Star Bakers": PartyName.STAR_BAKERS
-});
-
-class EnumValues<T> {
-    Map<String, T> map;
-    late Map<T, String> reverseMap;
-
-    EnumValues(this.map);
-
-    Map<T, String> get reverse {
-            reverseMap = map.map((k, v) => MapEntry(v, k));
-            return reverseMap;
-    }
 }

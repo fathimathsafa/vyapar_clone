@@ -31,10 +31,11 @@ import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sale_orde
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/sale/sales_return/view/sales_return.dart';
 
 import '../../controller/home_screen_controller.dart';
+import 'controller/controller.dart';
 
 class SaleListScreen extends StatelessWidget {
   SaleListScreen({super.key});
- final _controller = Get.find<HomeController>();
+  final _controller = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,141 +45,203 @@ class SaleListScreen extends StatelessWidget {
             Column(
               children: [
                 Expanded(
-                    child: Container(
-                  color: Colorconst.cSecondaryBlue,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 7.w),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  left: BorderSide(
-                                      width: 0.4.w, color: Colorconst.cGrey),
-                                  right: BorderSide(
-                                      width: 0.4.w, color: Colorconst.cGrey),
-                                  bottom: BorderSide(
-                                      width: 0.4.w, color: Colorconst.cGrey)),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(6.r)),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 10.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "Quick Links",
-                                  style: interFontBlack(context),
-                                ),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        _showTransactionPopup(context);
-                                      },
-                                      child: _quickLinkItem("quick_link_1.png",
-                                          "Add Txn", context),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => SaleReport(),
-                                          ),
-                                        );
-                                      },
-                                      child: _quickLinkItem("quick_link_2.png",
-                                          "Sale Report", context),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                TransactionSettingScreen(),
-                                          ),
-                                        );
-                                      },
-                                      child: _quickLinkItem("quick_link_3.png",
-                                          "Txn Settings", context),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        showShowMorePopup(context);
-                                      },
-                                      child: _quickLinkItem("quick_link_4.png",
-                                          "Show All", context),
-                                    ),
-                                  ],
-                                )
-                              ],
+                  child: Container(
+                    color: Colorconst.cSecondaryBlue,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 7.w),
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    left: BorderSide(
+                                        width: 0.4.w, color: Colorconst.cGrey),
+                                    right: BorderSide(
+                                        width: 0.4.w, color: Colorconst.cGrey),
+                                    bottom: BorderSide(
+                                        width: 0.4.w, color: Colorconst.cGrey)),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(6.r)),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w, vertical: 10.h),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Quick Links",
+                                    style: interFontBlack(context),
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          _showTransactionPopup(context);
+                                        },
+                                        child: _quickLinkItem(
+                                            "quick_link_1.png",
+                                            "Add Txn",
+                                            context),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SaleReport(),
+                                            ),
+                                          );
+                                        },
+                                        child: _quickLinkItem(
+                                            "quick_link_2.png",
+                                            "Sale Report",
+                                            context),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TransactionSettingScreen(),
+                                            ),
+                                          );
+                                        },
+                                        child: _quickLinkItem(
+                                            "quick_link_3.png",
+                                            "Txn Settings",
+                                            context),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showShowMorePopup(context);
+                                        },
+                                        child: _quickLinkItem(
+                                            "quick_link_4.png",
+                                            "Show All",
+                                            context),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        TextFormField(
-                          style: interFontBlack(context),
-                          decoration: InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              suffixIcon: Icon(Icons.filter_alt_outlined,
-                                  color: Colors.black45, size: 25.sp),
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.only(top: 0.h),
-                                child: Icon(
-                                  Icons.search_outlined,
-                                  color: Colorconst.cBlue,
-                                  size: 25.sp,
-                                ),
-                              ),
-                              hintText: "Search for a transaction",
-                              hintStyle: interFontGrey(context),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.r),
-                                  borderSide: BorderSide.none)),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Expanded(
-                          child: Obx(
-                             () {
-                              return isLoading.value==true? const Center(child: CircularProgressIndicator(),): _controller.allInvoice.length.toInt()==0? Center(
-                                child: Text(
-                                  "Empty list",
-                                  style: interFontBlack(context),
-                                ),
-                              ):ListView.builder(itemCount: _controller.allInvoice.length, itemBuilder: (context, index) {
-                                InvoiceModel ob = _controller.allInvoice[index];
-                                         printInfo(info: "invoice date ==${ob.invoiceDate}");
-                                return Column(
-                                  children: [
-                                    InvoiceCard(object:ob,),
-                                    SizedBox(height: 7.h,)
-                                  ],
-                                );
-                              },);
-                            }
+                          SizedBox(
+                            height: 10.h,
                           ),
-                        )
-                      ],
+                          TextFormField(
+                            style: interFontBlack(context),
+                            decoration: InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                suffixIcon: Icon(Icons.filter_alt_outlined,
+                                    color: Colors.black45, size: 25.sp),
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(top: 0.h),
+                                  child: Icon(
+                                    Icons.search_outlined,
+                                    color: Colorconst.cBlue,
+                                    size: 25.sp,
+                                  ),
+                                ),
+                                hintText: "Search for a transaction",
+                                hintStyle: interFontGrey(context),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                    borderSide: BorderSide.none)),
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Expanded(
+                            child: Obx(() {
+                              return isLoading.value == true
+                                  ? const Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : _controller.allInvoice.length.toInt() == 0
+                                      ? Center(
+                                          child: Text(
+                                            "Empty list",
+                                            style: interFontBlack(context),
+                                          ),
+                                        )
+                                      : ListView.builder(
+                                          itemCount:
+                                              _controller.allInvoice.length,
+                                          itemBuilder: (context, index) {
+                                            InvoiceModel ob =
+                                                _controller.allInvoice[index];
+                                            printInfo(
+                                                info:
+                                                    "invoice date ==${ob.invoiceDate}");
+                                            return Column(
+                                              children: [
+                                                InvoiceCard(
+                                                  object: ob,
+                                                  popupWidget:
+                                                      PopupMenuButton<String>(
+                                                    icon: Icon(
+                                                      Icons.more_vert,
+                                                      size: 23.sp,
+                                                      color: Colorconst.cGrey,
+                                                    ),
+                                                    onSelected: (value) {
+                                                      if (value == 'Edit') {
+                                                        var controller = Get.put(
+                                                            TransactionDetailController());
+                                                        controller.youRedting
+                                                            .value = true;
+                                                        controller
+                                                            .getSaleDetailById(
+                                                                id: ob.id
+                                                                    .toString());
+                                                        //  Get.to(()=>AddSaleInvoiceScreen());
+                                                      } else if (value ==
+                                                          'Delete') {
+                                                        showDeleteBottomSheet(
+                                                            ob);
+                                                      }
+                                                    },
+                                                    itemBuilder: (BuildContext
+                                                            context) =>
+                                                        [
+                                                      const PopupMenuItem(
+                                                        value: 'Edit',
+                                                        child: Text('Edit'),
+                                                      ),
+                                                      const PopupMenuItem(
+                                                        value: 'Delete',
+                                                        child: Text('Delete'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 7.h,
+                                                )
+                                              ],
+                                            );
+                                          },
+                                        );
+                            }),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                )),
+                ),
               ],
             ),
             Positioned(
@@ -189,9 +252,10 @@ class SaleListScreen extends StatelessWidget {
                 duration: const Duration(milliseconds: 350),
                 opacity: 1.0,
                 child: InkWell(
-                  onTap: () 
-                  {
-                    Get.to(()=>AddSaleInvoiceScreen());
+                  onTap: () {
+                    var controller = Get.put(TransactionDetailController());
+                    controller.youRedting.value = false;
+                    Get.to(() => AddSaleInvoiceScreen());
                     // Navigator.of(context).push(MaterialPageRoute(
                     //     builder: (context) => AddSaleInvoiceScreen()));
                   },
@@ -224,6 +288,97 @@ class SaleListScreen extends StatelessWidget {
             ),
           ],
         ));
+  }
+
+  void showDeleteBottomSheet(InvoiceModel object) {
+    Get.bottomSheet(Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(8.r)),
+        height: 150.h,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+          child: Column(
+            children: [
+              Icon(
+                Icons.delete_forever_outlined,
+                size: 35.sp,
+                color: Colors.red,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      child: Text(
+                        "Are you sure want to delete ${object.partyName.toString()}  ?",
+                        style:
+                            TextStyle(color: Colors.black87, fontSize: 15.sp),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 12.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: Colors.blue),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 12.w, vertical: 7.h),
+                        child: Text(
+                          "Cencel",
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 13.sp),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Obx(() {
+                    return isLoading.value
+                        ? const CircularProgressIndicator()
+                        : InkWell(
+                            onTap: () {
+                              var controller =
+                                  Get.put(TransactionDetailController());
+
+                              controller.deleteSaleById(
+                                  id: object.id.toString());
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  color: Colors.blue),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w, vertical: 7.h),
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 13.sp),
+                                ),
+                              ),
+                            ),
+                          );
+                  }),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    ));
   }
 
   void showShowMorePopup(BuildContext context) {
@@ -359,7 +514,7 @@ class SaleListScreen extends StatelessWidget {
                     //     builder: (context) => PaymentInScreen(),
                     //   ),
                     // );
-                    Get.to(()=>PaymentInScreen());
+                    Get.to(() => PaymentInScreen());
                   }),
                   iconWithLabel(Icons.assignment_return, 'Sale Return', () {
                     Navigator.push(
@@ -376,10 +531,10 @@ class SaleListScreen extends StatelessWidget {
                     //     builder: (context) => DeliveryChallanScreen(),
                     //   ),
                     // );
-                    Get.to(()=>DeliveryChallanScreen());
+                    Get.to(() => DeliveryChallanScreen());
                   }),
                   iconWithLabel(Icons.receipt, 'Estimate/Quotation', () {
-                    Get.to(()=> EstimateQuatationScreen());
+                    Get.to(() => EstimateQuatationScreen());
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(

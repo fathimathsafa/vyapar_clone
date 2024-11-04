@@ -8,6 +8,7 @@ import 'package:vyapar_clone/presentation/item_screen/controller/controller.dart
 
 import '../../../../../core/common/loading_var.dart';
 import '../../../../../model/unit_model.dart';
+import '../../add_item_unit_screen/view/add_item_unit_screen.dart';
 
 class AddItemPage extends StatefulWidget {
   @override
@@ -457,19 +458,39 @@ void showUnitsDialog(context) {
                     width: 60.w,
                     child: const Center(child: CircularProgressIndicator()))
                 : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: controller.unitList.map((unit) {
-                      UnitModel ob = unit;
-                      return ListTile(
-                        title: Text(ob.name.toString()),
-                        onTap: () {
-                          controller.selectedUnitModel.value = ob;
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: controller.unitList.map((unit) {
+                          UnitModel ob = unit;
+                          return ListTile(
+                            title: Text(ob.name.toString()),
+                            onTap: () {
+                              controller.selectedUnitModel.value = ob;
+                    
+                              Get.back();
+                            },
+                          );
+                        }).toList(),
+                        
+                      ),
 
-                          Get.back();
-                        },
-                      );
-                    }).toList(),
-                  );
+                      InkWell(
+                        onTap: () => Get.to(()=>AddItemUnitPage()),
+                        child: Container(
+                          
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(8.r)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text("Add"),
+                          ),
+                          ),
+                      )
+                  ],
+                );
           }),
         );
       },

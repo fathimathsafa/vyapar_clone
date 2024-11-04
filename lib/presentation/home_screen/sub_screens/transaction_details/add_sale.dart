@@ -298,7 +298,7 @@ class AddSaleInvoiceScreen extends StatelessWidget {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child:isLoading.value == true? const SizedBox(child: Center(child: CircularProgressIndicator(),),): BottomButton(onClickSave: () =>_controller.saleValidator()=="ok"? _controller.addSale():null,),
+                child:isLoading.value == true? const SizedBox(child: Center(child: CircularProgressIndicator(),),): BottomButton(onClickSave: () =>_controller.saleValidator()=="ok"?_controller.youRedting.value?_controller.updateSale(): _controller.addSale():null,),
               );
             }
           ),
