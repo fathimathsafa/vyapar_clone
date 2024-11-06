@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/presentation/bottom_navigation_screen/view/bottom_navigation_screen.dart';
+import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/view/bank_account_list.dart';
 import 'package:vyapar_clone/repository/app_data/user_data/shared_preferences.dart';
 
 void main() async {
@@ -21,12 +22,14 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-              textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
-            ),
-            home: BottomNavigationScreen());
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
+          ),
+          home: BankAccountsListScreen(),
+        );
+        //  BottomNavigationScreen());
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:vyapar_clone/model/add_purchase_moel.dart';
 
@@ -5,74 +6,87 @@ class PurchaseService {
   final Dio _dio = Dio();
 
   // Base URL for your API
-  final String baseUrl = 'https://example.com/api';
+  final String baseUrl = 'http://vyapar-ot57.onrender.com/api/purchase';
+
+  // Get all purchases
+  Future<List<AddPurchaseModel>> getPurchases() async {
+    try {
+      final response = await _dio.get('$baseUrl');
+
+      if (response.statusCode == 200) {
+        List<AddPurchaseModel> purchases = (response.data as List)
+            .map((purchase) => AddPurchaseModel.fromJson(purchase))
+            .toList();
+        return purchases;
+      } else {
+        log('Failed to fetch purchases: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      log('Error fetching purchases: $e');
+      return [];
+    }
+  }
 
   // Add a new purchase
-  Future<void> addPurchase({
-    required String date,
-    required String invoiceNumber,
-    required String partyName,
-    required String phoneNumber,
-    // required List<Purchase> items, // Assuming you have a model for the items
-    required double totalAmount,
-    required double receivedAmount,
-    required String paymentType,
-    required String stateOfSupply,
-    required String description,
-    String? photoUrl,
-  }) async {
+  Future<void> addPurchase(AddPurchaseModel purchase) async {
     try {
-      final response = await _dio.post('$baseUrl/purchases/add', data: {
-        'date': date,
-        'invoice_number': invoiceNumber,
-        'party_name': partyName,
-        'phone_number': phoneNumber,
-        // 'items': items.map((item) => item.toJson()).toList(),
-        'total_amount': totalAmount,
-        'received_amount': receivedAmount,
-        'payment_type': paymentType,
-        'state_of_supply': stateOfSupply,
-        'description': description,
-        'photo_url': photoUrl,
-      });
+      final response = await _dio.post('$baseUrl/add', data: purchase.toJson());
 
       if (response.statusCode == 200) {
-        print('Purchase added successfully');
+        log('Purchase added successfully');
       } else {
-        print('Failed to add purchase');
+        log('Failed to add purchase: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error adding purchase: $e');
+      log('Error adding purchase: $e');
     }
   }
 
-  // Fetch payment types
-  Future<List<String>> getPaymentTypes() async {
+  // Update an existing purchase
+  Future<void> updatePurchase(String id, AddPurchaseModel purchase) async {
     try {
-      final response = await _dio.get('$baseUrl/payment-types');
+      final response = await _dio.put('$baseUrl/$id', data: purchase.toJson());
+
       if (response.statusCode == 200) {
-        return List<String>.from(response.data['payment_types']);
+        log('Purchase updated successfully');
       } else {
-        return [];
+        log('Failed to update purchase: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching payment types: $e');
-      return [];
+      log('Error updating purchase: $e');
     }
   }
 
-  // Fetch states for the State of Supply dropdown
-  Future<List<String>> getStates() async {
+  // Delete a purchase
+  Future<void> deletePurchase(String id) async {
     try {
-      final response = await _dio.get('$baseUrl/states');
+      final response = await _dio.delete('$baseUrl/$id');
+
       if (response.statusCode == 200) {
-        return List<String>.from(response.data['states']);
+        log('Purchase deleted successfully');
       } else {
-        return [];
+        log('Failed to delete purchase: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching states: $e');
-      return [];
+      log('Error deleting purchase: $e');
+    }
+  }
+
+  // Fetch a single purchase by its ID
+  Future<AddPurchaseModel?> getPurchaseById(String id) async {
+    try {
+      final response = await _dio.get('$baseUrl/$id');
+
+      if (response.statusCode == 200) {
+        return AddPurchaseModel.fromJson(response.data);
+      } else {
+        log('Failed to fetch purchase: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      log('Error fetching purchase: $e');
+      return null;
     }
   }
 }

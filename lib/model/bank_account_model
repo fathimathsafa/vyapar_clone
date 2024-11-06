@@ -1,0 +1,43 @@
+class BankAccountsList {
+  final String status;
+  final List<BankDetail> bankDetails;
+
+  BankAccountsList({required this.status, required this.bankDetails});
+
+  // Factory method to parse JSON into a BankAccountsList
+  factory BankAccountsList.fromJson(Map<String, dynamic> json) {
+    return BankAccountsList(
+      status: json['status'],
+      bankDetails: (json['bankDetails'] as List)
+          .map((detail) => BankDetail.fromJson(detail))
+          .toList(),
+    );
+  }
+}
+
+class BankDetail {
+  final String bankName;
+  final String accountNumber;
+  final String ifscCode;
+  final String branchName;
+  final double balance;
+
+  BankDetail({
+    required this.bankName,
+    required this.accountNumber,
+    required this.ifscCode,
+    required this.branchName,
+    required this.balance,
+  });
+
+  // Factory method to parse JSON into a BankDetail
+  factory BankDetail.fromJson(Map<String, dynamic> json) {
+    return BankDetail(
+      bankName: json['bankName'],
+      accountNumber: json['accountNumber'],
+      ifscCode: json['ifscCode'],
+      branchName: json['branchName'],
+      balance: (json['balance'] as num).toDouble(),
+    );
+  }
+}

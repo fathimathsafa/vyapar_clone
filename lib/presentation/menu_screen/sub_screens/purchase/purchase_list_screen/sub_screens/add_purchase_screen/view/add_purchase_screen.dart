@@ -9,8 +9,6 @@ import 'package:vyapar_clone/core/common/widget/custom_text_field.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 
 import 'package:vyapar_clone/presentation/home_screen/sub_screens/transaction_details/add_item.dart';
-// import 'package:vyapar_clone/presentation/home_screen/widget/date_invoice_widget.dart';
-import 'package:vyapar_clone/presentation/home_screen/widget/zigzag_widget.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/expense_screen/widget/date_expense_invoice_widget.dart';
 
 import '../controller/controller.dart';
@@ -22,61 +20,10 @@ class AddPurchaseScreen extends StatefulWidget {
 
 class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
   final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
-
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
-
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
-  void _showStateSelectionBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.7, // Adjust size as needed
-          maxChildSize: 0.9,
-          minChildSize: 0.3,
-          builder: (_, controller) {
-            return Column(
-              children: [
-                // Header of Bottom Sheet
-                ListTile(
-                  title: Text("Select State of Supply"),
-                  trailing: IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.pop(context); // Close the bottom sheet
-                    },
-                  ),
-                ),
-                Divider(),
-                Expanded(
-                  child: ListView.builder(
-                    controller: controller,
-                    itemCount: states.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(states[index]),
-                        onTap: () {
-                          setState(() {
-                            selectedState =
-                                states[index]; // Update selected state
-                          });
-                          Navigator.pop(
-                              context); // Close the bottom sheet after selecting
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
 
+  // States list for dropdown
   List<String> states = [
     "Andhra Pradesh",
     "Arunachal Pradesh",
@@ -110,9 +57,57 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
   String? selectedState;
 
   final _controller = Get.put(AddPurchaseController());
+
+  void _showStateSelectionBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.7,
+          maxChildSize: 0.9,
+          minChildSize: 0.3,
+          builder: (_, controller) {
+            return Column(
+              children: [
+                ListTile(
+                  title: Text("Select State of Supply"),
+                  trailing: IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Divider(),
+                Expanded(
+                  child: ListView.builder(
+                    controller: controller,
+                    itemCount: states.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(states[index]),
+                        onTap: () {
+                          setState(() {
+                            selectedState = states[index];
+                          });
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Get screen size using MediaQuery
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -148,7 +143,6 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
                             titleOne: "Bill No.",
                             titleTwo: "Date",
                             date: _controller.selectedDate.value,
-                            onTapDate: () => _controller.selctedDate(context),
                           );
                         }),
                         SizedBox(height: screenHeight * 0.01),
@@ -264,9 +258,6 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
               ),
             ),
           ),
-          // Positioned text above the bottom button
-
-          // Bottom button fixed at the bottom
           Positioned(
             bottom: 0,
             left: 0,
@@ -282,7 +273,6 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         double screenWidth = constraints.maxWidth;
-        double screenHeight = constraints.maxHeight;
 
         return Padding(
           padding: EdgeInsets.only(left: screenWidth * .036),
@@ -323,8 +313,8 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
 
   Widget _buildCheckbox(bool isChecked) {
     return Container(
-      width: 20.0, // Adjusted to fixed width
-      height: 20.0, // Adjusted to fixed height
+      width: 20.0,
+      height: 20.0,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.blue, width: 2.0),
         borderRadius: BorderRadius.circular(3.0),
@@ -339,35 +329,38 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
 
   Widget _buildReceivedAmountField(double totalAmount) {
     return SizedBox(
-      width: 100.0, // Adjusted to fixed width
-      child: Stack(
+      width: 100.0,
+      child: TextFormField(
+        enabled: !isReceivedChecked.value,
+        keyboardType: TextInputType.number,
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          hintText: "₹",
+        ),
+        onChanged: (value) {
+          receivedAmountNotifier.value = double.tryParse(value) ?? 0.0;
+        },
+        textAlign: TextAlign.end,
+      ),
+    );
+  }
+
+  Widget _buildBalanceDueRow() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 1.0,
-            child: CustomPaint(painter: DottedLinePainter()),
-          ),
+          const Text("Balance Due",
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500)),
           ValueListenableBuilder<double>(
             valueListenable: receivedAmountNotifier,
             builder: (context, receivedAmount, child) {
-              return TextFormField(
-                style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black), // Adjusted to fixed size
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    hintText: "₹",
-                    hintStyle: const TextStyle(color: Colors.black),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.only(left: 5.0)),
-                onChanged: (value) {
-                  double parsedValue = double.tryParse(value) ?? 0.0;
-                  receivedAmountNotifier.value = parsedValue;
-                },
-                initialValue:
-                    isReceivedChecked.value ? totalAmount.toString() : '',
-              );
+              double balanceDue = totalAmountNotifier.value - receivedAmount;
+              return Text("₹ ${balanceDue.toStringAsFixed(2)}");
             },
           ),
         ],
@@ -375,108 +368,39 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
     );
   }
 
-  Widget _buildBalanceDueRow() {
-    return Padding(
-      padding:
-          EdgeInsets.only(left: 12.0, bottom: 6.0), // Adjusted to fixed padding
-      child: ValueListenableBuilder<double>(
-        valueListenable: receivedAmountNotifier,
-        builder: (context, receivedAmount, child) {
-          double balanceDue = totalAmountNotifier.value - receivedAmount;
-          return Row(
-            children: [
-              const Text("Balance Due",
-                  style: TextStyle(color: Colors.green, fontSize: 14)),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Text("₹ ",
-                        style: TextStyle(color: Colors.black, fontSize: 14)),
-                    const SizedBox(width: 48.0),
-                    Text(balanceDue.toStringAsFixed(2),
-                        style:
-                            const TextStyle(color: Colors.green, fontSize: 12)),
-                    const SizedBox(width: 15.0),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-
   Widget _buildDivider() {
-    return ClipPath(
-      clipper: ZigzagClipper(),
-      child: Container(
-          color: Colors.white,
-          height: 20.0,
-          width: double.infinity), // Adjusted to fixed height
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Divider(color: Colors.grey[400]),
     );
   }
 
   Widget _buildPaymentDetails() {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.all(10),
-      height: 150.0, // Adjusted to fixed height
-      color: Colors.white, // Use Colorconst.cwhite if it's defined elsewhere
-      child: Column(
-        children: [
-          _buildPaymentTypeRow(),
-          const SizedBox(height: 20.0), // Adjusted to fixed height
-          _buildAddPaymentTypeRow(),
-          const Divider(),
-          _buildStateSelectionRow(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPaymentTypeRow() {
-    return Row(
-      children: [
-        const Text("Payment Type",
-            style: TextStyle(
-                color: Colors
-                    .grey)), // Use Colorconst.cGrey if it's defined elsewhere
-        const SizedBox(width: 100.0), // Adjusted to fixed width
-        const Icon(Icons.money,
-            color:
-                Colors.green), // Use Colorconst.Green if it's defined elsewhere
-        const Text("Cash"),
-        const Icon(Icons.arrow_drop_down),
-      ],
-    );
-  }
-
-  Widget _buildAddPaymentTypeRow() {
-    return const Row(
-      children: [
-        Icon(Icons.add,
-            color:
-                Colors.blue), // Use Colorconst.cBlue if it's defined elsewhere
-        Text("Add Payment Type", style: TextStyle(color: Colors.blue)),
-      ],
-    );
-  }
-
-  Widget _buildStateSelectionRow() {
-    return GestureDetector(
-      onTap: () {
-        _showStateSelectionBottomSheet();
-      },
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text("State of Supply",
-              style: TextStyle(
-                  color: Colors
-                      .grey)), // Use Colorconst.cGrey if it's defined elsewhere
-          const SizedBox(width: 100.0), // Adjusted to fixed width
-          const Text("Select State"),
-          const Icon(Icons.arrow_drop_down),
+          const Text(
+            "State of Supply",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          GestureDetector(
+            onTap: () => _showStateSelectionBottomSheet(),
+            child: Row(
+              children: [
+                Text(
+                  selectedState ?? "Select State",
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                const Icon(Icons.arrow_drop_down),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -484,73 +408,59 @@ class _AddPurchaseScreenState extends State<AddPurchaseScreen> {
 
   Widget _buildDescriptionAndPhoto() {
     return Container(
-      color: Colors.white, // Use Colorconst.cwhite if it's defined elsewhere
-      child: Row(
+      padding: const EdgeInsets.all(10),
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildDescriptionField(),
-          _buildPhotoUploadButton(),
+          const Text(
+            "Description",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 10),
+          CustomTextFormField(
+            labelText: "Enter Description",
+            hintText: "Description",
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            "Upload Photo",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.camera_alt, color: Colors.grey),
+              ),
+              const SizedBox(width: 10),
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.photo_library, color: Colors.grey),
+              ),
+            ],
+          ),
         ],
       ),
     );
-  }
-
-  Widget _buildDescriptionField() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      height: 150.0, // Adjusted to fixed height
-      width: 280.0, // Adjusted to fixed width
-      color: Colors.white, // Use Colorconst.cwhite if it's defined elsewhere
-      child: Center(
-        child: TextFormField(
-          decoration: const InputDecoration(
-            labelText: 'Description',
-            hintText: 'Add Note',
-            border: OutlineInputBorder(),
-          ),
-          maxLines: 3,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPhotoUploadButton() {
-    return Container(
-      height: 90.0, // Adjusted to fixed height
-      width: 275.0, // Adjusted to fixed width
-      color: Colors.white, // Use Colorconst.cwhite if it's defined elsewhere
-      child: Container(
-        width: 60,
-        height: 10,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: const Center(
-          child: Icon(Icons.add_a_photo, color: Colors.blue, size: 30),
-        ),
-      ),
-    );
-  }
-}
-
-class DottedLinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 1
-      ..style = PaintingStyle.stroke;
-
-    double dashWidth = 5, dashSpace = 3, startX = 0;
-    while (startX < size.width) {
-      canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
-      startX += dashWidth + dashSpace;
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
   }
 }

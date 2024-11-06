@@ -17,8 +17,7 @@ class AddExpenseScreen extends StatelessWidget {
   final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
   final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
-
-final _controller = Get.put(AddExpenseController());
+  final _controller = Get.put(AddExpenseController());
   @override
   Widget build(BuildContext context) {
     // Get screen size using MediaQuery
@@ -75,17 +74,15 @@ final _controller = Get.put(AddExpenseController());
                   SizedBox(
                     child: Column(
                       children: [
-                        Obx(
-                          () {
-                            return DateExpenseInvoiceWidget(
-                              invoiceNumber: "10120",
-                              titleOne: "Expense No.",
-                              titleTwo: "Date",
-                               date: _controller.selectedDate.value,
-                                      onTapDate:() => _controller.selctedDate(context) ,
-                            );
-                          }
-                        ),
+                        Obx(() {
+                          return DateExpenseInvoiceWidget(
+                            invoiceNumber: "10120",
+                            titleOne: "Expense No.",
+                            titleTwo: "Date",
+                            date: _controller.selectedDate.value,
+                            onTapDate: () => _controller.selctedDate(context),
+                          );
+                        }),
                         SizedBox(height: screenHeight * 0.01),
                         Container(
                           // height: screenHeight * 0.1,

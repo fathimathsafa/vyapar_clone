@@ -171,9 +171,8 @@ class SaleListScreen extends StatelessWidget {
                 duration: const Duration(milliseconds: 350),
                 opacity: 1.0,
                 child: InkWell(
-                  onTap: () 
-                  {
-                    Get.to(()=>AddSaleInvoiceScreen());
+                  onTap: () {
+                    Get.to(() => AddSaleInvoiceScreen());
                     // Navigator.of(context).push(MaterialPageRoute(
                     //     builder: (context) => AddSaleInvoiceScreen()));
                   },
@@ -341,7 +340,7 @@ class SaleListScreen extends StatelessWidget {
                     //     builder: (context) => PaymentInScreen(),
                     //   ),
                     // );
-                    Get.to(()=>PaymentInScreen());
+                    Get.to(() => PaymentInScreen());
                   }),
                   iconWithLabel(Icons.assignment_return, 'Sale Return', () {
                     Navigator.push(

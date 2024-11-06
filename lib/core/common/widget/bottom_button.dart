@@ -3,7 +3,11 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/core/constatnts/text_style.dart';
 
 class BottomButton extends StatelessWidget {
-  BottomButton({super.key, this.onClickSaveNew, this.onClickSave});
+  BottomButton({
+    super.key,
+    this.onClickSaveNew,
+    this.onClickSave,
+  });
 
   final Function()? onClickSaveNew;
   final Function()? onClickSave;

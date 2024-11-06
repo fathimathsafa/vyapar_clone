@@ -4,9 +4,30 @@ import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/sub_screens/add_bank_accont_screen/view/controller.dart';
 
-class AddBankAccount extends StatelessWidget {
+class EditBankAccount extends StatelessWidget {
   final AddBankAccountController controller =
       Get.put(AddBankAccountController());
+  final bool editMode;
+
+  // Constructor to set editMode and initialize fields with existing data
+  EditBankAccount({this.editMode = false}) {
+    if (editMode) {
+      controller.accountDisplayNameController.text = "Gokul";
+      controller.openingBalanceController.text = "1000.00";
+      controller.asOfDateController.text = "30/10/2024";
+      controller.printBankDetails.value =
+          true; // Set to true to show account details fields
+      controller.printUPIQR.value =
+          true; // Set to true if UPI QR Code should be visible
+
+      // Pre-fill additional bank details
+      controller.accountHolderNameController.text = "Account Holder Name";
+      controller.accountNumberController.text = "123456789";
+      controller.ifscCodeController.text = "SBIN0001234";
+      controller.branchNameController.text = "Edappal";
+      controller.upiIDController.text = "account@upi";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +35,9 @@ class AddBankAccount extends StatelessWidget {
       backgroundColor: Colorconst.cSecondaryGrey,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text(
-          'Add Bank Account',
-          style: TextStyle(color: Colorconst.cBlack),
+        title: Text(
+          editMode ? 'Edit Bank Account' : 'Add Bank Account',
+          style: const TextStyle(color: Colorconst.cBlack),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -183,10 +204,10 @@ class AddBankAccount extends StatelessWidget {
         child: MaterialButton(
           color: Colorconst.cRed,
           onPressed: () {
-            // Save functionality to be implemented
+            // Update functionality for the edit mode
           },
           child: Text(
-            'Save',
+            editMode ? 'Update' : 'Save',
             style: TextStyle(fontSize: 14.sp, color: Colors.white),
           ),
         ),
