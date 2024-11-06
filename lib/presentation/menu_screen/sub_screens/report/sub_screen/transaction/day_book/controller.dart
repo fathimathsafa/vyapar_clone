@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../../core/common/loading_var.dart';
@@ -6,34 +5,19 @@ import '../../../../../../../core/isResponseOk.dart';
 import '../../../../../../../repository/api/api_services/api_services.dart';
 import '../../../../../../../repository/api/end_urls/end_url.dart';
 import '../../../../../../../repository/app_data/user_data/shared_preferences.dart';
-import '../models/cash_flow_model.dart';
+import '../models/day_book_report_model.dart';
 
-class CashFlowReportController extends GetxController
-    with SingleGetTickerProviderMixin {
-
+class DayBookController extends GetxController{
 
 final ApiServices _apiServices = ApiServices();
-  RxList<CashFlowReportModel> cashFlowReportList = <CashFlowReportModel>[].obs;
-  late TabController tabController;
-  RxBool isMoneyIn = true.obs; // Reactive variable
-
+  RxList<DayBookReportModel> dayBookReportList = <DayBookReportModel>[].obs;
   @override
   void onInit() {
+    // TODO: implement onInit
     super.onInit();
-    tabController = TabController(length: 2, vsync: this);
-    tabController.addListener(() {
-      isMoneyIn.value = tabController.index == 0;
-    });
+    // fetchDayBookReportList();
   }
-
-  @override
-  void onClose() {
-    tabController.dispose();
-    super.onClose();
-  }
-
-
-   void fetchCashFlowReportList() async {
+  void fetchDayBookReportList() async {
     setLoadingValue(true);
 
     var response = await _apiServices.getRequest(
@@ -44,11 +28,11 @@ final ApiServices _apiServices = ApiServices();
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
         var jsonResponse = response.data['TransactionList'];
 
-        List<CashFlowReportModel> units = List<CashFlowReportModel>.from(
-            jsonResponse.map((x) => CashFlowReportModel.fromJson(x)));
+        List<DayBookReportModel> units = List<DayBookReportModel>.from(
+            jsonResponse.map((x) => DayBookReportModel.fromJson(x)));
         
           setLoadingValue(false);
-        cashFlowReportList.assignAll(units);
+        dayBookReportList.assignAll(units);
         // print("Item length==${itemList.length}");
         setLoadingValue(false);
       }

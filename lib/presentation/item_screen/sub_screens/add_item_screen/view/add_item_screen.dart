@@ -20,7 +20,7 @@ class _AddItemPageState extends State<AddItemPage>
   bool isProductSelected = true;
   String? selectedUnit;
   bool showAdditionalFields = false; // Flag to control additional fields
-  TextEditingController itemNameController = TextEditingController();
+ 
 
   late TabController _tabController; // For controlling the tab switching
 
@@ -33,7 +33,7 @@ class _AddItemPageState extends State<AddItemPage>
   @override
   void dispose() {
     _tabController.dispose();
-    itemNameController.dispose();
+    // itemNameController.dispose();
     super.dispose();
   }
 
@@ -113,7 +113,7 @@ class _AddItemPageState extends State<AddItemPage>
 
               // Item Name Field
               TextFormField(
-                controller: itemNameController,
+                controller: controller.itemNameController,
                 decoration: InputDecoration(
                   labelText: 'Item Name *',
                   border: OutlineInputBorder(
@@ -137,6 +137,8 @@ class _AddItemPageState extends State<AddItemPage>
               if (showAdditionalFields) ...[
                 // Item Code
                 TextFormField(
+                  controller: controller.itemCodeController,
+                  style: TextStyle(color: Colors.black, fontSize: 16.sp),
                   decoration: InputDecoration(
                     labelText: 'Item Code',
                     border: OutlineInputBorder(
@@ -176,6 +178,8 @@ class _AddItemPageState extends State<AddItemPage>
 
                 // HSN/SAV Code
                 TextFormField(
+                  controller: controller.itemHsnCodeController,
+                  style: TextStyle(color: Colors.black, fontSize: 16.sp),
                   decoration: InputDecoration(
                     labelText: 'HSN/SAV Code',
                     border: OutlineInputBorder(
@@ -203,6 +207,8 @@ class _AddItemPageState extends State<AddItemPage>
                             children: [
                               Expanded(
                                 child: TextFormField(
+                                  style: TextStyle(color: Colors.black, fontSize: 16.sp),
+                                  controller: controller.salePriceController,
                                   decoration: InputDecoration(
                                     labelText: 'Sale Price',
                                     border: OutlineInputBorder(
@@ -235,6 +241,7 @@ class _AddItemPageState extends State<AddItemPage>
                             children: [
                               Expanded(
                                 child: TextFormField(
+                                  style: TextStyle(color: Colors.black, fontSize: 16.sp),
                                   decoration: InputDecoration(
                                     labelText: 'Disc. On Sale Price',
                                     border: OutlineInputBorder(
@@ -305,6 +312,7 @@ class _AddItemPageState extends State<AddItemPage>
                       Column(
                         children: [
                           TextFormField(
+                            style: TextStyle(color: Colors.black, fontSize: 16.sp),
                             decoration: InputDecoration(
                               labelText: 'Online Store Item Price',
                               border: OutlineInputBorder(
@@ -314,6 +322,7 @@ class _AddItemPageState extends State<AddItemPage>
                           ),
                           SizedBox(height: 16),
                           TextFormField(
+                            style: TextStyle(color: Colors.black, fontSize: 16.sp),
                             decoration: InputDecoration(
                               labelText: 'Online Store Item Description',
                               border: OutlineInputBorder(
@@ -340,18 +349,23 @@ class _AddItemPageState extends State<AddItemPage>
                     },
                     child: Text('Cancel', style: TextStyle(color: Colors.grey)),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle save
-                    },
-                    child: Text(
-                      'Save',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      minimumSize: Size(100, 50),
-                    ),
+                  Obx(
+                    () {
+                      return isLoading.value?const Center(child: CircularProgressIndicator()): ElevatedButton(
+                        onPressed: () {
+                          controller.addItem();
+                          // Handle save
+                        },
+                        child: Text(
+                          'Save',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          minimumSize: Size(100, 50),
+                        ),
+                      );
+                    }
                   ),
                 ],
               ),

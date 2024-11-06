@@ -34,10 +34,51 @@ class EndUrl {
  static String getAllTransaction({String? start,String? end}){
   return "reports/transaction?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
 }
+
  static String getProfitLoss({String? start,String? end}){
   return "reports/profitLoss?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
 }
 
-  
+ static String getDayBookReport({String? start,String? end})=>
+   "reports/day-book?date=${start??2024-10-01}";
+
+ static String getItemPartyReport({String? start,String? end})=>
+   "reports/party/item?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
+
+ static String getDocPrReport({String? start,String? end})=>
+   "reports/discountPercent?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
+
+ static String getOrderReport({String? start,String? end})=>
+   "reports/orders?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}&orderType=Purchase";
+
+ static String getOrderItemReport({String? start,String? end})=>
+   "reports/orders/order-items?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}&orderType=Sale";
+
+ static String getCashFlowReport({String? start,String? end})=>
+   "reports/cash-flow?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
+
+ static String getExpenseTranReport({String? start,String? end})=>
+   "reports/expense/transactions?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
+
+ static String getExpenseCateGoryReport({String? start,String? end})=>
+   "reports/expense/categories?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
+
+ static String getExpenseItemReport({String? start,String? end})=>
+   "reports/expense/items?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
+
+ static String getBankStatementReport({String? start,String? end,String?bankName})=>
+   "reports/expense/bank-statement?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}&bankName=${bankName??'State Bank of India'}";
+
+
+ static String getPartyReport({String? start,String? end})=>
+   "reports/party/item?fromDate=${start??2024-10-01}&toDate=${end??2024-10-30}";
+ 
+
+//products
+static const String addItem = "products/";
+
+//add bank
+static const String bank = "bank";
+
 
 }

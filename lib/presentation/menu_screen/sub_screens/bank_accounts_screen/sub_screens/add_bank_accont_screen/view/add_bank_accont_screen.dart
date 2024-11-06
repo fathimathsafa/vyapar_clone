@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/bank_accounts_screen/sub_screens/controller/add_controller.dart';
@@ -36,6 +38,7 @@ class AddBankAccount extends StatelessWidget {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: controller.accountNameContr,
                     style: const TextStyle(
                         color: Colorconst
                             .cBlack // Change this to your desired text color
@@ -50,6 +53,11 @@ class AddBankAccount extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          controller: controller.openingBalanceController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                          ],
                           style: const TextStyle(
                             color: Colorconst
                                 .cBlack, // Change this to your desired text color
@@ -63,7 +71,7 @@ class AddBankAccount extends StatelessWidget {
                       SizedBox(width: 20.w),
                       Expanded(
                         child: TextFormField(
-                          controller: controller.controller,
+                          controller: controller.dateController,
                           style: const TextStyle(color: Colorconst.cBlack),
                           decoration: const InputDecoration(
                             labelText: "As On",
@@ -120,6 +128,7 @@ class AddBankAccount extends StatelessWidget {
                         children: [
                           SizedBox(height: 20.h),
                           TextFormField(
+                            controller: controller.accountHolderCont,
                             style: const TextStyle(
                               color: Colorconst.cBlack,
                             ),
@@ -130,6 +139,11 @@ class AddBankAccount extends StatelessWidget {
                           ),
                           SizedBox(height: 20.h),
                           TextFormField(
+                            controller: controller.accountNumberCon,
+                            keyboardType: TextInputType.number,
+                          inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                          ],
                             style: const TextStyle(
                               color: Colorconst.cBlack,
                             ),
@@ -140,6 +154,7 @@ class AddBankAccount extends StatelessWidget {
                           ),
                           SizedBox(height: 20.h),
                           TextFormField(
+                            controller: controller.ifscCodeController,
                             style: const TextStyle(
                               color: Colorconst.cBlack,
                             ),
@@ -150,6 +165,7 @@ class AddBankAccount extends StatelessWidget {
                           ),
                           SizedBox(height: 20.h),
                           TextFormField(
+                            controller: controller.branchContr,
                             style: const TextStyle(
                               color: Colorconst.cBlack,
                             ),
@@ -170,6 +186,7 @@ class AddBankAccount extends StatelessWidget {
                         children: [
                           SizedBox(height: 20.h),
                           TextFormField(
+                            controller: controller.upiIdOrqContr,
                             style: const TextStyle(
                               color: Colorconst.cBlack,
                             ),
@@ -190,18 +207,25 @@ class AddBankAccount extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        width: double.infinity,
-        child: MaterialButton(
-          color: Colorconst.cRed,
-          onPressed: () {
-            // Save functionality
-          },
-          child: Text(
-            'Save',
-            style: TextStyle(fontSize: 14.sp, color: Colors.white),
-          ),
-        ),
+      bottomNavigationBar: Obx(
+        () {
+          return isLoading.value?const Center(child: CircularProgressIndicator(),): SizedBox(
+            width: double.infinity,
+            child: MaterialButton(
+              color: Colorconst.cRed,
+              onPressed: () {
+                // Save functionality
+                if(controller.saleValidator()=='ok'){
+                  controller.addBankAccount();
+                }
+              },
+              child: Text(
+                'Save',
+                style: TextStyle(fontSize: 14.sp, color: Colors.white),
+              ),
+            ),
+          );
+        }
       ),
     );
   }

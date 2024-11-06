@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:vyapar_clone/presentation/item_screen/controller/controller.dart';
+import 'package:vyapar_clone/presentation/item_screen/model/item_bar_model.dart';
 import 'package:vyapar_clone/presentation/item_screen/sub_screens/add_item_screen/view/add_item_screen.dart';
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/my_online_store/dash_board_screen.dart/view/dash_board_screen.dart';
 
@@ -20,6 +22,14 @@ class ItemPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      floatingActionButton: InkWell(
+        onTap: () {
+          controller.fetchItemList();
+        },
+        child: CircleAvatar(
+          radius: 26,
+          child: Icon(Icons.refresh),),
+      ),
       appBar: AppBar(
         title: Text('XianInfoTech', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
@@ -132,53 +142,69 @@ class ItemPage extends StatelessWidget {
             SizedBox(height: 16),
 
             // Web Info Container
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Web',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
+
+            Obx(
+               () {
+                return isLoading.value ?const Center(child: CircularProgressIndicator()):Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(children: List.generate(controller.itemList.length, (index) {
+                      ItemBarList obj = controller.itemList[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
                         ),
-                        Icon(Icons.share, color: Colors.blue),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildWebInfoItem(
-                            'Sale Price', '₹ 10,000.00', Colors.black),
-                        _buildWebInfoItem(
-                            'Purchase Price', '₹ 0.00', Colors.black),
-                        _buildWebInfoItem('In Stock', '0.0', Colors.green),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Spacer(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Web',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  Icon(Icons.share, color: Colors.blue),
+                                ],
+                              ),
+                              SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  _buildWebInfoItem(
+                                      'Sale Price', obj.salePrice.toString(), Colors.black),
+                                  _buildWebInfoItem(
+                                      'Purchase Price', obj.purchasePrice.toString(), Colors.black),
+                                  _buildWebInfoItem('In Stock', obj.stock!.price.toString(), Colors.green),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                                    ),
+                      );
+                    },),),
+                  ),
+                );
+              }
+            )
+            ,
+            // Spacer(),
 
             // Add New Item Button
             ElevatedButton.icon(
