@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyapar_clone/core/common/context_provider.dart';
@@ -19,9 +20,9 @@ import '../../../../../create/sub_create/pro_forma_invoice/sub_pro_forma_invoice
 import '../controller/controller.dart';
 
 class AddPaymentOutScreen extends StatelessWidget {
-  final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
-  final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
-  final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
+  // final ValueNotifier<double> totalAmountNotifier = ValueNotifier(0.0);
+  // final ValueNotifier<double> receivedAmountNotifier = ValueNotifier(0.0);
+  // final ValueNotifier<bool> isReceivedChecked = ValueNotifier(false);
 
   final _controller = Get.put(AddPaymentController());
   @override
@@ -29,7 +30,7 @@ class AddPaymentOutScreen extends StatelessWidget {
     // Get screen size using MediaQuery
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
+  _controller.fetchInvoicNo();
     return Scaffold(
       backgroundColor: Colorconst.cSecondaryGrey,
       appBar: AppBar(
@@ -133,6 +134,10 @@ class AddPaymentOutScreen extends StatelessWidget {
                               ),
                               TextFormField(
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                
                                 controller: _controller.paidAmountController,
                                 decoration: InputDecoration(
                                   hintText: "₹",
@@ -142,12 +147,17 @@ class AddPaymentOutScreen extends StatelessWidget {
                                   ),
                                 ),
                                 onChanged: (value) {
+                                  if(value != ''){
+                                    _controller.isPadIntered.value = true;
+                                  }else{
+                                    _controller.isPadIntered.value = false;
+                                  }
                                   double parsedValue =
                                       double.tryParse(value) ?? 0.0;
-                                  totalAmountNotifier.value = parsedValue;
-                                  if (isReceivedChecked.value) {
-                                    receivedAmountNotifier.value = parsedValue;
-                                  }
+                                  // totalAmountNotifier.value = parsedValue;
+                                  // if (isReceivedChecked.value) {
+                                  //   receivedAmountNotifier.value = parsedValue;
+                                  // }
                                 },
                                 style: TextStyle(
                                     fontSize: screenWidth * 0.04,
@@ -159,200 +169,204 @@ class AddPaymentOutScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  ValueListenableBuilder<double>(
-                    valueListenable: totalAmountNotifier,
-                    builder: (context, totalAmount, child) {
-                      return Column(
-                        children: [
-                          if (totalAmount > 0) ...[
-                            SizedBox(height: screenHeight * 0.01),
-                            // Padding(
-                            //   padding: EdgeInsets.only(
-                            //       left: screenWidth * .03, bottom: 6.h),
-                            //   child: ValueListenableBuilder<double>(
-                            //     valueListenable: receivedAmountNotifier,
-                            //     builder: (context, receivedAmount, child) {
-                            //       double balanceDue =
-                            //           totalAmount - receivedAmount;
-                            //       return Row(
-                            //         children: [
-                            //           SizedBox(
-                            //             width: 5.w,
-                            //           ),
-                            //           const Text("Balance Due",
-                            //               style: TextStyle(
-                            //                   color: Colors.green,
-                            //                   fontSize: 14)),
-                            //           // SizedBox(width: screenWidth * .53),
-                            //           Expanded(
-                            //               child: Row(
-                            //             mainAxisAlignment:
-                            //                 MainAxisAlignment.end,
-                            //             children: [
-                            //               Text("₹ ",
-                            //                   style: TextStyle(
-                            //                       color: Colors.black,
-                            //                       fontSize:
-                            //                           screenWidth * 0.04)),
-                            //               SizedBox(
-                            //                 width: 48.w,
-                            //               ),
-                            //               Text(balanceDue.toStringAsFixed(2),
-                            //                   style: TextStyle(
-                            //                       color: Colors.green,
-                            //                       fontSize:
-                            //                           screenWidth * 0.03)),
-                            //               SizedBox(
-                            //                 width: 15.w,
-                            //               )
-                            //             ],
-                            //           ))
-                            //         ],
-                            //       );
-                            //     },
-                            //   ),
-                            // ),
-                            ClipPath(
-                              clipper: ZigzagClipper(),
-                              child: Container(
-                                color: Colors.white,
-                                height: screenHeight * .02,
-                                width: double.infinity,
-                              ),
-                            ),
-                            SizedBox(height: screenHeight * .01),
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              height: screenHeight * .12,
-                              color: Colorconst.cwhite,
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      showPaymentTypeBottom(
-                                          onClickClose: () => Get.back(),
-                                          onClickCash: () => _controller
-                                              .setPaymentType("Cash"),
-                                          onClickCheque: () => _controller
-                                              .setPaymentType("Cheque"),
-                                          onClickAddBank: () =>
-                                              Get.to(() => AddBankScreen()));
-                                    },
-                                    child: Row(
-                                      children: [
-                                        const Text(
-                                          "Payment Type",
-                                          style: TextStyle(
-                                              color: Colorconst.cGrey),
-                                        ),
-                                        SizedBox(
-                                          width: screenWidth * .45,
-                                        ),
-                                        const Icon(
-                                          Icons.money,
-                                          color: Colorconst.Green,
-                                        ),
-                                        // SizedBox(
-                                        //   width: screenWidth * .01,
-                                        // ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        Obx(() {
-                                          return Text(
-                                            _controller
-                                                .selectedPaymentType.value,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14.sp),
-                                          );
-                                        }),
-                                        const Icon(Icons.arrow_drop_down),
-                                        SizedBox(
-                                          width: 6.w,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
+                  // ,
+
+                  Obx(
+                    () {
+                      return _controller.isPadIntered.value? Column(
+                            children: [
+                              
+                                SizedBox(height: screenHeight * 0.01),
+                                // Padding(
+                                //   padding: EdgeInsets.only(
+                                //       left: screenWidth * .03, bottom: 6.h),
+                                //   child: ValueListenableBuilder<double>(
+                                //     valueListenable: receivedAmountNotifier,
+                                //     builder: (context, receivedAmount, child) {
+                                //       double balanceDue =
+                                //           totalAmount - receivedAmount;
+                                //       return Row(
+                                //         children: [
+                                //           SizedBox(
+                                //             width: 5.w,
+                                //           ),
+                                //           const Text("Balance Due",
+                                //               style: TextStyle(
+                                //                   color: Colors.green,
+                                //                   fontSize: 14)),
+                                //           // SizedBox(width: screenWidth * .53),
+                                //           Expanded(
+                                //               child: Row(
+                                //             mainAxisAlignment:
+                                //                 MainAxisAlignment.end,
+                                //             children: [
+                                //               Text("₹ ",
+                                //                   style: TextStyle(
+                                //                       color: Colors.black,
+                                //                       fontSize:
+                                //                           screenWidth * 0.04)),
+                                //               SizedBox(
+                                //                 width: 48.w,
+                                //               ),
+                                //               Text(balanceDue.toStringAsFixed(2),
+                                //                   style: TextStyle(
+                                //                       color: Colors.green,
+                                //                       fontSize:
+                                //                           screenWidth * 0.03)),
+                                //               SizedBox(
+                                //                 width: 15.w,
+                                //               )
+                                //             ],
+                                //           ))
+                                //         ],
+                                //       );
+                                //     },
+                                //   ),
+                                // ),
+                                ClipPath(
+                                  clipper: ZigzagClipper(),
+                                  child: Container(
+                                    color: Colors.white,
                                     height: screenHeight * .02,
+                                    width: double.infinity,
                                   ),
-                                  const Row(
+                                ),
+                                SizedBox(height: screenHeight * .01),
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  height: screenHeight * .12,
+                                  color: Colorconst.cwhite,
+                                  child: Column(
                                     children: [
-                                      Icon(Icons.add, color: Colorconst.cBlue),
-                                      Text(
-                                        "Add Payment Type",
-                                        style:
-                                            TextStyle(color: Colorconst.cBlue),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showPaymentTypeBottom(
+                                              onClickClose: () => Get.back(),
+                                              onClickCash: () => _controller
+                                                  .setPaymentType("Cash"),
+                                              onClickCheque: () => _controller
+                                                  .setPaymentType("Cheque"),
+                                              onClickAddBank: () =>
+                                                  Get.to(() => AddBankScreen()));
+                                        },
+                                        child: Row(
+                                          children: [
+                                            const Text(
+                                              "Payment Type",
+                                              style: TextStyle(
+                                                  color: Colorconst.cGrey),
+                                            ),
+                                            SizedBox(
+                                              width: screenWidth * .45,
+                                            ),
+                                            const Icon(
+                                              Icons.money,
+                                              color: Colorconst.Green,
+                                            ),
+                                            // SizedBox(
+                                            //   width: screenWidth * .01,
+                                            // ),
+                                            SizedBox(
+                                              width: 5.w,
+                                            ),
+                                            Obx(() {
+                                              return Text(
+                                                _controller
+                                                    .selectedPaymentType.value,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14.sp),
+                                              );
+                                            }),
+                                            const Icon(Icons.arrow_drop_down),
+                                            SizedBox(
+                                              width: 6.w,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: screenHeight * .02,
+                                      ),
+                                      const Row(
+                                        children: [
+                                          Icon(Icons.add, color: Colorconst.cBlue),
+                                          Text(
+                                            "Add Payment Type",
+                                            style:
+                                                TextStyle(color: Colorconst.cBlue),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: screenHeight * .01),
-                            Container(
-                              color: Colorconst.cwhite,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    height: screenHeight * .18,
-                                    width: screenWidth * .7,
-                                    color: Colorconst.cwhite,
-                                    child: Center(
-                                      child: TextFormField(
-                                        style: TextStyle(color: Colors.black,fontSize: 14.sp),
-                                        controller: _controller.descriptionCon,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Description',
-                                          hintText: 'Add Note',
-                                          border: OutlineInputBorder(),
+                                ),
+                                SizedBox(height: screenHeight * .01),
+                                Container(
+                                  color: Colorconst.cwhite,
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(10),
+                                        height: screenHeight * .18,
+                                        width: screenWidth * .7,
+                                        color: Colorconst.cwhite,
+                                        child: Center(
+                                          child: TextFormField(
+                                            onChanged: (value) {
+                                              isLoading.value = false;
+                                            },
+                                            style: TextStyle(color: Colors.black,fontSize: 14.sp),
+                                            controller: _controller.descriptionCon,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Description',
+                                              hintText: 'Add Note',
+                                              border: OutlineInputBorder(),
+                                            ),
+                                            maxLines: 3,
+                                          ),
                                         ),
-                                        maxLines: 3,
                                       ),
-                                    ),
-                                  ),
-                                  Container(
-                                    // padding: EdgeInsets.all(10),
-                                    // height: screenHeight * .18,
-                                    height: screenHeight * .11,
-                                    width: screenWidth * .27,
-                                    color: Colorconst.cwhite,
-                                    child: InkWell(
-                                      onTap: () => _controller.chooseImage(),
-                                      child: Obx(
-                                       () {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                                border: Border.all(
-                                                    color: Colors.grey.shade700)),
-                                            child: _controller.imgPath.value != ''
-                                                ? ClipRRect(
-                                                    child: Image.file(
-                                                    File(_controller.imgPath.value),
-                                                    fit: BoxFit.cover,
-                                                  ))
-                                                : const Center(
-                                                    child: Icon(Icons.add_a_photo,
-                                                        color: Colors.blue,
-                                                        size: 30)),
-                                          );
-                                        }
+                                      Container(
+                                        // padding: EdgeInsets.all(10),
+                                        // height: screenHeight * .18,
+                                        height: screenHeight * .11,
+                                        width: screenWidth * .27,
+                                        color: Colorconst.cwhite,
+                                        child: InkWell(
+                                          onTap: () => _controller.chooseImage(),
+                                          child: Obx(
+                                           () {
+                                              return Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(8.0),
+                                                    border: Border.all(
+                                                        color: Colors.grey.shade700)),
+                                                child: _controller.imgPath.value != ''
+                                                    ? ClipRRect(
+                                                        child: Image.file(
+                                                        File(_controller.imgPath.value),
+                                                        fit: BoxFit.cover,
+                                                      ))
+                                                    : const Center(
+                                                        child: Icon(Icons.add_a_photo,
+                                                            color: Colors.blue,
+                                                            size: 30)),
+                                              );
+                                            }
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      // SizedBox(width: 5.w,)
+                                    ],
                                   ),
-                                  // SizedBox(width: 5.w,)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ],
-                      );
-                    },
+                                ),
+                             
+                            ],
+                          ): const SizedBox();
+                    }
                   ),
                   SizedBox(
                     height: 100.h,

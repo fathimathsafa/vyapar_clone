@@ -30,7 +30,7 @@ class AddPaymentController extends GetxController {
     // TODO: implement onInit
     super.onInit();
 
-    fetchAllPaymentOout();
+    // fetchAllPaymentOout();
     fetchInvoicNo();
   }
 
@@ -54,6 +54,8 @@ class AddPaymentController extends GetxController {
   final billNoController = TextEditingController();
   final paidAmountController = TextEditingController();
   final descriptionCon = TextEditingController();
+
+  RxBool isPadIntered = false.obs;
 
 void setPaymentType(value){
   selectedPaymentType.value=value;
@@ -111,11 +113,8 @@ String saleValidator() {
       // 'invoiceType': selectedSaleType.value.toString(),
       'date': selectedDate.value.toString(),
       
-      'partyName': partyNameController.text,
-      
-      
-      
-      
+      'party': partyNameController.text,
+    
       'description': descriptionCon.text,
 
        'paymentMethod': selectedPaymentType.value,
@@ -127,7 +126,6 @@ String saleValidator() {
     
 
     
-
    
     List<String> parameters = ["files"];
 
@@ -156,6 +154,7 @@ String saleValidator() {
       printInfo(info: "response to save invoice==$response");
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
         //  var homec = Get.find<HomeController>();
+        fetchInvoicNo();
         // fetchLatestChallan();
         SnackBars.showSuccessSnackBar(text: "Successfully saved challan");
         //  homec.getAllInvoice();
@@ -198,7 +197,7 @@ String saleValidator() {
 
   void fetchInvoicNo() async {
     var response = await _apiServices.getRequest(
-        endurl: EndUrl.getLatestInvoice,
+        endurl: EndUrl.paymentOutRecieptNo,
         authToken: await SharedPreLocalStorage.getToken());
 
     if (response != null) {
@@ -207,7 +206,7 @@ String saleValidator() {
             id: response.data['data']['_id'],
             paymentOutReceiptNo: response.data['data']['invoiceNo']);
 
-            recieptNo.value =response.data['data']['invoiceNo'];
+            recieptNo.value =response.data['data']['invoiceNo'].toString();
         receiptNoModel.value = ob;
       }
     }

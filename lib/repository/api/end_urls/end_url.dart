@@ -81,4 +81,9 @@ static const String addItem = "products/";
 static const String bank = "bank";
 
 
+//purchase
+static const String purchase = 'purchase';
+static const String getBillNo = 'purchase/billNumber';
+
+
 }
