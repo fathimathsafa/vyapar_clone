@@ -85,5 +85,8 @@ static const String bank = "bank";
 static const String purchase = 'purchase';
 static const String getBillNo = 'purchase/billNumber';
 
+//debit-note/returnNo
+static const String addDebit = 'debit-note';
+static const String getRetutnNo = 'debit-note/returnNo';
 
 }

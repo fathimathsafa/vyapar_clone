@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX
+import 'package:vyapar_clone/core/common/loading_var.dart';
 import 'package:vyapar_clone/core/constatnts/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/controller/all_transaction_payment_out.dart';
+
 import 'package:vyapar_clone/presentation/menu_screen/sub_screens/purchase/payment_out_screen/sub_screens/add_payment_out_screen/view/add_payment_out_screen.dart';
 
 import '../sub_screens/add_payment_out_screen/controller/controller.dart';
@@ -63,33 +64,44 @@ class PaymentAllTransactionScreen extends StatelessWidget {
   // Widget to build the no data view
   Widget buildNoDataView() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: ScreenUtil().setWidth(300),
-            height: ScreenUtil().setHeight(200),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/images-removebg-preview.png"),
-                fit: BoxFit.fill,
+      child: Obx(
+         () {
+          return isLoading.value ?const Center(child: CircularProgressIndicator(),): controller.allPaymentOut.isEmpty? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: ScreenUtil().setWidth(300),
+                height: ScreenUtil().setHeight(200),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/images-removebg-preview.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Text(
-            "Add Your first Payment In",
-            style: TextStyle(fontSize: 19.sp),
-          ),
-          SizedBox(height: ScreenUtil().setHeight(20)),
-          Text(
-            "Record payment received from parties and easily",
-            style: TextStyle(color: Colorconst.cBlack, fontSize: 15.sp),
-          ),
-          Text(
-            "link them to your current invoices.",
-            style: TextStyle(color: Colorconst.cBlack, fontSize: 15.sp),
-          ),
-        ],
+              Text(
+                "Add Your first Payment In",
+                style: TextStyle(fontSize: 19.sp,color: Colors.black),
+              ),
+              SizedBox(height: ScreenUtil().setHeight(20)),
+              Text(
+                "Record payment received from parties and easily",
+                style: TextStyle(color: Colorconst.cBlack, fontSize: 15.sp),
+              ),
+              Text(
+                "link them to your current invoices.",
+                style: TextStyle(color: Colorconst.cBlack, fontSize: 15.sp),
+              ),
+            ],
+          ):ListView.builder(
+            itemCount: controller.allPaymentOut.length,
+            itemBuilder:(context, index) {
+              var objj = controller.allPaymentOut[index];
+            return ListTile(title:Text("${objj.partyName}") ,
+            trailing:Text("${objj.paidAmount}") ,
+            );
+          },);
+        }
       ),
     );
   }

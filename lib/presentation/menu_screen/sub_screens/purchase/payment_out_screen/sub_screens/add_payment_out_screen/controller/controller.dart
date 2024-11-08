@@ -62,7 +62,7 @@ void setPaymentType(value){
   Get.back();
 }
 
-RxList allPaymentOut = <PaymentOutModel>[].obs;
+RxList<PaymentOutModel> allPaymentOut = <PaymentOutModel>[].obs;
 
 List<File?> fileList =[null,null];
    List<String?> fileNames =[null, null];
@@ -156,11 +156,13 @@ String saleValidator() {
         //  var homec = Get.find<HomeController>();
         fetchInvoicNo();
         // fetchLatestChallan();
-        SnackBars.showSuccessSnackBar(text: "Successfully saved challan");
+        SnackBars.showSuccessSnackBar(text: "Successfully saved payment out");
         //  homec.getAllInvoice();
         // getAllChallan();
+
         setLoadingValue(false);
-      printInfo(info: "response status ==${response.statusCode}");
+        fetchAllPaymentOout();
+      // printInfo(info: "response status ==${response.statusCode}");
         Get.back();
       }
       setLoadingValue(false);
